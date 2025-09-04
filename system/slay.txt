@@ -1,0 +1,8 @@
+#
+Snmbr 0
+SName vaporize~
+PName Dragus~
+TVict &W$n raises a hand and &RVAPORIZES&W you in a flash of light!~
+TChar &WYou raise a hand and &RVAPORIZE&W $N in a flash of light!~
+TRoom &W$n raises a hand and &RVAPORIZES&W $N in a flash of light!~
+$
