@@ -36,6 +36,20 @@
 #include <unistd.h>
 #include "mud.h"
 
+/* Cygwin/C++ compatibility: provide C-linkage definitions of POSIX timezone globals */
+#ifdef __CYGWIN__
+#  ifdef __cplusplus
+extern "C" {
+#  endif
+
+long timezone = 0;                               /* seconds west of UTC */
+char *tzname[2] = { (char*)"UTC", (char*)"UTC" }; /* std/DST names */
+
+#  ifdef __cplusplus
+} /* extern "C" */
+#  endif
+#endif
+
 HOLIDAY_DATA *first_holiday;
 HOLIDAY_DATA *last_holiday;
 

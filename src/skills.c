@@ -4319,24 +4319,24 @@ void do_recall( CHAR_DATA* ch, const char* argument )
 
    if( ( opponent = who_fighting( ch ) ) != NULL )
    {
-      int lose;
+      xp_t lose;
 
       if( number_bits( 1 ) == 0 || ( !IS_NPC( opponent ) && number_bits( 3 ) > 1 ) )
       {
          WAIT_STATE( ch, 4 );
-         lose = ( int )( ( exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) ) * 0.1 );
+         xp_t delta = exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level );
+			lose = delta / 10;
          if( ch->desc )
             lose /= 2;
          gain_exp( ch, 0 - lose );
-         ch_printf( ch, "You failed!  You lose %d exps.\r\n", lose );
+         ch_printf( ch, "You failed!  You lose " XP_FMT " pl.\r\n", lose );
          return;
       }
-
-      lose = ( int )( ( exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) ) * 0.2 );
+	  xp_t delta = exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) * 0.2;
       if( ch->desc )
-         lose /= 2;
+         lose = delta / 5;
       gain_exp( ch, 0 - lose );
-      ch_printf( ch, "You recall from combat!  You lose %d exps.\r\n", lose );
+      ch_printf( ch, "You recall from combat!  You lose " XP_FMT " pl.\r\n", lose );
       stop_fighting( ch, TRUE );
    }
 

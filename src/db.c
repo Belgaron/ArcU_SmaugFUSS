@@ -338,6 +338,7 @@ void boot_db( bool fCopyOver )
 
    log_string( "Loading commands..." );
    load_commands(  );
+   
 
    mud_start_time = current_time;
 

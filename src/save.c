@@ -61,6 +61,25 @@ static OBJ_DATA *rgObjNest[MAX_NEST];
  */
 void fwrite_char( CHAR_DATA * ch, FILE * fp );
 void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover );
+/* Add this helper in db.c near fread_number */
+xp_t fread_xp( FILE *fp )
+{
+   xp_t number = 0;
+   int sign = 1;
+   int c = fgetc( fp );
+
+   while( isspace(c) ) c = fgetc(fp);
+   if( c == '-' ) { sign = -1; c = fgetc(fp); }
+   if( !isdigit(c) )
+   {
+      bug( "fread_xp: bad format");
+      return 0;
+   }
+   for( ; isdigit(c); c = fgetc(fp) )
+      number = number * 10 + (c - '0');
+   if( c != ' ' && c != '\n' && c != '\r' ) ungetc( c, fp );
+   return number * sign;
+}
 void write_corpses( CHAR_DATA * ch, char *name, OBJ_DATA * objrem );
 
 #ifdef WIN32   /* NJG */
@@ -391,7 +410,7 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
 
    fprintf( fp, "HpManaMove   %d %d %d %d %d %d\n", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move, ch->max_move );
    fprintf( fp, "Gold         %d\n", ch->gold );
-   fprintf( fp, "Exp          %d\n", ch->exp );
+   fprintf( fp, "Exp          " XP_FMT "\n", (xp_t)ch->exp );
    fprintf( fp, "Height          %d\n", ch->height );
    fprintf( fp, "Weight          %d\n", ch->weight );
    if( !xIS_EMPTY( ch->act ) )
@@ -1830,7 +1849,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   update_roster( ch );
                return;
             }
-            KEY( "Exp", ch->exp, fread_number( fp ) );
+            if ( !str_cmp( word, "Exp" ) ) { ch->exp = fread_xp( fp ); fMatch = TRUE; break; }
             break;
 
          case 'T':

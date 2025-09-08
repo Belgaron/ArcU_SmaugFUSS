@@ -24,6 +24,16 @@
 #include "mapper.h"
 #include "sha256.h"
 
+/* Temporary: treat Power Level as EXP so we can gate skills by PL. */
+static inline int power_level( const CHAR_DATA *ch )
+{
+    //return (int)ch->exp;
+	//return 0;  // TEMP: pretend PL is zero
+	//return 1000000;  // TEMP: huge PL to test allow
+	return (int)ch->gold;   /* TEMP: use gold as PL so we can test easily */
+}
+
+
 bool in_same_house( CHAR_DATA * ch, CHAR_DATA * vch );
 
 /*
@@ -443,6 +453,32 @@ char *num_punct( int foo )
       {
          buf_new[index_new] = ',';
          index_new++;
+         buf_new[index_new] = buf[nindex];
+      }
+      else
+         buf_new[index_new] = buf[nindex];
+   }
+   buf_new[index_new] = '\0';
+   return buf_new;
+}
+
+char *num_punct_ll( xp_t foo )
+{
+   int index_new, rest, x;
+   size_t nindex;
+   char buf[32];
+   static char buf_new[32];
+
+   /* Use the same grouping as num_punct, just with wider buffers/types */
+   snprintf( buf, sizeof(buf), XP_FMT, foo );
+   rest = (int)(strlen( buf ) % 3);
+
+   for( nindex = index_new = 0; nindex < strlen( buf ); nindex++, index_new++ )
+   {
+      x = (int)nindex - rest;
+      if( nindex != 0 && ( x % 3 ) == 0 )
+      {
+         buf_new[index_new++] = ',';
          buf_new[index_new] = buf[nindex];
       }
       else
@@ -3662,9 +3698,17 @@ void do_practice( CHAR_DATA* ch, const char* argument )
 
       sn = skill_lookup( argument );
 
-      if( can_prac && ( ( sn == -1 ) || ( !IS_NPC( ch ) && ch->level < skill_table[sn]->skill_level[ch->Class]
-                                          && ch->level < skill_table[sn]->race_level[ch->race] ) ) )
-      {
+		/* Use Minlevel from skills.dat as the Power-Level requirement */
+		int req = skill_table[sn]->min_level;  /* this is "Minlevel" on disk */
+
+      /* Block only if: trainer is active, this is a real skill, player is PC,
+			AND there is a requirement (>0), AND PL is below it. */
+		if ( can_prac
+			&& sn != -1
+			&& !IS_NPC(ch)
+			&& req > 0
+			&& power_level(ch) < req )
+	  {
          act( AT_TELL, "$n tells you 'You're not ready to learn that yet...'", mob, NULL, ch, TO_VICT );
          return;
       }
@@ -3726,7 +3770,7 @@ void do_practice( CHAR_DATA* ch, const char* argument )
        }
        */
 
-      adept = ( int )( class_table[ch->Class]->skill_adept * 0.2 );
+      adept = UMAX(1, (int)(class_table[ch->Class]->skill_adept * 0.15));
 
       if( ch->pcdata->learned[sn] >= adept )
       {

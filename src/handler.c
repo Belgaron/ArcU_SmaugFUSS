@@ -652,7 +652,7 @@ short get_exp_base( CHAR_DATA * ch )
 
 /*								-Thoric
  * Return how much experience is required for ch to get to a certain level
- */
+ *
 int exp_level( CHAR_DATA * ch, short level )
 {
    int lvl;
@@ -660,7 +660,7 @@ int exp_level( CHAR_DATA * ch, short level )
    lvl = UMAX( 0, level - 1 );
    return ( lvl * lvl * lvl * get_exp_base( ch ) );
 }
-
+ */
 /*
  * Get what level ch is based on exp
  */

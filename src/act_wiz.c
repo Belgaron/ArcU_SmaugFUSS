@@ -99,6 +99,53 @@ void do_dnd( CHAR_DATA* ch, const char* argument)
       send_to_char( "huh?\r\n", ch );
 }
 
+/* Set/show Power Level (currently EXP). Usage:
+   pl                -> shows your PL
+   pl self <number>  -> set your PL
+   pl <name> <number>-> set someone else's PL
+*/
+
+void do_pl( CHAR_DATA *ch, char *argument )
+{
+    char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
+    CHAR_DATA *victim;
+
+    argument = one_argument( argument, arg1 );
+    argument = one_argument( argument, arg2 );
+
+    if ( arg1[0] == '\0' ) {  /* just show your PL */
+        ch_printf( ch, "Power Level: " XP_FMT "\r\n", (xp_t)ch->exp );
+        return;
+    }
+
+    if ( !IS_IMMORTAL( ch ) ) {  /* imm-only */
+        send_to_char( "Huh?\r\n", ch );
+        return;
+    }
+
+    if ( !str_cmp( arg1, "self" ) )
+        victim = ch;
+    else if ( ( victim = get_char_world( ch, arg1 ) ) == NULL ) {
+        send_to_char( "They aren't here.\r\n", ch );
+        return;
+    }
+
+    if ( arg2[0] == '\0' || !is_number( arg2 ) ) {
+        send_to_char( "Syntax: pl <name|self> <number>\r\n", ch );
+        return;
+    }
+
+    long val = atol( arg2 );
+    if ( val < 0 ) val = 0;
+
+    /* For now PL == EXP */
+    victim->exp = (xp_t)val;
+
+    ch_printf( ch, "Set %s's Power Level to %ld.\r\n", PERS( victim, ch ), val );
+    if ( ch != victim )
+        ch_printf( victim, "%s sets your Power Level to %ld.\r\n", PERS( ch, victim ), val );
+}
+
 /*
  * The "watch" facility allows imms to specify the name of a player or
  * the name of a site to be watched. It is like "logging" a player except
@@ -2152,8 +2199,8 @@ void do_mstat( CHAR_DATA* ch, const char* argument )
          pager_printf_color( ch, "&cMorphed as: Morph was deleted.\r\n" );
    }
    pager_printf_color( ch, "&cAffected by: &C%s\r\n", affect_bit_name( &victim->affected_by ) );
-   pager_printf_color( ch, "&cSpeaks: &w%d   &cSpeaking: &w%d   &cExperience: &w%d",
-                       victim->speaks, victim->speaking, victim->exp );
+   pager_printf_color( ch, "&cSpeaks: &w%d   &cSpeaking: &w%d   &cExperience: &w" XP_FMT,
+                    victim->speaks, victim->speaking, (xp_t)victim->exp );
    if( !IS_NPC( victim ) && victim->wait )
       pager_printf_color( ch, "   &cWaitState: &R%d\r\n", victim->wait / 12 );
    else
@@ -2621,6 +2668,7 @@ void do_bodybag( CHAR_DATA* ch, const char* argument )
 }
 
 /* New owhere by Altrag, 03/14/96 */
+#if 0
 void do_owhere( CHAR_DATA* ch, const char* argument )
 {
    char buf[MAX_STRING_LENGTH];
@@ -2709,6 +2757,7 @@ void do_owhere( CHAR_DATA* ch, const char* argument )
    else
       pager_printf( ch, "%d matches.\r\n", icnt );
 }
+#endif
 
 /*
  * "Claim" an object.  Will allow an immortal to "grab" an object no matter

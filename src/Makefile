@@ -2,7 +2,7 @@ CC      = g++
 #PROF    = -p
 
 #Uncomment to compile in Cygwin
-#CYGWIN = -DCYGWIN
+CYGWIN = -DCYGWIN
 
 #Uncomment the line below if you are getting undefined references to dlsym, dlopen, and dlclose.
 #Comment it out if you get errors about ldl not being found.
@@ -20,7 +20,7 @@ ifndef CYGWIN
 M_FLAGS = -fsanitize=address -fsanitize=leak -fno-omit-frame-pointer
 endif
 
-W_FLAGS = -std=c++1z -Wall -Wshadow -Wformat-security -Wpointer-arith -Wcast-align -Wredundant-decls
+W_FLAGS = -std=c++17 -Wall -Wshadow -Wformat-security -Wpointer-arith -Wcast-align -Wredundant-decls
 
 C_FLAGS = -g2 $(W_FLAGS) $(M_FLAGS) $(SOLARIS_FLAG) $(PROF) $(EXPORT_SYMBOLS)
 L_FLAGS = $(M_FLAGS) $(PROF) $(SOLARIS_LINK) -lz $(NEED_DL)
@@ -29,9 +29,9 @@ L_FLAGS = $(M_FLAGS) $(PROF) $(SOLARIS_LINK) -lz $(NEED_DL)
 D_FLAGS = -g2 -O $(M_FLAGS) $(PROF) $(SOLARIS_LINK)
 
 C_FILES = act_comm.c act_info.c act_move.c act_obj.c act_wiz.c ban.c boards.c \
-          build.c calendar.c chess.c clans.c color.c comm.c comments.c const.c db.c deity.c \
-          dns.c fight.c handler.c hashstr.c hint.c hotboot.c house.c imm_host.c interp.c \
-          liquids.c magic.c makeobjs.c mapout.c mapper.c mccp.c \
+          build.c calendar.c chess.c clans.c color.c comm.c comments.c const.c custom_slay.c \
+		  cyber.c db.c deity.c dns.c fight.c grub.o handler.c hashstr.c hint.c hotboot.c \
+          house.c imm_host.c interp.c liquids.c magic.c makeobjs.c mapout.c mapper.c mccp.c \
           misc.c mpxset.c mssp.c mud_comm.c mud_prog.c news.c planes.c player.c polymorph.c \
           renumber.c reset.c save.c services.c sha256.c shops.c skills.c special.c tables.c \
           track.c update.c variables.c weather.c
@@ -47,17 +47,14 @@ all:
 	$(MAKE) -s dns
 
 # pull in dependency info for *existing* .o files
--include dependencies.d
+# -include dependencies.d
+
+-include $(O_FILES:.o=.d)
 
 ifdef CYGWIN
 smaug: $(O_FILES)
 	rm -f smaug.exe
-	dlltool --export-all --output-def smaug.def $(O_FILES)
-	dlltool --dllname smaug.exe --output-exp smaug.exp --def smaug.def
-	$(CC) -o smaug.exe $(O_FILES) smaug.exp $(L_FLAGS)
-	@echo "Generating dependency file ...";
-	@$(CC) -MM $(C_FLAGS) $(C_FILES) > dependencies.d
-	@perl -pi -e 's.^([a-z]).o/$$1.g' dependencies.d
+	$(CC) -Wl,--export-all-symbols -o smaug.exe $(O_FILES) $(L_FLAGS)
 	@echo "Done compiling mud.";
 	chmod g+w smaug.exe
 	chmod a+x smaug.exe
@@ -69,17 +66,8 @@ clean:
 else
 smaug: $(O_FILES)
 	rm -f smaug
-	$(CC) -export-dynamic -o smaug $(O_FILES) $(L_FLAGS)
-	@echo "Generating dependency file ...";
-	@$(CC) -MM $(C_FLAGS) $(C_FILES) > dependencies.d
-	@perl -pi -e 's.^([a-z]).o/$$1.g' dependencies.d
-	@echo "Done compiling mud.";
-	chmod g+w smaug
-	chmod a+x smaug
-	chmod g+w $(O_FILES)
-
-clean:
-	@rm -f o/*.o smaug dependencies.d resolver resolver.o *~
+	$(CC) -o smaug $(O_FILES) $(L_FLAGS)
+	@echo "Done compiling mud."
 endif
 
 dns: resolver.o
@@ -99,4 +87,4 @@ indentclean:
 
 o/%.o: %.c
 	echo "  Compiling $@...";
-	$(CC) -c $(C_FLAGS) $< -o $@
+	$(CC) -c $(C_FLAGS) -MMD -MP -MF $(@:.o=.d) $< -o $@

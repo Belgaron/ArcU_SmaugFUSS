@@ -1,0 +1,854 @@
+; dlltool --export-all --output-def smaug.def o/act_comm.o o/act_info.o o/act_move.o o/act_obj.o o/act_wiz.o o/ban.o o/boards.o o/build.o o/calendar.o o/chess.o o/clans.o o/color.o o/comm.o o/comments.o o/const.o o/db.o o/deity.o o/dns.o o/fight.o o/handler.o o/hashstr.o o/hint.o o/hotboot.o o/house.o o/imm_host.o o/interp.o o/liquids.o o/magic.o o/makeobjs.o o/mapout.o o/mapper.o o/mccp.o o/misc.o o/mpxset.o o/mssp.o o/mud_comm.o o/mud_prog.o o/news.o o/planes.o o/player.o o/polymorph.o o/renumber.o o/reset.o o/save.o o/services.o o/sha256.o o/shops.o o/skills.o o/special.o o/tables.o o/track.o o/update.o o/variables.o o/weather.o
+EXPORTS
+	ˇˇˇˇˇˇˇ¿ @ 1
+	ÄA @ 2
+	 @ 3 DATA
+	 @ 4 DATA
+	 @ 5
+	 @ 6
+	 @ 7
+	) @ 8
+	, @ 9 DATA
+	~0¡ @ 10
+	 @ 11 DATA
+	 @ 12 DATA
+	 @ 13
+	# @ 14 DATA
+	& @ 15 DATA
+	 @ 16 DATA
+	 @ 17
+	 @ 18 DATA
+	 @ 19 DATA
+	Ä= @ 20 DATA
+	 @ 21 DATA
+	 — @ 22
+	Ê @ 23 DATA
+	Ã @ 24
+	I @ 25
+	
+ @ 26 DATA
+	 @ 27 DATA
+	À @ 28 DATA
+	á @ 29
+	 @ 30
+	) @ 31 DATA
+	) @ 32 DATA
+	p @ 33
+	√ @ 34
+	 ÷ @ 35
+	∞“ @ 36
+	ˆ @ 37 DATA
+	 @ 38 DATA
+	 @ 39 DATA
+	 @ 40
+	 @ 41
+	% @ 42 DATA
+	ê @ 43
+	 @ 44 DATA
+	 @ 45
+	 @ 46 DATA
+	 @ 47
+	 @ 48 DATA
+	À @ 49
+	+ @ 50 DATA
+	 @ 51
+	+ @ 52
+	Ì @ 53 DATA
+	 @ 54 DATA
+	 @ 55 DATA
+	 @ 56
+	 @ 57 DATA
+	 @ 58 DATA
+	 @ 59
+	  @ 60
+	  @ 61 DATA
+	0Á @ 62
+	‡‘ @ 63
+	∞◊ @ 64
+	†€ @ 65
+	 – @ 66
+	 U @ 67
+	 Ì @ 68
+	! @ 69 DATA
+	! @ 70 DATA
+	I @ 71 DATA
+	" @ 72 DATA
+	" @ 73
+	#G @ 74 DATA
+	$s @ 75
+	% @ 76 DATA
+	& @ 77
+	'/ @ 78 DATA
+	(:¯ @ 79
+	* @ 80 DATA
+	*∆ @ 81
+	+ @ 82
+	 @ 83
+	-¬ @ 84 DATA
+	"." @ 85 DATA
+	".debug_aranges" @ 86
+	".re" @ 87 DATA
+	".re0s" @ 88 DATA
+	".refptr.first_area" @ 89 DATA
+	".refptr.first_descriptor" @ 90 DATA
+	".refptr.time_info" @ 91 DATA
+	".refê^" @ 92 DATA
+	".reP\" @ 93 DATA
+	".‡r" @ 94 DATA
+	/@ @ 95
+	0 @ 96
+	0 @ 97
+	0 @ 98
+	0E @ 99 DATA
+	0] @ 100
+	0isFreezingi @ 101 DATA
+	0Í @ 102 DATA
+	px @ 103
+	1 @ 104 DATA
+	10isVeryColdi @ 105
+	 @ 106
+	12DecreaseTempP11WeatherCelli @ 107
+	13UpdateWeatherv @ 108
+	14IncreasePrecipP11WeatherCelli @ 109
+	14isMinorlyHumidi @ 110 DATA
+	14weatherVersion @ 111
+	1WeatherCell @ 112
+	1WeatherCelli @ 113
+	1getPressureP11WeatherCell @ 114 DATA
+	2 @ 115 DATA
+	20isTorrentialDownpouri @ 116
+	2∞ @ 117
+	22 @ 118
+	3 @ 119
+	3 @ 120
+	3isBreezyWindWi @ 121
+	4 @ 122 DATA
+	4EnforceClimateConditionsv @ 123
+	4RandomizeCellsv @ 124
+	 @ 125
+	4loP™ @ 126
+	 @ 127 DATA
+	5isBlusteryWindEi @ 128
+	5isHoti @ 129
+	5save_weathermapv @ 130
+	5Ì @ 131 DATA
+	6 @ 132 DATA
+	6IncreaseHumidityP11WeatherCelli @ 133
+	Ë @ 134
+	7getTempP11WeatherCell @ 135
+	8 @ 136 DATA
+	8 @ 137
+	8p7 @ 138 DATA
+	9 @ 139 DATA
+	9__sFILE64 @ 140
+	9__s @ 141 DATA
+	9c @ 142
+	:¯ @ 143 DATA
+	; @ 144
+	Ë @ 145 DATA
+	<* @ 146
+	= @ 147 DATA
+	? @ 148
+	?D @ 149 DATA
+	?¬ @ 150 DATA
+	@ @ 151
+	@% @ 152
+	@ü @ 153 DATA
+	 @ 154
+	@› @ 155 DATA
+	ATE_DECIDUOUS @ 156
+	B @ 157
+	B @ 158 DATA
+	BlusteryWindSi @ 159
+	BreezyWindSi @ 160
+	Cell @ 161 DATA
+	Celli @ 162 DATA
+	Changesv @ 163
+	Coldi @ 164 DATA
+	Conditionsv @ 165
+	D @ 166 DATA
+	D @ 167
+	DeltaChangesv @ 168
+	 @ 169
+	Downpouri @ 170
+	E @ 171 DATA
+	 @ 172
+	EnforceClimateConditionsv @ 173
+	ExtremelyColdi @ 174
+	F @ 175 DATA
+	G @ 176 DATA
+	H* @ 177
+	HumidityP11WeatherCell @ 178 DATA
+	I @ 179 DATA
+	ILE64 @ 180
+	IMATE_SAVANNA @ 181
+	IncreaseHumidityP11WeatherCelli @ 182 DATA
+	J+ @ 183 DATA
+	K( @ 184
+	LE64 @ 185
+	LIMATE_TAIGA @ 186
+	N  @ 187
+	Nê @ 188
+	Ä= @ 189
+	 @ 190 DATA
+	P9 @ 191 DATA
+	P9__sFILE64 @ 192
+	PB @ 193 DATA
+	Pouringi @ 194
+	Pû @ 195 DATA
+	PÊ @ 196 DATA
+	P˙ @ 197 DATA
+	P˚ @ 198
+	Q @ 199
+	R @ 200
+	R @ 201 DATA
+	R  @ 202
+	S @ 203 DATA
+	S0_ @ 204
+	SLANDS @ 205
+	Si @ 206
+	 @ 207
+	TE_ARCTIC @ 208
+	 @ 209
+	UÂ @ 210
+	 @ 211
+	VeryHoti @ 212
+	WeatherCell @ 213
+	WeatherCelli @ 214
+	WeatherMapv @ 215
+	WindNi @ 216
+	WindWi @ 217
+	WindXP11WeatherCelli @ 218
+	WindyWindEi @ 219
+	 @ 220 DATA
+	X√ @ 221 DATA
+	Z10fread_wordP9__sFILE64 @ 222
+	Z10isFreezingi @ 223
+	Z11getHumidityP11WeatherCell @ 224
+	 @ 225
+	 @ 226
+	Z11isCalmWindWi @ 227
+	Z12fread_to_eolP9__sFILE64 @ 228
+	 @ 229
+	Z16ExceedsThresholdiii @ 230
+	Z16IncreasePressureP11WeatherCelli @ 231
+	Z8isChillyi @ 232 DATA
+	 @ 233
+	 @ 234
+	 @ 235
+	ZL @ 236
+	[ @ 237 DATA
+	[x @ 238 DATA
+	\ @ 239
+	\ﬂ @ 240
+	] @ 241
+	]ê @ 242 DATA
+	 @ 243 DATA
+	_Z @ 244 DATA
+;	fread_cell(__sFILE64*, int, int)
+	_Z10fread_cellP9__sFILE64ii @ 245
+;	isDownpour(int)
+	_Z10isDownpouri @ 246
+;	isFreezing(int)
+	_Z10isFreezingi @ 247
+;	isVeryCold(int)
+	_Z10isVeryColdi @ 248
+;	getHumidity(WeatherCell*)
+	_Z11getHumidityP11WeatherCell @ 249
+;	getPressure(WeatherCell*)
+	_Z11getPressureP11WeatherCell @ 250
+;	get_climate(char*)
+	_Z11get_climatePc @ 251
+;	isCalmWindE(int)
+	_Z11isCalmWindEi @ 252
+;	isCalmWindN(int)
+	_Z11isCalmWindNi @ 253
+;	isCalmWindS(int)
+	_Z11isCalmWindSi @ 254
+;	isCalmWindW(int)
+	_Z11isCalmWindWi @ 255
+;	isDrizzling(int)
+	_Z11isDrizzlingi @ 256
+;	isTemperate(int)
+	_Z11isTemperatei @ 257
+;	DecreaseTemp(WeatherCell*, int)
+	_Z12DecreaseTempP11WeatherCelli @ 258
+;	IncreaseTemp(WeatherCell*, int)
+	_Z12IncreaseTempP11WeatherCelli @ 259
+;	fread_letter(__sFILE64*)
+	_Z12fread_letterP9__sFILE64 @ 260
+;	isGustyWindE(int)
+	_Z12isGustyWindEi @ 261
+;	isGustyWindN(int)
+	_Z12isGustyWindNi @ 262
+;	isGustyWindS(int)
+	_Z12isGustyWindSi @ 263
+;	isGustyWindW(int)
+	_Z12isGustyWindWi @ 264
+;	isReallyCold(int)
+	_Z12isReallyColdi @ 265
+;	isWindyWindE(int)
+	_Z12isWindyWindEi @ 266
+;	isWindyWindN(int)
+	_Z12isWindyWindNi @ 267
+;	isWindyWindS(int)
+	_Z12isWindyWindSi @ 268
+;	isWindyWindW(int)
+	_Z12isWindyWindWi @ 269
+;	DecreaseWindX(WeatherCell*, int)
+	_Z13DecreaseWindXP11WeatherCelli @ 270
+;	DecreaseWindY(WeatherCell*, int)
+	_Z13DecreaseWindYP11WeatherCelli @ 271
+;	IncreaseWindX(WeatherCell*, int)
+	_Z13IncreaseWindXP11WeatherCelli @ 272
+;	IncreaseWindY(WeatherCell*, int)
+	_Z13IncreaseWindYP11WeatherCelli @ 273
+;	UpdateWeather()
+	_Z13UpdateWeatherv @ 274
+;	getCloudCover(WeatherCell*)
+	_Z13getCloudCoverP11WeatherCell @ 275
+;	isBreezyWindE(int)
+	_Z13isBreezyWindEi @ 276
+;	isBreezyWindN(int)
+	_Z13isBreezyWindNi @ 277
+;	isBreezyWindS(int)
+	_Z13isBreezyWindSi @ 278
+;	isBreezyWindW(int)
+	_Z13isBreezyWindWi @ 279
+;	isLowPressure(int)
+	_Z13isLowPressurei @ 280
+;	DecreaseEnergy(WeatherCell*, int)
+	_Z14DecreaseEnergyP11WeatherCelli @ 281
+;	DecreasePrecip(WeatherCell*, int)
+	_Z14DecreasePrecipP11WeatherCelli @ 282
+;	IncreaseEnergy(WeatherCell*, int)
+	_Z14IncreaseEnergyP11WeatherCelli @ 283
+;	IncreasePrecip(WeatherCell*, int)
+	_Z14IncreasePrecipP11WeatherCelli @ 284
+;	RandomizeCells()
+	_Z14RandomizeCellsv @ 285
+;	WeatherMessage(char const*, int, int)
+	_Z14WeatherMessagePKcii @ 286
+;	getWeatherCell(area_data*)
+	_Z14getWeatherCellP9area_data @ 287
+;	get_hemisphere(char*)
+	_Z14get_hemispherePc @ 288
+;	isHighPressure(int)
+	_Z14isHighPressurei @ 289
+;	isMinorlyHumid(int)
+	_Z14isMinorlyHumidi @ 290
+;	isPartlyCloudy(int)
+	_Z14isPartlyCloudyi @ 291
+;	isBlusteryWindE(int)
+	_Z15isBlusteryWindEi @ 292
+;	isBlusteryWindN(int)
+	_Z15isBlusteryWindNi @ 293
+;	isBlusteryWindS(int)
+	_Z15isBlusteryWindSi @ 294
+;	isBlusteryWindW(int)
+	_Z15isBlusteryWindWi @ 295
+;	isExtremelyCold(int)
+	_Z15isExtremelyColdi @ 296
+;	load_weathermap()
+	_Z15load_weathermapv @ 297
+;	save_weathermap()
+	_Z15save_weathermapv @ 298
+;	DecreaseHumidity(WeatherCell*, int)
+	_Z16DecreaseHumidityP11WeatherCelli @ 299
+;	DecreasePressure(WeatherCell*, int)
+	_Z16DecreasePressureP11WeatherCelli @ 300
+;	ExceedsThreshold(int, int, int)
+	_Z16ExceedsThresholdiii @ 301
+;	IncreaseHumidity(WeatherCell*, int)
+	_Z16IncreaseHumidityP11WeatherCelli @ 302
+;	IncreasePressure(WeatherCell*, int)
+	_Z16IncreasePressureP11WeatherCelli @ 303
+;	isExtremelyHumid(int)
+	_Z16isExtremelyHumidi @ 304
+;	isGaleForceWindE(int)
+	_Z16isGaleForceWindEi @ 305
+;	isGaleForceWindN(int)
+	_Z16isGaleForceWindNi @ 306
+;	isGaleForceWindS(int)
+	_Z16isGaleForceWindSi @ 307
+;	isGaleForceWindW(int)
+	_Z16isGaleForceWindWi @ 308
+;	isRainingLightly(int)
+	_Z16isRainingLightlyi @ 309
+;	isSwelteringHeat(int)
+	_Z16isSwelteringHeati @ 310
+;	ApplyDeltaChanges()
+	_Z17ApplyDeltaChangesv @ 311
+;	isExtremelyCloudy(int)
+	_Z17isExtremelyCloudyi @ 312
+;	isModeratelyHumid(int)
+	_Z17isModeratelyHumidi @ 313
+;	isRaingingHeavily(int)
+	_Z17isRaingingHeavilyi @ 314
+;	isRainingSteadily(int)
+	_Z17isRainingSteadilyi @ 315
+;	ClearWeatherDeltas()
+	_Z18ClearWeatherDeltasv @ 316
+;	DecreaseCloudCover(WeatherCell*, int)
+	_Z18DecreaseCloudCoverP11WeatherCelli @ 317
+;	IncreaseCloudCover(WeatherCell*, int)
+	_Z18IncreaseCloudCoverP11WeatherCelli @ 318
+;	isModeratelyCloudy(int)
+	_Z18isModeratelyCloudyi @ 319
+;	DropsBelowThreshold(int, int, int)
+	_Z19DropsBelowThresholdiii @ 320
+;	InitializeWeatherMap()
+	_Z20InitializeWeatherMapv @ 321
+;	isRainingCatsAndDogs(int)
+	_Z20isRainingCatsAndDogsi @ 322
+;	isTorrentialDownpour(int)
+	_Z20isTorrentialDownpouri @ 323
+;	EnforceClimateConditions()
+	_Z24EnforceClimateConditionsv @ 324
+;	CalculateCellToCellChanges()
+	_Z26CalculateCellToCellChangesv @ 325
+;	isHot(int)
+	_Z5isHoti @ 326
+;	isCold(int)
+	_Z6isColdi @ 327
+;	isCool(int)
+	_Z6isCooli @ 328 DATA
+;	isWarm(int)
+	_Z6isWarmi @ 329
+;	getTemp(WeatherCell*)
+	_Z7getTempP11WeatherCell @ 330
+;	isHumid(int)
+	_Z7isHumidi @ 331
+;	getWindX(WeatherCell*)
+	_Z8getWindXP11WeatherCell @ 332
+;	getWindY(WeatherCell*)
+	_Z8getWindYP11WeatherCell @ 333
+;	isChilly(int)
+	_Z8isChillyi @ 334
+;	isCloudy(int)
+	_Z8isCloudyi @ 335
+;	isFrosty(int)
+	_Z8isFrostyi @ 336
+;	isStormy(int)
+	_Z8isStormyi @ 337 DATA
+;	getEnergy(WeatherCell*)
+	_Z9getEnergyP11WeatherCell @ 338
+;	getPrecip(WeatherCell*)
+	_Z9getPrecipP11WeatherCell @ 339
+;	isMisting(int)
+	_Z9isMistingi @ 340
+;	isPouring(int)
+	_Z9isPouringi @ 341
+;	isRaining(int)
+	_Z9isRainingi @ 342
+;	isVeryHot(int)
+	_Z9isVeryHoti @ 343
+	_Z9â @ 344
+	_ZT@ @ 345 DATA
+	__chkstk_ms @ 346
+	__sFILE64 @ 347
+	_d0@ @ 348 DATA
+	_d`p @ 349
+	_line_str @ 350
+	_ms @ 351
+	_weather @ 352
+	_Ä∞ @ 353
+	_ @ 354 DATA
+	`€ @ 355 DATA
+	`Â @ 356 DATA
+	`˘ @ 357
+	a @ 358 DATA
+	aChangesv @ 359
+	aPKcz @ 360
+	able_data @ 361 DATA
+	 @ 362
+	andomizeCellsv @ 363
+	ar_data @ 364
+	ar_dataPKcz @ 365
+	asePrecipP11WeatherCelli @ 366
+	asePressureP11WeatherCelli @ 367
+	aseWindXP11WeatherCelli @ 368
+	"ata$.refptr.time_info" @ 369
+	ather @ 370
+	 @ 371
+	atherCelli @ 372 DATA
+	 @ 373
+	aÀ @ 374 DATA
+	b @ 375
+	bw @ 376
+	c @ 377 DATA
+	ceWindWi @ 378
+	cha @ 379
+	creaseCloudCoverP11WeatherCelli @ 380
+	creaseWindYP11WeatherCelli @ 381
+	cz @ 382
+	cÂ @ 383 DATA
+	d @ 384 DATA
+	O @ 385 DATA
+	dWi @ 386
+	d_cellP9__sFILE64ii @ 387
+	da· @ 388
+	deratelyHumidi @ 389 DATA
+	dexi‡5 @ 390 DATA
+	 @ 391
+	do_ @ 392
+	do_setweather @ 393
+	do_showweather @ 394
+	do_weather @ 395
+	dyi @ 396
+	e @ 397 DATA
+	eCloudCoverP11WeatherCelli @ 398 DATA
+	eHumidityP11WeatherCelli @ 399
+	 @ 400 DATA
+	e_info @ 401
+	ea @ 402
+	eallyColdi @ 403 DATA
+	easeCloudCoverP11WeatherCelli @ 404
+	eatherCelli @ 405 DATA
+	ecreasePrecipP11WeatherCelli @ 406
+	ell @ 407
+	ellP9__sFILE64ii @ 408
+	ellP9area_data @ 409
+	elli @ 410
+	elta @ 411
+	elyHumidi @ 412 DATA
+	emperatei @ 413
+	entPKcPc @ 414
+	erCell @ 415
+	erCelli @ 416
+	erMap @ 417
+	eratei @ 418
+	ersion @ 419 DATA
+	 @ 420
+	ezyWindEi @ 421
+	f, @ 422 DATA
+	f_colorP9char_dataPKcz @ 423
+	fi@^ @ 424 DATA
+	fopen @ 425 DATA
+	gLightlyi @ 426
+	g_line @ 427
+	gesv @ 428
+	 @ 429
+	getWeatherCellP9area_data @ 430
+	getWindYP11WeatherCell @ 431
+	h+ @ 432 DATA
+	hPressurei @ 433 DATA
+	har_ @ 434 DATA
+	herDelta @ 435
+	i @ 436 DATA
+	i: @ 437
+	iable_data @ 438 DATA
+	idityP11WeatherCell @ 439
+	idityP11WeatherCelli @ 440
+	indEi @ 441
+	indSi @ 442
+	indWi @ 443
+	indyWindNi @ 444
+	indyWindWi @ 445
+	ine @ 446
+	ingP9__sFILE64 @ 447
+	ingi @ 448
+	 @ 449
+	ion @ 450
+	iptor @ 451 DATA
+	irst_area @ 452
+	irst_descriptor @ 453
+	isCalmWindEi @ 454
+	isCalmWindNi @ 455
+	isColdi @ 456
+	isGustyWindNi @ 457
+	 @ 458
+	isReallyColdi @ 459
+	 @ 460
+	jA @ 461
+	 @ 462
+	l @ 463
+	ldiii @ 464
+	letterP9__sFILE64 @ 465
+	li @ 466
+	limate_names @ 467
+	line_str @ 468
+	ll @ 469
+	lli @ 470 DATA
+	llsv @ 471
+	lo @ 472
+	lose @ 473 DATA
+	loudCoverP11WeatherCelli @ 474 DATA
+	loudyi @ 475
+	lusteryWindNi @ 476
+	lyColdi @ 477 DATA
+	mG @ 478 DATA
+	ma0! @ 479
+	mix– @ 480
+	ndNi @ 481
+	ndWi @ 482
+	ndXP11WeatherCell @ 483
+	ndYP11WeatherCelli @ 484
+	ne @ 485
+	nergyP11WeatherCelli @ 486
+	ngHeavilyi @ 487
+	 @ 488
+	ntv @ 489
+	nÄÜ @ 490
+	o @ 491
+	oCellChangesv @ 492
+	oad_weathermapv @ 493
+	olorP9char_dataPKcz @ 494
+	om_i @ 495 DATA
+	one_argumentPKcPc @ 496
+	oot_time_t @ 497
+	ose @ 498 DATA
+	oudyi @ 499
+	 @ 500 DATA
+	p @ 501 DATA
+	p @ 502
+	pP11WeatherCelli @ 503
+	po @ 504
+	pouri @ 505
+	ptor @ 506
+	p“ @ 507
+	qui` @ 508 DATA
+	r @ 509
+	r @ 510 DATA
+	"r.first_area" @ 511
+	"r.first_descriptor" @ 512
+	"r.item_w_f@" @ 513 DATA
+	"r.time_info" @ 514
+	rCell @ 515
+	rCelli @ 516
+	rDelta @ 517
+	 @ 518 DATA
+	ê¡ @ 519
+	r_dataPKcz @ 520
+	 @ 521
+	 Ü @ 522
+	 æ @ 523
+	 ﬁ @ 524
+	0Ò @ 525
+	@¥ @ 526
+	p¥ @ 527
+	ranges @ 528
+	ratelyCloudyi @ 529
+	rceWindSi @ 530
+	ri @ 531
+	rintf @ 532 DATA
+	rintfP9char_dataPKcz @ 533
+	rror @ 534 DATA
+	rst_area @ 535
+	rst_descriptor @ 536
+	s @ 537 DATA
+	s0l @ 538
+	 @ 539
+	sExtremelyCloudyi @ 540
+	sGustyWindEi @ 541
+	sRainingCatsAndDogsi @ 542
+	sSwelteringHeati @ 543
+	seHumidityP11WeatherCelli @ 544 DATA
+	send_to_charPKcP9char_data @ 545
+	sp @ 546
+	spe @ 547
+	spec @ 548
+	ssurei @ 549
+	str @ 550
+	t @ 551 DATA
+	tHumidityP11WeatherCell @ 552
+	 @ 553 DATA
+	ta @ 554
+	"ta$.refptr.first_descriptor" @ 555 DATA
+	ta$z @ 556 DATA
+	taPKcz @ 557
+	therCell @ 558 DATA
+	therCelli @ 559
+	time_info @ 560
+	timechar @ 561 DATA
+	tingi @ 562
+	tor @ 563
+	"tr.time_info" @ 564 DATA
+	tsAndDogsi @ 565
+	u @ 566
+	umidi @ 567
+	ur @ 568
+	ureP11WeatherCell @ 569
+	uri @ 570
+	usteryWindEi @ 571
+	uê @ 572
+	 @ 573
+	version @ 574 DATA
+	w @ 575 DATA
+	w @ 576 DATA
+	w	 @ 577
+	weatherDelta @ 578 DATA
+	weatherMap @ 579 DATA
+	weathermapv @ 580
+	wÊ @ 581
+	x @ 582 DATA
+	y! @ 583 DATA
+	y+ @ 584 DATA
+	 @ 585
+	yHumidi @ 586
+	 @ 587
+	yWindNi @ 588
+	yi @ 589
+	z @ 590
+	 @ 591
+	zz @ 592
+	{y @ 593 DATA
+	| @ 594 DATA
+	|â @ 595 DATA
+	~Ü @ 596
+	 @ 597
+	+ @ 598
+	ç @ 599 DATA
+	Ä2 @ 600
+	Ä6 @ 601
+	Ä] @ 602 DATA
+	Ä≥ @ 603
+	Ä¬ @ 604
+	∞≥ @ 605
+	Å @ 606
+	É @ 607 DATA
+	Ü @ 608
+	àß @ 609
+	âÊ @ 610
+	ä @ 611 DATA
+	ä @ 612
+	å @ 613 DATA
+	å @ 614 DATA
+	ç @ 615
+	ñ @ 616 DATA
+	éw @ 617 DATA
+	è @ 618
+	èx @ 619
+	è« @ 620
+	ê @ 621 DATA
+	ê\ @ 622
+	P @ 623 DATA
+	êÆ @ 624
+	êœ @ 625
+	ê¯ @ 626
+	ëﬂ @ 627 DATA
+	ò2 @ 628 DATA
+	ô @ 629
+	û @ 630 DATA
+	ûx @ 631
+	†" @ 632 DATA
+	†/ @ 633
+	†4 @ 634 DATA
+	†6 @ 635 DATA
+	†A @ 636
+	†Y @ 637
+	†é @ 638
+	†û @ 639 DATA
+	†± @ 640
+	†¡ @ 641 DATA
+	†ÿ @ 642
+	êW @ 643 DATA
+	†˙ @ 644 DATA
+	°+ @ 645 DATA
+	ß* @ 646 DATA
+	®2 @ 647 DATA
+	© @ 648
+	©Ã @ 649
+	™t @ 650
+	™x @ 651
+	≠ @ 652
+	≠E @ 653 DATA
+	Æ @ 654
+	ÆØ @ 655
+	Æ” @ 656
+	ÆÊ @ 657 DATA
+	∞ @ 658
+	∞) @ 659
+	∞2 @ 660 DATA
+	∞UM @ 661
+	∞⁄ @ 662
+	∞˘ @ 663
+	∑ @ 664 DATA
+	∑% @ 665 DATA
+	∏2 @ 666
+	π @ 667
+	π” @ 668
+	„ @ 669 DATA
+	æ @ 670
+	¿ @ 671
+	¿# @ 672
+	¿6Ä @ 673
+	¿Í @ 674
+	¡ @ 675
+	¬ @ 676 DATA
+	¬F @ 677 DATA
+	√A @ 678
+	√” @ 679
+	≈ @ 680
+	∆ @ 681 DATA
+	«Á @ 682
+	» @ 683
+	»≈ @ 684
+	… @ 685 DATA
+	…â @ 686 DATA
+	Ω @ 687 DATA
+	" .¿’" @ 688 DATA
+	À @ 689
+	–* @ 690 DATA
+	–^ @ 691
+	–y @ 692 DATA
+	–â @ 693
+	–ö @ 694
+	–Õ @ 695 DATA
+	—+ @ 696 DATA
+	—F @ 697 DATA
+	—” @ 698 DATA
+	” @ 699 DATA
+	‘˚ @ 700 DATA
+	÷ﬂ @ 701 DATA
+	ÿ @ 702 DATA
+	ÿƒ @ 703 DATA
+	⁄ @ 704
+	⁄ @ 705 DATA
+	€+ @ 706 DATA
+	≤ @ 707
+	ﬁ% @ 708 DATA
+	ﬂ @ 709 DATA
+	‡ @ 710 DATA
+	@
+ @ 711 DATA
+	‡\ @ 712
+	‡p @ 713
+	· @ 714 DATA
+	·(:¯ @ 715
+	‚r @ 716 DATA
+	‚s @ 717
+	8 @ 718
+	Êq @ 719 DATA
+	Á @ 720
+	Ë  @ 721 DATA
+	È @ 722
+	Î @ 723 DATA
+	Î( @ 724
+	Îr @ 725 DATA
+	Ì @ 726 DATA
+	ÌÁ @ 727 DATA
+	Ó @ 728
+	Ó
+ @ 729
+	Ó @ 730 DATA
+	? @ 731
+	û @ 732 DATA
+	‡u @ 733
+	Òr @ 734 DATA
+	Ú @ 735
+	Ú* @ 736 DATA
+	ˆ @ 737
+	˜ @ 738 DATA
+	¯ @ 739 DATA
+	¯â @ 740 DATA
+	˙è @ 741 DATA
+	˚≈ @ 742
+	 @ 743 DATA
+	ˇ% @ 744 DATA
+	ˇr @ 745 DATA
+	ˇ¿ @ 746
+	ˇˇ @ 747 DATA
+	 @ 748 DATA
+	| @ 749 DATA
+	 Ô @ 750

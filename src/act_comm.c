@@ -2996,7 +2996,7 @@ void do_group( CHAR_DATA* ch, const char* argument )
                        gch->race == 12 ? "seaelf" : gch->race == 13 ? "lizard" : gch->race == 14 ? "gnome" : "" );
             set_char_color( AT_GREEN, ch );
             if( gch->level < LEVEL_AVATAR )
-               ch_printf( ch, "%8d ", exp_level( gch, gch->level + 1 ) - gch->exp );
+               ch_printf( ch, "%8s ", num_punct_ll( exp_level( gch, gch->level + 1 ) - gch->exp ) );
             send_to_char( "\r\n", ch );
          }
       }

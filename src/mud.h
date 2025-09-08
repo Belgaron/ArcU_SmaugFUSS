@@ -17,13 +17,87 @@
  ****************************************************************************/
 
 #include <stdlib.h>
-#include <limits.h>
-#if defined(__CYGWIN__) || defined(__FreeBSD__)
+#include <sys/types.h>
 #include <sys/time.h>
+#include <sys/select.h>
+#include <unistd.h>
+#include <signal.h>
+#include <ctype.h>
+#include <string.h>
+#include <strings.h>   // for strcasecmp
+
+/* isascii is not guaranteed on all platforms when compiling as C++ */
+#ifndef isascii
+#define isascii(c) ((unsigned char)(c) <= 0x7F)
 #endif
+#include <time.h>
+#include <stdio.h>     // makes strdup visible
+#ifdef __cplusplus
+extern "C" {
+    extern long timezone;       /* seconds west of UTC */
+    #if !defined(_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
+    extern char *tzname[2];     /* names like "EST", "EDT" */
+#endif
+    void tzset(void);           /* updates the values above */
+	int fileno(FILE *);         /* needed by open_mud_log in comm.c */
+    int kill(pid_t, int);       /* used by close_socket in comm.c   */
+}
+#endif
+#include <limits.h>
 #ifdef __cplusplus
 #include <typeinfo>
 #endif
+ 
+/* Fallbacks for timeval helpers if the system doesn't expose them in C++ */
+#ifndef timerisset
+#define timerisset(tvp)   ((tvp)->tv_sec != 0 || (tvp)->tv_usec != 0)
+#endif
+
+#ifndef timercmp
+#define timercmp(a,b,CMP) \
+  (((a)->tv_sec == (b)->tv_sec) ? ((a)->tv_usec CMP (b)->tv_usec) \
+                                : ((a)->tv_sec CMP (b)->tv_sec))
+#endif
+
+#ifdef __cplusplus
+extern "C" char *strdup(const char *);
+#endif
+
+/* Map project alias to the standard name if used anywhere */
+#ifndef str_dup
+#define str_dup strdup
+#endif
+
+/* Provide strlcpy/strlcat if the OS doesn't have them (e.g., Cygwin) */
+#if !defined(strlcpy)
+static inline size_t sm_strlcpy(char *dst, const char *src, size_t dsz)
+{
+    size_t slen = src ? strlen(src) : 0;
+    if (dsz) {
+        size_t copy = (slen >= dsz) ? dsz - 1 : slen;
+        if (copy) memcpy(dst, src, copy);
+        dst[copy] = '\0';
+    }
+    return slen;
+}
+#define strlcpy sm_strlcpy
+#endif
+
+#if !defined(strlcat)
+static inline size_t sm_strlcat(char *dst, const char *src, size_t dsz)
+{
+    size_t dlen = 0, slen = src ? strlen(src) : 0;
+    while (dlen < dsz && dst[dlen]) dlen++;
+    if (dlen == dsz) return dsz + slen;              /* no room to append */
+    size_t avail = dsz - dlen - 1;                   /* leave space for NUL */
+    size_t copy  = (slen > avail) ? avail : slen;
+    if (copy) memcpy(dst + dlen, src, copy);
+    dst[dlen + copy] = '\0';
+    return dlen + slen;
+}
+#define strlcat sm_strlcat
+#endif
+
 
 #ifdef WIN32
 #include <winsock.h>
@@ -71,6 +145,7 @@ typedef int obj_ret;
 #define DECLARE_SPEC_FUN( fun )   SPEC_FUN  fun; SPEC_FUN fun##_mangled
 #define DECLARE_SPELL_FUN( fun )  SPELL_FUN fun; SPELL_FUN fun##_mangled
 #endif
+
 
 /*
  * Short scalar types.
@@ -287,11 +362,31 @@ extern bool DONT_UPPER;
 #define PULSE_AREA       (60 * sysdata.pulsepersec)
 #define PULSE_AUCTION    (9 * sysdata.pulsepersec)
 
+//#define CODENAME    "Arc Unleashed"
+//#define CODEVERSION "0.1.0"
+
+/* ===== 64-bit EXP support ===== */
+typedef long long xp_t;    /* signed, for gains/losses */
+
+#if defined(_MSC_VER)
+#  define XP_FMT "%I64d"   /* MSVC printf format */
+#else
+#  define XP_FMT "%lld"    /* GCC/Clang printf format */
+#endif
+
+/* Pretty-printer for big numbers (implemented in act_info.c) */
+char *num_punct_ll( xp_t n );
+
+/* Reader for 64-bit numbers in pfiles (implemented in db.c) */
+xp_t fread_xp( FILE *fp );
+
+
 /*
- * SMAUG Version -- Scryn
+ * Old SMAUG Version to be commented out sometime later
  */
 #define SMAUG_VERSION_MAJOR "1"
 #define SMAUG_VERSION_MINOR "8b"
+
 
 /* 
  * Stuff for area versions --Shaddai
@@ -398,16 +493,16 @@ struct extended_bitvector
 
 struct char_morph
 {
-   MORPH_DATA *morph;
-   EXT_BV affected_by;  /* New affected_by added */
-   EXT_BV no_affected_by;  /* Prevents affects from being added */
-   int no_immune; /* Prevents Immunities */
-   int no_resistant; /* Prevents resistances */
-   int no_suscept;   /* Prevents Susceptibilities */
-   int immune; /* Immunities added */
-   int resistant; /* Resistances added */
-   int suscept;   /* Suscepts added */
-   int timer;  /* How much time is left */
+   MORPH_DATA *morph;			/* template this instance came from (name, msgs, etc.)*/
+   EXT_BV affected_by;  		/* status effects to ADD while morphed */
+   EXT_BV no_affected_by;  		/* status effects to BLOCK while morphed */
+   int no_immune; 				/* Prevents Immunities */
+   int no_resistant; 			/* Prevents resistances */
+   int no_suscept;   			/* Prevents Susceptibilities */
+   int immune; 					/* Immunities added */
+   int resistant; 				/* Resistances added */
+   int suscept;   				/* Suscepts added */
+   int timer;  					/* How much time is left */
    short ac;
    short blood;
    short cha;
@@ -891,8 +986,8 @@ typedef enum
 #define LANG_GOD         BV15 /* Clerics possibly?  God creatures */
 #define LANG_ANCIENT     BV16 /* Prelude to a glyph read skill? */
 #define LANG_HALFLING    BV17 /* Halfling base language */
-#define LANG_CLAN	       BV18 /* Clan language */
-#define LANG_GITH	       BV19 /* Gith Language */
+#define LANG_CLAN	     BV18 /* Clan language */
+#define LANG_GITH	     BV19 /* Gith Language */
 #define LANG_GNOME       BV20
 #define LANG_UNKNOWN        0 /* Anything that doesnt fit a category */
 #define VALID_LANGS    ( LANG_COMMON | LANG_ELVEN | LANG_DWARVEN | LANG_PIXIE  \
@@ -1360,7 +1455,8 @@ struct smaug_affect
 #define ACT_ANNOYING       28 /* Other mobs will attack */
 #define ACT_STATSHIELD     29 /* prevent statting */
 #define ACT_PROTOTYPE      30 /* A prototype mob   */
-/* 31 acts */
+#define ACT_SURGEON		   31 /* can install/remove cybernetics */
+/* 32 acts */
 
 /*
  * Bits for 'affected_by'.
@@ -1386,12 +1482,12 @@ typedef enum
 #define RIS_FIRE		  BV00
 #define RIS_COLD		  BV01
 #define RIS_ELECTRICITY	  BV02
-#define RIS_ENERGY	  BV03
+#define RIS_ENERGY	  	  BV03
 #define RIS_BLUNT		  BV04
-#define RIS_PIERCE	  BV05
+#define RIS_PIERCE	  	  BV05
 #define RIS_SLASH		  BV06
 #define RIS_ACID		  BV07
-#define RIS_POISON	  BV08
+#define RIS_POISON	  	  BV08
 #define RIS_DRAIN		  BV09
 #define RIS_SLEEP		  BV10
 #define RIS_CHARM		  BV11
@@ -1405,7 +1501,7 @@ typedef enum
 #define RIS_PLUS6		  BV19
 #define RIS_MAGIC		  BV20
 #define RIS_PARALYSIS	  BV21
-/* 21 RIS's*/
+/* 22 RIS's*/
 
 /* 
  * Attack types
@@ -1469,6 +1565,19 @@ typedef enum
 #define PART_FORELEGS	  BV28
 #define PART_FEATHERS	  BV29
 #define PART_HUSK_SHELL	  BV30
+
+/*
+ * Cybernetics flags — separate bitfield in pcdata->cyber
+ */ 
+#define CYBER_COMM        BV00  /* commlink */
+#define CYBER_EYES        BV01  /* optics */
+#define CYBER_LEGS        BV02  /* reinforced legs */
+#define CYBER_CHEST       BV03  /* chest plating */
+#define CYBER_REFLEXES    BV04  /* reflex booster */
+#define CYBER_MIND        BV05  /* cognitive suite */
+#define CYBER_STRENGTH    BV06  /* muscle weave */
+#define CYBER_REACTOR     BV07  /* reactor (hunger/thirst suppression) */
+#define CYBER_STERILE     BV08  /* sterile mods (RP) */
 
 /*
  * Autosave flags
@@ -1826,8 +1935,8 @@ typedef enum
 #define ROOM_VNUM_SCHOOL	  10300
 #define ROOM_AUTH_START		    100
 #define ROOM_VNUM_HALLOFFALLEN    21195
-#define ROOM_VNUM_DEADLY        3009
-#define ROOM_VNUM_HELL		6
+#define ROOM_VNUM_DEADLY       3009
+#define ROOM_VNUM_HELL			  6	
 
 /*
  * New bit values for sector types.  Code by Mystaric
@@ -2030,6 +2139,7 @@ typedef enum
 #define PCFLAG_NODESC         BV21 /* Cannot set a description */
 #define PCFLAG_NOBIO          BV22 /* Cannot set a bio */
 #define PCFLAG_NOHOMEPAGE     BV23 /* Cannot set a homepage */
+
 
 typedef enum
 {
@@ -2272,9 +2382,15 @@ struct char_data
    short move;
    short max_move;
    short practice;
+   short		powerup;
+   short		train;
+   short		max_train;
    short numattacks;
    int gold;
-   int exp;
+   xp_t exp;
+   long double pl;
+   long double heart_pl;
+   int rage;
    EXT_BV act;
    EXT_BV affected_by;
    EXT_BV no_affected_by;
@@ -2400,6 +2516,7 @@ struct pc_data
    short min_snoop;  /* minimum snoop level */
    short condition[MAX_CONDS];
    short learned[MAX_SKILL];
+   unsigned int cyber; /* bitmask of installed cybernetics (CYBER_*) */
    short quest_number;  /* current *QUEST BEING DONE* DON'T REMOVE! */
    short quest_curr; /* current number of quest points */
    int quest_accum;  /* quest points accumulated in players life */
@@ -3747,6 +3864,7 @@ DECLARE_DO_FUN( do_councils );
 DECLARE_DO_FUN( do_counciltalk );
 DECLARE_DO_FUN( do_credits );
 DECLARE_DO_FUN( do_cset );
+DECLARE_DO_FUN( do_cyber );   /* Cybernetics editor/reader */
 DECLARE_DO_FUN( do_defeats );
 DECLARE_DO_FUN( do_deities );
 DECLARE_DO_FUN( do_delay );
@@ -3773,6 +3891,7 @@ DECLARE_DO_FUN( do_east );
 DECLARE_DO_FUN( do_eat );
 DECLARE_DO_FUN( do_ech );
 DECLARE_DO_FUN( do_echo );
+DECLARE_DO_FUN( do_editslay );
 DECLARE_DO_FUN( do_elevate );
 DECLARE_DO_FUN( do_emote );
 DECLARE_DO_FUN( do_empty );
@@ -3808,6 +3927,7 @@ DECLARE_DO_FUN( do_goto );
 DECLARE_DO_FUN( do_gouge );
 DECLARE_DO_FUN( do_grapple );
 DECLARE_DO_FUN( do_group );
+DECLARE_DO_FUN( do_grub );
 DECLARE_DO_FUN( do_gtell );
 DECLARE_DO_FUN( do_guilds );
 DECLARE_DO_FUN( do_guildtalk );
@@ -3885,6 +4005,7 @@ DECLARE_DO_FUN( do_morphset );
 DECLARE_DO_FUN( do_morphstat );
 DECLARE_DO_FUN( do_mortalize );
 DECLARE_DO_FUN( do_mount );
+DECLARE_DO_FUN( do_mpfind );
 DECLARE_DO_FUN( do_mset );
 DECLARE_DO_FUN( do_mstat );
 DECLARE_DO_FUN( do_murde );
@@ -3914,11 +4035,13 @@ DECLARE_DO_FUN( do_oclaim );
 DECLARE_DO_FUN( do_ocreate );
 DECLARE_DO_FUN( do_odelete );
 DECLARE_DO_FUN( do_ofind );
+DECLARE_DO_FUN( do_ogrub );
 DECLARE_DO_FUN( do_oinvoke );
 DECLARE_DO_FUN( do_oldscore );
 DECLARE_DO_FUN( do_olist );
 DECLARE_DO_FUN( do_opcopy );
 DECLARE_DO_FUN( do_open );
+DECLARE_DO_FUN( do_opfind );
 DECLARE_DO_FUN( do_order );
 DECLARE_DO_FUN( do_orders );
 DECLARE_DO_FUN( do_ordertalk );
@@ -3926,6 +4049,7 @@ DECLARE_DO_FUN( do_oset );
 DECLARE_DO_FUN( do_ostat );
 DECLARE_DO_FUN( do_ot );
 DECLARE_DO_FUN( do_outcast );
+DECLARE_DO_FUN( do_owhere );
 DECLARE_DO_FUN( do_oowner );
 DECLARE_DO_FUN( do_pager );
 DECLARE_DO_FUN( do_pardon );
@@ -3933,6 +4057,7 @@ DECLARE_DO_FUN( do_password );
 DECLARE_DO_FUN( do_pcrename );
 DECLARE_DO_FUN( do_peace );
 DECLARE_DO_FUN( do_pick );
+DECLARE_DO_FUN( do_pl );
 DECLARE_DO_FUN( do_plist );
 DECLARE_DO_FUN( do_poison_weapon );
 DECLARE_DO_FUN( do_pose );
@@ -3989,11 +4114,13 @@ DECLARE_DO_FUN( do_retiredtalk );
 DECLARE_DO_FUN( do_retran );
 DECLARE_DO_FUN( do_return );
 DECLARE_DO_FUN( do_revert );
+DECLARE_DO_FUN( do_rgrub );
 DECLARE_DO_FUN( do_rip );
 DECLARE_DO_FUN( do_rlist );
 DECLARE_DO_FUN( do_rloop );
 DECLARE_DO_FUN( do_rolldie );
 DECLARE_DO_FUN( do_roster );
+DECLARE_DO_FUN( do_rpfind );
 DECLARE_DO_FUN( do_rstat );
 DECLARE_DO_FUN( do_sacrifice );
 DECLARE_DO_FUN( do_save );
@@ -4027,6 +4154,7 @@ DECLARE_DO_FUN( do_showclass );
 DECLARE_DO_FUN( do_showclan );
 DECLARE_DO_FUN( do_showcouncil );
 DECLARE_DO_FUN( do_showdeity );
+DECLARE_DO_FUN( do_showlayers );
 DECLARE_DO_FUN( do_showliquid );
 DECLARE_DO_FUN( do_showmixture );
 DECLARE_DO_FUN( do_showrace );
@@ -4112,6 +4240,7 @@ DECLARE_DO_FUN( do_worth );
 DECLARE_DO_FUN( do_yell );
 DECLARE_DO_FUN( do_zap );
 DECLARE_DO_FUN( do_zones );
+xp_t exp_level( CHAR_DATA *ch, short level );
 
 /* mob prog stuff */
 DECLARE_DO_FUN( do_mp_close_passage );
@@ -4293,6 +4422,7 @@ DECLARE_SPELL_FUN( spell_sacral_divinity );
 #define COUNCIL_DIR "../councils/" /* Council data dir    */
 #define DEITY_DIR   "../deity/"    /* Deity data dir    */
 #define BUILD_DIR   "../building/" /* Online building save dir     */
+#define AREA_DIR    "../area/"     /* Area files */
 #define SYSTEM_DIR  "../system/"   /* Main system files    */
 #define PROG_DIR    "../mudprogs/" /* MUDProg files     */
 #define CORPSE_DIR  "../corpses/"  /* Corpses        */
@@ -4752,7 +4882,6 @@ CHAR_DATA *carried_by( OBJ_DATA * obj );
 AREA_DATA *get_area_obj( OBJ_INDEX_DATA * obj );
 int get_exp( CHAR_DATA * ch );
 int get_exp_worth( CHAR_DATA * ch );
-int exp_level( CHAR_DATA * ch, short level );
 short get_trust( CHAR_DATA * ch );
 short calculate_age( CHAR_DATA * ch );
 short get_curr_str( CHAR_DATA * ch );
@@ -4956,7 +5085,7 @@ void hunt_victim( CHAR_DATA * ch );
 
 /* update.c */
 void advance_level( CHAR_DATA * ch );
-void gain_exp( CHAR_DATA * ch, int gain );
+void gain_exp( CHAR_DATA * ch, xp_t gain );
 void gain_condition( CHAR_DATA * ch, int iCond, int value );
 void check_alignment( CHAR_DATA * ch );
 void update_handler( void );

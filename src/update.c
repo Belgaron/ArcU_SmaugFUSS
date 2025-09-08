@@ -126,7 +126,7 @@ void advance_level( CHAR_DATA * ch )
    }
 }
 
-void gain_exp( CHAR_DATA * ch, int gain )
+void gain_exp( CHAR_DATA * ch, xp_t gain )
 {
    double modgain;
 

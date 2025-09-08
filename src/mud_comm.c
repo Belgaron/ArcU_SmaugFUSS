@@ -159,7 +159,7 @@ void do_mpstat( CHAR_DATA* ch, const char* argument )
               victim->hit, victim->max_hit, victim->mana, victim->max_mana, victim->move, victim->max_move );
 
    ch_printf( ch,
-              "Lv: %d.  Class: %d.  Align: %d.  AC: %d.  Gold: %d.  Exp: %d.\r\n",
+              "Lv: %d.  Class: %d.  Align: %d.  AC: %d.  Gold: %d.  Pl: %lld.\r\n",
               victim->level, victim->Class, victim->alignment, GET_AC( victim ), victim->gold, victim->exp );
 
    for( mprg = victim->pIndexData->mudprogs; mprg; mprg = mprg->next )
