@@ -1,0 +1,113 @@
+Mon Sep  8 15:45:02 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Mon Sep  8 15:45:02 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Mon Sep  8 15:45:02 2025 :: Initializing libdl support...
+Mon Sep  8 15:45:02 2025 :: Loading commands...
+Mon Sep  8 15:45:02 2025 :: Loading spec_funs...
+Mon Sep  8 15:45:02 2025 :: Loading sysdata configuration...
+Mon Sep  8 15:45:02 2025 :: Loading socials
+Mon Sep  8 15:45:02 2025 :: Loading skill table
+Mon Sep  8 15:45:02 2025 :: Sorting skill table...
+Mon Sep  8 15:45:02 2025 :: Creating skill table sorted by type...
+Mon Sep  8 15:45:02 2025 :: Remapping slots to sns
+Mon Sep  8 15:45:02 2025 :: Loading classes
+Mon Sep  8 15:45:02 2025 :: Loading races
+Mon Sep  8 15:45:02 2025 :: Loading news data
+Mon Sep  8 15:45:02 2025 :: Loading liquids
+Mon Sep  8 15:45:02 2025 :: Loading mixtures
+Mon Sep  8 15:45:02 2025 :: Loading herb table
+Mon Sep  8 15:45:02 2025 :: Loading tongues
+Mon Sep  8 15:45:02 2025 :: Making wizlist
+Mon Sep  8 15:45:02 2025 :: Loading MSSP Data...
+Mon Sep  8 15:45:02 2025 :: Initializing random number generator
+Mon Sep  8 15:45:02 2025 :: Setting time and weather.
+Mon Sep  8 15:45:02 2025 :: Loading holiday chart...
+Mon Sep  8 15:45:02 2025 :: Loading DNS cache...
+Mon Sep  8 15:45:02 2025 :: Assigning gsn's
+Mon Sep  8 15:45:02 2025 :: Reading in area files...
+(help.are)
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+newacad.are   : Rooms: 10300 - 10499 Objs: 10300 - 10499 Mobs: 10300 - 10499
+newgate.are   : Rooms:   100 - 199   Objs:   100 - 199   Mobs:   100 - 199
+newdark.are   : Rooms: 21000 - 21499 Objs: 21000 - 21435 Mobs: 21000 - 21499
+gods.are      : Rooms:  1200 - 1201  Objs:  1200 - 1200  Mobs:  1200 - 1200
+plains.are    : Rooms:   300 - 345   Objs:   300 - 313   Mobs:   300 - 350
+haon.are      : Rooms:  6000 - 6156  Objs:  6000 - 6155  Mobs:  6000 - 6117
+midennir.are  : Rooms:  3500 - 3590  Objs:  3500 - 3550  Mobs:  3500 - 3550
+sewer.are     : Rooms:  7001 - 7445  Objs:  7190 - 7310  Mobs:  7000 - 7206
+redferne.are  : Rooms:  7900 - 7918  Objs:  7909 - 7911  Mobs:  7900 - 7900
+grove.are     : Rooms:  8901 - 8999  Objs:  8900 - 8919  Mobs:  8900 - 8911
+dwarven.are   : Rooms:  6500 - 6554  Objs:  6502 - 6519  Mobs:  6500 - 6517
+daycare.are   : Rooms:  6601 - 6651  Objs:  6600 - 6647  Mobs:  6600 - 6610
+grave.are     : Rooms:  3600 - 3651  Objs:  3600 - 3613  Mobs:  3600 - 3605
+chapel.are    : Rooms:  3405 - 3475  Objs:  3400 - 3430  Mobs:  3400 - 3416
+astral.are    : Rooms:   800 - 899   Objs:   800 - 899   Mobs:   800 - 899
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+pixie.are     : Rooms:  2070 - 2099  Objs:  2070 - 2077  Mobs:  2070 - 2073
+export.are    : Rooms:  9810 - 9899  Objs:  9810 - 9899  Mobs:  9800 - 9899
+srefuge.are   : Rooms:  1500 - 1599  Objs:  1500 - 1599  Mobs:  1500 - 1599
+manor.are     : Rooms:  2400 - 2499  Objs:  2400 - 2499  Mobs:  2405 - 2484
+unholy.are    : Rooms:  2101 - 2172  Objs:  2101 - 2150  Mobs:  2101 - 2120
+gallery.are   : Rooms: 24800 - 24899 Objs: 24800 - 24899 Mobs: 24800 - 24899
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+Mon Sep  8 15:45:02 2025 :: Fixing exits
+Mon Sep  8 15:45:02 2025 :: Initializing economy
+Mon Sep  8 15:45:02 2025 :: Resetting areas
+Mon Sep  8 15:45:02 2025 :: Loading buildlist
+Mon Sep  8 15:45:02 2025 :: ../gods/Dragus
+Mon Sep  8 15:45:02 2025 :: Loading boards
+Mon Sep  8 15:45:02 2025 :: ../boards/immortal.brd
+Mon Sep  8 15:45:02 2025 :: ../boards/highgod.brd
+Mon Sep  8 15:45:02 2025 :: Loading vault list
+Mon Sep  8 15:45:02 2025 :: $
+Mon Sep  8 15:45:02 2025 ::  Done vaults 
+Mon Sep  8 15:45:02 2025 :: Loading clans
+Mon Sep  8 15:45:02 2025 :: Loading clans...
+Mon Sep  8 15:45:02 2025 :: vampire.gui
+Mon Sep  8 15:45:02 2025 :: Cannot open vault - ../clans/vampire.gui.vault
+Mon Sep  8 15:45:02 2025 :: druid.gui
+Mon Sep  8 15:45:02 2025 :: Cannot open vault - ../clans/druid.gui.vault
+Mon Sep  8 15:45:02 2025 :: warrior.gui
+Mon Sep  8 15:45:02 2025 :: Cannot open vault - ../clans/warrior.gui.vault
+Mon Sep  8 15:45:02 2025 :: augurer.gui
+Mon Sep  8 15:45:02 2025 :: Cannot open vault - ../clans/augurer.gui.vault
+Mon Sep  8 15:45:02 2025 :: thief.gui
+Mon Sep  8 15:45:02 2025 :: Cannot open vault - ../clans/thief.gui.vault
+Mon Sep  8 15:45:02 2025 :: cleric.gui
+Mon Sep  8 15:45:02 2025 :: Cannot open vault - ../clans/cleric.gui.vault
+Mon Sep  8 15:45:02 2025 :: mage.gui
+Mon Sep  8 15:45:02 2025 :: Cannot open vault - ../clans/mage.gui.vault
+Mon Sep  8 15:45:02 2025 :: ranger.gui
+Mon Sep  8 15:45:02 2025 :: Cannot open vault - ../clans/ranger.gui.vault
+Mon Sep  8 15:45:02 2025 :: $
+Mon Sep  8 15:45:02 2025 ::  Done clans 
+Mon Sep  8 15:45:02 2025 :: Loading councils
+Mon Sep  8 15:45:02 2025 :: Loading councils...
+Mon Sep  8 15:45:02 2025 :: $
+Mon Sep  8 15:45:02 2025 ::  Done councils 
+Mon Sep  8 15:45:02 2025 :: Loading deities
+Mon Sep  8 15:45:02 2025 :: Loading deities...
+Mon Sep  8 15:45:02 2025 :: $
+Mon Sep  8 15:45:02 2025 ::  Done deities 
+Mon Sep  8 15:45:02 2025 :: Loading watches
+Mon Sep  8 15:45:02 2025 :: Loading bans
+Mon Sep  8 15:45:02 2025 :: Done.
+Mon Sep  8 15:45:02 2025 :: Loading reserved names
+Mon Sep  8 15:45:02 2025 :: Loading corpses
+Mon Sep  8 15:45:02 2025 :: Loading Immortal Hosts
+Mon Sep  8 15:45:02 2025 :: Done.
+Mon Sep  8 15:45:02 2025 :: Loading Projects
+Mon Sep  8 15:45:02 2025 :: Loading Morphs
+Mon Sep  8 15:45:02 2025 :: Done.
+Mon Sep  8 15:45:02 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Mon Sep  8 15:45:02 2025 :: Loading login messages
+Mon Sep  8 15:45:02 2025 :: Initializing socket
+Mon Sep  8 15:45:02 2025 :: (Name Not Set) ready on port 9001.
+Mon Sep  8 15:46:00 2025 :: Preloading player data for: Dragus (15K)
+Mon Sep  8 15:46:01 2025 :: Loading player data for: Dragus (15K)
+Mon Sep  8 15:46:01 2025 :: Dragus (127.0.0.1) has connected.
+Mon Sep  8 15:49:27 2025 :: EOF encountered on read.
+Mon Sep  8 15:49:27 2025 :: Closing link to Dragus. (INRoom 8901)
+Mon Sep  8 15:49:36 2025 :: Preloading player data for: Kurik (1K)
+Mon Sep  8 15:50:18 2025 :: Belgaron@127.0.0.1 new Elf Eldari.
+Mon Sep  8 15:50:27 2025 :: Log hvak1 advancer: mpadvance 0.Belgaron 2

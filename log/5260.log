@@ -1,0 +1,129 @@
+Wed Sep 10 13:43:14 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Wed Sep 10 13:43:14 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Wed Sep 10 13:43:14 2025 :: Initializing libdl support...
+Wed Sep 10 13:43:14 2025 :: Loading commands...
+Wed Sep 10 13:43:14 2025 :: Loading spec_funs...
+Wed Sep 10 13:43:14 2025 :: Loading sysdata configuration...
+Wed Sep 10 13:43:14 2025 :: Loading socials
+Wed Sep 10 13:43:14 2025 :: Loading skill table
+Wed Sep 10 13:43:14 2025 :: Sorting skill table...
+Wed Sep 10 13:43:14 2025 :: Creating skill table sorted by type...
+Wed Sep 10 13:43:14 2025 :: Remapping slots to sns
+Wed Sep 10 13:43:14 2025 :: Loading classes
+Wed Sep 10 13:43:14 2025 :: Loading races
+Wed Sep 10 13:43:15 2025 :: Loading news data
+Wed Sep 10 13:43:15 2025 :: Loading liquids
+Wed Sep 10 13:43:15 2025 :: Loading mixtures
+Wed Sep 10 13:43:15 2025 :: Loading herb table
+Wed Sep 10 13:43:15 2025 :: Loading tongues
+Wed Sep 10 13:43:15 2025 :: Making wizlist
+Wed Sep 10 13:43:15 2025 :: Loading MSSP Data...
+Wed Sep 10 13:43:15 2025 :: Initializing random number generator
+Wed Sep 10 13:43:15 2025 :: Setting time and weather.
+Wed Sep 10 13:43:15 2025 :: Loading holiday chart...
+Wed Sep 10 13:43:15 2025 :: Loading DNS cache...
+Wed Sep 10 13:43:15 2025 :: Assigning gsn's
+Wed Sep 10 13:43:15 2025 :: Reading in area files...
+(help.are)
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+newacad.are   : Rooms: 10300 - 10499 Objs: 10300 - 10499 Mobs: 10300 - 10499
+newgate.are   : Rooms:   100 - 199   Objs:   100 - 199   Mobs:   100 - 199
+newdark.are   : Rooms: 21000 - 21499 Objs: 21000 - 21435 Mobs: 21000 - 21499
+gods.are      : Rooms:  1200 - 1201  Objs:  1200 - 1200  Mobs:  1200 - 1200
+plains.are    : Rooms:   300 - 345   Objs:   300 - 313   Mobs:   300 - 350
+haon.are      : Rooms:  6000 - 6156  Objs:  6000 - 6155  Mobs:  6000 - 6117
+midennir.are  : Rooms:  3500 - 3590  Objs:  3500 - 3550  Mobs:  3500 - 3550
+sewer.are     : Rooms:  7001 - 7445  Objs:  7190 - 7310  Mobs:  7000 - 7206
+redferne.are  : Rooms:  7900 - 7918  Objs:  7909 - 7911  Mobs:  7900 - 7900
+grove.are     : Rooms:  8901 - 8999  Objs:  8900 - 8919  Mobs:  8900 - 8911
+dwarven.are   : Rooms:  6500 - 6554  Objs:  6502 - 6519  Mobs:  6500 - 6517
+daycare.are   : Rooms:  6601 - 6651  Objs:  6600 - 6647  Mobs:  6600 - 6610
+grave.are     : Rooms:  3600 - 3651  Objs:  3600 - 3613  Mobs:  3600 - 3605
+chapel.are    : Rooms:  3405 - 3475  Objs:  3400 - 3430  Mobs:  3400 - 3416
+astral.are    : Rooms:   800 - 899   Objs:   800 - 899   Mobs:   800 - 899
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+pixie.are     : Rooms:  2070 - 2099  Objs:  2070 - 2077  Mobs:  2070 - 2073
+export.are    : Rooms:  9810 - 9899  Objs:  9810 - 9899  Mobs:  9800 - 9899
+srefuge.are   : Rooms:  1500 - 1599  Objs:  1500 - 1599  Mobs:  1500 - 1599
+manor.are     : Rooms:  2400 - 2499  Objs:  2400 - 2499  Mobs:  2405 - 2484
+unholy.are    : Rooms:  2101 - 2172  Objs:  2101 - 2150  Mobs:  2101 - 2120
+gallery.are   : Rooms: 24800 - 24899 Objs: 24800 - 24899 Mobs: 24800 - 24899
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+Wed Sep 10 13:43:15 2025 :: Fixing exits
+Wed Sep 10 13:43:15 2025 :: Initializing economy
+Wed Sep 10 13:43:15 2025 :: Resetting areas
+Wed Sep 10 13:43:15 2025 :: Loading buildlist
+Wed Sep 10 13:43:15 2025 :: ../gods/Dragus
+Wed Sep 10 13:43:15 2025 :: Loading boards
+Wed Sep 10 13:43:15 2025 :: ../boards/immortal.brd
+Wed Sep 10 13:43:15 2025 :: ../boards/highgod.brd
+Wed Sep 10 13:43:15 2025 :: Loading vault list
+Wed Sep 10 13:43:15 2025 :: $
+Wed Sep 10 13:43:15 2025 ::  Done vaults 
+Wed Sep 10 13:43:15 2025 :: Loading clans
+Wed Sep 10 13:43:15 2025 :: Loading clans...
+Wed Sep 10 13:43:15 2025 :: vampire.gui
+Wed Sep 10 13:43:15 2025 :: Cannot open vault - ../clans/vampire.gui.vault
+Wed Sep 10 13:43:15 2025 :: druid.gui
+Wed Sep 10 13:43:15 2025 :: Cannot open vault - ../clans/druid.gui.vault
+Wed Sep 10 13:43:15 2025 :: warrior.gui
+Wed Sep 10 13:43:15 2025 :: Cannot open vault - ../clans/warrior.gui.vault
+Wed Sep 10 13:43:15 2025 :: augurer.gui
+Wed Sep 10 13:43:15 2025 :: Cannot open vault - ../clans/augurer.gui.vault
+Wed Sep 10 13:43:15 2025 :: thief.gui
+Wed Sep 10 13:43:15 2025 :: Cannot open vault - ../clans/thief.gui.vault
+Wed Sep 10 13:43:15 2025 :: cleric.gui
+Wed Sep 10 13:43:15 2025 :: Cannot open vault - ../clans/cleric.gui.vault
+Wed Sep 10 13:43:15 2025 :: mage.gui
+Wed Sep 10 13:43:15 2025 :: Cannot open vault - ../clans/mage.gui.vault
+Wed Sep 10 13:43:15 2025 :: ranger.gui
+Wed Sep 10 13:43:15 2025 :: Cannot open vault - ../clans/ranger.gui.vault
+Wed Sep 10 13:43:15 2025 :: $
+Wed Sep 10 13:43:15 2025 ::  Done clans 
+Wed Sep 10 13:43:15 2025 :: Loading councils
+Wed Sep 10 13:43:15 2025 :: Loading councils...
+Wed Sep 10 13:43:15 2025 :: $
+Wed Sep 10 13:43:15 2025 ::  Done councils 
+Wed Sep 10 13:43:15 2025 :: Loading deities
+Wed Sep 10 13:43:15 2025 :: Loading deities...
+Wed Sep 10 13:43:15 2025 :: $
+Wed Sep 10 13:43:15 2025 ::  Done deities 
+Wed Sep 10 13:43:15 2025 :: Loading watches
+Wed Sep 10 13:43:15 2025 :: Loading bans
+Wed Sep 10 13:43:15 2025 :: Done.
+Wed Sep 10 13:43:15 2025 :: Loading reserved names
+Wed Sep 10 13:43:15 2025 :: Loading corpses
+Wed Sep 10 13:43:15 2025 :: Loading Immortal Hosts
+Wed Sep 10 13:43:15 2025 :: Done.
+Wed Sep 10 13:43:15 2025 :: Loading Projects
+Wed Sep 10 13:43:15 2025 :: Loading Morphs
+Wed Sep 10 13:43:15 2025 :: Done.
+Wed Sep 10 13:43:15 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Wed Sep 10 13:43:15 2025 :: Loading login messages
+Wed Sep 10 13:43:15 2025 :: Initializing socket
+Wed Sep 10 13:43:15 2025 :: (Name Not Set) ready on port 9001.
+Wed Sep 10 13:43:20 2025 :: Preloading player data for: Dragus (17K)
+Wed Sep 10 13:43:20 2025 :: [*****] BUG: fread_char: no match: 145
+Wed Sep 10 13:43:20 2025 :: [*****] FILE: ../player/d/Dragus LINE: 13
+Wed Sep 10 13:43:20 2025 :: [*****] BUG: fread_char: no match: 3
+Wed Sep 10 13:43:20 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Wed Sep 10 13:43:21 2025 :: Loading player data for: Dragus (17K)
+Wed Sep 10 13:43:21 2025 :: [*****] BUG: fread_char: no match: 145
+Wed Sep 10 13:43:21 2025 :: [*****] FILE: ../player/d/Dragus LINE: 13
+Wed Sep 10 13:43:21 2025 :: [*****] BUG: fread_char: no match: 3
+Wed Sep 10 13:43:21 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Wed Sep 10 13:43:21 2025 :: Dragus (127.0.0.1) has connected.
+Wed Sep 10 13:43:22 2025 :: [*****] BUG: map_exits: Bad sector type (16) in room 21297.
+Wed Sep 10 13:43:22 2025 :: [*****] BUG: map_exits: Bad sector type (16) in room 21300.
+Wed Sep 10 13:43:22 2025 :: [*****] BUG: map_exits: Bad sector type (16) in room 21298.
+Wed Sep 10 13:44:46 2025 :: Log Dragus: cedit
+Wed Sep 10 13:44:59 2025 :: Log Dragus: cedit powerup create do_powerup
+Wed Sep 10 13:45:11 2025 :: Log Dragus: cedit powerdown do_powerdown
+Wed Sep 10 13:46:03 2025 :: Log Dragus: cedit powerdown create do_powerdown
+Wed Sep 10 13:46:13 2025 :: Log Dragus: cedit powerup level 0
+Wed Sep 10 13:46:20 2025 :: Log Dragus: cedit powerup position standing
+Wed Sep 10 13:46:31 2025 :: Log Dragus: cedit powerup log normal
+Wed Sep 10 13:46:42 2025 :: Log Dragus: cedit powerdown level 0
+Wed Sep 10 13:46:51 2025 :: Log Dragus: cedit powerdown position standing
+Wed Sep 10 13:46:59 2025 :: Log Dragus: cedit powerdown log normal

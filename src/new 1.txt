@@ -1,0 +1,11 @@
+TransformSelf     '&yDark marbling climbs your jade skin as &Ygolden &ylight
+kindles in your eyes. &WYou awaken the &OAncient &Waspect.&D'
+TransformRoom     '&yDark marbling spreads through &W$n&y’s jade skin as &Ygolden &ylight
+kindles in &W$s &yeyes. &W$e &ystands taller as the &OAncient &yaspect
+takes hold.&D'
+RevertSelf        'The &Ygolden&D glow fades and the marbling sinks beneath
+your skin. &WYou release the &OAncient &Waspect.&D'
+RevertRoom        'The &Ygolden glow leaves &W$n&y’s eyes and the marbling recedes as
+&W$e &yreleases the &OAncient &yaspect.&D'
+TransformedDesc   'a towering giant'
+End

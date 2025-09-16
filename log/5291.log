@@ -1,0 +1,940 @@
+Fri Sep 12 20:35:25 2025 :: Hotboot: Spawning new log file.
+Fri Sep 12 20:35:25 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Fri Sep 12 20:35:25 2025 :: Initializing libdl support...
+Fri Sep 12 20:35:25 2025 :: Loading commands...
+Fri Sep 12 20:35:25 2025 :: Loading spec_funs...
+Fri Sep 12 20:35:25 2025 :: Loading sysdata configuration...
+Fri Sep 12 20:35:25 2025 :: Loading socials
+Fri Sep 12 20:35:25 2025 :: Loading skill table
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_word: EOF encountered on read.
+
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: load_skill_table: bad section.
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_letter: EOF encountered on read.
+
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: load_skill_table: # not found.
+Fri Sep 12 20:35:25 2025 :: Sorting skill table...
+Fri Sep 12 20:35:25 2025 :: Creating skill table sorted by type...
+Fri Sep 12 20:35:25 2025 :: Remapping slots to sns
+Fri Sep 12 20:35:25 2025 :: Loading classes
+../classes/human: No such file or directory
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: load_classes: Cannot load class file: human
+../classes/eldari: No such file or directory
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: load_classes: Cannot load class file: eldari
+../classes/vampire: No such file or directory
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: load_classes: Cannot load class file: vampire
+Fri Sep 12 20:35:25 2025 :: Loading races
+../races/human: No such file or directory
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: load_races: Cannot load race file: human
+../races/eldari: No such file or directory
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: load_races: Cannot load race file: eldari
+../races/vampire: No such file or directory
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: load_races: Cannot load race file: vampire
+Fri Sep 12 20:35:25 2025 :: Loading news data
+Fri Sep 12 20:35:25 2025 :: Loading liquids
+Fri Sep 12 20:35:25 2025 :: Loading mixtures
+Fri Sep 12 20:35:25 2025 :: Loading herb table
+Fri Sep 12 20:35:25 2025 :: Loading tongues
+Fri Sep 12 20:35:25 2025 :: Making wizlist
+Fri Sep 12 20:35:25 2025 :: Loading MSSP Data...
+Fri Sep 12 20:35:25 2025 :: Initializing random number generator
+Fri Sep 12 20:35:25 2025 :: Setting time and weather.
+Fri Sep 12 20:35:25 2025 :: Loading holiday chart...
+Fri Sep 12 20:35:25 2025 :: Loading DNS cache...
+Fri Sep 12 20:35:25 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill evasive style not found.
+ASSIGN_GSN: Skill defensive style not found.
+ASSIGN_GSN: Skill standard style not found.
+ASSIGN_GSN: Skill berserk style not found.
+ASSIGN_GSN: Skill pugilism not found.
+ASSIGN_GSN: Skill unarmed not found.
+ASSIGN_GSN: Skill maces not found.
+ASSIGN_GSN: Skill staves not found.
+ASSIGN_GSN: Skill spears not found.
+ASSIGN_GSN: Skill polearms not found.
+ASSIGN_GSN: Skill bows not found.
+ASSIGN_GSN: Skill xbows not found.
+ASSIGN_GSN: Skill firearms not found.
+ASSIGN_GSN: Skill long blades not found.
+ASSIGN_GSN: Skill short blades not found.
+ASSIGN_GSN: Skill flexible arms not found.
+ASSIGN_GSN: Skill talonous arms not found.
+ASSIGN_GSN: Skill bludgeons not found.
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill detrap not found.
+ASSIGN_GSN: Skill backstab not found.
+ASSIGN_GSN: Skill circle not found.
+ASSIGN_GSN: Skill tumble not found.
+ASSIGN_GSN: Skill dodge not found.
+ASSIGN_GSN: Skill hide not found.
+ASSIGN_GSN: Skill peek not found.
+ASSIGN_GSN: Skill pick lock not found.
+ASSIGN_GSN: Skill sneak not found.
+ASSIGN_GSN: Skill steal not found.
+ASSIGN_GSN: Skill gouge not found.
+ASSIGN_GSN: Skill poison weapon not found.
+ASSIGN_GSN: Skill disarm not found.
+ASSIGN_GSN: Skill enhanced damage not found.
+ASSIGN_GSN: Skill kick not found.
+ASSIGN_GSN: Skill parry not found.
+ASSIGN_GSN: Skill rescue not found.
+ASSIGN_GSN: Skill second attack not found.
+ASSIGN_GSN: Skill third attack not found.
+ASSIGN_GSN: Skill fourth attack not found.
+ASSIGN_GSN: Skill fifth attack not found.
+ASSIGN_GSN: Skill dual wield not found.
+ASSIGN_GSN: Skill punch not found.
+ASSIGN_GSN: Skill bash not found.
+ASSIGN_GSN: Skill stun not found.
+ASSIGN_GSN: Skill doorbash not found.
+ASSIGN_GSN: Skill grip not found.
+ASSIGN_GSN: Skill berserk not found.
+ASSIGN_GSN: Skill hitall not found.
+ASSIGN_GSN: Skill feed not found.
+ASSIGN_GSN: Skill bloodlet not found.
+ASSIGN_GSN: Skill cleave not found.
+ASSIGN_GSN: Skill pounce not found.
+ASSIGN_GSN: Skill grapple not found.
+ASSIGN_GSN: Skill broach not found.
+ASSIGN_GSN: Skill mistwalk not found.
+ASSIGN_GSN: Skill track not found.
+ASSIGN_GSN: Skill meditate not found.
+ASSIGN_GSN: Skill trance not found.
+ASSIGN_GSN: Skill search not found.
+ASSIGN_GSN: Skill dig not found.
+ASSIGN_GSN: Skill mount not found.
+ASSIGN_GSN: Skill bite not found.
+ASSIGN_GSN: Skill claw not found.
+ASSIGN_GSN: Skill sting not found.
+ASSIGN_GSN: Skill tail not found.
+ASSIGN_GSN: Skill scribe not found.
+ASSIGN_GSN: Skill brew not found.
+ASSIGN_GSN: Skill climb not found.
+ASSIGN_GSN: Skill cook not found.
+ASSIGN_GSN: Skill scan not found.
+ASSIGN_GSN: Skill slice not found.
+ASSIGN_GSN: Skill fireball not found.
+ASSIGN_GSN: Skill chill touch not found.
+ASSIGN_GSN: Skill lightning bolt not found.
+ASSIGN_GSN: Skill aqua breath not found.
+ASSIGN_GSN: Skill blindness not found.
+ASSIGN_GSN: Skill charm person not found.
+ASSIGN_GSN: Skill curse not found.
+ASSIGN_GSN: Skill invis not found.
+ASSIGN_GSN: Skill mass invis not found.
+ASSIGN_GSN: Skill poison not found.
+ASSIGN_GSN: Skill sleep not found.
+ASSIGN_GSN: Skill possess not found.
+ASSIGN_GSN: Skill common not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Fri Sep 12 20:35:25 2025 :: Reading in area files...
+(help.are)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 71: Mob has invalid race! Defaulting to monster.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: limbo.are LINE: 666
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: housing.are LINE: 23
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: housing.are LINE: 49
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_areadata: Unknown area flag: none
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 12
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 200: Mob has invalid Class! Defaulting to warrior.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 25
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: Unknown affectflag: none
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 30
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 201: Mob has invalid Class! Defaulting to warrior.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 67
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: Unknown affectflag: none
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 72
+Fri Sep 12 20:35:25 2025 :: fread_fuss_mobile: no match: ~
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: Unknown affectflag: none
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 100
+Fri Sep 12 20:35:25 2025 :: fread_fuss_mobile: no match: This
+Fri Sep 12 20:35:25 2025 :: fread_fuss_mobile: no match: the
+Fri Sep 12 20:35:25 2025 :: fread_fuss_mobile: no match: these
+Fri Sep 12 20:35:25 2025 :: fread_fuss_mobile: no match: ~
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 203: Mob has invalid Class! Defaulting to warrior.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 157
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: Unknown affectflag: none
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 162
+Fri Sep 12 20:35:25 2025 :: fread_fuss_mobile: no match: ~
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 210: Mob has invalid Class! Defaulting to warrior.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 193
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: arcane
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 205
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 299: Mob has invalid race! Defaulting to monster.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 312
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: Desc
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 336
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: vnum 200: Object has invalid type! Defaulting to trash.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 338
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Weight
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 341
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: Cost
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 342
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Timer
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 343
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Level
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 344
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: Desc
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 352
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: vnum 201: Object has invalid type! Defaulting to trash.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 354
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: Unknown wear flag: light
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 355
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Weight
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 357
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: Cost
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 358
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Timer
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 359
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Level
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 360
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: Desc
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 376
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: and
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 377
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: warm
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 378
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: designed
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 379
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: manatech
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 380
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: ~
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 381
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: vnum 202: Object has invalid type! Defaulting to trash.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 383
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Weight
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 386
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: no match: Cost
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 387
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Timer
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 388
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_object: unknown word: Level
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 389
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #200 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 411
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 416
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 422
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 428
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 434
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 440
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 446
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 452
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 458
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #201 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 468
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 473
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #202 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 483
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 488
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #203 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 498
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 503
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #204 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 515
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 520
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #205 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 533
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 538
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 544
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 550
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 556
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #206 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 569
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 574
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 580
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #207 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 593
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 598
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 604
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #208 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 613
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 618
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 624
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #209 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 638
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 643
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 649
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 655
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #210 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 669
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 674
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 680
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #211 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 694
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 699
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 705
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #212 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 719
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 724
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 730
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #213 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 739
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 744
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 750
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #214 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 762
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 767
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 773
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #215 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 785
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 790
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 796
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #216 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 809
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 814
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 820
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #217 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 829
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 834
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 840
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 846
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #218 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 860
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 865
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 871
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #219 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 880
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 885
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 891
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #220 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 900
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 905
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 911
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #221 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 920
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 925
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 931
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #222 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 944
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 949
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 955
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 961
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 967
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #223 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 980
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 985
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 991
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #224 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1004
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1009
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1015
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #225 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1024
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1029
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1035
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1041
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #226 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1053
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1058
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1064
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #227 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1077
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1082
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1088
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #228 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1097
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1102
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1108
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #229 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1120
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1125
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1131
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #230 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1144
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1149
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1155
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #231 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1167
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1172
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1178
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #232 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1190
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1195
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1201
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #233 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1210
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1215
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1221
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #234 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1230
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1235
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1241
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #235 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1250
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1255
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1261
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #236 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1270
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1275
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1281
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #237 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1290
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1295
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1301
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #238 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1310
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1315
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1321
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #239 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1330
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1335
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1341
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #240 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1350
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1355
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #241 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1364
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1369
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #242 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1378
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1383
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #243 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1392
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1397
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_room: Room #244 has bad sector type.
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1407
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1412
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: unknown word: Keyword
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1418
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_fuss_exit: Unknown exitflag: door
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: highgard.are LINE: 1419
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Fri Sep 12 20:35:25 2025 :: Fixing exits
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 200, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 200
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 200, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 200
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 200, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 200
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 200, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 200
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 200, exit northeast leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting northeast exit in room 200
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 200, exit northwest leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting northwest exit in room 200
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 200, exit southeast leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting southeast exit in room 200
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 200, exit southwest leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting southwest exit in room 200
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 201, exit southwest leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting southwest exit in room 201
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 202, exit southeast leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting southeast exit in room 202
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 203, exit northeast leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting northeast exit in room 203
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 204, exit northwest leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting northwest exit in room 204
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 205, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 205
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 205, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 205
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 205, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 205
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 205, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 205
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 206, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 206
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 206, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 206
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 207, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 207
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 207, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 207
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 208, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 208
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 208, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 208
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 209, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 209
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 209, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 209
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 209, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 209
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 210, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 210
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 210, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 210
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 211, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 211
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 211, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 211
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 212, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 212
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 212, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 212
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 213, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 213
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 213, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 213
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 214, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 214
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 214, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 214
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 215, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 215
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 215, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 215
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 216, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 216
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 216, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 216
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 217, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 217
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 217, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 217
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 217, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 217
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 218, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 218
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 218, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 218
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 219, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 219
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 219, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 219
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 220, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 220
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 220, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 220
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 221, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 221
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 221, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 221
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 222, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 222
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 222, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 222
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 222, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 222
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 222, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 222
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 223, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 223
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 223, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 223
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 224, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 224
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 224, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 224
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 225, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 225
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 225, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 225
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 225, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 225
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 226, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 226
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 226, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 226
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 227, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 227
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 227, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 227
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 228, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 228
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 228, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 228
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 229, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 229
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 229, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 229
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 230, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 230
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 230, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 230
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 231, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 231
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 231, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 231
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 232, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 232
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 232, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 232
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 233, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 233
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 233, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 233
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 234, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 234
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 234, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 234
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 235, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 235
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 235, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 235
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 236, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 236
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 236, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 236
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 237, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 237
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 237, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 237
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 238, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 238
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 238, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 238
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 239, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 239
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 239, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 239
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 240, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 240
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 241, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 241
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 242, exit east leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting east exit in room 242
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 243, exit west leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting west exit in room 243
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 244, exit north leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting north exit in room 244
+Fri Sep 12 20:35:25 2025 :: [*****] BOOT: Fix_exits: room 244, exit south leads to bad vnum (0)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fix_exits: Deleting south exit in room 244
+Fri Sep 12 20:35:25 2025 :: Initializing economy
+Fri Sep 12 20:35:25 2025 :: Loading world state...
+Fri Sep 12 20:35:25 2025 :: World state: loading mobs
+Fri Sep 12 20:35:25 2025 :: World state: loading objs
+Fri Sep 12 20:35:25 2025 :: Resetting areas
+Fri Sep 12 20:35:25 2025 :: Loading buildlist
+Fri Sep 12 20:35:25 2025 :: ../gods/Dragus
+Fri Sep 12 20:35:25 2025 :: Loading boards
+Fri Sep 12 20:35:25 2025 :: ../boards/immortal.brd
+Fri Sep 12 20:35:25 2025 :: ../boards/highgod.brd
+Fri Sep 12 20:35:25 2025 :: Loading vault list
+Fri Sep 12 20:35:25 2025 :: $
+Fri Sep 12 20:35:25 2025 ::  Done vaults 
+Fri Sep 12 20:35:25 2025 :: Loading clans
+Fri Sep 12 20:35:25 2025 :: Loading clans...
+Fri Sep 12 20:35:25 2025 :: vampire.gui
+Fri Sep 12 20:35:25 2025 :: Storeroom not found
+Fri Sep 12 20:35:25 2025 :: druid.gui
+Fri Sep 12 20:35:25 2025 :: Storeroom not found
+Fri Sep 12 20:35:25 2025 :: warrior.gui
+Fri Sep 12 20:35:25 2025 :: Storeroom not found
+Fri Sep 12 20:35:25 2025 :: augurer.gui
+Fri Sep 12 20:35:25 2025 :: Storeroom not found
+Fri Sep 12 20:35:25 2025 :: thief.gui
+Fri Sep 12 20:35:25 2025 :: Storeroom not found
+Fri Sep 12 20:35:25 2025 :: cleric.gui
+Fri Sep 12 20:35:25 2025 :: Storeroom not found
+Fri Sep 12 20:35:25 2025 :: mage.gui
+Fri Sep 12 20:35:25 2025 :: Storeroom not found
+Fri Sep 12 20:35:25 2025 :: ranger.gui
+Fri Sep 12 20:35:25 2025 :: Storeroom not found
+Fri Sep 12 20:35:25 2025 :: $
+Fri Sep 12 20:35:25 2025 ::  Done clans 
+Fri Sep 12 20:35:25 2025 :: Loading councils
+Fri Sep 12 20:35:25 2025 :: Loading councils...
+Fri Sep 12 20:35:25 2025 :: $
+Fri Sep 12 20:35:25 2025 ::  Done councils 
+Fri Sep 12 20:35:25 2025 :: Loading deities
+Fri Sep 12 20:35:25 2025 :: Loading deities...
+Fri Sep 12 20:35:25 2025 :: $
+Fri Sep 12 20:35:25 2025 ::  Done deities 
+Fri Sep 12 20:35:25 2025 :: Loading watches
+Fri Sep 12 20:35:25 2025 :: Loading bans
+Fri Sep 12 20:35:25 2025 :: Done.
+Fri Sep 12 20:35:25 2025 :: Loading reserved names
+Fri Sep 12 20:35:25 2025 :: Loading corpses
+Fri Sep 12 20:35:25 2025 :: Loading Immortal Hosts
+Fri Sep 12 20:35:25 2025 :: Done.
+Fri Sep 12 20:35:25 2025 :: Loading Projects
+Fri Sep 12 20:35:25 2025 :: Loading Morphs
+Fri Sep 12 20:35:25 2025 :: Done.
+Fri Sep 12 20:35:25 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Fri Sep 12 20:35:25 2025 :: Loading login messages
+Fri Sep 12 20:35:25 2025 :: Initializing socket
+Fri Sep 12 20:35:25 2025 :: (Name Not Set) ready on port 9001.
+Fri Sep 12 20:35:25 2025 :: Initiating hotboot recovery.
+Fri Sep 12 20:35:25 2025 :: Loading player data for: Dragus (2K)
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_char: no match: 145
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Fri Sep 12 20:35:25 2025 :: [*****] BUG: fread_char: no match: 3
+Fri Sep 12 20:35:25 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Fri Sep 12 20:35:25 2025 :: Hotboot recovery complete.
+Fri Sep 12 20:38:01 2025 :: Log Dragus: vassign
+Fri Sep 12 20:38:59 2025 :: Log Dragus: aassign
+Fri Sep 12 20:39:03 2025 :: Log Dragus: aassign highgard
+Fri Sep 12 20:39:09 2025 :: Log Dragus: aassign highgard.are
+Fri Sep 12 20:43:18 2025 :: Log Dragus: redit bexit ne 201
+Fri Sep 12 20:43:18 2025 :: Log Dragus: redit exit 9 200 
+Fri Sep 12 20:43:35 2025 :: Log Dragus: redit bexit ne 202
+Fri Sep 12 20:43:35 2025 :: Log Dragus: redit exit 9 200 
+Fri Sep 12 20:43:41 2025 :: Log Dragus: redit bexit ne 201
+Fri Sep 12 20:43:41 2025 :: Log Dragus: redit exit 9 200 
+Fri Sep 12 20:43:52 2025 :: Log Dragus: redit bexit nw 202
+Fri Sep 12 20:43:52 2025 :: Log Dragus: redit exit 8 200 
+Fri Sep 12 20:44:24 2025 :: Log Dragus: redit bexit nw 202l
+Fri Sep 12 20:44:24 2025 :: Log Dragus: redit exit 8 200 
+Fri Sep 12 20:44:30 2025 :: Log Dragus: redit bexit nw 202
+Fri Sep 12 20:44:30 2025 :: Log Dragus: redit exit 8 200 
+Fri Sep 12 20:44:55 2025 :: Log Dragus: redit bexit nw 201
+Fri Sep 12 20:44:55 2025 :: Log Dragus: redit exit 8 200 
+Fri Sep 12 20:45:02 2025 :: Log Dragus: redit bexit sw 202
+Fri Sep 12 20:45:02 2025 :: Log Dragus: redit exit 6 200 
+Fri Sep 12 20:45:13 2025 :: Log Dragus: redit bexit se 203
+Fri Sep 12 20:45:13 2025 :: Log Dragus: redit exit 7 200 
+Fri Sep 12 20:47:34 2025 :: Log Dragus: redit bexit se
+Fri Sep 12 20:47:34 2025 :: Log Dragus: redit exit 7  
+Fri Sep 12 20:47:55 2025 :: Log Dragus: redit bexit nw 201
+Fri Sep 12 20:47:55 2025 :: Log Dragus: redit exit 8 200 
+Fri Sep 12 20:48:07 2025 :: Log Dragus: redit bexit nw 202
+Fri Sep 12 20:48:07 2025 :: Log Dragus: redit exit 8 200 
+Fri Sep 12 20:49:03 2025 :: Log Dragus: redit bexit sw 204
+Fri Sep 12 20:49:03 2025 :: Log Dragus: redit exit 6 202 
+Fri Sep 12 20:49:27 2025 :: Log Dragus: redit bexit sw
+Fri Sep 12 20:49:27 2025 :: Log Dragus: redit exit 6  
+Fri Sep 12 20:49:37 2025 :: Log Dragus: redit bexit sw 204
+Fri Sep 12 20:49:37 2025 :: Log Dragus: redit exit 6 200 
+Fri Sep 12 20:50:08 2025 :: Log Dragus: redit bexit sw 203
+Fri Sep 12 20:50:08 2025 :: Log Dragus: redit exit 6 200 
+Fri Sep 12 20:50:24 2025 :: Log Dragus: redit bexit se 204
+Fri Sep 12 20:50:24 2025 :: Log Dragus: redit exit 7 200 
+Fri Sep 12 20:50:49 2025 :: Log Dragus: redit bexit se 204
+Fri Sep 12 20:50:49 2025 :: Log Dragus: redit exit 7 200 
+Fri Sep 12 20:51:13 2025 :: Log Dragus: redit exit nw 
+Fri Sep 12 20:51:30 2025 :: Log Dragus: redit exit se 
+Fri Sep 12 20:52:02 2025 :: Log Dragus: redit bexit nw 
+Fri Sep 12 20:52:02 2025 :: Log Dragus: redit exit 8  
+Fri Sep 12 20:52:30 2025 :: Log Dragus: redit exit ne 
+Fri Sep 12 20:52:42 2025 :: Log Dragus: redit exit sw 
+Fri Sep 12 20:52:54 2025 :: Log Dragus: redit bexit nw 201
+Fri Sep 12 20:52:54 2025 :: Log Dragus: redit exit 8 200 
+Fri Sep 12 20:53:13 2025 :: Log Dragus: redit exit sw
+Fri Sep 12 20:53:37 2025 :: Log Dragus: redit exit se 
+Fri Sep 12 20:53:47 2025 :: Log Dragus: redit exit sw 200
+Fri Sep 12 20:53:59 2025 :: Log Dragus: redit bexit nw
+Fri Sep 12 20:53:59 2025 :: Log Dragus: redit exit 8  
+Fri Sep 12 20:54:25 2025 :: Log Dragus: redit bexit ne 200
+Fri Sep 12 20:54:25 2025 :: Log Dragus: redit exit 9 203 
+Fri Sep 12 20:54:40 2025 :: Log Dragus: redit bexit nw 202
+Fri Sep 12 20:54:40 2025 :: Log Dragus: redit exit 8 200 
+Fri Sep 12 20:55:06 2025 :: Log Dragus: redit bexit n 205
+Fri Sep 12 20:55:06 2025 :: Log Dragus: redit exit 2 200 
+Fri Sep 12 20:55:24 2025 :: Log Dragus: redit bexit n 206
+Fri Sep 12 20:55:24 2025 :: Log Dragus: redit exit 2 200 
+Fri Sep 12 20:55:27 2025 :: Log Dragus: redit bexit n 207
+Fri Sep 12 20:55:27 2025 :: Log Dragus: redit exit 2 200 
+Fri Sep 12 20:55:38 2025 :: Log Dragus: redit bexit n 208
+Fri Sep 12 20:55:38 2025 :: Log Dragus: redit exit 2 200 
+Fri Sep 12 20:56:13 2025 :: Log Dragus: redit bexit n 205
+Fri Sep 12 20:56:13 2025 :: Log Dragus: redit exit 2 200 
+Fri Sep 12 20:56:18 2025 :: Log Dragus: redit bexit n 206
+Fri Sep 12 20:56:18 2025 :: Log Dragus: redit exit 2 205 
+Fri Sep 12 20:56:24 2025 :: Log Dragus: redit bexit n 207
+Fri Sep 12 20:56:24 2025 :: Log Dragus: redit exit 2 206 
+Fri Sep 12 20:56:45 2025 :: Log Dragus: redit bexit n 208
+Fri Sep 12 20:56:45 2025 :: Log Dragus: redit exit 2 207 
+Fri Sep 12 20:57:04 2025 :: Log Dragus: redit bexit e 209
+Fri Sep 12 20:57:04 2025 :: Log Dragus: redit exit 3 208 
+Fri Sep 12 20:57:25 2025 :: Log Dragus: redit bexit e 210
+Fri Sep 12 20:57:25 2025 :: Log Dragus: redit exit 3 209 
+Fri Sep 12 20:57:44 2025 :: Log Dragus: redit bexit e 211
+Fri Sep 12 20:57:44 2025 :: Log Dragus: redit exit 3 210 
+Fri Sep 12 20:57:49 2025 :: Log Dragus: redit bexit e 212
+Fri Sep 12 20:57:49 2025 :: Log Dragus: redit exit 3 211 
+Fri Sep 12 20:57:53 2025 :: Log Dragus: redit bexit e 213
+Fri Sep 12 20:57:53 2025 :: Log Dragus: redit exit 3 212 
+Fri Sep 12 20:58:27 2025 :: Log Dragus: redit bexit s 214
+Fri Sep 12 20:58:27 2025 :: Log Dragus: redit exit 0 213 
+Fri Sep 12 20:58:33 2025 :: Log Dragus: redit bexit s 215
+Fri Sep 12 20:58:33 2025 :: Log Dragus: redit exit 0 213 
+Fri Sep 12 20:58:37 2025 :: Log Dragus: redit bexit s 216
+Fri Sep 12 20:58:37 2025 :: Log Dragus: redit exit 0 213 
+Fri Sep 12 20:58:44 2025 :: Log Dragus: redit bexit s 214
+Fri Sep 12 20:58:44 2025 :: Log Dragus: redit exit 0 213 
+Fri Sep 12 20:58:51 2025 :: Log Dragus: redit bexit s 215
+Fri Sep 12 20:58:51 2025 :: Log Dragus: redit exit 0 214 
+Fri Sep 12 20:59:01 2025 :: Log Dragus: redit bexit s 216
+Fri Sep 12 20:59:01 2025 :: Log Dragus: redit exit 0 215 
+Fri Sep 12 20:59:17 2025 :: Log Dragus: redit bexit s 217
+Fri Sep 12 20:59:17 2025 :: Log Dragus: redit exit 0 216 
+Fri Sep 12 20:59:41 2025 :: Log Dragus: redit bexit s 218
+Fri Sep 12 20:59:41 2025 :: Log Dragus: redit exit 0 217 
+Fri Sep 12 21:00:01 2025 :: Log Dragus: redit bexit w 219
+Fri Sep 12 21:00:01 2025 :: Log Dragus: redit exit 1 217 
+Fri Sep 12 21:00:10 2025 :: Log Dragus: redit bexit w 220
+Fri Sep 12 21:00:10 2025 :: Log Dragus: redit exit 1 219 
+Fri Sep 12 21:00:28 2025 :: Log Dragus: redit bexit w 221
+Fri Sep 12 21:00:28 2025 :: Log Dragus: redit exit 1 220 
+Fri Sep 12 21:00:54 2025 :: Log Dragus: redit bexit w 200
+Fri Sep 12 21:00:54 2025 :: Log Dragus: redit exit 1 221 
+Fri Sep 12 21:01:40 2025 :: Log Dragus: redit bexit s 222
+Fri Sep 12 21:01:40 2025 :: Log Dragus: redit exit 0 200 
+Fri Sep 12 21:01:45 2025 :: Log Dragus: redit bexit s 223
+Fri Sep 12 21:01:45 2025 :: Log Dragus: redit exit 0 222 
+Fri Sep 12 21:01:54 2025 :: Log Dragus: redit bexit s 224
+Fri Sep 12 21:01:54 2025 :: Log Dragus: redit exit 0 223 
+Fri Sep 12 21:02:20 2025 :: Log Dragus: redit bexit s 225
+Fri Sep 12 21:02:20 2025 :: Log Dragus: redit exit 0 224 
+Fri Sep 12 21:02:45 2025 :: Log Dragus: redit bexit e 226
+Fri Sep 12 21:02:45 2025 :: Log Dragus: redit exit 3 225 
+Fri Sep 12 21:02:54 2025 :: Log Dragus: redit bexit e 227
+Fri Sep 12 21:02:54 2025 :: Log Dragus: redit exit 3 226 
+Fri Sep 12 21:03:05 2025 :: Log Dragus: redit bexit e 228
+Fri Sep 12 21:03:05 2025 :: Log Dragus: redit exit 3 227 
+Fri Sep 12 21:03:26 2025 :: Log Dragus: redit bexit n 229
+Fri Sep 12 21:03:26 2025 :: Log Dragus: redit exit 2 228 
+Fri Sep 12 21:03:35 2025 :: Log Dragus: redit bexit n 230
+Fri Sep 12 21:03:35 2025 :: Log Dragus: redit exit 2 229 
+Fri Sep 12 21:03:57 2025 :: Log Dragus: redit bexit n 218
+Fri Sep 12 21:03:57 2025 :: Log Dragus: redit exit 2 230 
+Fri Sep 12 21:04:32 2025 :: Log Dragus: redit bexit w 231
+Fri Sep 12 21:04:32 2025 :: Log Dragus: redit exit 1 225 
+Fri Sep 12 21:04:38 2025 :: Log Dragus: redit bexit w 232
+Fri Sep 12 21:04:38 2025 :: Log Dragus: redit exit 1 231 
+Fri Sep 12 21:04:52 2025 :: Log Dragus: redit bexit w 233
+Fri Sep 12 21:04:52 2025 :: Log Dragus: redit exit 1 232 
+Fri Sep 12 21:05:11 2025 :: Log Dragus: redit bexit n 234
+Fri Sep 12 21:05:11 2025 :: Log Dragus: redit exit 2 233 
+Fri Sep 12 21:05:15 2025 :: Log Dragus: redit bexit n 235
+Fri Sep 12 21:05:15 2025 :: Log Dragus: redit exit 2 234 
+Fri Sep 12 21:05:24 2025 :: Log Dragus: redit bexit n 236
+Fri Sep 12 21:05:24 2025 :: Log Dragus: redit exit 2 235 
+Fri Sep 12 21:05:49 2025 :: Log Dragus: redit bexit n 237
+Fri Sep 12 21:05:49 2025 :: Log Dragus: redit exit 2 236 
+Fri Sep 12 21:05:59 2025 :: Log Dragus: redit bexit e 238
+Fri Sep 12 21:05:59 2025 :: Log Dragus: redit exit 3 237 
+Fri Sep 12 21:06:07 2025 :: Log Dragus: redit bexit e 239
+Fri Sep 12 21:06:07 2025 :: Log Dragus: redit exit 3 238 
+Fri Sep 12 21:06:52 2025 :: Log Dragus: redit bexit e 200
+Fri Sep 12 21:06:52 2025 :: Log Dragus: redit exit 3 239 
+Fri Sep 12 21:07:37 2025 :: Log Dragus: redit bexit e 240
+Fri Sep 12 21:07:37 2025 :: Log Dragus: redit exit 3 206 
+Fri Sep 12 21:07:51 2025 :: Log Dragus: redit bexit w 241
+Fri Sep 12 21:07:51 2025 :: Log Dragus: redit exit 1 206 
+Fri Sep 12 21:08:23 2025 :: Log Dragus: redit bexit e 242
+Fri Sep 12 21:08:23 2025 :: Log Dragus: redit exit 3 223 
+Fri Sep 12 21:08:49 2025 :: Log Dragus: redit bexit n 243
+Fri Sep 12 21:08:49 2025 :: Log Dragus: redit exit 2 220 
+Fri Sep 12 21:09:17 2025 :: Log Dragus: redit bexit s 244
+Fri Sep 12 21:09:17 2025 :: Log Dragus: redit exit 0 209 
+Fri Sep 12 21:10:09 2025 :: Log Dragus: redit bexit s 245
+Fri Sep 12 21:10:51 2025 :: Log Dragus: redit
+Fri Sep 12 21:10:55 2025 :: Log Dragus: redit desc
+Fri Sep 12 21:11:42 2025 :: Log Dragus: savearea
+Fri Sep 12 21:11:48 2025 :: Log Dragus: foldarea
+Fri Sep 12 21:11:57 2025 :: Log Dragus: foldarea highgard.are
+Fri Sep 12 21:12:07 2025 :: Log Dragus: aassign none
+Fri Sep 12 21:12:16 2025 :: Log Dragus: foldarea highgard.are
+Fri Sep 12 21:13:43 2025 :: Log Dragus: foldarea highgard.are
+Fri Sep 12 21:15:46 2025 :: Log Dragus: hotboot
+Fri Sep 12 21:15:46 2025 :: Hotboot initiated by Dragus.
+Fri Sep 12 21:15:46 2025 :: Preserving world state....
+Fri Sep 12 21:15:46 2025 :: Saving player files and connection states....
+Fri Sep 12 21:15:46 2025 :: Executing hotboot....

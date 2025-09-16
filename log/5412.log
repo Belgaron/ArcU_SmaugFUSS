@@ -1,0 +1,534 @@
+Mon Sep 15 21:47:15 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Mon Sep 15 21:47:15 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Mon Sep 15 21:47:15 2025 :: Initializing libdl support...
+Mon Sep 15 21:47:15 2025 :: Loading commands...
+Mon Sep 15 21:47:15 2025 :: Loading spec_funs...
+Mon Sep 15 21:47:15 2025 :: Loading sysdata configuration...
+Mon Sep 15 21:47:15 2025 :: Loading socials
+Mon Sep 15 21:47:15 2025 :: Loading skill table
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: spell_function: Error locating spell_aegis in symbol table. No such process
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: fread_skill: unknown skill/spell spell_aegis
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: spell_function: Error locating spell_titan in symbol table. No such process
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: fread_skill: unknown skill/spell spell_titan
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: spell_function: Error locating spell_valkyrie in symbol table. No such process
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: fread_skill: unknown skill/spell spell_valkyrie
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: spell_function: Error locating spell_olympus in symbol table. No such process
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: fread_skill: unknown skill/spell spell_olympus
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: spell_function: Error locating spell_ragnarok in symbol table. No such process
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: fread_skill: unknown skill/spell spell_ragnarok
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: spell_function: Error locating spell_excalibur in symbol table. No such process
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: fread_skill: unknown skill/spell spell_excalibur
+Mon Sep 15 21:47:15 2025 :: Sorting skill table...
+Mon Sep 15 21:47:15 2025 :: Creating skill table sorted by type...
+Mon Sep 15 21:47:15 2025 :: Remapping slots to sns
+Mon Sep 15 21:47:15 2025 :: Loading classes
+Mon Sep 15 21:47:15 2025 :: Loading races
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 21:47:15 2025 :: Loading news data
+Mon Sep 15 21:47:15 2025 :: Loading liquids
+Mon Sep 15 21:47:15 2025 :: Loading mixtures
+Mon Sep 15 21:47:15 2025 :: Loading herb table
+Mon Sep 15 21:47:15 2025 :: Loading tongues
+Mon Sep 15 21:47:15 2025 :: Making wizlist
+Mon Sep 15 21:47:15 2025 :: Loading MSSP Data...
+Mon Sep 15 21:47:15 2025 :: Initializing random number generator
+Mon Sep 15 21:47:15 2025 :: Setting time and weather.
+Mon Sep 15 21:47:15 2025 :: Loading holiday chart...
+Mon Sep 15 21:47:15 2025 :: Loading DNS cache...
+Mon Sep 15 21:47:15 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Mon Sep 15 21:47:15 2025 :: Reading in area files...
+(help.are)
+Mon Sep 15 21:47:15 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Mon Sep 15 21:47:15 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Mon Sep 15 21:47:16 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Mon Sep 15 21:47:16 2025 :: [*****] FILE: housing.are LINE: 23
+Mon Sep 15 21:47:16 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Mon Sep 15 21:47:16 2025 :: [*****] FILE: housing.are LINE: 36
+Mon Sep 15 21:47:16 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Mon Sep 15 21:47:16 2025 :: [*****] FILE: housing.are LINE: 49
+Mon Sep 15 21:47:16 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Mon Sep 15 21:47:16 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Mon Sep 15 21:47:16 2025 :: Fixing exits
+Mon Sep 15 21:47:16 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Mon Sep 15 21:47:16 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Mon Sep 15 21:47:16 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Mon Sep 15 21:47:16 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Mon Sep 15 21:47:16 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Mon Sep 15 21:47:16 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Mon Sep 15 21:47:16 2025 :: Initializing economy
+Mon Sep 15 21:47:16 2025 :: Resetting areas
+Mon Sep 15 21:47:16 2025 :: Loading buildlist
+Mon Sep 15 21:47:16 2025 :: ../gods/Dragus
+Mon Sep 15 21:47:16 2025 :: Loading boards
+Mon Sep 15 21:47:16 2025 :: ../boards/immortal.brd
+Mon Sep 15 21:47:16 2025 :: ../boards/highgod.brd
+Mon Sep 15 21:47:16 2025 :: Loading vault list
+Mon Sep 15 21:47:16 2025 :: $
+Mon Sep 15 21:47:16 2025 ::  Done vaults 
+Mon Sep 15 21:47:16 2025 :: Loading clans
+Mon Sep 15 21:47:16 2025 :: Loading clans...
+Mon Sep 15 21:47:16 2025 :: vampire.gui
+Mon Sep 15 21:47:16 2025 :: Storeroom not found
+Mon Sep 15 21:47:16 2025 :: druid.gui
+Mon Sep 15 21:47:16 2025 :: Storeroom not found
+Mon Sep 15 21:47:16 2025 :: warrior.gui
+Mon Sep 15 21:47:16 2025 :: Storeroom not found
+Mon Sep 15 21:47:16 2025 :: augurer.gui
+Mon Sep 15 21:47:16 2025 :: Storeroom not found
+Mon Sep 15 21:47:16 2025 :: thief.gui
+Mon Sep 15 21:47:16 2025 :: Storeroom not found
+Mon Sep 15 21:47:16 2025 :: cleric.gui
+Mon Sep 15 21:47:16 2025 :: Storeroom not found
+Mon Sep 15 21:47:16 2025 :: mage.gui
+Mon Sep 15 21:47:16 2025 :: Storeroom not found
+Mon Sep 15 21:47:16 2025 :: ranger.gui
+Mon Sep 15 21:47:16 2025 :: Storeroom not found
+Mon Sep 15 21:47:16 2025 :: $
+Mon Sep 15 21:47:16 2025 ::  Done clans 
+Mon Sep 15 21:47:16 2025 :: Loading councils
+Mon Sep 15 21:47:16 2025 :: Loading councils...
+Mon Sep 15 21:47:16 2025 :: $
+Mon Sep 15 21:47:16 2025 ::  Done councils 
+Mon Sep 15 21:47:16 2025 :: Loading deities
+Mon Sep 15 21:47:16 2025 :: Loading deities...
+Mon Sep 15 21:47:16 2025 :: $
+Mon Sep 15 21:47:16 2025 ::  Done deities 
+Mon Sep 15 21:47:16 2025 :: Loading watches
+Mon Sep 15 21:47:16 2025 :: Loading bans
+Mon Sep 15 21:47:16 2025 :: Done.
+Mon Sep 15 21:47:16 2025 :: Loading reserved names
+Mon Sep 15 21:47:16 2025 :: Loading corpses
+Mon Sep 15 21:47:16 2025 :: Loading Immortal Hosts
+Mon Sep 15 21:47:16 2025 :: Done.
+Mon Sep 15 21:47:16 2025 :: Loading Projects
+Mon Sep 15 21:47:16 2025 :: Loading Morphs
+Mon Sep 15 21:47:16 2025 :: Done.
+Mon Sep 15 21:47:16 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Mon Sep 15 21:47:16 2025 :: Loading login messages
+Mon Sep 15 21:47:16 2025 :: Initializing socket
+Mon Sep 15 21:47:16 2025 :: (Name Not Set) ready on port 9001.
+Mon Sep 15 21:47:23 2025 :: Preloading player data for: Dragus (2K)
+Mon Sep 15 21:47:23 2025 :: [*****] BUG: fread_char: no match: 5000
+Mon Sep 15 21:47:23 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Mon Sep 15 21:47:23 2025 :: [*****] BUG: fread_char: no match: 3
+Mon Sep 15 21:47:23 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Mon Sep 15 21:47:24 2025 :: Loading player data for: Dragus (2K)
+Mon Sep 15 21:47:24 2025 :: [*****] BUG: fread_char: no match: 5000
+Mon Sep 15 21:47:24 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Mon Sep 15 21:47:24 2025 :: [*****] BUG: fread_char: no match: 3
+Mon Sep 15 21:47:24 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Mon Sep 15 21:47:24 2025 :: Dragus (127.0.0.1) has connected.
+Mon Sep 15 21:47:56 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:48:49 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:50:07 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:52:00 2025 :: Log Dragus: mset dragus mentalstate 999
+Mon Sep 15 21:52:10 2025 :: Log Dragus: mset dragus mentalstate 100
+Mon Sep 15 21:52:24 2025 :: Log Dragus: mset dragus full 999
+Mon Sep 15 21:52:31 2025 :: Log Dragus: mset dragus full 100
+Mon Sep 15 21:52:47 2025 :: Log Dragus: mset dragus thirst 100
+Mon Sep 15 21:52:57 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:53:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:53:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:55:13 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:57:23 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:57:31 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:58:02 2025 :: Log Dragus: restore dragus
+Mon Sep 15 21:58:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 21:59:52 2025 :: Log Dragus: mset dragus mentalstate 0
+Mon Sep 15 22:00:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:00:32 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:00:51 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:01:02 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:01:17 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:01:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:02:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:02:47 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:03:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:04:08 2025 :: Log Dragus: sset dragus unarmed 25
+Mon Sep 15 22:04:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:04:49 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:05:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:05:05 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:05:06 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:05:38 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:06:21 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:06:59 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:07:15 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:07:49 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:08:07 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:08:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:09:00 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:12:24 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:12:36 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:13:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:13:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:13:48 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:14:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:14:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:14:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:14:48 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:14:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:15:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:15:14 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:15:36 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:15:48 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:16:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:16:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:16:17 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:16:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:16:58 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:17:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:17:14 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:17:39 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:17:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:17:51 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:18:17 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:18:23 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:18:59 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:20:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:22:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:22:02 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:22:11 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:22:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:22:26 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:22:36 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:22:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:23:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:23:13 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:23:26 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:23:30 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:24:07 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:24:13 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:24:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:24:32 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:24:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:25:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:25:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:25:24 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:25:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:25:35 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:25:54 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:26:13 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:26:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:26:33 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:26:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:26:54 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:27:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:27:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:27:23 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:27:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:27:35 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:28:13 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:28:17 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:28:38 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:28:48 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:28:54 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:29:07 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:29:19 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:29:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:29:51 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:29:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:30:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:30:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:30:33 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:30:54 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:31:00 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:31:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:31:32 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:31:47 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:31:52 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:31:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:32:02 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:32:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:32:26 2025 :: Log Dragus: restore dragus
+Mon Sep 15 22:32:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:32:35 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:32:44 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:32:54 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:33:06 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:33:16 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:33:22 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:33:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:33:35 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:33:41 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:33:51 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:34:00 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:34:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:34:16 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:34:25 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:34:41 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:34:47 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:34:57 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:35:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:35:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:35:54 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:36:03 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:36:31 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:36:41 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:36:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:36:57 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:37:06 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:37:16 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:37:38 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:37:57 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:38:22 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:38:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:38:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:38:54 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:38:57 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:39:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:39:16 2025 :: Log Dragus: slay test
+Mon Sep 15 22:39:22 2025 :: Log Dragus: slay test
+Mon Sep 15 22:40:01 2025 :: Log Dragus: mset drgus mentalstate 10
+Mon Sep 15 22:40:08 2025 :: Log Dragus: mset dragus mentalstate 10
+Mon Sep 15 22:40:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:40:57 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:41:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:41:06 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:41:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:41:32 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:41:44 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:41:48 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:41:57 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:42:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:42:15 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:42:19 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:42:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:42:38 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:42:47 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:43:15 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:43:31 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:43:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:43:44 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:43:53 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:44:06 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:44:18 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:44:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:44:56 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:45:06 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:45:18 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:45:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:45:34 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:45:41 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:45:53 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:46:00 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:46:03 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:46:22 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:46:31 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:46:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:46:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:47:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:47:15 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:47:19 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:47:31 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:47:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:47:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:48:03 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:48:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:48:44 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:49:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:49:15 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:49:25 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:49:34 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:49:41 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:49:56 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:50:00 2025 :: Log Dragus: mset dragus mentalstate 20
+Mon Sep 15 22:50:15 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:50:25 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:50:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:50:56 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:51:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:51:34 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:51:47 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:52:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:52:15 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:52:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:52:34 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:52:40 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:52:59 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:53:12 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:53:21 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:53:44 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:54:12 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:54:21 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:54:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:54:34 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:54:44 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:54:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:54:59 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:55:12 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:55:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:55:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:55:56 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:56:02 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:56:12 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:56:16 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:57:22 2025 :: Log Dragus: mset dragus mentalstate 30
+Mon Sep 15 22:57:35 2025 :: Log Dragus: mset dragus mentalstate 10
+Mon Sep 15 22:57:51 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:58:00 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:58:05 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:58:21 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:58:31 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:58:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:58:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:58:54 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:58:59 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:59:03 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:59:18 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:59:24 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 22:59:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:00:18 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:00:27 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:00:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:00:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:01:08 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:01:18 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:01:30 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:01:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:01:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:02:05 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:02:15 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:02:30 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:02:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:02:59 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:03:08 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:03:14 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:03:21 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:03:30 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:03:37 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:03:52 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:04:02 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:04:18 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:04:24 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:04:30 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:04:49 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:04:59 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:05:14 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:05:21 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:05:33 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:05:43 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:05:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:06:17 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:06:30 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:06:52 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:07:02 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:07:17 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:07:30 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:07:49 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:08:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:08:14 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:08:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:08:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:09:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:09:11 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:09:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:09:36 2025 :: Log Dragus: mset dragus mentalstate 20
+Mon Sep 15 23:09:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:10:08 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:10:23 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:10:39 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:10:49 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:10:58 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:11:23 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:11:36 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:11:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:12:17 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:12:23 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:12:36 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:12:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:12:58 2025 :: Log Dragus: mset dragus mentalstate 24
+Mon Sep 15 23:12:58 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:13:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:13:11 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:13:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:13:33 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:13:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:13:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:14:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:14:29 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:14:39 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:14:51 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:14:56 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:15:14 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:15:32 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:15:48 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:16:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:16:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:16:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:16:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:17:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:17:23 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:17:36 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 23:18:28 2025 :: Log Dragus: mset dragus menalstate 24
+Mon Sep 15 23:18:43 2025 :: Log Dragus: mset dragus mentalstate 24
+Mon Sep 15 23:19:54 2025 :: Log Dragus: cedit 
+Mon Sep 15 23:20:08 2025 :: Log Dragus: cedit sys.install create do_ainstall
+Mon Sep 15 23:20:08 2025 :: [*****] BUG: skill_function: Error locating do_ainstall in symbol table. No such process
+Mon Sep 15 23:23:08 2025 :: Log Dragus: shutdown mud now
+Mon Sep 15 23:23:08 2025 :: Normal termination of game.
+Mon Sep 15 23:23:08 2025 :: Cleaning up Memory.
+Len:  34 Lnks:    3 Str: A pool of spilled blood lies here.
+Total strings in hash 34: 1
+Len:  40 Lnks:  318 Str: A large pool of spilled blood lies here.
+Total strings in hash 40: 1
+Project Data.
+Reserved Names.
+Ban Data.
+Morph Data.
+Commands.
+Deities.
+Clans.
+Councils.
+Socials.
+Watches.
+Helps.
+Languages.
+Boards.
+Whacking supermob.
+Objects.
+Characters.
+Descriptors.
+Liquid Table.
+Races.
+Classes.
+Teleport Data.
+Area Data Tables.
+Planes.
+Auction.
+MSSP Info.
+System data.
+Title table.
+Skills and Herbs.
+Mudprog act lists.
+Specfun lists.
+Globals.
+Checking string hash for leftovers.
+Cleanup complete, exiting.

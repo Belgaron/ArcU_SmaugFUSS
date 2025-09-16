@@ -1,0 +1,149 @@
+Fri Sep 12 22:19:25 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Fri Sep 12 22:19:25 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Fri Sep 12 22:19:25 2025 :: Initializing libdl support...
+Fri Sep 12 22:19:25 2025 :: Loading commands...
+Fri Sep 12 22:19:25 2025 :: Loading spec_funs...
+Fri Sep 12 22:19:25 2025 :: Loading sysdata configuration...
+Fri Sep 12 22:19:25 2025 :: Loading socials
+Fri Sep 12 22:19:25 2025 :: Loading skill table
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: fread_word: EOF encountered on read.
+
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: load_skill_table: bad section.
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: fread_letter: EOF encountered on read.
+
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: load_skill_table: # not found.
+Fri Sep 12 22:19:25 2025 :: Sorting skill table...
+Fri Sep 12 22:19:25 2025 :: Creating skill table sorted by type...
+Fri Sep 12 22:19:25 2025 :: Remapping slots to sns
+Fri Sep 12 22:19:25 2025 :: Loading classes
+../classes/human: No such file or directory
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: load_classes: Cannot load class file: human
+../classes/eldari: No such file or directory
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: load_classes: Cannot load class file: eldari
+../classes/vampire: No such file or directory
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: load_classes: Cannot load class file: vampire
+Fri Sep 12 22:19:25 2025 :: Loading races
+../races/human: No such file or directory
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: load_races: Cannot load race file: human
+../races/eldari: No such file or directory
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: load_races: Cannot load race file: eldari
+../races/vampire: No such file or directory
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: load_races: Cannot load race file: vampire
+Fri Sep 12 22:19:25 2025 :: Loading news data
+Fri Sep 12 22:19:25 2025 :: Loading liquids
+Fri Sep 12 22:19:25 2025 :: Loading mixtures
+Fri Sep 12 22:19:25 2025 :: Loading herb table
+Fri Sep 12 22:19:25 2025 :: Loading tongues
+Fri Sep 12 22:19:25 2025 :: Making wizlist
+Fri Sep 12 22:19:25 2025 :: Loading MSSP Data...
+Fri Sep 12 22:19:25 2025 :: Initializing random number generator
+Fri Sep 12 22:19:25 2025 :: Setting time and weather.
+Fri Sep 12 22:19:25 2025 :: Loading holiday chart...
+Fri Sep 12 22:19:25 2025 :: Loading DNS cache...
+Fri Sep 12 22:19:25 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill evasive style not found.
+ASSIGN_GSN: Skill defensive style not found.
+ASSIGN_GSN: Skill standard style not found.
+ASSIGN_GSN: Skill berserk style not found.
+ASSIGN_GSN: Skill pugilism not found.
+ASSIGN_GSN: Skill unarmed not found.
+ASSIGN_GSN: Skill maces not found.
+ASSIGN_GSN: Skill staves not found.
+ASSIGN_GSN: Skill spears not found.
+ASSIGN_GSN: Skill polearms not found.
+ASSIGN_GSN: Skill bows not found.
+ASSIGN_GSN: Skill xbows not found.
+ASSIGN_GSN: Skill firearms not found.
+ASSIGN_GSN: Skill long blades not found.
+ASSIGN_GSN: Skill short blades not found.
+ASSIGN_GSN: Skill flexible arms not found.
+ASSIGN_GSN: Skill talonous arms not found.
+ASSIGN_GSN: Skill bludgeons not found.
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill detrap not found.
+ASSIGN_GSN: Skill backstab not found.
+ASSIGN_GSN: Skill circle not found.
+ASSIGN_GSN: Skill tumble not found.
+ASSIGN_GSN: Skill dodge not found.
+ASSIGN_GSN: Skill hide not found.
+ASSIGN_GSN: Skill peek not found.
+ASSIGN_GSN: Skill pick lock not found.
+ASSIGN_GSN: Skill sneak not found.
+ASSIGN_GSN: Skill steal not found.
+ASSIGN_GSN: Skill gouge not found.
+ASSIGN_GSN: Skill poison weapon not found.
+ASSIGN_GSN: Skill disarm not found.
+ASSIGN_GSN: Skill enhanced damage not found.
+ASSIGN_GSN: Skill kick not found.
+ASSIGN_GSN: Skill parry not found.
+ASSIGN_GSN: Skill rescue not found.
+ASSIGN_GSN: Skill second attack not found.
+ASSIGN_GSN: Skill third attack not found.
+ASSIGN_GSN: Skill fourth attack not found.
+ASSIGN_GSN: Skill fifth attack not found.
+ASSIGN_GSN: Skill dual wield not found.
+ASSIGN_GSN: Skill punch not found.
+ASSIGN_GSN: Skill bash not found.
+ASSIGN_GSN: Skill stun not found.
+ASSIGN_GSN: Skill doorbash not found.
+ASSIGN_GSN: Skill grip not found.
+ASSIGN_GSN: Skill berserk not found.
+ASSIGN_GSN: Skill hitall not found.
+ASSIGN_GSN: Skill feed not found.
+ASSIGN_GSN: Skill bloodlet not found.
+ASSIGN_GSN: Skill cleave not found.
+ASSIGN_GSN: Skill pounce not found.
+ASSIGN_GSN: Skill grapple not found.
+ASSIGN_GSN: Skill broach not found.
+ASSIGN_GSN: Skill mistwalk not found.
+ASSIGN_GSN: Skill track not found.
+ASSIGN_GSN: Skill meditate not found.
+ASSIGN_GSN: Skill trance not found.
+ASSIGN_GSN: Skill search not found.
+ASSIGN_GSN: Skill dig not found.
+ASSIGN_GSN: Skill mount not found.
+ASSIGN_GSN: Skill bite not found.
+ASSIGN_GSN: Skill claw not found.
+ASSIGN_GSN: Skill sting not found.
+ASSIGN_GSN: Skill tail not found.
+ASSIGN_GSN: Skill scribe not found.
+ASSIGN_GSN: Skill brew not found.
+ASSIGN_GSN: Skill climb not found.
+ASSIGN_GSN: Skill cook not found.
+ASSIGN_GSN: Skill scan not found.
+ASSIGN_GSN: Skill slice not found.
+ASSIGN_GSN: Skill fireball not found.
+ASSIGN_GSN: Skill chill touch not found.
+ASSIGN_GSN: Skill lightning bolt not found.
+ASSIGN_GSN: Skill aqua breath not found.
+ASSIGN_GSN: Skill blindness not found.
+ASSIGN_GSN: Skill charm person not found.
+ASSIGN_GSN: Skill curse not found.
+ASSIGN_GSN: Skill invis not found.
+ASSIGN_GSN: Skill mass invis not found.
+ASSIGN_GSN: Skill poison not found.
+ASSIGN_GSN: Skill sleep not found.
+ASSIGN_GSN: Skill possess not found.
+ASSIGN_GSN: Skill common not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Fri Sep 12 22:19:25 2025 :: Reading in area files...
+(help.are)
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 71: Mob has invalid race! Defaulting to monster.
+Fri Sep 12 22:19:25 2025 :: [*****] FILE: limbo.are LINE: 666
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 100: Mob has invalid race! Defaulting to monster.
+Fri Sep 12 22:19:25 2025 :: [*****] FILE: welcome.are LINE: 23
+Fri Sep 12 22:19:25 2025 :: [*****] BUG: fread_word: EOF encountered on read.
+
+Fri Sep 12 22:19:25 2025 :: [*****] FILE: welcome.are LINE: 335

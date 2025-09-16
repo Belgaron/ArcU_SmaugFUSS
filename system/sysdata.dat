@@ -1,11 +1,12 @@
 #SYSTEM
 MudName	     (Name Not Set)~
-Highplayers    2
-Highplayertime Sat Jul  7 23:54:56 2007~
+PortName	     mud~
+AdminEmail     (not set)~
+Highplayers    3
+Highplayertime Sat Sep  6 20:26:09 2025~
 CheckImmHost   1
 Nameresolving  1
 Waitforauth    0
-Wizlock        0
 Readallmail    58
 Readmailfree   51
 Writemailfree  51
@@ -26,10 +27,15 @@ Bashnontank    80
 Dodgemod       2
 Parrymod       2
 Tumblemod      4
+Tumblepk	     5
 Damplrvsplr    100
 Damplrvsmob    100
 Dammobvsplr    100
 Dammobvsmob    100
+Damnonavvsmob  100
+Dammobvsnonav  100
+Peaceexpmod    100
+Deadlyexpmod   100
 Forcepc        56
 Guildoverseer  ~
 Guildadvisor   ~
@@ -41,7 +47,17 @@ BanRaceLevel   61
 BanClassLevel  61
 MorphOpt       1
 PetSave	     1
-Pkloot	     1
+Pkloot	        1
+Pkchannels     1
+Pksilence	     0
+Wizlock        0
+Maxholiday     0
+Secpertick     70
+Pulsepersec    4
+Hoursperday    24
+Daysperweek    7
+Dayspermonth   31
+Monthsperyear  17
 End
 
 #END

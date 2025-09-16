@@ -1,1 +1,98 @@
+Morph           	ancient_ascension
+Vnum 1000
+Damroll 20~
+Description this is the ascended form of an ancient eldariThis is the ascended form of an eldarian.
+~
+Hitroll         	25~
+Longdesc        	Rooted like a &Cmonolith&D, this Eldari hums with power. &YEyes burning&D like hot coals.
+~
+MorphOther      	&yDark marbling spreads through &W$n&ys jade skin as &Ygolden &ylight~
+MorphSelf       	&yDark marbling climbs your jade skin as &Ygolden &ylight~
+ShortDesc       	an Eldari burning with &Yold power&D~
+UnmorphOther    	&yThe &Ygolden &yglow leaves &W$n&ys eyes and the marbling recedes as~
+UnmorphSelf     	The &Ygolden&D glow fades and the marbling sinks beneath your skin. &WYou release the &OAncient &Waspect.&D~
+Timer		-1
+Used       	8
+Armor        	-6
+Charisma        	2
+Dexterity       	1
+Intelligence    	10
+Strength        	5
+Wisdom          	2
+MinPL           1200000
+ManaMaint       3
+MinMana         100
+AuraVisible     1
+AuraColor       red~
+PromptTag       &R[&DA&Yn&Dcie&Yn&Dt&R]&D~
+PLMultiplier    340
+End
+
+Morph           	android_aegis
+Vnum 1001
+Damroll 50~
+Description 'Divine protection algorithms course through this android's enhanced frame.'Divine protection algorithms course through this android's enhanced frame.
+~
+Hitroll         	50~
+Longdesc        	This android radiates with divine protection, their form enhanced by celestial energy.
+~
+Mana            	500~
+MorphOther      	$n's form shimmers as divine energy envelops their android frame!~
+MorphSelf       	&WYou feel divine power surge through your systems!&x~
+ShortDesc       	a divine android guardian~
+UnmorphOther    	$n's divine aura fades as they return to normal.~
+UnmorphSelf     	Your divine protection fades as you return to normal.~
+Class           	Android~
+Race        	Android~
+Timer		-1
+Used       	36
+Pkill		1
+Armor        	-20
+Charisma        	2
+Constitution    	5
+Dexterity       	4
+Intelligence    	3
+Luck        	2
+Strength        	5
+Wisdom          	3
+MinPL           1400000
+HPMaint         2
+MinHP           50
+PLMultiplier    440
+End
+
+Morph           	android_titan
+Vnum 1002
+Description Primordial strength flows through every circuit of this mighty android
+~
+Longdesc        	A titanic android warrior stands here, emanating primordial power.
+~
+ShortDesc       	a titanic android warrior~
+Timer		-1
+End
+
+Morph           	android_valkyrie
+Vnum 1003
+ShortDesc       	android_valkyrie~
+Timer		-1
+End
+
+Morph           	android_olympus
+Vnum 1004
+ShortDesc       	android_olympus~
+Timer		-1
+End
+
+Morph           	android_ragnarok
+Vnum 1005
+ShortDesc       	android_ragnarok~
+Timer		-1
+End
+
+Morph           	android_excalibur
+Vnum 1006
+ShortDesc       	android_excalibur~
+Timer		-1
+End
+
 #END

@@ -1,0 +1,284 @@
+Mon Sep 15 15:15:31 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Mon Sep 15 15:15:31 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Mon Sep 15 15:15:31 2025 :: Initializing libdl support...
+Mon Sep 15 15:15:31 2025 :: Loading commands...
+Mon Sep 15 15:15:31 2025 :: Loading spec_funs...
+Mon Sep 15 15:15:31 2025 :: Loading sysdata configuration...
+Mon Sep 15 15:15:31 2025 :: Loading socials
+Mon Sep 15 15:15:31 2025 :: Loading skill table
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Mon Sep 15 15:15:31 2025 :: Sorting skill table...
+Mon Sep 15 15:15:31 2025 :: Creating skill table sorted by type...
+Mon Sep 15 15:15:31 2025 :: Remapping slots to sns
+Mon Sep 15 15:15:31 2025 :: Loading classes
+Mon Sep 15 15:15:31 2025 :: Loading races
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Mon Sep 15 15:15:31 2025 :: Loading news data
+Mon Sep 15 15:15:31 2025 :: Loading liquids
+Mon Sep 15 15:15:31 2025 :: Loading mixtures
+Mon Sep 15 15:15:31 2025 :: Loading herb table
+Mon Sep 15 15:15:31 2025 :: Loading tongues
+Mon Sep 15 15:15:31 2025 :: Making wizlist
+Mon Sep 15 15:15:31 2025 :: Loading MSSP Data...
+Mon Sep 15 15:15:31 2025 :: Initializing random number generator
+Mon Sep 15 15:15:31 2025 :: Setting time and weather.
+Mon Sep 15 15:15:31 2025 :: Loading holiday chart...
+Mon Sep 15 15:15:31 2025 :: Loading DNS cache...
+Mon Sep 15 15:15:31 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Mon Sep 15 15:15:31 2025 :: Reading in area files...
+(help.are)
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Mon Sep 15 15:15:31 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Mon Sep 15 15:15:31 2025 :: [*****] FILE: housing.are LINE: 23
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Mon Sep 15 15:15:31 2025 :: [*****] FILE: housing.are LINE: 36
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Mon Sep 15 15:15:31 2025 :: [*****] FILE: housing.are LINE: 49
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Mon Sep 15 15:15:31 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Mon Sep 15 15:15:31 2025 :: Fixing exits
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Mon Sep 15 15:15:31 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Mon Sep 15 15:15:31 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Mon Sep 15 15:15:31 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Mon Sep 15 15:15:31 2025 :: Initializing economy
+Mon Sep 15 15:15:31 2025 :: Resetting areas
+Mon Sep 15 15:15:31 2025 :: Loading buildlist
+Mon Sep 15 15:15:31 2025 :: ../gods/Dragus
+Mon Sep 15 15:15:31 2025 :: Loading boards
+Mon Sep 15 15:15:31 2025 :: ../boards/immortal.brd
+Mon Sep 15 15:15:31 2025 :: ../boards/highgod.brd
+Mon Sep 15 15:15:31 2025 :: Loading vault list
+Mon Sep 15 15:15:31 2025 :: $
+Mon Sep 15 15:15:31 2025 ::  Done vaults 
+Mon Sep 15 15:15:31 2025 :: Loading clans
+Mon Sep 15 15:15:31 2025 :: Loading clans...
+Mon Sep 15 15:15:31 2025 :: vampire.gui
+Mon Sep 15 15:15:31 2025 :: Storeroom not found
+Mon Sep 15 15:15:31 2025 :: druid.gui
+Mon Sep 15 15:15:31 2025 :: Storeroom not found
+Mon Sep 15 15:15:31 2025 :: warrior.gui
+Mon Sep 15 15:15:31 2025 :: Storeroom not found
+Mon Sep 15 15:15:31 2025 :: augurer.gui
+Mon Sep 15 15:15:31 2025 :: Storeroom not found
+Mon Sep 15 15:15:31 2025 :: thief.gui
+Mon Sep 15 15:15:31 2025 :: Storeroom not found
+Mon Sep 15 15:15:31 2025 :: cleric.gui
+Mon Sep 15 15:15:31 2025 :: Storeroom not found
+Mon Sep 15 15:15:31 2025 :: mage.gui
+Mon Sep 15 15:15:31 2025 :: Storeroom not found
+Mon Sep 15 15:15:31 2025 :: ranger.gui
+Mon Sep 15 15:15:31 2025 :: Storeroom not found
+Mon Sep 15 15:15:31 2025 :: $
+Mon Sep 15 15:15:31 2025 ::  Done clans 
+Mon Sep 15 15:15:31 2025 :: Loading councils
+Mon Sep 15 15:15:31 2025 :: Loading councils...
+Mon Sep 15 15:15:31 2025 :: $
+Mon Sep 15 15:15:31 2025 ::  Done councils 
+Mon Sep 15 15:15:31 2025 :: Loading deities
+Mon Sep 15 15:15:31 2025 :: Loading deities...
+Mon Sep 15 15:15:31 2025 :: $
+Mon Sep 15 15:15:31 2025 ::  Done deities 
+Mon Sep 15 15:15:31 2025 :: Loading watches
+Mon Sep 15 15:15:31 2025 :: Loading bans
+Mon Sep 15 15:15:31 2025 :: Done.
+Mon Sep 15 15:15:31 2025 :: Loading reserved names
+Mon Sep 15 15:15:31 2025 :: Loading corpses
+Mon Sep 15 15:15:31 2025 :: Loading Immortal Hosts
+Mon Sep 15 15:15:31 2025 :: Done.
+Mon Sep 15 15:15:31 2025 :: Loading Projects
+Mon Sep 15 15:15:31 2025 :: Loading Morphs
+Mon Sep 15 15:15:31 2025 :: Done.
+Mon Sep 15 15:15:31 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Mon Sep 15 15:15:31 2025 :: Loading login messages
+Mon Sep 15 15:15:31 2025 :: Initializing socket
+Mon Sep 15 15:15:31 2025 :: (Name Not Set) ready on port 9001.
+Mon Sep 15 15:15:39 2025 :: Preloading player data for: Dragus (2K)
+Mon Sep 15 15:15:39 2025 :: [*****] BUG: fread_char: no match: 5000
+Mon Sep 15 15:15:39 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Mon Sep 15 15:15:39 2025 :: [*****] BUG: fread_char: no match: 3
+Mon Sep 15 15:15:39 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Mon Sep 15 15:15:41 2025 :: Loading player data for: Dragus (2K)
+Mon Sep 15 15:15:41 2025 :: [*****] BUG: fread_char: no match: 5000
+Mon Sep 15 15:15:41 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Mon Sep 15 15:15:41 2025 :: [*****] BUG: fread_char: no match: 3
+Mon Sep 15 15:15:41 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Mon Sep 15 15:15:41 2025 :: Dragus (127.0.0.1) has connected.
+Mon Sep 15 15:15:52 2025 :: Log Dragus: aassign highgard.are
+Mon Sep 15 15:16:00 2025 :: Log Dragus: mcreat
+Mon Sep 15 15:16:08 2025 :: Log Dragus: mcreat 298 TESTER
+Mon Sep 15 15:19:39 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:20:11 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:21:51 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:22:06 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:22:10 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:22:30 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:22:43 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:22:51 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:22:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:23:14 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 15:24:49 2025 :: Log Dragus: aassign none
+Mon Sep 15 15:24:52 2025 :: Log Dragus: foldarea
+Mon Sep 15 15:24:59 2025 :: Log Dragus: foldarea highgard.are
+Mon Sep 15 17:31:07 2025 :: Closing link to Dragus. (INRoom 209)
+Mon Sep 15 17:43:04 2025 :: Preloading player data for: Dragus (2K)
+Mon Sep 15 17:43:04 2025 :: [*****] BUG: fread_char: no match: 5000
+Mon Sep 15 17:43:04 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Mon Sep 15 17:43:04 2025 :: [*****] BUG: fread_char: no match: 3
+Mon Sep 15 17:43:04 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Mon Sep 15 17:43:05 2025 :: Dragus (127.0.0.1) reconnected.
+Mon Sep 15 17:45:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:46:24 2025 :: Log Dragus: minvoke 198
+Mon Sep 15 17:46:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:47:20 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:47:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:47:33 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:47:38 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:48:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:48:34 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:49:08 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:50:22 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:51:11 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:51:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:53:52 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:55:23 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:55:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:56:00 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:56:33 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:56:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:57:07 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:57:39 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:57:53 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:58:03 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:58:18 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:58:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:59:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:59:13 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 17:59:32 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:00:03 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:03:25 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:03:52 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:03:53 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:04:24 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:04:39 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:04:53 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:05:16 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:05:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:05:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:06:09 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:06:28 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:06:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:07:04 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:07:16 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:07:31 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:07:55 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:08:16 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:08:41 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:25 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:27 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:43 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:44 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:45 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:09:47 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:11:07 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:11:27 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:11:47 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:12:05 2025 :: Log Dragus: mset 
+Mon Sep 15 18:12:25 2025 :: Log Dragus: mset tester str 25
+Mon Sep 15 18:12:38 2025 :: Log Dragus: mset tester int 20
+Mon Sep 15 18:12:47 2025 :: Log Dragus: mset tester wis 23
+Mon Sep 15 18:12:57 2025 :: Log Dragus: mset dex 25
+Mon Sep 15 18:13:02 2025 :: Log Dragus: mset tester dex 25
+Mon Sep 15 18:13:09 2025 :: Log Dragus: mset tester con 25
+Mon Sep 15 18:13:19 2025 :: Log Dragus: mset tester spr 20
+Mon Sep 15 18:13:34 2025 :: Log Dragus: mset tester lck 18
+Mon Sep 15 18:13:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:15:49 2025 :: Log Dragus: mset mstat test
+Mon Sep 15 18:16:16 2025 :: Log Dragus: mset ac -20
+Mon Sep 15 18:16:20 2025 :: Log Dragus: mset dragus ac -20
+Mon Sep 15 18:16:31 2025 :: Log Dragus: mset dragus armor -20
+Mon Sep 15 18:17:36 2025 :: Log Dragus: mset
+Mon Sep 15 18:17:44 2025 :: Log Dragus: mset tester save
+Mon Sep 15 18:17:46 2025 :: Log Dragus: mset save
+Mon Sep 15 18:18:20 2025 :: Log Dragus: mset damplus 5
+Mon Sep 15 18:18:26 2025 :: Log Dragus: mset tester damplus 5
+Mon Sep 15 18:20:09 2025 :: Log Dragus: sset dragus punch 100
+Mon Sep 15 18:21:28 2025 :: Log Dragus: sset ragnarok type skill
+Mon Sep 15 18:21:48 2025 :: Log Dragus: sset excalibur type skill
+Mon Sep 15 18:22:00 2025 :: Log Dragus: sset titan type skill
+Mon Sep 15 18:22:13 2025 :: Log Dragus: sset aegis type skill
+Mon Sep 15 18:22:35 2025 :: Log Dragus: sset olympus type skill
+Mon Sep 15 18:30:52 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:31:41 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:31:41 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:31:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:31:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:31:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:31:43 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:31:43 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:31:43 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:32:35 2025 :: Log Dragus: mset 
+Mon Sep 15 18:32:40 2025 :: Log Dragus: mset dragus hitroll 5
+Mon Sep 15 18:37:42 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:38:46 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:39:01 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:48:18 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:50:50 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:52:33 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 18:52:43 2025 :: Log Dragus: mset tester 4000000
+Mon Sep 15 18:54:21 2025 :: Log Dragus: sset dragus fireball 95
+Mon Sep 15 18:54:44 2025 :: Log Dragus: minvoke 298
+Mon Sep 15 19:01:37 2025 :: Log Dragus: ocreate
+Mon Sep 15 19:02:24 2025 :: Log Dragus: ocreate 100 Crude Power Core
+Mon Sep 15 19:02:34 2025 :: Log Dragus: oset
+Mon Sep 15 19:02:46 2025 :: Log Dragus: oset crude short a crude power core
+Mon Sep 15 19:03:10 2025 :: Log Dragus: oset crude long A basic mechanical component lies here, sparking occasionally.
+Mon Sep 15 19:03:35 2025 :: Log Dragus: oset crude type ITEM_COMPONENT
+Mon Sep 15 19:03:44 2025 :: Log Dragus: oset crude type COMPONENT
+Mon Sep 15 20:14:35 2025 :: Log Dragus: oset crude value[0] 1
+Mon Sep 15 20:14:43 2025 :: Log Dragus: oset crude value 1
+Mon Sep 15 20:14:48 2025 :: Log Dragus: oset crude value0 1
+Mon Sep 15 20:15:24 2025 :: Log Dragus: oinvoke 100
+Mon Sep 15 20:15:46 2025 :: Log Dragus: oset type
+Mon Sep 15 20:16:05 2025 :: Log Dragus: oset type component
+Mon Sep 15 20:16:14 2025 :: Log Dragus: oset crude type component
+Mon Sep 15 20:17:55 2025 :: Log Dragus: oset crude name Nano Processor
+Mon Sep 15 20:20:28 2025 :: Log Dragus: oset
+Mon Sep 15 20:20:35 2025 :: Log Dragus: oset crude delete
+Mon Sep 15 20:20:41 2025 :: Log Dragus: oset crude clear
+Mon Sep 15 20:21:03 2025 :: Log Dragus: oset crude name unused vnum
+Mon Sep 15 20:24:20 2025 :: Log Dragus: sset dragus unarmed 25

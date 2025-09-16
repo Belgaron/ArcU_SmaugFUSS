@@ -1,0 +1,175 @@
+Thu Sep 11 15:00:54 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Thu Sep 11 15:00:54 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Thu Sep 11 15:00:54 2025 :: Initializing libdl support...
+Thu Sep 11 15:00:54 2025 :: Loading commands...
+Thu Sep 11 15:00:54 2025 :: Loading spec_funs...
+Thu Sep 11 15:00:54 2025 :: Loading sysdata configuration...
+Thu Sep 11 15:00:54 2025 :: Loading socials
+Thu Sep 11 15:00:54 2025 :: Loading skill table
+Thu Sep 11 15:00:54 2025 :: Sorting skill table...
+Thu Sep 11 15:00:54 2025 :: Creating skill table sorted by type...
+Thu Sep 11 15:00:54 2025 :: Remapping slots to sns
+Thu Sep 11 15:00:54 2025 :: Loading classes
+Thu Sep 11 15:00:54 2025 :: Loading races
+Thu Sep 11 15:00:54 2025 :: Loading news data
+Thu Sep 11 15:00:54 2025 :: Loading liquids
+Thu Sep 11 15:00:54 2025 :: Loading mixtures
+Thu Sep 11 15:00:54 2025 :: Loading herb table
+Thu Sep 11 15:00:54 2025 :: Loading tongues
+Thu Sep 11 15:00:54 2025 :: Making wizlist
+Thu Sep 11 15:00:54 2025 :: Loading MSSP Data...
+Thu Sep 11 15:00:54 2025 :: Initializing random number generator
+Thu Sep 11 15:00:54 2025 :: Setting time and weather.
+Thu Sep 11 15:00:54 2025 :: Loading holiday chart...
+Thu Sep 11 15:00:54 2025 :: Loading DNS cache...
+Thu Sep 11 15:00:54 2025 :: Assigning gsn's
+Thu Sep 11 15:00:54 2025 :: Reading in area files...
+(help.are)
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+newacad.are   : Rooms: 10300 - 10499 Objs: 10300 - 10499 Mobs: 10300 - 10499
+newgate.are   : Rooms:   100 - 199   Objs:   100 - 199   Mobs:   100 - 199
+newdark.are   : Rooms: 21000 - 21499 Objs: 21000 - 21435 Mobs: 21000 - 21499
+gods.are      : Rooms:  1200 - 1201  Objs:  1200 - 1200  Mobs:  1200 - 1200
+plains.are    : Rooms:   300 - 345   Objs:   300 - 313   Mobs:   300 - 350
+haon.are      : Rooms:  6000 - 6156  Objs:  6000 - 6155  Mobs:  6000 - 6117
+midennir.are  : Rooms:  3500 - 3590  Objs:  3500 - 3550  Mobs:  3500 - 3550
+sewer.are     : Rooms:  7001 - 7445  Objs:  7190 - 7310  Mobs:  7000 - 7206
+redferne.are  : Rooms:  7900 - 7918  Objs:  7909 - 7911  Mobs:  7900 - 7900
+grove.are     : Rooms:  8901 - 8999  Objs:  8900 - 8919  Mobs:  8900 - 8911
+dwarven.are   : Rooms:  6500 - 6554  Objs:  6502 - 6519  Mobs:  6500 - 6517
+daycare.are   : Rooms:  6601 - 6651  Objs:  6600 - 6647  Mobs:  6600 - 6610
+grave.are     : Rooms:  3600 - 3651  Objs:  3600 - 3613  Mobs:  3600 - 3605
+chapel.are    : Rooms:  3405 - 3475  Objs:  3400 - 3430  Mobs:  3400 - 3416
+astral.are    : Rooms:   800 - 899   Objs:   800 - 899   Mobs:   800 - 899
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+pixie.are     : Rooms:  2070 - 2099  Objs:  2070 - 2077  Mobs:  2070 - 2073
+export.are    : Rooms:  9810 - 9899  Objs:  9810 - 9899  Mobs:  9800 - 9899
+srefuge.are   : Rooms:  1500 - 1599  Objs:  1500 - 1599  Mobs:  1500 - 1599
+manor.are     : Rooms:  2400 - 2499  Objs:  2400 - 2499  Mobs:  2405 - 2484
+unholy.are    : Rooms:  2101 - 2172  Objs:  2101 - 2150  Mobs:  2101 - 2120
+gallery.are   : Rooms: 24800 - 24899 Objs: 24800 - 24899 Mobs: 24800 - 24899
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+Thu Sep 11 15:00:54 2025 :: Fixing exits
+Thu Sep 11 15:00:54 2025 :: Initializing economy
+Thu Sep 11 15:00:54 2025 :: Resetting areas
+Thu Sep 11 15:00:54 2025 :: Loading buildlist
+Thu Sep 11 15:00:54 2025 :: ../gods/Dragus
+Thu Sep 11 15:00:54 2025 :: Loading boards
+Thu Sep 11 15:00:54 2025 :: ../boards/immortal.brd
+Thu Sep 11 15:00:54 2025 :: ../boards/highgod.brd
+Thu Sep 11 15:00:54 2025 :: Loading vault list
+Thu Sep 11 15:00:54 2025 :: $
+Thu Sep 11 15:00:54 2025 ::  Done vaults 
+Thu Sep 11 15:00:54 2025 :: Loading clans
+Thu Sep 11 15:00:54 2025 :: Loading clans...
+Thu Sep 11 15:00:54 2025 :: vampire.gui
+Thu Sep 11 15:00:54 2025 :: Cannot open vault - ../clans/vampire.gui.vault
+Thu Sep 11 15:00:54 2025 :: druid.gui
+Thu Sep 11 15:00:54 2025 :: Cannot open vault - ../clans/druid.gui.vault
+Thu Sep 11 15:00:54 2025 :: warrior.gui
+Thu Sep 11 15:00:54 2025 :: Cannot open vault - ../clans/warrior.gui.vault
+Thu Sep 11 15:00:54 2025 :: augurer.gui
+Thu Sep 11 15:00:54 2025 :: Cannot open vault - ../clans/augurer.gui.vault
+Thu Sep 11 15:00:54 2025 :: thief.gui
+Thu Sep 11 15:00:54 2025 :: Cannot open vault - ../clans/thief.gui.vault
+Thu Sep 11 15:00:54 2025 :: cleric.gui
+Thu Sep 11 15:00:54 2025 :: Cannot open vault - ../clans/cleric.gui.vault
+Thu Sep 11 15:00:54 2025 :: mage.gui
+Thu Sep 11 15:00:54 2025 :: Cannot open vault - ../clans/mage.gui.vault
+Thu Sep 11 15:00:54 2025 :: ranger.gui
+Thu Sep 11 15:00:54 2025 :: Cannot open vault - ../clans/ranger.gui.vault
+Thu Sep 11 15:00:54 2025 :: $
+Thu Sep 11 15:00:54 2025 ::  Done clans 
+Thu Sep 11 15:00:54 2025 :: Loading councils
+Thu Sep 11 15:00:54 2025 :: Loading councils...
+Thu Sep 11 15:00:54 2025 :: $
+Thu Sep 11 15:00:54 2025 ::  Done councils 
+Thu Sep 11 15:00:54 2025 :: Loading deities
+Thu Sep 11 15:00:54 2025 :: Loading deities...
+Thu Sep 11 15:00:54 2025 :: $
+Thu Sep 11 15:00:54 2025 ::  Done deities 
+Thu Sep 11 15:00:54 2025 :: Loading watches
+Thu Sep 11 15:00:54 2025 :: Loading bans
+Thu Sep 11 15:00:54 2025 :: Done.
+Thu Sep 11 15:00:54 2025 :: Loading reserved names
+Thu Sep 11 15:00:54 2025 :: Loading corpses
+Thu Sep 11 15:00:54 2025 :: Loading Immortal Hosts
+Thu Sep 11 15:00:54 2025 :: Done.
+Thu Sep 11 15:00:54 2025 :: Loading Projects
+Thu Sep 11 15:00:54 2025 :: Loading Morphs
+Thu Sep 11 15:00:54 2025 :: Done.
+Thu Sep 11 15:00:54 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Thu Sep 11 15:00:54 2025 :: Loading login messages
+Thu Sep 11 15:00:54 2025 :: Initializing socket
+Thu Sep 11 15:00:54 2025 :: (Name Not Set) ready on port 9001.
+Thu Sep 11 15:01:06 2025 :: Preloading player data for: Dragus (18K)
+Thu Sep 11 15:01:06 2025 :: [*****] BUG: fread_char: no match: 145
+Thu Sep 11 15:01:06 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Thu Sep 11 15:01:06 2025 :: [*****] BUG: fread_char: no match: 3
+Thu Sep 11 15:01:06 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Thu Sep 11 15:01:07 2025 :: Loading player data for: Dragus (18K)
+Thu Sep 11 15:01:07 2025 :: [*****] BUG: fread_char: no match: 145
+Thu Sep 11 15:01:07 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Thu Sep 11 15:01:07 2025 :: [*****] BUG: fread_char: no match: 3
+Thu Sep 11 15:01:07 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Thu Sep 11 15:01:07 2025 :: Dragus (127.0.0.1) has connected.
+Thu Sep 11 15:30:14 2025 :: Log Dragus: sset creat skill 'energy blast'
+Thu Sep 11 15:30:50 2025 :: Log Dragus: sset create skill 'energy blast'
+Thu Sep 11 15:31:39 2025 :: Log Dragus: sset energy blast type spell
+Thu Sep 11 15:31:48 2025 :: Log Dragus: sset energy blast type spell
+Thu Sep 11 15:32:04 2025 :: Log Dragus: sset 'energy blast' type spell
+Thu Sep 11 15:32:23 2025 :: Log Dragus: sset energy blast type epell
+Thu Sep 11 15:33:52 2025 :: Log Dragus: sset energy_blast type spell
+Thu Sep 11 15:34:01 2025 :: Log Dragus: sset energy blast type spell
+Thu Sep 11 15:34:05 2025 :: Log Dragus: sset energyblast type spell
+Thu Sep 11 15:34:40 2025 :: Log Dragus: sset 'energy blast' type spell
+Thu Sep 11 15:34:49 2025 :: Log Dragus: sset 'energy blast'
+Thu Sep 11 15:34:53 2025 :: Log Dragus: sset energy blast
+Thu Sep 11 15:36:44 2025 :: Log Dragus: sset
+Thu Sep 11 15:37:03 2025 :: Log Dragus: sset 'energy blast delete
+Thu Sep 11 15:37:19 2025 :: Log Dragus: sset delete 'energy blast'
+Thu Sep 11 15:37:32 2025 :: Log Dragus: sset delete 312
+Thu Sep 11 15:37:45 2025 :: Log Dragus: sset 312 delete
+Thu Sep 11 15:38:46 2025 :: Log Dragus: sset 312 name 
+Thu Sep 11 15:38:59 2025 :: Log Dragus: sset energlyblast name 
+Thu Sep 11 15:39:46 2025 :: Log Dragus: sset 312 name ''
+Thu Sep 11 15:40:19 2025 :: Log Dragus: sset 312 name '
+Thu Sep 11 15:40:53 2025 :: Log Dragus: sset 312 name
+Thu Sep 11 15:41:00 2025 :: Log Dragus: sset 312 name 
+Thu Sep 11 15:42:39 2025 :: Log Dragus: sset create skill energy blast
+Thu Sep 11 15:43:11 2025 :: Log Dragus: sset 313 type spell
+Thu Sep 11 15:43:19 2025 :: Log Dragus: sset 313 type minpos standing
+Thu Sep 11 15:43:29 2025 :: Log Dragus: sset 313 type minlevel 1000
+Thu Sep 11 15:43:46 2025 :: Log Dragus: sset 313 type spell
+Thu Sep 11 15:43:56 2025 :: Log Dragus: sset 313 minlevel 1000
+Thu Sep 11 15:44:09 2025 :: Log Dragus: sset 313 minpos standing
+Thu Sep 11 15:44:19 2025 :: Log Dragus: sset 313 target char_offensive
+Thu Sep 11 15:44:29 2025 :: Log Dragus: sset 313 target char_offensive
+Thu Sep 11 15:45:46 2025 :: Log Dragus: sset 313 target 1
+Thu Sep 11 15:46:25 2025 :: Log Dragus: sset 313 target offensive
+Thu Sep 11 15:46:33 2025 :: Log Dragus: sset 313 target self
+Thu Sep 11 15:46:37 2025 :: Log Dragus: sset target offensive
+Thu Sep 11 15:46:44 2025 :: Log Dragus: sset 313 target offensive
+Thu Sep 11 15:47:18 2025 :: Log Dragus: sset 313 target ignore
+Thu Sep 11 15:47:26 2025 :: Log Dragus: sset 313 target defensive
+Thu Sep 11 15:47:35 2025 :: Log Dragus: sset 313 target enemy
+Thu Sep 11 15:47:37 2025 :: Log Dragus: sset 313 target defensive
+Thu Sep 11 15:47:41 2025 :: Log Dragus: sset 313 target offensive
+Thu Sep 11 15:48:27 2025 :: Log Dragus: sset 313 mana 20
+Thu Sep 11 15:48:41 2025 :: Log Dragus: sset 313 rounds 1
+Thu Sep 11 15:54:36 2025 :: Log Dragus: sset 313 beats 1
+Thu Sep 11 15:54:59 2025 :: Log Dragus: sset 313 dammsg a blast of energy
+Thu Sep 11 15:55:42 2025 :: Log Dragus: sset 313 difficulty 2
+Thu Sep 11 15:56:01 2025 :: Log Dragus: sset 313 damtype energy
+Thu Sep 11 16:06:49 2025 :: Log Dragus: sset 313 acttype destroy
+Thu Sep 11 16:07:08 2025 :: Log Dragus: sset 313 powertype minor
+Thu Sep 11 16:08:04 2025 :: Log Dragus: sset 313 flag basicskill
+Thu Sep 11 16:08:20 2025 :: Log Dragus: sset 313
+Thu Sep 11 16:09:03 2025 :: Log Dragus: sset save skil table
+Thu Sep 11 16:09:13 2025 :: Log Dragus: sset save skill table
+Thu Sep 11 16:09:57 2025 :: Log Dragus: sset 313 hitchar You blast $N with crackling energy!
+Thu Sep 11 16:10:21 2025 :: Log Dragus: sset 313 hitvict $n blasts you with crackling energy!
+Thu Sep 11 16:10:48 2025 :: Log Dragus: sset 313 hitroom $n blasts $N with crackling energy!
+Thu Sep 11 16:10:54 2025 :: Log Dragus: sset save table
+Thu Sep 11 16:11:01 2025 :: Log Dragus: sset save skill table

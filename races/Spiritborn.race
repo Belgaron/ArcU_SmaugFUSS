@@ -1,0 +1,60 @@
+Name        Spiritborn~
+Race        4
+Classes     0
+Str_Plus    0
+Dex_Plus    4
+Wis_Plus    3
+Int_Plus    3
+Con_Plus    -2
+Spr_Plus    0
+Lck_Plus    1
+Hit         4
+Mana        18
+Affected    524296
+Resist      512
+Suscept     0
+Language    1
+Align       200
+Min_Align  -500
+Max_Align	1000
+AC_Plus    2
+Exp_Mult   120
+Attacks    0
+Defenses   0
+Height     69
+Weight     155
+Hunger_Mod  -2
+Thirst_mod  -2
+Mana_Regen  4
+HP_Regen    1
+Race_Recall 0
+WhereName  <used as light>     ~
+WhereName  <worn on finger>    ~
+WhereName  <worn on finger>    ~
+WhereName  <worn around neck>  ~
+WhereName  <worn around neck>  ~
+WhereName  <worn on body>      ~
+WhereName  <worn on head>      ~
+WhereName  <worn on legs>      ~
+WhereName  <worn on feet>      ~
+WhereName  <worn on hands>     ~
+WhereName  <worn on arms>      ~
+WhereName  <worn as shield>    ~
+WhereName  <worn about body>   ~
+WhereName  <worn about waist>  ~
+WhereName  <worn around wrist> ~
+WhereName  <worn around wrist> ~
+WhereName  <wielded>           ~
+WhereName  <held>              ~
+WhereName  <dual wielded>      ~
+WhereName  <worn on ears>      ~
+WhereName  <worn on eyes>      ~
+WhereName  <missile wielded>   ~
+WhereName  <worn on back>      ~
+WhereName  <worn over face>    ~
+WhereName  <worn around ankle> ~
+WhereName  <worn around ankle> ~
+WhereName  <BUG Inform Nivek>  ~
+WhereName  <BUG Inform Nivek>  ~
+WhereName  <BUG Inform Nivek>  ~
+End

@@ -225,6 +225,14 @@ Log         0
 End
 
 #COMMAND
+Name        acomp~
+Code        do_acomp
+Position    100
+Level       65
+Log         0
+End
+
+#COMMAND
 Name        buy~
 Code        do_buy
 Position    106
@@ -589,6 +597,14 @@ Name        cyber~
 Code        do_cyber
 Position    100
 Level       0
+Log         0
+End
+
+#COMMAND
+Name        comp.install~
+Code        do_ainstall
+Position    100
+Level       65
 Log         0
 End
 
@@ -2643,6 +2659,30 @@ Name        pcrename~
 Code        do_pcrename
 Position    100
 Level       62
+Log         0
+End
+
+#COMMAND
+Name        pl~
+Code        do_pl
+Position    100
+Level       51
+Log         0
+End
+
+#COMMAND
+Name        powerup~
+Code        do_powerup
+Position    100
+Level       65
+Log         0
+End
+
+#COMMAND
+Name        powerdown~
+Code        do_powerdown
+Position    100
+Level       65
 Log         0
 End
 

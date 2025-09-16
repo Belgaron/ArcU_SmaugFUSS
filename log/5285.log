@@ -1,0 +1,852 @@
+Thu Sep 11 16:56:27 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Thu Sep 11 16:56:27 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Thu Sep 11 16:56:27 2025 :: Initializing libdl support...
+Thu Sep 11 16:56:27 2025 :: Loading commands...
+Thu Sep 11 16:56:27 2025 :: Loading spec_funs...
+Thu Sep 11 16:56:27 2025 :: Loading sysdata configuration...
+Thu Sep 11 16:56:27 2025 :: Loading socials
+Thu Sep 11 16:56:27 2025 :: Loading skill table
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: fread_word: EOF encountered on read.
+
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_skill_table: bad section.
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: fread_letter: EOF encountered on read.
+
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_skill_table: # not found.
+Thu Sep 11 16:56:27 2025 :: Sorting skill table...
+Thu Sep 11 16:56:27 2025 :: Creating skill table sorted by type...
+Thu Sep 11 16:56:27 2025 :: Remapping slots to sns
+Thu Sep 11 16:56:27 2025 :: Loading classes
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill berserk style unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill bludgeons unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill dodge unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill enhanced damage unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill long blades unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill peek unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill pugilism unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill second attack unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill third attack unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill true sight unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill berserk style unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill dodge unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill pugilism unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill rescue unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill second attack unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill talonous arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill berserk style unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill bludgeons unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill fourth attack unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill punch unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill flexible arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill scan unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill bludgeons unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill flexible arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill transport unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill vomica pravus unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill berserk style unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill flexible arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill long blades unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill short blades unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill talonous arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill true sight unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill flexible arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill short blades unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill berserk style unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill long blades unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill rescue unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill second attack unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill talonous arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill berserk style unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill fifth attack unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill flexible arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill know alignment unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill talonous arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill berserk style unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill bludgeons unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill dodge unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill scan unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill third attack unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill flexible arms unknown
+Thu Sep 11 16:56:27 2025 :: [*****] BUG: load_class_file: Skill stun unknown
+Thu Sep 11 16:56:27 2025 :: Loading races
+Thu Sep 11 16:56:27 2025 :: Loading news data
+Thu Sep 11 16:56:27 2025 :: Loading liquids
+Thu Sep 11 16:56:27 2025 :: Loading mixtures
+Thu Sep 11 16:56:27 2025 :: Loading herb table
+Thu Sep 11 16:56:27 2025 :: Loading tongues
+Thu Sep 11 16:56:27 2025 :: Making wizlist
+Thu Sep 11 16:56:27 2025 :: Loading MSSP Data...
+Thu Sep 11 16:56:27 2025 :: Initializing random number generator
+Thu Sep 11 16:56:27 2025 :: Setting time and weather.
+Thu Sep 11 16:56:27 2025 :: Loading holiday chart...
+Thu Sep 11 16:56:27 2025 :: Loading DNS cache...
+Thu Sep 11 16:56:27 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill evasive style not found.
+ASSIGN_GSN: Skill defensive style not found.
+ASSIGN_GSN: Skill standard style not found.
+ASSIGN_GSN: Skill berserk style not found.
+ASSIGN_GSN: Skill pugilism not found.
+ASSIGN_GSN: Skill long blades not found.
+ASSIGN_GSN: Skill short blades not found.
+ASSIGN_GSN: Skill flexible arms not found.
+ASSIGN_GSN: Skill talonous arms not found.
+ASSIGN_GSN: Skill bludgeons not found.
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill detrap not found.
+ASSIGN_GSN: Skill backstab not found.
+ASSIGN_GSN: Skill circle not found.
+ASSIGN_GSN: Skill tumble not found.
+ASSIGN_GSN: Skill dodge not found.
+ASSIGN_GSN: Skill hide not found.
+ASSIGN_GSN: Skill peek not found.
+ASSIGN_GSN: Skill pick lock not found.
+ASSIGN_GSN: Skill sneak not found.
+ASSIGN_GSN: Skill steal not found.
+ASSIGN_GSN: Skill gouge not found.
+ASSIGN_GSN: Skill poison weapon not found.
+ASSIGN_GSN: Skill disarm not found.
+ASSIGN_GSN: Skill enhanced damage not found.
+ASSIGN_GSN: Skill kick not found.
+ASSIGN_GSN: Skill parry not found.
+ASSIGN_GSN: Skill rescue not found.
+ASSIGN_GSN: Skill second attack not found.
+ASSIGN_GSN: Skill third attack not found.
+ASSIGN_GSN: Skill fourth attack not found.
+ASSIGN_GSN: Skill fifth attack not found.
+ASSIGN_GSN: Skill dual wield not found.
+ASSIGN_GSN: Skill punch not found.
+ASSIGN_GSN: Skill bash not found.
+ASSIGN_GSN: Skill stun not found.
+ASSIGN_GSN: Skill doorbash not found.
+ASSIGN_GSN: Skill grip not found.
+ASSIGN_GSN: Skill berserk not found.
+ASSIGN_GSN: Skill hitall not found.
+ASSIGN_GSN: Skill feed not found.
+ASSIGN_GSN: Skill bloodlet not found.
+ASSIGN_GSN: Skill cleave not found.
+ASSIGN_GSN: Skill pounce not found.
+ASSIGN_GSN: Skill grapple not found.
+ASSIGN_GSN: Skill broach not found.
+ASSIGN_GSN: Skill mistwalk not found.
+ASSIGN_GSN: Skill track not found.
+ASSIGN_GSN: Skill meditate not found.
+ASSIGN_GSN: Skill trance not found.
+ASSIGN_GSN: Skill search not found.
+ASSIGN_GSN: Skill dig not found.
+ASSIGN_GSN: Skill mount not found.
+ASSIGN_GSN: Skill bite not found.
+ASSIGN_GSN: Skill claw not found.
+ASSIGN_GSN: Skill sting not found.
+ASSIGN_GSN: Skill tail not found.
+ASSIGN_GSN: Skill scribe not found.
+ASSIGN_GSN: Skill brew not found.
+ASSIGN_GSN: Skill climb not found.
+ASSIGN_GSN: Skill cook not found.
+ASSIGN_GSN: Skill scan not found.
+ASSIGN_GSN: Skill slice not found.
+ASSIGN_GSN: Skill fireball not found.
+ASSIGN_GSN: Skill chill touch not found.
+ASSIGN_GSN: Skill lightning bolt not found.
+ASSIGN_GSN: Skill aqua breath not found.
+ASSIGN_GSN: Skill blindness not found.
+ASSIGN_GSN: Skill charm person not found.
+ASSIGN_GSN: Skill curse not found.
+ASSIGN_GSN: Skill invis not found.
+ASSIGN_GSN: Skill mass invis not found.
+ASSIGN_GSN: Skill poison not found.
+ASSIGN_GSN: Skill sleep not found.
+ASSIGN_GSN: Skill possess not found.
+ASSIGN_GSN: Skill common not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Thu Sep 11 16:56:27 2025 :: Reading in area files...
+(help.are)
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+newacad.are   : Rooms: 10300 - 10499 Objs: 10300 - 10499 Mobs: 10300 - 10499
+newgate.are   : Rooms:   100 - 199   Objs:   100 - 199   Mobs:   100 - 199
+newdark.are   : Rooms: 21000 - 21499 Objs: 21000 - 21435 Mobs: 21000 - 21499
+gods.are      : Rooms:  1200 - 1201  Objs:  1200 - 1200  Mobs:  1200 - 1200
+plains.are    : Rooms:   300 - 345   Objs:   300 - 313   Mobs:   300 - 350
+haon.are      : Rooms:  6000 - 6156  Objs:  6000 - 6155  Mobs:  6000 - 6117
+midennir.are  : Rooms:  3500 - 3590  Objs:  3500 - 3550  Mobs:  3500 - 3550
+sewer.are     : Rooms:  7001 - 7445  Objs:  7190 - 7310  Mobs:  7000 - 7206
+redferne.are  : Rooms:  7900 - 7918  Objs:  7909 - 7911  Mobs:  7900 - 7900
+grove.are     : Rooms:  8901 - 8999  Objs:  8900 - 8919  Mobs:  8900 - 8911
+dwarven.are   : Rooms:  6500 - 6554  Objs:  6502 - 6519  Mobs:  6500 - 6517
+daycare.are   : Rooms:  6601 - 6651  Objs:  6600 - 6647  Mobs:  6600 - 6610
+grave.are     : Rooms:  3600 - 3651  Objs:  3600 - 3613  Mobs:  3600 - 3605
+chapel.are    : Rooms:  3405 - 3475  Objs:  3400 - 3430  Mobs:  3400 - 3416
+astral.are    : Rooms:   800 - 899   Objs:   800 - 899   Mobs:   800 - 899
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+pixie.are     : Rooms:  2070 - 2099  Objs:  2070 - 2077  Mobs:  2070 - 2073
+export.are    : Rooms:  9810 - 9899  Objs:  9810 - 9899  Mobs:  9800 - 9899
+srefuge.are   : Rooms:  1500 - 1599  Objs:  1500 - 1599  Mobs:  1500 - 1599
+manor.are     : Rooms:  2400 - 2499  Objs:  2400 - 2499  Mobs:  2405 - 2484
+unholy.are    : Rooms:  2101 - 2172  Objs:  2101 - 2150  Mobs:  2101 - 2120
+gallery.are   : Rooms: 24800 - 24899 Objs: 24800 - 24899 Mobs: 24800 - 24899
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+Thu Sep 11 16:56:28 2025 :: Fixing exits
+Thu Sep 11 16:56:28 2025 :: Initializing economy
+Thu Sep 11 16:56:28 2025 :: Resetting areas
+Thu Sep 11 16:56:28 2025 :: Loading buildlist
+Thu Sep 11 16:56:28 2025 :: ../gods/Dragus
+Thu Sep 11 16:56:28 2025 :: Loading boards
+Thu Sep 11 16:56:28 2025 :: ../boards/immortal.brd
+Thu Sep 11 16:56:28 2025 :: ../boards/highgod.brd
+Thu Sep 11 16:56:28 2025 :: Loading vault list
+Thu Sep 11 16:56:28 2025 :: $
+Thu Sep 11 16:56:28 2025 ::  Done vaults 
+Thu Sep 11 16:56:28 2025 :: Loading clans
+Thu Sep 11 16:56:28 2025 :: Loading clans...
+Thu Sep 11 16:56:28 2025 :: vampire.gui
+Thu Sep 11 16:56:28 2025 :: Cannot open vault - ../clans/vampire.gui.vault
+Thu Sep 11 16:56:28 2025 :: druid.gui
+Thu Sep 11 16:56:28 2025 :: Cannot open vault - ../clans/druid.gui.vault
+Thu Sep 11 16:56:28 2025 :: warrior.gui
+Thu Sep 11 16:56:28 2025 :: Cannot open vault - ../clans/warrior.gui.vault
+Thu Sep 11 16:56:28 2025 :: augurer.gui
+Thu Sep 11 16:56:28 2025 :: Cannot open vault - ../clans/augurer.gui.vault
+Thu Sep 11 16:56:28 2025 :: thief.gui
+Thu Sep 11 16:56:28 2025 :: Cannot open vault - ../clans/thief.gui.vault
+Thu Sep 11 16:56:28 2025 :: cleric.gui
+Thu Sep 11 16:56:28 2025 :: Cannot open vault - ../clans/cleric.gui.vault
+Thu Sep 11 16:56:28 2025 :: mage.gui
+Thu Sep 11 16:56:28 2025 :: Cannot open vault - ../clans/mage.gui.vault
+Thu Sep 11 16:56:28 2025 :: ranger.gui
+Thu Sep 11 16:56:28 2025 :: Cannot open vault - ../clans/ranger.gui.vault
+Thu Sep 11 16:56:28 2025 :: $
+Thu Sep 11 16:56:28 2025 ::  Done clans 
+Thu Sep 11 16:56:28 2025 :: Loading councils
+Thu Sep 11 16:56:28 2025 :: Loading councils...
+Thu Sep 11 16:56:28 2025 :: $
+Thu Sep 11 16:56:28 2025 ::  Done councils 
+Thu Sep 11 16:56:28 2025 :: Loading deities
+Thu Sep 11 16:56:28 2025 :: Loading deities...
+Thu Sep 11 16:56:28 2025 :: $
+Thu Sep 11 16:56:28 2025 ::  Done deities 
+Thu Sep 11 16:56:28 2025 :: Loading watches
+Thu Sep 11 16:56:28 2025 :: Loading bans
+Thu Sep 11 16:56:28 2025 :: Done.
+Thu Sep 11 16:56:28 2025 :: Loading reserved names
+Thu Sep 11 16:56:28 2025 :: Loading corpses
+Thu Sep 11 16:56:28 2025 :: Loading Immortal Hosts
+Thu Sep 11 16:56:28 2025 :: Done.
+Thu Sep 11 16:56:28 2025 :: Loading Projects
+Thu Sep 11 16:56:28 2025 :: Loading Morphs
+Thu Sep 11 16:56:28 2025 :: Done.
+Thu Sep 11 16:56:28 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Thu Sep 11 16:56:28 2025 :: Loading login messages
+Thu Sep 11 16:56:28 2025 :: Initializing socket
+Thu Sep 11 16:56:28 2025 :: (Name Not Set) ready on port 9001.
+Thu Sep 11 16:56:32 2025 :: Preloading player data for: Dragus (18K)
+Thu Sep 11 16:56:32 2025 :: [*****] BUG: fread_char: no match: 145
+Thu Sep 11 16:56:32 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Thu Sep 11 16:56:32 2025 :: [*****] BUG: fread_char: no match: 3
+Thu Sep 11 16:56:32 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Thu Sep 11 16:56:34 2025 :: Loading player data for: Dragus (18K)
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: no match: 145
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: no match: 3
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 52
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 60
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 62
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 63
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 64
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 65
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 66
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 67
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 68
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 69
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 70
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 71
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 72
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 73
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 74
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 75
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 76
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 77
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 78
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 79
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 80
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 81
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown weapon.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 82
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 83
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 84
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 85
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 86
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 87
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 88
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 89
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 90
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 91
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 92
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 93
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 94
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 95
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 96
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 97
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 98
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 99
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 100
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 101
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 102
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 103
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 104
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 105
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 106
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 107
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 108
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 109
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 110
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 111
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 112
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 113
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 114
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 115
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 116
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 117
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 118
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 119
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 120
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 121
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 122
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 123
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 124
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 125
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 126
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 127
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 128
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 129
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 130
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 131
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 132
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 133
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 134
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 135
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 136
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 137
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 138
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 139
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 140
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 141
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 142
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 143
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 144
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 145
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 146
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 147
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 148
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 149
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 150
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 151
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 152
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 153
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 154
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 155
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 156
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 157
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 158
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 159
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 160
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 161
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 162
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 163
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown weapon.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 164
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 165
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 166
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 167
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 168
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 169
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 170
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 171
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 172
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 173
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 174
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 175
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 176
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 177
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 178
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 179
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 180
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 181
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 182
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 183
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 184
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 185
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 186
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 187
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 188
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 189
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 190
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 191
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 192
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 193
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 194
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 195
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 196
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 197
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 198
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 199
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 200
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 201
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 202
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 203
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 204
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 205
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 206
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown weapon.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 207
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 208
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 209
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 210
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 211
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 212
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 213
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 214
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 215
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown weapon.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 216
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 217
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 218
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 219
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 220
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 221
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 222
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 223
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 224
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 225
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 226
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 227
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 228
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 229
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 230
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 231
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 232
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 233
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 234
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 235
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 236
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 237
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown weapon.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 238
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 239
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 240
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 241
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 242
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 243
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 244
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 245
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 246
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 247
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 248
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 249
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 250
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 251
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 252
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 253
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 254
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 255
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 256
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 257
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 258
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 259
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 260
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 261
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 262
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 263
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 264
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 265
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 266
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 267
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown weapon.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 268
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 269
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 270
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 271
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 272
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 273
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 274
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 275
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 276
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 277
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 278
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 279
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 280
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 281
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 282
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 283
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 284
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 285
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 286
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 287
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 288
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 289
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 290
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 291
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 292
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 293
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 294
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown weapon.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 295
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 296
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 297
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 298
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 299
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 300
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 301
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 302
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown tongue.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 303
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 304
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 305
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 306
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 307
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 308
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 309
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 310
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 311
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 312
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 313
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 314
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 315
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 316
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 317
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 318
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 319
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_char: unknown spell.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 320
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 356
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 452
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 453
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 454
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 469
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 651
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 659
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 695
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 696
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 719
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 720
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 721
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 736
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 737
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 738
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 768
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 769
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 770
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 792
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 793
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 801
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 817
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 825
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 826
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 834
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 835
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 844
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 861
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 862
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 885
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 893
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 908
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 909
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 917
+Thu Sep 11 16:56:34 2025 :: [*****] BUG: fread_obj: unknown skill.
+Thu Sep 11 16:56:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 932
+Thu Sep 11 16:56:34 2025 :: Dragus (127.0.0.1) has connected.
