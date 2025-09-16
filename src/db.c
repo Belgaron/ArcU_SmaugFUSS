@@ -95,13 +95,20 @@ bool MPSilent;
 bool DONT_UPPER;
 
 /* weaponry */
-short gsn_pugilism;
 short gsn_long_blades;
 short gsn_short_blades;
 short gsn_flexible_arms;
 short gsn_talonous_arms;
 short gsn_bludgeons;
-short gsn_missile_weapons;
+short gsn_missile_weapons; // potentially phase out
+short gsn_spears;
+short gsn_polearms;
+short gsn_firearms;
+short gsn_maces;
+short gsn_staves;
+short gsn_bows;
+short gsn_xbows;
+short gsn_unarmed;
 
 /* thief */
 short gsn_detrap;
@@ -416,9 +423,9 @@ void boot_db( bool fCopyOver )
    load_skill_table(  );
    sort_skill_table(  );
    remap_slot_numbers(  ); /* must be after the sort */
-
+   
    num_sorted_skills = num_skills;
-
+   
    log_string( "Loading classes" );
    load_classes(  );
 
@@ -572,7 +579,14 @@ void boot_db( bool fCopyOver )
       ASSIGN_GSN( gsn_style_aggressive, "aggressive style" );
       ASSIGN_GSN( gsn_style_berserk, "berserk style" );
 
-      ASSIGN_GSN( gsn_pugilism, "pugilism" );
+      ASSIGN_GSN( gsn_unarmed, "unarmed" );
+	   ASSIGN_GSN( gsn_maces, "maces" );
+	   ASSIGN_GSN( gsn_staves, "staves" );
+	   ASSIGN_GSN( gsn_spears, "spears" );
+	   ASSIGN_GSN( gsn_polearms, "polearms" );
+	   ASSIGN_GSN( gsn_bows, "bows" );
+	   ASSIGN_GSN( gsn_xbows, "xbows" );
+	   ASSIGN_GSN( gsn_firearms, "firearms" );
       ASSIGN_GSN( gsn_long_blades, "long blades" );
       ASSIGN_GSN( gsn_short_blades, "short blades" );
       ASSIGN_GSN( gsn_flexible_arms, "flexible arms" );
@@ -1251,7 +1265,7 @@ void load_mobiles( AREA_DATA * tarea, FILE * fp )
          pMobIndex->perm_wis = fread_number( fp );
          pMobIndex->perm_dex = fread_number( fp );
          pMobIndex->perm_con = fread_number( fp );
-         pMobIndex->perm_cha = fread_number( fp );
+         pMobIndex->perm_spr = fread_number( fp );
          pMobIndex->perm_lck = fread_number( fp );
          pMobIndex->saving_poison_death = fread_number( fp );
          pMobIndex->saving_wand = fread_number( fp );
@@ -1347,7 +1361,7 @@ void load_mobiles( AREA_DATA * tarea, FILE * fp )
          pMobIndex->perm_dex = 13;
          pMobIndex->perm_int = 13;
          pMobIndex->perm_wis = 13;
-         pMobIndex->perm_cha = 13;
+         pMobIndex->perm_spr = 13;
          pMobIndex->perm_con = 13;
          pMobIndex->perm_lck = 13;
          pMobIndex->race = 0;
@@ -2726,7 +2740,7 @@ CHAR_DATA *create_mobile( MOB_INDEX_DATA * pMobIndex )
    mob->perm_wis = pMobIndex->perm_wis;
    mob->perm_int = pMobIndex->perm_int;
    mob->perm_con = pMobIndex->perm_con;
-   mob->perm_cha = pMobIndex->perm_cha;
+   mob->perm_spr = pMobIndex->perm_spr;
    mob->perm_lck = pMobIndex->perm_lck;
    mob->hitroll = pMobIndex->hitroll;
    mob->damroll = pMobIndex->damroll;
@@ -2976,12 +2990,18 @@ void clear_char( CHAR_DATA * ch )
    ch->armor = 100;
    ch->position = POS_STANDING;
    ch->practice = 0;
+   ch->power_level.set_base(5);
+   //ch->current_powerlevel = 5;  shouldn't need to set this
+   ch->power_level.set_logon();
+   ch->powerup = 0;
    ch->hit = 20;
    ch->max_hit = 20;
    ch->mana = 100;
    ch->max_mana = 100;
    ch->move = 100;
    ch->max_move = 100;
+   ch->focus = 0;
+   ch->max_focus = get_curr_int(ch);
    ch->height = 72;
    ch->weight = 180;
    ch->xflags = 0;
@@ -2997,16 +3017,26 @@ void clear_char( CHAR_DATA * ch )
    ch->perm_dex = 13;
    ch->perm_int = 13;
    ch->perm_wis = 13;
-   ch->perm_cha = 13;
+   ch->perm_spr = 13;
    ch->perm_con = 13;
    ch->perm_lck = 13;
    ch->mod_str = 0;
    ch->mod_dex = 0;
    ch->mod_int = 0;
    ch->mod_wis = 0;
-   ch->mod_cha = 0;
+   ch->mod_spr = 0;
    ch->mod_con = 0;
    ch->mod_lck = 0;
+	/* Initialize android component system */
+	if( ch->pcdata )
+	{
+		for( int i = 0; i < 6; i++ )
+		{
+			ch->pcdata->android_components[i] = 0;
+		}
+		ch->pcdata->android_schematics = 0;
+		ch->pcdata->android_installed = 0;
+	}
 }
 
 /*
@@ -3312,6 +3342,53 @@ int fread_number( FILE * fp )
 
    if( c == '|' )
       number += fread_number( fp );
+   else if( c != ' ' )
+      ungetc( c, fp );
+
+   return number;
+}
+
+long long fread_number_ll( FILE *fp )
+{
+   long long number;
+   bool sign;
+   char c;
+
+   do
+   {
+      c = getc( fp );
+   }
+   while( isspace( c ) );
+
+   number = 0;
+   sign = FALSE;
+   if( c == '+' )
+   {
+      c = getc( fp );
+   }
+   else if( c == '-' )
+   {
+      sign = TRUE;
+      c = getc( fp );
+   }
+
+   if( !isdigit( c ) )
+   {
+      /* Simple error handling - just return 0 */
+      return 0;
+   }
+
+   while( isdigit( c ) )
+   {
+      number = number * 10 + c - '0';
+      c = getc( fp );
+   }
+
+   if( sign )
+      number = 0 - number;
+
+   if( c == '|' )
+      number += fread_number_ll( fp );
    else if( c != ' ' )
       ungetc( c, fp );
 
@@ -5571,7 +5648,7 @@ MOB_INDEX_DATA *make_mobile( int vnum, int cvnum, const char *name )
       pMobIndex->perm_dex = 13;
       pMobIndex->perm_int = 13;
       pMobIndex->perm_wis = 13;
-      pMobIndex->perm_cha = 13;
+      pMobIndex->perm_spr = 13;
       pMobIndex->perm_con = 13;
       pMobIndex->perm_lck = 13;
       pMobIndex->race = 0;
@@ -5616,7 +5693,7 @@ MOB_INDEX_DATA *make_mobile( int vnum, int cvnum, const char *name )
       pMobIndex->perm_dex = cMobIndex->perm_dex;
       pMobIndex->perm_int = cMobIndex->perm_int;
       pMobIndex->perm_wis = cMobIndex->perm_wis;
-      pMobIndex->perm_cha = cMobIndex->perm_cha;
+      pMobIndex->perm_spr = cMobIndex->perm_spr;
       pMobIndex->perm_con = cMobIndex->perm_con;
       pMobIndex->perm_lck = cMobIndex->perm_lck;
       pMobIndex->race = cMobIndex->race;
@@ -7170,7 +7247,7 @@ void fread_fuss_mobile( FILE * fp, AREA_DATA * tarea )
                pMobIndex->perm_wis = x3;
                pMobIndex->perm_dex = x4;
                pMobIndex->perm_con = x5;
-               pMobIndex->perm_cha = x6;
+               pMobIndex->perm_spr = x6;
                pMobIndex->perm_lck = x7;
 
                fMatch = TRUE;

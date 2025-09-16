@@ -120,7 +120,7 @@ const char *const a_types[] = {
    "none", "strength", "dexterity", "intelligence", "wisdom", "constitution",
    "sex", "class", "level", "age", "height", "weight", "mana", "hit", "move",
    "gold", "experience", "armor", "hitroll", "damroll", "save_poison", "save_rod",
-   "save_para", "save_breath", "save_spell", "charisma", "affected", "resistant",
+   "save_para", "save_breath", "save_spell", "spirit", "affected", "resistant",
    "immune", "susceptible", "weaponspell", "luck", "backstab", "pick", "track",
    "steal", "sneak", "hide", "palm", "detrap", "dodge", "peek", "scan", "gouge",
    "search", "mount", "disarm", "kick", "parry", "bash", "stun", "punch", "climb",
@@ -188,7 +188,7 @@ const char *const wear_locs[] = {
 const char *const ris_flags[] = {
    "fire", "cold", "electricity", "energy", "blunt", "pierce", "slash", "acid",
    "poison", "drain", "sleep", "charm", "hold", "nonmagic", "plus1", "plus2",
-   "plus3", "plus4", "plus5", "plus6", "magic", "paralysis", "r1", "r2", "r3",
+   "plus3", "plus4", "plus5", "plus6", "magic", "paralysis", "ballistic", "r2", "r3",
    "r4", "r5", "r6", "r7", "r8", "r9", "r10"
 };
 
@@ -1213,7 +1213,7 @@ void do_mset( CHAR_DATA* ch, const char* argument )
          send_to_char( "Syntax: mset <victim> <field>  <value>\r\n", ch );
       send_to_char( "\r\n", ch );
       send_to_char( "Field being one of:\r\n", ch );
-      send_to_char( "  str int wis dex con cha lck sex class\r\n", ch );
+      send_to_char( "  str int wis dex con spr lck sex class\r\n", ch );
       send_to_char( "  gold hp mana move practice align race\r\n", ch );
       send_to_char( "  hitroll damroll armor affected level\r\n", ch );
       send_to_char( "  thirst drunk full blood flags\r\n", ch );
@@ -1375,19 +1375,31 @@ void do_mset( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !str_cmp( arg2, "cha" ) )
-   {
-      if( !can_mmodify( ch, victim ) )
-         return;
-      if( value < minattr || value > maxattr )
-      {
-         ch_printf( ch, "Charisma range is %d to %d.\r\n", minattr, maxattr );
-         return;
-      }
-      victim->perm_cha = value;
-      if( IS_NPC( victim ) && xIS_SET( victim->act, ACT_PROTOTYPE ) )
-         victim->pIndexData->perm_cha = value;
-      return;
+   if (!str_cmp(arg2, "spr") || !str_cmp(arg2, "spirit") || !str_cmp(arg2, "core")) {
+       if (!can_mmodify(ch, victim))
+           return;
+       
+       if (value < 1 || value > 100) {
+           ch_printf(ch, "%s range is 1 to 100.\r\n", 
+                     is_android(victim) ? "Core" : "Spirit");
+           return;
+       }
+       
+       victim->perm_spr = value;
+       if (IS_NPC(victim) && xIS_SET(victim->act, ACT_PROTOTYPE))
+           victim->pIndexData->perm_spr = value;
+       
+       ch_printf(ch, "%s's %s set to %d.\r\n", 
+                 victim->name, 
+                 is_android(victim) ? "core" : "spirit", 
+                 value);
+       return;
+   }
+	
+		/* Redirect old charisma command */
+		if (!str_cmp(arg2, "cha") || !str_cmp(arg2, "charisma")) {
+			send_to_char("Charisma has been replaced. Use 'spirit' or 'core' instead.\r\n", ch);
+			return;
    }
 
    if( !str_cmp( arg2, "lck" ) )
@@ -6578,7 +6590,7 @@ void fwrite_fuss_mobile( FILE * fpout, MOB_INDEX_DATA * pMobIndex, bool install 
    fprintf( fpout, "Attribs    %d %d %d %d %d %d %d\n",
             pMobIndex->perm_str,
             pMobIndex->perm_int,
-            pMobIndex->perm_wis, pMobIndex->perm_dex, pMobIndex->perm_con, pMobIndex->perm_cha, pMobIndex->perm_lck );
+            pMobIndex->perm_wis, pMobIndex->perm_dex, pMobIndex->perm_con, pMobIndex->perm_spr, pMobIndex->perm_lck );
    fprintf( fpout, "Saves      %d %d %d %d %d\n",
             pMobIndex->saving_poison_death,
             pMobIndex->saving_wand, pMobIndex->saving_para_petri, pMobIndex->saving_breath, pMobIndex->saving_spell_staff );

@@ -607,40 +607,211 @@ int urange( int mincheck, int check, int maxcheck )
 }
 
 /*
- * Return how much exp a char has
+ * Return how much pl a char has
  */
 int get_exp( CHAR_DATA * ch )
 {
-   return ch->exp;
+   return get_power_level(ch);
 }
 
-/*
- * Calculate roughly how much experience a character is worth
- */
-int get_exp_worth( CHAR_DATA * ch )
+/* Get effective power level (with any temporary modifiers) */
+long long get_power_level( CHAR_DATA *ch )
 {
-   int wexp;
+   long long power;
+   AFFECT_DATA *paf;
+   double multiplier = 1.0;
+   
+   if( !ch )
+      return 0;
+      
+   /* Start with base power level from our new PowerLevel class */
+   power = ch->power_level.get_base();
+   
+   /* Add temporary modifiers from affects, equipment, etc. */
+   for( paf = ch->first_affect; paf; paf = paf->next )
+   {
+      if( paf->location == APPLY_EXP )  /* Using existing EXP apply to effect pl for now */
+         power += paf->modifier;
+   }
+   
+   /* Apply powerup multiplier */
+   if( !IS_NPC(ch) && ch->powerup > 0 )
+   {
+      switch( ch->powerup )
+      {
+         case 1: multiplier = 1.1; break;
+         case 2: multiplier = 1.2; break;
+         case 3: multiplier = 1.3; break;
+         case 4: multiplier = 1.4; break;
+         case 5: multiplier = 1.5; break;
+         case 6: multiplier = 1.6; break;
+         case 7: multiplier = 1.7; break;
+      }
+      power = (long long)(power * multiplier);
+   }
+   
+   
+   if( !IS_NPC(ch) && ch->morph && ch->morph->morph )
+   {
+      MORPH_DATA *morph_data = ch->morph->morph;
+      if( morph_data->pl_multiplier > 100 )
+      {
+         double morph_mult = morph_data->pl_multiplier / 100.0;
+         power = (long long)(power * morph_mult);
+      }
+   }
+   
+   return power;
+}
 
-   wexp = ch->level * ch->level * ch->level * 5;
-   wexp += ch->max_hit;
-   wexp -= ( ch->armor - 50 ) * 2;
-   wexp += ( ch->barenumdie * ch->baresizedie + GET_DAMROLL( ch ) ) * 50;
-   wexp += GET_HITROLL( ch ) * ch->level * 10;
-   if( IS_AFFECTED( ch, AFF_SANCTUARY ) )
-      wexp += ( int )( wexp * 1.5 );
-   if( IS_AFFECTED( ch, AFF_FIRESHIELD ) )
-      wexp += ( int )( wexp * 1.2 );
-   if( IS_AFFECTED( ch, AFF_ICESHIELD ) )
-      wexp += ( int )( wexp * 1.2 ); 
-   if( IS_AFFECTED( ch, AFF_SHOCKSHIELD ) )
-      wexp += ( int )( wexp * 1.2 );
-   if( IS_AFFECTED( ch, AFF_VENOMSHIELD ) )
-      wexp += ( int )( wexp * 1.2 );
-   if( IS_AFFECTED( ch, AFF_ACIDMIST ) )
-      wexp += ( int )( wexp * 1.2 ); 
-   wexp = URANGE( MIN_EXP_WORTH, wexp, MAX_EXP_WORTH );
+/* Set base power level and recalculate current */
+void set_base_power_level( CHAR_DATA *ch, long long amount )
+{
+   if( !ch )
+      return;
+      
+   ch->power_level.set_base(amount);
+   ch->exp = ch->power_level.get_exp_equivalent();  /* Keep exp field synced for compatibility */
+   
+   /* Auto-level based on power level ranges (DBSC style) */
+   update_level_from_pl( ch );
+}
 
-   return wexp;
+/* Add to base power level */
+void add_base_power_level( CHAR_DATA *ch, long long amount )
+{
+   if( !ch )
+      return;
+      
+   ch->power_level.add_base(amount);
+   ch->exp = ch->power_level.get_exp_equivalent();  /* Keep exp field synced */
+   
+   /* Auto-level based on power level ranges (DBSC style) */
+   update_level_from_pl( ch );
+}
+
+/* Set logon power level when character logs in */
+void set_logon_powerlevel( CHAR_DATA *ch )
+{
+   if( !ch )
+      return;
+      
+   ch->power_level.set_logon();
+}
+
+/* Format power level for display (handles very large numbers with abbreviations) */
+char *format_power_level( long long power )
+{
+   static char buf[4][64];
+   static int flip = 0;
+   
+   flip = (flip + 1) % 4;
+   
+   if( power >= 1000000000000LL )  /* 1 trillion+ */
+   {
+      snprintf( buf[flip], sizeof(buf[flip]), "%.2fT", (double)power / 1000000000000.0 );
+   }
+   else if( power >= 1000000000LL )  /* 1 billion+ */
+   {
+      snprintf( buf[flip], sizeof(buf[flip]), "%.2fB", (double)power / 1000000000.0 );
+   }
+   else if( power >= 1000000LL )  /* 1 million+ */
+   {
+      snprintf( buf[flip], sizeof(buf[flip]), "%.2fM", (double)power / 1000000.0 );
+   }
+   else if( power >= 1000LL )  /* 1 thousand+ */
+   {
+      snprintf( buf[flip], sizeof(buf[flip]), "%.2fK", (double)power / 1000.0 );
+   }
+   else
+   {
+      snprintf( buf[flip], sizeof(buf[flip]), "%lld", power );
+   }
+   
+   return buf[flip];
+}
+
+/* Update character level based on power level (DBSC methodology) */
+void update_level_from_pl( CHAR_DATA *ch )
+{
+   int new_level;
+   long long pl;
+   
+   if( !ch || IS_NPC( ch ) )
+      return;
+      
+   pl = ch->power_level.get_base();
+   
+   /* DBSC-style level calculation based on power level */
+   if( pl < 1000 )
+      new_level = 1;
+   else if( pl < 5000 )
+      new_level = 2;
+   else if( pl < 10000 )
+      new_level = 3;
+   else if( pl < 25000 )
+      new_level = 4;
+   else if( pl < 50000 )
+      new_level = 5;
+   else if( pl < 100000 )
+      new_level = 6;
+   else if( pl < 250000 )
+      new_level = 7;
+   else if( pl < 500000 )
+      new_level = 8;
+   else if( pl < 1000000 )
+      new_level = 9;
+   else if( pl < 2500000 )
+      new_level = 10;
+   else if( pl < 5000000 )
+      new_level = 11;
+   else if( pl < 10000000 )
+      new_level = 12;
+   else if( pl < 25000000 )
+      new_level = 13;
+   else if( pl < 50000000 )
+      new_level = 14;
+   else if( pl < 100000000 )
+      new_level = 15;
+   else if( pl < 250000000 )
+      new_level = 16;
+   else if( pl < 500000000 )
+      new_level = 17;
+   else if( pl < 1000000000LL )
+      new_level = 18;
+   else if( pl < 2500000000LL )
+      new_level = 19;
+   else if( pl < 5000000000LL )
+      new_level = 20;
+   else
+      new_level = UMIN( 50, 20 + (int)(pl / 10000000000LL) );
+   
+   if( new_level > ch->level )
+   {
+      ch->level = new_level;
+      ch_printf( ch, "&WYou feel your power increase! &YLevel %d&W!\r\n", new_level );
+      advance_level( ch );
+   }
+}
+
+/* Calculate experience worth of a character based on power level */
+int get_exp_worth( CHAR_DATA *ch )
+{
+   long long base_worth;
+   
+   if( !ch )
+      return 0;
+      
+   /* Base worth is related to power level */
+   base_worth = get_power_level( ch ) / 100;
+   
+   /* Add level-based component for balance */
+   base_worth += ch->level * ch->level * 5;
+   
+   /* Cap minimum and maximum */
+   base_worth = URANGE( 10, base_worth, 50000 );
+   
+   return (int)base_worth;
 }
 
 short get_exp_base( CHAR_DATA * ch )
@@ -652,7 +823,7 @@ short get_exp_base( CHAR_DATA * ch )
 
 /*								-Thoric
  * Return how much experience is required for ch to get to a certain level
- *
+ */
 int exp_level( CHAR_DATA * ch, short level )
 {
    int lvl;
@@ -660,7 +831,7 @@ int exp_level( CHAR_DATA * ch, short level )
    lvl = UMAX( 0, level - 1 );
    return ( lvl * lvl * lvl * get_exp_base( ch ) );
 }
- */
+
 /*
  * Get what level ch is based on exp
  */
@@ -737,13 +908,13 @@ short get_curr_str( CHAR_DATA * ch )
    short max;
 
    if( IS_NPC( ch ) || class_table[ch->Class]->attr_prime == APPLY_STR )
-      max = 25;
+      max = 120;
    else if( class_table[ch->Class]->attr_second == APPLY_STR )
-      max = 22;
+      max = 110;
    else if( class_table[ch->Class]->attr_deficient == APPLY_STR )
-      max = 16;
+      max = 95;
    else
-      max = 20;
+      max = 100;
 
    return URANGE( 3, ch->perm_str + ch->mod_str, max );
 }
@@ -756,13 +927,13 @@ short get_curr_int( CHAR_DATA * ch )
    short max;
 
    if( IS_NPC( ch ) || class_table[ch->Class]->attr_prime == APPLY_INT )
-      max = 25;
+      max = 120;
    else if( class_table[ch->Class]->attr_second == APPLY_INT )
-      max = 22;
+      max = 110;
    else if( class_table[ch->Class]->attr_deficient == APPLY_INT )
-      max = 16;
+      max = 95;
    else
-      max = 20;
+      max = 100;
 
    return URANGE( 3, ch->perm_int + ch->mod_int, max );
 }
@@ -775,13 +946,13 @@ short get_curr_wis( CHAR_DATA * ch )
    short max;
 
    if( IS_NPC( ch ) || class_table[ch->Class]->attr_prime == APPLY_WIS )
-      max = 25;
+      max = 120;
    else if( class_table[ch->Class]->attr_second == APPLY_WIS )
-      max = 22;
+      max = 110;
    else if( class_table[ch->Class]->attr_deficient == APPLY_WIS )
-      max = 16;
+      max = 95;
    else
-      max = 20;
+      max = 100;
 
    return URANGE( 3, ch->perm_wis + ch->mod_wis, max );
 }
@@ -794,13 +965,13 @@ short get_curr_dex( CHAR_DATA * ch )
    short max;
 
    if( IS_NPC( ch ) || class_table[ch->Class]->attr_prime == APPLY_DEX )
-      max = 25;
+      max = 120;
    else if( class_table[ch->Class]->attr_second == APPLY_DEX )
-      max = 22;
+      max = 110;
    else if( class_table[ch->Class]->attr_deficient == APPLY_DEX )
-      max = 16;
+      max = 95;
    else
-      max = 20;
+      max = 100;
 
    return URANGE( 3, ch->perm_dex + ch->mod_dex, max );
 }
@@ -813,35 +984,52 @@ short get_curr_con( CHAR_DATA * ch )
    short max;
 
    if( IS_NPC( ch ) || class_table[ch->Class]->attr_prime == APPLY_CON )
-      max = 25;
+      max = 120;
    else if( class_table[ch->Class]->attr_second == APPLY_CON )
-      max = 22;
+      max = 110;
    else if( class_table[ch->Class]->attr_deficient == APPLY_CON )
-      max = 16;
+      max = 95;
    else
-      max = 20;
+      max = 100;
 
    return URANGE( 3, ch->perm_con + ch->mod_con, max );
 }
 
 /*
- * Retrieve character's current charisma.
+ * Retrieve character's current Spirit.
  */
-short get_curr_cha( CHAR_DATA * ch )
+short get_curr_spr(CHAR_DATA *ch)
 {
-   short max;
+    short max;
 
-   if( IS_NPC( ch ) || class_table[ch->Class]->attr_prime == APPLY_CHA )
-      max = 25;
-   else if( class_table[ch->Class]->attr_second == APPLY_CHA )
-      max = 22;
-   else if( class_table[ch->Class]->attr_deficient == APPLY_CHA )
-      max = 16;
+   if( IS_NPC( ch ) || class_table[ch->Class]->attr_prime == APPLY_SPR )
+      max = 120;
+   else if( class_table[ch->Class]->attr_second == APPLY_SPR )
+      max = 110;
+   else if( class_table[ch->Class]->attr_deficient == APPLY_SPR )
+      max = 95;
    else
-      max = 20;
-
-   return URANGE( 3, ch->perm_cha + ch->mod_cha, max );
+      max = 100;
+    
+    return URANGE(3, ch->perm_spr + ch->mod_spr, max ); 
 }
+
+/*
+ * Backward compatibility function
+ */
+short get_curr_cha(CHAR_DATA *ch)
+{
+    return get_curr_spr(ch);
+}
+
+/*
+ * Check if character is an android
+ */
+bool is_android(CHAR_DATA *ch)
+{
+    return (!IS_NPC(ch) && ch->race == RACE_ANDROID);
+}
+
 
 /*
  * Retrieve character's current luck.
@@ -1171,8 +1359,8 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd )
       case APPLY_CON:
          ch->mod_con += mod;
          break;
-      case APPLY_CHA:
-         ch->mod_cha += mod;
+      case APPLY_SPR:
+         ch->mod_spr += mod;
          break;
       case APPLY_LCK:
          ch->mod_lck += mod;
@@ -1417,6 +1605,15 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd )
       case APPLY_COOK:
          modify_skill( ch, gsn_cook, mod, fAdd );
          break;
+	  case APPLY_FOCUS:
+		 ch->focus += mod;
+		 if( !IS_NPC(ch) )
+			 ch->focus = URANGE( 0, ch->focus, get_curr_int(ch) );
+		 break;
+    
+	  case APPLY_MAX_FOCUS:
+	 	 // This would modify max focus if you want equipment to affect it
+	 	 break;
 
          /*
           * Room apply types
@@ -3517,8 +3714,8 @@ const char *affect_loc_name( int location )
          return "wisdom";
       case APPLY_CON:
          return "constitution";
-      case APPLY_CHA:
-         return "charisma";
+      case APPLY_SPR:
+         return "Spirit";
       case APPLY_LCK:
          return "luck";
       case APPLY_SEX:
@@ -4265,14 +4462,14 @@ void name_stamp_stats( CHAR_DATA * ch )
    ch->perm_dex = UMIN( 18, ch->perm_dex );
    ch->perm_int = UMIN( 18, ch->perm_int );
    ch->perm_con = UMIN( 18, ch->perm_con );
-   ch->perm_cha = UMIN( 18, ch->perm_cha );
+   ch->perm_spr = UMIN( 18, ch->perm_spr );
    ch->perm_lck = UMIN( 18, ch->perm_lck );
    ch->perm_str = UMAX( 9, ch->perm_str );
    ch->perm_wis = UMAX( 9, ch->perm_wis );
    ch->perm_dex = UMAX( 9, ch->perm_dex );
    ch->perm_int = UMAX( 9, ch->perm_int );
    ch->perm_con = UMAX( 9, ch->perm_con );
-   ch->perm_cha = UMAX( 9, ch->perm_cha );
+   ch->perm_spr = UMAX( 9, ch->perm_spr );
    ch->perm_lck = UMAX( 9, ch->perm_lck );
 
    for( x = 0; x < strlen( ch->name ); x++ )
@@ -4298,7 +4495,7 @@ void name_stamp_stats( CHAR_DATA * ch )
             ch->perm_con = UMIN( 18, ch->perm_con + a );
             break;
          case 5:
-            ch->perm_cha = UMIN( 18, ch->perm_cha + a );
+            ch->perm_spr = UMIN( 18, ch->perm_spr + a );
             break;
          case 6:
             ch->perm_lck = UMIN( 18, ch->perm_lck + a );
@@ -4319,15 +4516,83 @@ void name_stamp_stats( CHAR_DATA * ch )
             ch->perm_con = UMAX( 9, ch->perm_con - a );
             break;
          case 12:
-            ch->perm_cha = UMAX( 9, ch->perm_cha - a );
+            ch->perm_spr = UMAX( 9, ch->perm_spr - a );
             break;
          case 13:
             ch->perm_lck = UMAX( 9, ch->perm_lck - a );
             break;
       }
    }
+     /* Initialize starting power level for new character */
+   // PowerLevel constructor will handle initialization to safe values
+   ch->power_level = PowerLevel(10);  // Starting power level of 10
+   ch->exp = ch->power_level.get_exp_equivalent();  // Sync exp field
+   /* Update character level based on power level (DBSC methodology) */
 }
-
+/*
+void update_level_from_pl( CHAR_DATA *ch )
+{
+   int new_level;
+   long long pl;
+   
+   if( !ch || IS_NPC( ch ) )
+      return;
+      
+   pl = ch->power_level.get_base();  // Use our new PowerLevel class
+   
+   / DBSC-style level calculation based on power level /
+   if( pl < 1000 )
+      new_level = 1;
+   else if( pl < 5000 )
+      new_level = 2;
+   else if( pl < 10000 )
+      new_level = 3;
+   else if( pl < 25000 )
+      new_level = 4;
+   else if( pl < 50000 )
+      new_level = 5;
+   else if( pl < 100000 )
+      new_level = 6;
+   else if( pl < 250000 )
+      new_level = 7;
+   else if( pl < 500000 )
+      new_level = 8;
+   else if( pl < 1000000 )
+      new_level = 9;
+   else if( pl < 2500000 )
+      new_level = 10;
+   else if( pl < 5000000 )
+      new_level = 11;
+   else if( pl < 10000000 )
+      new_level = 12;
+   else if( pl < 25000000 )
+      new_level = 13;
+   else if( pl < 50000000 )
+      new_level = 14;
+   else if( pl < 100000000 )
+      new_level = 15;
+   else if( pl < 250000000 )
+      new_level = 16;
+   else if( pl < 500000000 )
+      new_level = 17;
+   else if( pl < 1000000000LL )
+      new_level = 18;
+   else if( pl < 2500000000LL )
+      new_level = 19;
+   else if( pl < 5000000000LL )
+      new_level = 20;
+   else
+      new_level = UMIN( 50, 20 + (int)(pl / 10000000000LL) );
+   
+   if( new_level > ch->level )
+   {
+      ch->level = new_level;
+      ch_printf( ch, "&WYou feel your power increase! &YLevel %d&W!\r\n", new_level );
+      advance_level( ch );
+   }
+}
+ */
+ 
 /*
  * "Fix" a character's stats -Thoric
  */
@@ -4372,7 +4637,7 @@ void fix_char( CHAR_DATA * ch )
    ch->mod_wis = 0;
    ch->mod_int = 0;
    ch->mod_con = 0;
-   ch->mod_cha = 0;
+   ch->mod_spr = 0;
    ch->mod_lck = 0;
    ch->damroll = 0;
    ch->hitroll = 0;

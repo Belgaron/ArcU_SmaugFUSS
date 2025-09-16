@@ -374,7 +374,7 @@ int get_color( const char *argument )  /* get color code from command string */
    char color[MAX_INPUT_LENGTH];
    const char *cptr;
    static char const *color_list = "_bla_red_dgr_bro_dbl_pur_cya_cha_dch_ora_gre_yel_blu_pin_lbl_whi";
-   static char const *blink_list = "*bla*red*dgr*bro*dbl*pur*cya*cha*dch*ora*gre*yel*blu*pin*lbl*whi";
+   static char const *blink_list = "*bla*red*dgr*bro*dbl*pur*cya*spr*dch*ora*gre*yel*blu*pin*lbl*whi";
 
    one_argument( argument, color );
    if( color[0] != '_' && color[0] != '*' )
@@ -1978,7 +1978,7 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( victim->level < skill_table[sn]->skill_level[victim->Class] )
+   if( get_power_level(victim) < skill_table[sn]->min_power_level )
    {
       snprintf( buf, MAX_INPUT_LENGTH, "$n attempts to tutor you in %s, but it's beyond your comprehension.", fskill_name );
       act( AT_TELL, buf, ch, NULL, victim, TO_VICT );
@@ -2850,7 +2850,7 @@ void do_mpapplyb( CHAR_DATA* ch, const char* argument )
          victim->perm_dex = 13;
          victim->perm_int = 13;
          victim->perm_wis = 13;
-         victim->perm_cha = 13;
+         victim->perm_spr = 13;
          victim->perm_con = 13;
          victim->perm_lck = 13;
 
@@ -2871,8 +2871,8 @@ void do_mpapplyb( CHAR_DATA* ch, const char* argument )
             case APPLY_CON:
                victim->perm_con = 16;
                break;
-            case APPLY_CHA:
-               victim->perm_cha = 16;
+            case APPLY_SPR:
+               victim->perm_spr = 16;
                break;
             case APPLY_LCK:
                victim->perm_lck = 16;
@@ -2884,7 +2884,7 @@ void do_mpapplyb( CHAR_DATA* ch, const char* argument )
          victim->perm_wis += race_table[victim->race]->wis_plus;
          victim->perm_dex += race_table[victim->race]->dex_plus;
          victim->perm_con += race_table[victim->race]->con_plus;
-         victim->perm_cha += race_table[victim->race]->cha_plus;
+         victim->perm_spr += race_table[victim->race]->spr_plus;
          victim->perm_lck += race_table[victim->race]->lck_plus;
          name_stamp_stats( victim );   /* Take care of auth cons -- Blodkai */
          REMOVE_BIT( victim->pcdata->flags, PCFLAG_UNAUTHED );
@@ -3154,7 +3154,7 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          dam = ris_damage( victim, dam, RIS_ELECTRICITY );
       else if( IS_ENERGY( dt ) )
          dam = ris_damage( victim, dam, RIS_ENERGY );
-      else if( dt == gsn_poison )
+	  else if( dt == gsn_poison )
          dam = ris_damage( victim, dam, RIS_POISON );
       else if( dt == ( TYPE_HIT + 7 ) || dt == ( TYPE_HIT + 8 ) )
          dam = ris_damage( victim, dam, RIS_BLUNT );
@@ -3162,7 +3162,7 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          dam = ris_damage( victim, dam, RIS_PIERCE );
       else if( dt == ( TYPE_HIT + 1 ) || dt == ( TYPE_HIT + 3 ) )
          dam = ris_damage( victim, dam, RIS_SLASH );
-      if( dam < 0 )
+	  if( dam < 0 )
          dam = 0;
    }
 
@@ -3267,7 +3267,7 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
           * 1/2 way back to previous level.
           */
          if( victim->exp > exp_level( victim, victim->level ) )
-            gain_exp( victim, ( exp_level( victim, victim->level ) - victim->exp ) / 2 );
+            gain_pl( victim, ( exp_level( victim, victim->level ) - victim->exp ) / 2 );
 
          /*
           * New penalty... go back to the beginning of current level.

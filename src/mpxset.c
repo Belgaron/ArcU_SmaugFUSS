@@ -139,14 +139,14 @@ void do_mpmset( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !str_cmp( arg2, "cha" ) )
+   if( !str_cmp( arg2, "spr" ) )
    {
       if( value < minattr || value > maxattr )
       {
-         progbug( "MpMset: Invalid cha", ch );
+         progbug( "MpMset: Invalid spr", ch );
          return;
       }
-      victim->perm_cha = value;
+      victim->perm_spr = value;
       return;
    }
 

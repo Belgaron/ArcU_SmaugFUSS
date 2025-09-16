@@ -27,7 +27,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <string>
-#include <limits.h>
 #include "mud.h"
 #include "mccp.h"
 #include "mssp.h"
@@ -473,7 +472,7 @@ int main( int argc, char **argv )
    /*
     * Get the port number.
     */
-   port = 4000;
+   port = 9001;
    if( argc > 1 )
    {
       if( !is_number( argv[1] ) )
@@ -944,6 +943,7 @@ void game_loop( void )
        * Autonomous game motion.
        */
       update_handler(  );
+		update_morphs(  );
 
       /*
        * Output.
@@ -2371,11 +2371,9 @@ void nanny_get_new_class( DESCRIPTOR_DATA * d, const char *argument )
    write_to_buffer( d, "\r\nYou may choose from the following races, or type help [race] to learn more:\r\n[", 0 );
    buf[0] = '\0';
    for( iRace = 0; iRace < MAX_PC_RACE; iRace++ )
-   {
-      if( iRace != RACE_VAMPIRE
-          && race_table[iRace]->race_name && race_table[iRace]->race_name[0] != '\0'
-          && !IS_SET( race_table[iRace]->class_restriction, 1 << ch->Class )
-          && str_cmp( race_table[iRace]->race_name, "unused" ) )
+	{
+		if( race_table[iRace]->race_name && race_table[iRace]->race_name[0] != '\0'
+			&& str_cmp( race_table[iRace]->race_name, "unused" ) )
       {
          if( iRace > 0 )
          {
@@ -2426,15 +2424,14 @@ void nanny_get_new_race( DESCRIPTOR_DATA * d, const char *argument )
           && !str_prefix( arg, race_table[iRace]->race_name ) )
       {
          ch->race = iRace;
+		 ch->Class = iRace;
          break;
       }
    }
 
    if( iRace == MAX_PC_RACE
-       || !race_table[iRace]->race_name || race_table[iRace]->race_name[0] == '\0'
-       || iRace == RACE_VAMPIRE
-       || IS_SET( race_table[iRace]->class_restriction, 1 << ch->Class )
-       || !str_cmp( race_table[iRace]->race_name, "unused" ) )
+    || !race_table[iRace]->race_name || race_table[iRace]->race_name[0] == '\0'
+    || !str_cmp( race_table[iRace]->race_name, "unused" ) )
    {
       write_to_buffer( d, "That's not a race.\r\nWhat IS your race? ", 0 );
       return;
@@ -2552,8 +2549,8 @@ void nanny_read_motd( DESCRIPTOR_DATA * d, const char *argument )
          case APPLY_CON:
             ch->perm_con = 16;
             break;
-         case APPLY_CHA:
-            ch->perm_cha = 16;
+         case APPLY_SPR:
+            ch->perm_spr = 16;
             break;
          case APPLY_LCK:
             ch->perm_lck = 16;
@@ -2565,7 +2562,7 @@ void nanny_read_motd( DESCRIPTOR_DATA * d, const char *argument )
       ch->perm_wis += race_table[ch->race]->wis_plus;
       ch->perm_dex += race_table[ch->race]->dex_plus;
       ch->perm_con += race_table[ch->race]->con_plus;
-      ch->perm_cha += race_table[ch->race]->cha_plus;
+      ch->perm_spr += race_table[ch->race]->spr_plus;
       ch->affected_by = race_table[ch->race]->affected;
       ch->perm_lck += race_table[ch->race]->lck_plus;
 
@@ -2584,8 +2581,8 @@ void nanny_read_motd( DESCRIPTOR_DATA * d, const char *argument )
       ch->weight =
          number_range( ( int )( race_table[ch->race]->weight * .9 ), ( int )( race_table[ch->race]->weight * 1.1 ) );
 
-      if( ch->Class == CLASS_PALADIN )
-         ch->alignment = 1000;
+      /*if( ch->Class == CLASS_PALADIN )
+         ch->alignment = 1000;*/
 
       if( ( iLang = skill_lookup( "common" ) ) < 0 )
          bug( "%s: cannot find common language.", __func__ );
@@ -3587,6 +3584,8 @@ char *default_fprompt( CHAR_DATA * ch )
    else
       strlcat( buf, "&C%mm", 60 );
    strlcat( buf, " &G%vmv&w> ", 60 );
+   if( !IS_NPC(ch) )
+      strlcat( buf, " &M%ff", 60 );
    if( IS_NPC( ch ) || IS_IMMORTAL( ch ) )
       strlcat( buf, "%i%R", 60 );
    return buf;
@@ -3628,7 +3627,7 @@ void display_prompt( DESCRIPTOR_DATA * d )
    const char *helpstart = "<Type HELP START>";
    char buf[MAX_STRING_LENGTH];
    char *pbuf = buf;
-   unsigned long long pstat;
+   unsigned int pstat;
    int percent;
 
    if( !ch )
@@ -3693,7 +3692,7 @@ void display_prompt( DESCRIPTOR_DATA * d )
 
          case '%':
             *pbuf = '\0';
-            pstat = ULLONG_MAX;
+            pstat = 0x80000000;
 
             switch ( *prompt )
             {
@@ -3786,14 +3785,28 @@ void display_prompt( DESCRIPTOR_DATA * d )
                      else
                         strlcpy( pbuf, "DYING", MAX_STRING_LENGTH );
                   }
-                  break;
-
-               case 'h':
-                  pstat = ch->hit;
+						{
+							const char *morph_tag = get_morph_prompt_tag( ch );
+							if( morph_tag[0] != '\0' )
+							{
+								strlcat( pbuf, morph_tag, MAX_STRING_LENGTH );
+							}
+						}
                   break;
 
                case 'H':
                   pstat = ch->max_hit;
+                  break;
+				  
+			   case 'h':  /* Current hit points */
+                  pstat = ch->hit;
+                  break;
+				  
+			   case 'L':  /* Logon Power Level */
+                  if (!IS_NPC(ch))
+                     pstat = ch->power_level.get_logon();
+                  else
+                     pstat = 0;
                   break;
 
                case 'm':
@@ -3841,6 +3854,17 @@ void display_prompt( DESCRIPTOR_DATA * d )
                      pbuf[0] = UPPER( pbuf[0] );
                   }
                   break;
+				  
+			   case 'P':  /* Base Power Level */
+                  if (!IS_NPC(ch))
+                     pstat = ch->power_level.get_base();
+                  else
+                     pstat = 0;
+                  break;
+			   
+			   case 'p':  /* Current Power Level */
+                  pstat = get_power_level(ch);
+                  break;
 
                case 'T':
                   if( time_info.hour < 5 )
@@ -3853,6 +3877,10 @@ void display_prompt( DESCRIPTOR_DATA * d )
                      strlcpy( pbuf, "dusk", MAX_STRING_LENGTH );
                   else
                      strlcpy( pbuf, "night", MAX_STRING_LENGTH );
+                  break;
+				  
+			   case 't':  /* Practice points */
+                  pstat = ch->practice;
                   break;
 
                case 'b':
@@ -3898,7 +3926,14 @@ void display_prompt( DESCRIPTOR_DATA * d )
                   if( IS_IMMORTAL( och ) )
                      snprintf( pbuf, MAX_STRING_LENGTH, "%s", ext_flag_string( &ch->in_room->room_flags, r_flags ) );
                   break;
-
+				  
+			   case 'f':
+				  if( IS_NPC(ch) )
+				 	 *pbuf = '\0';
+				  else
+				 	 pstat = ch->focus;
+				  break;
+   
                case 'R':
                   if( xIS_SET( och->act, PLR_ROOMVNUM ) )
                      snprintf( pbuf, MAX_STRING_LENGTH, "<#%d> ", ch->in_room->vnum );
@@ -3912,12 +3947,20 @@ void display_prompt( DESCRIPTOR_DATA * d )
                   }
                   break;
 
-               case 'x':
-                  pstat = ch->exp;
+               case 'x':  /* Experience (synced with power level) */
+                  if (!IS_NPC(ch))
+                     pstat = ch->exp;
+                  else
+                     pstat = 0;
                   break;
 
-               case 'X':
-                  pstat = exp_level( ch, ch->level + 1 ) - ch->exp;
+               case 'X':  /* Experience needed to next level */
+                  if (!IS_NPC(ch)) {
+                     int needed = exp_level(ch, ch->level + 1) - ch->exp;
+                     pstat = (needed > 0) ? needed : 0;
+                  } else {
+                     pstat = 0;
+                  }
                   break;
 
                case 'w':
@@ -3960,8 +4003,8 @@ void display_prompt( DESCRIPTOR_DATA * d )
                             : ( xIS_SET( ch->act, PLR_WIZINVIS ) ? ch->pcdata->wizinvis : 0 ) );
                   break;
             }
-            if( pstat != ULLONG_MAX )
-               snprintf( pbuf, MAX_STRING_LENGTH - strlen (buf), "%llu", pstat );
+            if( pstat != 0x80000000 )
+               snprintf( pbuf, MAX_STRING_LENGTH - strlen (buf), "%d", pstat );
             pbuf += strlen( pbuf );
             break;
       }

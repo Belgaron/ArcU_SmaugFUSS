@@ -27,7 +27,6 @@ OBJ_DATA *used_weapon;  /* Used to figure out which weapon later */
  * Local functions.
  */
 void new_dam_message( CHAR_DATA * ch, CHAR_DATA * victim, int dam, unsigned int dt, OBJ_DATA * obj );
-void group_gain( CHAR_DATA * ch, CHAR_DATA * victim );
 int xp_compute( CHAR_DATA * gch, CHAR_DATA * victim );
 int align_compute( CHAR_DATA * gch, CHAR_DATA * victim );
 ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt );
@@ -81,6 +80,64 @@ bool loot_coins_from_corpse( CHAR_DATA * ch, OBJ_DATA * corpse )
       do_split( ch, buf );
    }
    return TRUE;
+}
+
+/*
+ * Generate focus during combat rounds
+ */
+void generate_focus( CHAR_DATA *ch )
+{
+    int base_focus, penalty = 0;
+    
+    if( IS_NPC(ch) || !who_fighting(ch) )
+        return;
+    
+    // Base focus generation: 1 to (intelligence/5)
+    base_focus = number_range( 1, UMAX(1, get_curr_int(ch)) / 5 );
+    
+    // Apply defensive skill penalties (like DBSC)
+    if( ch->pcdata->learned[gsn_dodge] > 0 )
+        penalty += 5;
+    if( ch->pcdata->learned[gsn_parry] > 0 )  // Using parry instead of block
+        penalty += 5;
+    // Add other defensive skills as needed
+    
+    // Reduce focus generation by penalty percentage
+    if( penalty > 0 )
+    {
+        base_focus = base_focus - ((base_focus * penalty) / 100);
+    }
+    
+    if( base_focus < 0 )
+        base_focus = 0;
+        
+    ch->focus += base_focus;
+    ch->focus = URANGE( 0, ch->focus, get_curr_int(ch) );
+}
+
+/*
+ * Reset focus (called when combat starts, position changes, etc.)
+ */
+void reset_focus( CHAR_DATA *ch )
+{
+    if( !ch )
+        return;
+        
+    ch->focus = 0;
+}
+
+/*
+ * Decay focus when not in combat
+ */
+void decay_focus( CHAR_DATA *ch )
+{
+    int decay_amount;
+    
+    if( IS_NPC(ch) || who_fighting(ch) || ch->focus <= 0 )
+        return;
+        
+    decay_amount = number_range( 1, 3 );
+    ch->focus = UMAX( 0, ch->focus - decay_amount );
 }
 
 /*
@@ -315,12 +372,24 @@ void violence_update( void )
        */
       if( char_died( ch ) )
          continue;
+	 
+	  /* Handle focus generation/decay based on combat status */
+      if( !IS_NPC(ch) )
+      {
+          if( who_fighting(ch) )
+          {
+              /* In combat - use the proper generate_focus function */
+              generate_focus(ch);
+          }
+          else
+          {
+              /* Not in combat - decay focus */
+              decay_focus(ch);
+          }
+      }
 
-      /*
-       * Experience gained during battle deceases as battle drags on
-       */
-      if( ch->fighting && ( ++ch->fighting->duration % 24 ) == 0 )
-         ch->fighting->xp = ( ( ch->fighting->xp * 9 ) / 10 );
+      
+       
 
       for( timer = ch->first_timer; timer; timer = timer_next )
       {
@@ -370,7 +439,8 @@ void violence_update( void )
             extract_timer( ch, timer );
          }
       }
-
+      
+	  
       if( char_died( ch ) )
          continue;
 
@@ -801,6 +871,61 @@ void violence_update( void )
    trworld_dispose( &lcw );
 }
 
+/* Group experience distribution (DBSC style)         -Dragus */ 
+void group_gain(CHAR_DATA *ch, CHAR_DATA *victim) {
+    CHAR_DATA *gch;
+    CHAR_DATA *lch;
+    
+    if(!ch || !victim) return;
+        
+    lch = ch->leader ? ch->leader : ch;
+    
+    /* Streamlined group processing - only alignment and equipment */
+    for(gch = ch->in_room->first_person; gch; gch = gch->next_in_room) {
+        if(!is_same_group(gch, ch) || IS_NPC(gch))
+            continue;
+            
+        /* Quick level checks */
+        int level_diff = gch->level - lch->level;
+        if(level_diff > 8 || level_diff < -8) {
+            send_to_char(level_diff > 8 ? "You are too high for this group.\r\n" : 
+                                         "You are too low for this group.\r\n", gch);
+            continue;
+        }
+        
+        /* Fast alignment update */
+        gch->alignment = align_compute(gch, victim);
+        
+        /* Efficient equipment check - only scan worn items */
+        OBJ_DATA *obj, *obj_next;
+        for(obj = gch->first_carrying; obj; obj = obj_next) {
+            obj_next = obj->next_content;
+            
+            if(obj->wear_loc == WEAR_NONE) continue;
+            
+            /* Quick alignment check using bit operations where possible */
+            bool should_zap = false;
+            if(IS_OBJ_STAT(obj, ITEM_ANTI_EVIL) && IS_EVIL(gch)) should_zap = true;
+            else if(IS_OBJ_STAT(obj, ITEM_ANTI_GOOD) && IS_GOOD(gch)) should_zap = true;
+            else if(IS_OBJ_STAT(obj, ITEM_ANTI_NEUTRAL) && IS_NEUTRAL(gch)) should_zap = true;
+            
+            if(should_zap) {
+                act(AT_MAGIC, "You are zapped by $p.", gch, obj, NULL, TO_CHAR);
+                act(AT_MAGIC, "$n is zapped by $p.", gch, obj, NULL, TO_ROOM);
+
+                obj_from_char(obj);
+                if(in_arena(ch)) {
+                    obj_to_char(obj, ch);
+                } else {
+                    obj_to_room(obj, ch->in_room);
+                }
+                
+                if(char_died(gch)) break;
+            }
+        }
+    }
+}
+
 /*
  * Do one group of attacks.
  */
@@ -957,11 +1082,14 @@ int weapon_prof_bonus_check( CHAR_DATA * ch, OBJ_DATA * wield, int *gsn_ptr )
          default:
             *gsn_ptr = -1;
             break;
+		 case DAM_BALLISTIC:  
+            *gsn_ptr = gsn_firearms;
+            break;	
          case DAM_HIT:
          case DAM_SUCTION:
-         case DAM_BITE:
+		 case DAM_BITE:
          case DAM_BLAST:
-            *gsn_ptr = gsn_pugilism;
+            *gsn_ptr = gsn_unarmed;
             break;
          case DAM_SLASH:
          case DAM_SLICE:
@@ -1057,6 +1185,251 @@ short off_shld_lvl( CHAR_DATA * ch, CHAR_DATA * victim )
    }
 }
 
+	/* Calculate combat bonus from power level difference */
+int get_pl_combat_bonus( CHAR_DATA *ch, CHAR_DATA *victim )
+{
+   long long ch_pl, victim_pl;
+   double ratio;
+   int bonus = 0;
+   
+   if( !ch || !victim )
+      return 0;
+      
+   ch_pl = get_power_level( ch );
+   victim_pl = get_power_level( victim );
+   
+   if( victim_pl <= 0 )
+      return 0;
+      
+   ratio = (double)ch_pl / (double)victim_pl;
+   
+   /* DBSC-style combat modifiers */
+   if( ratio > 3.0 )
+      bonus = 100;  /* 3x stronger = +100% damage */
+   else if( ratio > 2.0 )
+      bonus = 50;   /* 2x stronger = +50% damage */
+   else if( ratio > 1.5 )
+      bonus = 25;   /* 1.5x stronger = +25% damage */
+   else if( ratio < 0.33 )
+      bonus = -75;  /* 3x weaker = -75% damage */
+   else if( ratio < 0.5 )
+      bonus = -50;  /* 2x weaker = -50% damage */
+   else if( ratio < 0.67 )
+      bonus = -25;  /* 1.5x weaker = -25% damage */
+   
+   return bonus;
+}
+
+/* Pre-calculate damage color lookup table for efficiency */
+static const char* damage_colors[4] = {
+    "&Y",  /* 0 = Normal */
+    "&P",  /* 1 = Immune */
+    "&B",  /* 2 = Resistant */
+    "&R"   /* 3 = Vulnerable */
+};
+
+/* Inline function for fast damage color lookup */
+static inline const char* get_damage_color(CHAR_DATA *victim, int dam_type) {
+    if(dam_type <= 0) return damage_colors[0];  /* Physical/normal */
+    
+    if(IS_SET(victim->immune, dam_type)) return damage_colors[1];
+    if(IS_SET(victim->resistant, dam_type)) return damage_colors[2]; 
+    if(IS_SET(victim->susceptible, dam_type)) return damage_colors[3];
+    return damage_colors[0];
+}
+
+/* Fast PL calculation with early exits and cached values */
+static inline long long calculate_pl_gain(CHAR_DATA *ch, CHAR_DATA *victim, int dam) {
+    /* Early exit checks - most common cases first */
+    if(dam <= 0 || ch == victim || IS_NPC(ch) || !IS_NPC(victim)) {
+        return 0;
+    }
+    
+    /* Cache power levels to avoid multiple function calls */
+    static CHAR_DATA *cached_ch = NULL;
+    static CHAR_DATA *cached_victim = NULL;
+    static long long cached_ch_pl = 0;
+    static long long cached_victim_pl = 0;
+    
+    long long ch_pl, victim_pl;
+    
+    /* Use cached values if same characters */
+    if(cached_ch == ch) {
+        ch_pl = cached_ch_pl;
+    } else {
+        ch_pl = get_power_level(ch);
+        cached_ch = ch;
+        cached_ch_pl = ch_pl;
+    }
+    
+    if(cached_victim == victim) {
+        victim_pl = cached_victim_pl;
+    } else {
+        victim_pl = get_power_level(victim);
+        cached_victim = victim;
+        cached_victim_pl = victim_pl;
+    }
+    
+    /* Early exit if victim too weak */
+    if(victim_pl < (ch_pl / 10)) {
+        return 0;
+    }
+    
+    /* Fast PL calculation using bit shifts where possible */
+    long long pl_gain;
+    if(victim_pl >= ch_pl) {        /* >= 1.0x ratio */
+        pl_gain = dam / 10;         /* Full gain */
+    } else if(victim_pl >= (ch_pl >> 1)) {  /* >= 0.5x ratio (bit shift) */
+        pl_gain = dam / 20;         /* Half gain */
+    } else if(victim_pl >= (ch_pl / 5)) {   /* >= 0.2x ratio */
+        pl_gain = dam / 50;         /* Minimal gain */
+    } else {                        /* 0.1x - 0.2x ratio */
+        pl_gain = dam / 100;        /* Very small gain */
+    }
+    
+    /* Early exit if no gain */
+    if(pl_gain <= 0) {
+        return 0;
+    }
+    
+    /* Handle Bio-Android reduction */
+    if(IS_BIO_ANDROID(ch)) {
+        long long reduced_gain = (pl_gain * 3) >> 2;  /* 75% using bit shift */
+        long long debt = pl_gain - reduced_gain;
+        
+        if(ch->pcdata) {
+            ch->pcdata->absorption_debt += debt;
+        }
+        pl_gain = reduced_gain;
+    }
+    
+    return UMAX(1, pl_gain);
+}
+
+/* Optimized damage message function */
+void enhanced_dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt, OBJ_DATA *obj) {
+    /* Use stack buffers to avoid heap allocation for small strings */
+    char buf1[384], buf2[384], buf3[384];  /* Reduced size */
+    char pl_buf[64] = "";  /* Smaller buffer */
+    const char *vs, *vp, *attack;
+    char punct;
+    int dampc;
+    struct skill_type *skill = NULL;
+    int d_index, w_index;
+    ROOM_INDEX_DATA *was_in_room = NULL;
+    
+    /* Calculate and apply PL gain first (most important) */
+    long long pl_gain = calculate_pl_gain(ch, victim, dam);
+    if(pl_gain > 0) {
+        gain_pl(ch, pl_gain);
+        /* Use faster integer-only formatting for small numbers */
+        if(pl_gain < 1000) {
+            snprintf(pl_buf, sizeof(pl_buf), "   &C(+%lld PL)&D", pl_gain);
+        } else {
+            snprintf(pl_buf, sizeof(pl_buf), "   &C(+%s PL)&D", num_punct_ll(pl_gain));
+        }
+    }
+    
+    /* Handle room changes only if necessary */
+    if(ch->in_room != victim->in_room) {
+        was_in_room = ch->in_room;
+        char_from_room(ch);
+        char_to_room(ch, victim->in_room);
+    }
+
+    /* Fast damage percentage calculation */
+    if(dam == 0) {
+        dampc = 0;
+    } else {
+        /* Optimized calculation avoiding division where possible */
+        int hit_percent = (victim->hit << 6) / victim->max_hit;  /* *64 for precision */
+        dampc = ((dam << 10) / victim->max_hit) + (32 - (hit_percent >> 1));
+    }
+
+    /* Quick weapon index lookup */
+    if(dt < (unsigned int)num_skills) {
+        w_index = 0;
+    } else if(dt >= TYPE_HIT && dt < TYPE_HIT + sizeof(attack_table) / sizeof(attack_table[0])) {
+        w_index = dt - TYPE_HIT;
+    } else {
+        /* Log error but continue with safe default */
+        bug("%s: bad dt %d from %s in %d.", __func__, dt, ch->name, ch->in_room->vnum);
+        dt = TYPE_HIT;
+        w_index = 0;
+    }
+
+    /* Fast damage index calculation using lookup table approach */
+    if(dam == 0) {
+        d_index = 0;
+    } else if(dampc <= 100) {
+        d_index = 1 + (dampc / 10);
+    } else if(dampc <= 200) {
+        d_index = 11 + ((dampc - 100) / 20);
+    } else if(dampc <= 900) {
+        d_index = 16 + ((dampc - 200) / 100);
+    } else {
+        d_index = 23;
+    }
+
+    /* Quick message lookup */
+    vs = s_message_table[w_index][d_index];
+    vp = p_message_table[w_index][d_index];
+    punct = (dampc <= 30) ? '.' : '!';
+
+    /* Get skill info only if needed for damage type */
+    int dam_type = 0;
+    if(dt >= 0 && dt < (unsigned int)num_skills) {
+        skill = skill_table[dt];
+        if(skill) {
+            /* Use the SPELL_DAMAGE macro to get the damage type */
+            int spell_dmg = SPELL_DAMAGE(skill);
+            switch(spell_dmg) {
+                case SD_FIRE:        dam_type = RIS_FIRE;        break;
+                case SD_COLD:        dam_type = RIS_COLD;        break;
+                case SD_ELECTRICITY: dam_type = RIS_ELECTRICITY; break;
+                case SD_ENERGY:      dam_type = RIS_ENERGY;      break;
+                case SD_ACID:        dam_type = RIS_ACID;        break;
+                case SD_POISON:      dam_type = RIS_POISON;      break;
+                case SD_DRAIN:       dam_type = RIS_DRAIN;       break;
+                default:             dam_type = 0;               break; /* Physical */
+            }
+        }
+    }
+    
+    /* Fast damage color lookup */
+    const char *dam_color = get_damage_color(victim, dam_type);
+
+    /* Determine attack name efficiently */
+    if(dt == TYPE_HIT) {
+        attack = (obj && obj->short_descr && obj->short_descr[0]) ? obj->short_descr : "hit";
+    } else if(skill && skill->noun_damage) {
+        attack = skill->noun_damage;
+    } else if(dt > TYPE_HIT && dt < TYPE_HIT + sizeof(attack_table) / sizeof(attack_table[0])) {
+        attack = (obj && obj->short_descr && obj->short_descr[0]) ? obj->short_descr : attack_table[dt - TYPE_HIT];
+    } else {
+        attack = "attack";  /* Safe fallback */
+    }
+
+    /* Build messages efficiently with single snprintf calls */
+    snprintf(buf1, sizeof(buf1), "$n's %s %s $N!   [%s%d&D dmg]%s%c", 
+         attack, vp, dam_color, dam, pl_buf, punct);
+	 snprintf(buf2, sizeof(buf2), "Your %s %s $N!   [%s%d&D dmg]%s%c", 
+				 attack, vs, dam_color, dam, pl_buf, punct);
+	 snprintf(buf3, sizeof(buf3), "$n's %s %s you!   [%s%d&D dmg]%c", 
+         attack, vp, dam_color, dam, punct);
+
+    /* Send messages efficiently */
+    act(AT_HIT, buf1, ch, NULL, victim, TO_NOTVICT);
+    act(AT_HIT, buf2, ch, NULL, victim, TO_CHAR);
+    act(AT_HURT, buf3, ch, NULL, victim, TO_VICT);
+
+    /* Restore room if changed */
+    if(was_in_room) {
+        char_from_room(ch);
+        char_to_room(ch, was_in_room);
+    }
+}
+
 /*
  * Hit one guy once.
  */
@@ -1064,6 +1437,7 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
 {
    OBJ_DATA *wield;
    int victim_ac, thac0, thac0_00, thac0_32, plusris, dam, diceroll, attacktype, cnt, prof_bonus, prof_gsn = -1;
+   //long long ch_pl, victim_pl;   ADD THIS LINE
    ch_ret retcode = rNONE;
    static bool dual_flip = FALSE;
 
@@ -1246,6 +1620,15 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
    /*
     * Bonuses.
     */
+	
+	/* Apply power level combat bonus */
+   int pl_bonus = get_pl_combat_bonus( ch, victim );
+   if( pl_bonus != 0 )
+   {
+      dam = (dam * (100 + pl_bonus)) / 100;
+      if( dam < 0 ) dam = 0;
+   }
+	
    dam += GET_DAMROLL( ch );
 
    if( prof_bonus )
@@ -1832,14 +2215,22 @@ short ris_damage( CHAR_DATA * ch, short dam, int ris )
  */
 ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
 {
+	
+   if( ch && victim && !IS_NPC( ch ) && !IS_NPC( victim ) )
+{
+   int pl_bonus = get_pl_combat_bonus( ch, victim );
+   dam = dam * (100 + pl_bonus) / 100;
+   dam = UMAX( 1, dam );  /* Minimum damage of 1 */
+}
+	
    char log_buf[MAX_STRING_LENGTH];
    char filename[256];
    short dameq;
    short maxdam;
    bool npcvict;
    bool loot;
-   int xp_gain;
    OBJ_DATA *damobj;
+	OBJ_DATA *wield = NULL;
    ch_ret retcode;
    short dampmod;
    CHAR_DATA *gch /*, *lch */ ;
@@ -1884,7 +2275,9 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          dam = ris_damage( victim, dam, RIS_DRAIN );
       else if( dt == gsn_poison || IS_POISON( dt ) )
          dam = ris_damage( victim, dam, RIS_POISON );
-      else
+	  else if( dt == ( TYPE_HIT + DAM_BALLISTIC ) )
+		 dam = ris_damage( victim, dam, RIS_BALLISTIC );
+	  else
          if( dt == ( TYPE_HIT + DAM_POUND ) || dt == ( TYPE_HIT + DAM_CRUSH )
              || dt == ( TYPE_HIT + DAM_STONE ) || dt == ( TYPE_HIT + DAM_PEA ) )
          dam = ris_damage( victim, dam, RIS_BLUNT );
@@ -2236,27 +2629,16 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
    }
 
    if( ch != victim )
-      dam_message( ch, victim, dam, dt );
+	{
+		wield = get_eq_char( ch, WEAR_WIELD );
+		enhanced_dam_message( ch, victim, dam, dt, wield );
+	}
 
    /*
     * Hurt the victim.
     * Inform the victim of his new state.
     */
    victim->hit -= dam;
-
-   /*
-    * Get experience based on % of damage done       -Thoric
-    */
-   if( dam && ch != victim && !IS_NPC( ch ) && ch->fighting && ch->fighting->xp )
-   {
-      if( ch->fighting->who == victim )
-         xp_gain = ( int )( ch->fighting->xp * dam ) / victim->max_hit;
-      else
-         xp_gain = ( int )( xp_compute( ch, victim ) * 0.85 * dam ) / victim->max_hit;
-      if( dt == gsn_backstab || dt == gsn_circle )
-         xp_gain = ( int )( xp_gain * 0.05 );
-      gain_exp( ch, xp_gain );
-   }
 
    if( !IS_NPC( victim ) && victim->level >= LEVEL_IMMORTAL && victim->hit < 1 )
       victim->hit = 1;
@@ -2301,6 +2683,53 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
    if( !npcvict && get_trust( victim ) >= LEVEL_IMMORTAL && get_trust( ch ) >= LEVEL_IMMORTAL && victim->hit < 1 )
       victim->hit = 1;
    update_pos( victim );
+   
+   /* DBSC-style power level gain from combat damage */
+	if( dam > 0 && ch != victim && !IS_NPC( ch ) && IS_NPC( victim ) )
+	{
+		long long ch_pl = get_power_level( ch );
+		long long victim_pl = get_power_level( victim );
+		
+		/* Only gain PL if the opponent isn't too weak */
+		if( victim_pl >= (ch_pl / 10) )  /* Victim must be at least 1/10th your PL */
+		{
+			int pl_gain = 0;
+			double ratio = (double)victim_pl / (double)ch_pl;
+			
+			/* Calculate PL gain based on opponent strength and damage dealt */
+			if( ratio >= 1.0 )        /* Equal or stronger opponent */
+					pl_gain = dam / 10;    /* Full gain */
+			else if( ratio >= 0.5 )   /* Half as strong */
+					pl_gain = dam / 20;    /* Half gain */
+			else if( ratio >= 0.2 )   /* 1/5 as strong */
+					pl_gain = dam / 50;    /* Minimal gain */
+			else if( ratio >= 0.1 )   /* 1/10 as strong */
+					pl_gain = dam / 100;   /* Very small gain */
+			/* Below 1/10 strength = no gain */
+			
+			/* Minimum gain of 1 if any gain at all */
+			if( pl_gain > 0 )
+			{
+					pl_gain = UMAX( 1, pl_gain );
+					
+					/* Bio-Androids get reduced combat PL gain - they get the difference back on absorption */
+					if( IS_BIO_ANDROID( ch ) )
+					{
+						int reduced_gain = pl_gain * 75 / 100;  /* 25% reduction */
+						int debt = pl_gain - reduced_gain;      /* Amount they're missing */
+						
+						/* Track the debt for later absorption */
+						if( ch->pcdata )
+							ch->pcdata->absorption_debt += debt;
+						
+						pl_gain = reduced_gain;
+					}
+					
+					/* Apply the power level gain */
+					gain_pl( ch, pl_gain );
+			}
+		}
+	}
 
    switch ( victim->position )
    {
@@ -2380,6 +2809,7 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
    /*
     * Payoff for killing things.
     */
+	
    if( victim->position == POS_DEAD )
    {
       OBJ_DATA *new_corpse;
@@ -2437,13 +2867,13 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
           */
          if( !IS_PKILL( victim ) )  /* August, 2000 */
          {
-            if( victim->exp > exp_level( victim, victim->level ) )
-               gain_exp( victim, ( exp_level( victim, victim->level ) - victim->exp ) / 2 );
+            if( get_power_level( victim ) > exp_level( victim, victim->level ) )
+				gain_pl( victim, ( exp_level( victim, victim->level ) - get_power_level( victim ) ) / 2 );
          }
 
          /*
           * New penalty... go back to the beginning of current level.
-          victim->exp = exp_level( victim, victim->level );
+          victim->powerlevel = exp_level( victim, victim->level );
           */
       }
       else if( !IS_NPC( ch ) && IS_NPC( victim ) ) /* keep track of mob vnum killed */
@@ -3092,6 +3522,12 @@ void set_fighting( CHAR_DATA * ch, CHAR_DATA * victim )
       send_to_char( "There are too many people fighting for you to join in.\r\n", ch );
       return;
    }
+   
+   /*
+    * Reset focus when combat begins
+    */
+   reset_focus( ch );
+   reset_focus( victim );
 
    CREATE( fight, FIGHT_DATA, 1 );
    fight->who = victim;
@@ -3426,8 +3862,68 @@ OBJ_DATA *raw_kill( CHAR_DATA * ch, CHAR_DATA * victim )
    rprog_death_trigger( victim );
    if( char_died( victim ) )
       return NULL;
-
-   corpse_to_return = make_corpse( victim, ch );
+  
+   if( !IS_NPC( ch ) && IS_NPC( victim ) )
+   {
+	   group_gain( ch, victim );
+		if( ch && !IS_NPC(ch) && IS_BIO_ANDROID(ch) && ch != victim )
+	{
+		/* Calculate absorption power gain */
+		int power_gain = 0;
+		int absorption_debt = 0;
+		
+		/* Base absorption power */
+		if( IS_NPC(victim) )
+			power_gain = get_power_level(victim) * 0.05; /* 5% from NPCs */
+		else
+			power_gain = get_power_level(victim) * 0.10; /* 10% from players */
+		
+		/* Add back the PL they missed during combat */
+		if( ch->pcdata && ch->pcdata->absorption_debt > 0 )
+		{
+			absorption_debt = ch->pcdata->absorption_debt;
+			ch->pcdata->absorption_debt = 0;  /* Reset debt */
+		}
+		
+		if( power_gain > 0 || absorption_debt > 0 )
+		{
+			int total_gain = power_gain + absorption_debt;
+			
+			/* Absorption messages */
+			ch_printf( ch, "&RYou absorb %d power from %s's essence!", total_gain, victim->name );
+			if( absorption_debt > 0 )
+					ch_printf( ch, " (&Y%d&R from complete absorption bonus)", absorption_debt );
+			ch_printf( ch, "&x\r\n" );
+			
+			act( AT_BLOOD, "$n's body glows as $e absorbs energy from $N's defeated form!", ch, NULL, victim, TO_ROOM );
+			
+			/* Apply total power gain */
+			gain_pl( ch, total_gain );
+			
+			/* Track absorption count */
+			if( ch->pcdata )
+					ch->pcdata->absorbed_count++;
+			
+			/* 25% chance to steal a skill from players */
+			if( !IS_NPC(victim) && number_percent() <= 25 )
+			{
+					/* Try to steal a random skill */
+					int skill_num = number_range(0, MAX_SKILL-1);
+					if( victim->pcdata->learned[skill_num] > 0 && ch->pcdata->learned[skill_num] == 0 )
+{
+						/* Bio-android learns the skill */
+						ch->pcdata->learned[skill_num] = victim->pcdata->learned[skill_num];
+						ch_printf( ch, "&GYou absorb knowledge of %s from %s!&x\r\n", 
+									skill_table[skill_num]->name, victim->name );
+						act( AT_MAGIC, "$n's eyes flash as $e absorbs $N's knowledge!", ch, NULL, victim, TO_ROOM );
+					}
+			}
+		}
+	}
+   }
+	
+	check_android_components( ch, victim );
+	corpse_to_return = make_corpse( victim, ch );
    if( victim->in_room->sector_type == SECT_OCEANFLOOR
        || victim->in_room->sector_type == SECT_UNDERWATER
        || victim->in_room->sector_type == SECT_WATER_SWIM || victim->in_room->sector_type == SECT_WATER_NOSWIM )
@@ -3473,7 +3969,7 @@ OBJ_DATA *raw_kill( CHAR_DATA * ch, CHAR_DATA * victim )
    victim->mod_wis = 0;
    victim->mod_int = 0;
    victim->mod_con = 0;
-   victim->mod_cha = 0;
+   victim->mod_spr = 0;
    victim->mod_lck = 0;
    victim->damroll = 0;
    victim->hitroll = 0;
@@ -3522,7 +4018,7 @@ neutral when they die given the difficulting of changing align */
       save_char_obj( victim );
    return corpse_to_return;
 }
-
+/* SET FOR DELETION
 void group_gain( CHAR_DATA * ch, CHAR_DATA * victim )
 {
    CHAR_DATA *gch, *gch_next;
@@ -3530,10 +4026,10 @@ void group_gain( CHAR_DATA * ch, CHAR_DATA * victim )
    int xp;
    int members;
 
-   /*
+   
     * Monsters don't get kill xp's or alignment changes.
     * Dying of mortal wounds or poison doesn't give xp to anyone!
-    */
+    
    if( IS_NPC( ch ) || victim == ch )
       return;
 
@@ -3579,7 +4075,7 @@ void group_gain( CHAR_DATA * ch, CHAR_DATA * victim )
          xp /= 2;
       gch->alignment = align_compute( gch, victim );
       ch_printf( gch, "You receive %d experience points.\r\n", xp );
-      gain_exp( gch, xp );
+      gain_pl( gch, xp );
 
       for( obj = gch->first_carrying; obj; obj = obj_next )
       {
@@ -3599,14 +4095,14 @@ void group_gain( CHAR_DATA * ch, CHAR_DATA * victim )
                obj = obj_to_char( obj, ch );
             else
                obj = obj_to_room( obj, ch->in_room );
-            oprog_zap_trigger( gch, obj );   /* mudprogs */
+            oprog_zap_trigger( gch, obj );   * mudprogs 
             if( char_died( gch ) )
                break;
          }
       }
    }
 }
-
+ */
 int align_compute( CHAR_DATA * gch, CHAR_DATA * victim )
 {
    int align, newalign, divalign;
@@ -4124,12 +4620,10 @@ void do_flee( CHAR_DATA* ch, const char* argument )
    ROOM_INDEX_DATA *was_in;
    ROOM_INDEX_DATA *now_in;
    char buf[MAX_STRING_LENGTH];
-   int attempt;
-   xp_t los;
+   int attempt, los;
    short door;
    EXIT_DATA *pexit;
-   
-   
+
    if( !who_fighting( ch ) )
    {
       if( ch->position == POS_FIGHTING
@@ -4204,12 +4698,19 @@ void do_flee( CHAR_DATA* ch, const char* argument )
          CHAR_DATA *wf = who_fighting( ch );
 
          act( AT_FLEE, "You flee head over heels from combat!", ch, NULL, NULL, TO_CHAR );
-		 int pl_loss = ch->exp / 20; /* Lose 5% of current power level */
-			if ( pl_loss > 0 )
-	            {
-				 ch->exp -= pl_loss;
-				 ch_printf( ch, "You lose %d power level from fleeing!\r\n", pl_loss );
-				}
+         los = ( int )( ( exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) ) * 0.2 );
+         if( ch->level < LEVEL_AVATAR )
+         {
+            if( !IS_PKILL( ch ) )
+            {
+               if( ch->level > 1 )
+               {
+                  snprintf( buf, MAX_STRING_LENGTH, "Curse the gods, you've lost %d power level!", los );
+                  act( AT_FLEE, buf, ch, NULL, NULL, TO_CHAR );
+                  gain_pl( ch, 0 - los );
+               }
+            }
+         }
 
          if( wf && ch->pcdata->deity )
          {
@@ -4227,7 +4728,7 @@ void do_flee( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   los = ch->exp / 20;  /* Lose 5% of current power level when fleeing */
+   los = ( int )( ( exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) ) * 0.1 );
    act( AT_FLEE, "You attempt to flee from combat but can't escape!", ch, NULL, NULL, TO_CHAR );
    if( ch->level < LEVEL_AVATAR && number_bits( 3 ) == 1 )
    {
@@ -4235,9 +4736,9 @@ void do_flee( CHAR_DATA* ch, const char* argument )
       {
          if( ch->level > 1 )
          {
-            snprintf( buf, MAX_STRING_LENGTH, "Curse the gods, you've lost " XP_FMT " powerlevel!\n\r", los );
+            snprintf( buf, MAX_STRING_LENGTH, "Curse the gods, you've lost %d experience!\n\r", los );
             act( AT_FLEE, buf, ch, NULL, NULL, TO_CHAR );
-            gain_exp( ch, 0 - los );
+            gain_pl( ch, 0 - los );
          }
       }
    }

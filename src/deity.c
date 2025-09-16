@@ -402,7 +402,7 @@ void do_setdeity( CHAR_DATA* ch, const char* argument )
       send_to_char( "\r\nFavor requirements for supplicate:\r\n", ch );
       send_to_char( "scorpse savatar sdeityobj srecall\r\n\r\n", ch );
       send_to_char( "Objstat - being one of:\r\n", ch );
-      send_to_char( "str int wis con dex cha lck\r\n", ch );
+      send_to_char( "str int wis con dex spr lck\r\n", ch );
       send_to_char( " 0 - 1 - 2 - 3 - 4 - 5 - 6\r\n", ch );
       return;
    }
@@ -1352,7 +1352,7 @@ void do_supplicate( CHAR_DATA* ch, const char* argument )
             paf->location = APPLY_DEX;
             break;
          case 5:
-            paf->location = APPLY_CHA;
+            paf->location = APPLY_SPR;
             break;
          case 6:
             paf->location = APPLY_LCK;

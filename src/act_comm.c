@@ -2963,12 +2963,12 @@ void do_group( CHAR_DATA* ch, const char* argument )
                set_char_color( AT_BLOOD, ch );
             else
                set_char_color( AT_LBLUE, ch );
-            if( gch->Class != CLASS_WARRIOR )
-               ch_printf( ch, "%5d/%-5d ",
-                          IS_VAMPIRE( gch ) ? gch->pcdata->condition[COND_BLOODTHIRST] : gch->mana,
-                          IS_VAMPIRE( gch ) ? 10 + gch->level : gch->max_mana );
-            else
-               send_to_char( "            ", ch );
+            //if( gch->Class != CLASS_WARRIOR )
+            //   ch_printf( ch, "%5d/%-5d ",
+            //              IS_VAMPIRE( gch ) ? gch->pcdata->condition[COND_BLOODTHIRST] : gch->mana,
+            //              IS_VAMPIRE( gch ) ? 10 + gch->level : gch->max_mana );
+            //else
+               //send_to_char( "            ", ch );
             if( gch->mental_state < -25 || gch->mental_state > 25 )
                set_char_color( AT_YELLOW, ch );
             else
@@ -2996,7 +2996,7 @@ void do_group( CHAR_DATA* ch, const char* argument )
                        gch->race == 12 ? "seaelf" : gch->race == 13 ? "lizard" : gch->race == 14 ? "gnome" : "" );
             set_char_color( AT_GREEN, ch );
             if( gch->level < LEVEL_AVATAR )
-               ch_printf( ch, "%8s ", num_punct_ll( exp_level( gch, gch->level + 1 ) - gch->exp ) );
+               ch_printf( ch, "%8lld ", exp_level( gch, gch->level + 1 ) - gch->exp );
             send_to_char( "\r\n", ch );
          }
       }
@@ -3514,9 +3514,9 @@ void do_languages( CHAR_DATA* ch, const char* argument )
          return;
       }
       /*
-       * 0..16 cha = 2 pracs, 17..25 = 1 prac. -- Altrag 
+       * 0..16 spr = 2 pracs, 17..25 = 1 prac. -- Altrag 
        */
-      prac = 2 - ( get_curr_cha( ch ) / 17 );
+      prac = 2 - ( get_curr_int( ch ) / 17 );
       if( ch->practice < prac )
       {
          act( AT_TELL, "$n tells you 'You do not have enough practices.'", sch, NULL, ch, TO_VICT );

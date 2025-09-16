@@ -20,22 +20,22 @@
 
 const char *const npc_race[MAX_NPC_RACE] = {
    // Playable races - MAX_RACE in mud.h must be raised before more can be added after r19.
-   "Human", "Elf", "Dwarf", "Halfling", "Pixie", "Vampire", "Half-Ogre",       // 6 (start from 0)
-   "Half-Orc", "Half-Troll", "Half-Elf", "Gith", "Drow", "Sea-Elf",            // 12
-   "Lizardman", "Gnome", "r5", "r16", "r17", "r18", "r19",                     // 19
+   "Human", "Eldari", "Vampire", "r3", "r4", "r5", "r6",            // 7
+   "r7", "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15",		//16
+   "r16", "r17", "r18", "r19",                     					// 20
 
    // NPCs only
-   "troll", "ant", "ape", "baboon", "bat", "bear", "bee",                      // 26
-   "beetle", "boar", "bugbear", "cat", "dog", "dragon", "ferret", "fly",       // 34
-   "gargoyle", "gelatin", "ghoul", "gnoll", "goblin", "golem",                 // 40
-   "gorgon", "harpy", "hobgoblin", "kobold", "locust",                         // 45
-   "lycanthrope", "minotaur", "mold", "mule", "neanderthal", "ooze", "orc",    // 52
-   "rat", "rustmonster", "shadow", "shapeshifter", "shrew", "shrieker",        // 58
-   "skeleton", "slime", "snake", "spider", "stirge", "thoul", "troglodyte",    // 65
-   "undead", "wight", "wolf", "worm", "zombie", "bovine", "canine", "feline",  // 73
-   "porcine", "mammal", "rodent", "avis", "reptile", "amphibian", "fish",      // 80
-   "crustacean", "insect", "spirit", "magical", "horse", "animal", "humanoid", // 87
-   "monster", "god", "???"                                                     // 90
+   "troll", "ant", "ape", "baboon", "bat", "bear", "bee",                      // 27
+   "beetle", "boar", "bugbear", "cat", "dog", "dragon", "ferret", "fly",       // 35
+   "gargoyle", "gelatin", "ghoul", "gnoll", "goblin", "golem",                 // 41
+   "gorgon", "harpy", "hobgoblin", "kobold", "locust",                         // 46
+   "lycanthrope", "minotaur", "mold", "mule", "neanderthal", "ooze", "orc",    // 53
+   "rat", "rustmonster", "shadow", "shapeshifter", "shrew", "shrieker",        // 59
+   "skeleton", "slime", "snake", "spider", "stirge", "thoul", "troglodyte",    // 66
+   "undead", "wight", "wolf", "worm", "zombie", "bovine", "canine", "feline",  // 74
+   "porcine", "mammal", "rodent", "avis", "reptile", "amphibian", "fish",      // 81
+   "crustacean", "insect", "spirit", "magical", "horse", "animal", "humanoid", // 88
+   "monster", "god", "???"                                                     // 91
 };
 
 const char *const npc_class[MAX_NPC_CLASS] = {
@@ -254,12 +254,12 @@ const struct lck_app_type lck_app[26] = {
    {-120}   /* 25 */
 };
 
-const char *const attack_table[18] = {
+const char *const attack_table[19] = {
    "hit",
    "slice", "stab", "slash", "whip", "claw",
    "blast", "pound", "crush", "grep", "bite",
    "pierce", "suction", "bolt", "arrow", "dart",
-   "stone", "pea"
+   "stone", "pea", "bullet"
 };
 
 const char *s_blade_messages[24] = {
@@ -308,7 +308,7 @@ const char *p_generic_messages[24] = {
    "**** SMITES ****"
 };
 
-const char **const s_message_table[18] = {
+const char **const s_message_table[19] = {
    s_generic_messages,  /* hit */
    s_blade_messages, /* slice */
    s_blade_messages, /* stab */
@@ -326,10 +326,11 @@ const char **const s_message_table[18] = {
    s_generic_messages,  /* arrow */
    s_generic_messages,  /* dart */
    s_generic_messages,  /* stone */
-   s_generic_messages   /* pea */
+   s_generic_messages,   /* pea */
+   s_generic_messages   /* bullet */
 };
 
-const char **const p_message_table[18] = {
+const char **const p_message_table[19] = {
    p_generic_messages,  /* hit */
    p_blade_messages, /* slice */
    p_blade_messages, /* stab */
@@ -347,7 +348,8 @@ const char **const p_message_table[18] = {
    p_generic_messages,  /* arrow */
    p_generic_messages,  /* dart */
    p_generic_messages,  /* stone */
-   p_generic_messages   /* pea */
+   p_generic_messages,   /* pea */
+   p_generic_messages   /* bullet */
 };
 
 /* Weather constants - FB */

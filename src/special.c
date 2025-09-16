@@ -373,55 +373,55 @@ bool spec_cast_cleric( CHAR_DATA * ch )
 
    for( ;; )
    {
-      int min_level;
+      long long min_power_level;
 
       switch ( number_bits( 4 ) )
       {
          case 0:
-            min_level = 0;
+            min_power_level = 0;
             spell = "cause light";
             break;
          case 1:
-            min_level = 3;
+            min_power_level = 3;
             spell = "cause serious";
             break;
          case 2:
-            min_level = 6;
+            min_power_level = 6;
             spell = "earthquake";
             break;
          case 3:
-            min_level = 7;
+            min_power_level = 7;
             spell = "blindness";
             break;
          case 4:
-            min_level = 9;
+            min_power_level = 9;
             spell = "cause critical";
             break;
          case 5:
-            min_level = 10;
+            min_power_level = 10;
             spell = "dispel evil";
             break;
          case 6:
-            min_level = 12;
+            min_power_level = 12;
             spell = "curse";
             break;
          case 7:
-            min_level = 13;
+            min_power_level = 13;
             spell = "flamestrike";
             break;
          case 8:
          case 9:
          case 10:
-            min_level = 15;
+            min_power_level = 15;
             spell = "harm";
             break;
          default:
-            min_level = 16;
+            min_power_level = 16;
             spell = "dispel magic";
             break;
       }
 
-      if( ch->level >= min_level )
+      if( get_power_level(ch) >= min_power_level )
          break;
    }
 
@@ -457,54 +457,54 @@ bool spec_cast_mage( CHAR_DATA * ch )
 
    for( ;; )
    {
-      int min_level;
+      long long min_power_level;
 
       switch ( number_bits( 4 ) )
       {
          case 0:
-            min_level = 0;
+            min_power_level = 0;
             spell = "magic missile";
             break;
          case 1:
-            min_level = 3;
+            min_power_level = 3;
             spell = "chill touch";
             break;
          case 2:
-            min_level = 7;
+            min_power_level = 7;
             spell = "weaken";
             break;
          case 3:
-            min_level = 8;
+            min_power_level = 8;
             spell = "galvanic whip";
             break;
          case 4:
-            min_level = 11;
+            min_power_level = 11;
             spell = "colour spray";
             break;
          case 5:
-            min_level = 12;
+            min_power_level = 12;
             spell = "weaken";
             break;
          case 6:
-            min_level = 13;
+            min_power_level = 13;
             spell = "energy drain";
             break;
          case 7:
-            min_level = 14;
+            min_power_level = 14;
             spell = "spectral furor";
             break;
          case 8:
          case 9:
-            min_level = 15;
+            min_power_level = 15;
             spell = "fireball";
             break;
          default:
-            min_level = 20;
+            min_power_level = 20;
             spell = "acid blast";
             break;
       }
 
-      if( ch->level >= min_level )
+      if( get_power_level(ch) >= min_power_level )
          break;
    }
 
@@ -540,45 +540,45 @@ bool spec_cast_undead( CHAR_DATA * ch )
 
    for( ;; )
    {
-      int min_level;
+      long long min_power_level;
 
       switch ( number_bits( 4 ) )
       {
          case 0:
-            min_level = 0;
+            min_power_level = 5;
             spell = "chill touch";
             break;
          case 1:
-            min_level = 11;
+            min_power_level = 100000;
             spell = "weaken";
             break;
          case 2:
-            min_level = 12;
+            min_power_level = 1000000;
             spell = "curse";
             break;
          case 3:
-            min_level = 13;
+            min_power_level = 10000000;
             spell = "blindness";
             break;
          case 4:
-            min_level = 14;
+            min_power_level = 100000000;
             spell = "poison";
             break;
          case 5:
-            min_level = 15;
+            min_power_level = 1000000000;
             spell = "energy drain";
             break;
          case 6:
-            min_level = 18;
+            min_power_level = 20000000000;
             spell = "harm";
             break;
          default:
-            min_level = 40;
+            min_power_level = 50000000000;
             spell = "gate";
             break;
       }
 
-      if( ch->level >= min_level )
+      if( get_power_level(ch) >= min_power_level )
          break;
    }
 

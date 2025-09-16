@@ -58,6 +58,44 @@ const char *corpse_descs[] = {
    "The corpse of %s lies here."
 };
 
+struct pl_scaling_config {
+    /* Power level scaling thresholds */
+    long long tier1_threshold;      /* Light penalty threshold */
+    long long tier2_threshold;      /* Medium penalty threshold */
+    long long tier3_threshold;      /* Heavy penalty threshold */
+    
+    /* Penalty multipliers (percentage of normal gain) */
+    int tier1_multiplier;           /* Light penalty: 85% */
+    int tier2_multiplier;           /* Medium penalty: 67% */
+    int tier3_multiplier;           /* Heavy penalty: 33% */
+    
+    /* Gain limits */
+    int max_gain_divisor;           /* Max gain = current_pl / this */
+    long long absolute_minimum;     /* Cannot go below this PL */
+    
+    /* Combat gain rates */
+    int equal_enemy_divisor;        /* damage / this for equal enemies */
+    int half_enemy_divisor;         /* damage / this for half-strength */
+    int weak_enemy_divisor;         /* damage / this for weak enemies */
+    int very_weak_divisor;          /* damage / this for very weak */
+    int anti_farming_ratio;         /* Enemy must be 1/this of player PL */
+} pl_scaling = {
+    /* Default DBSC values - modify as needed */
+    .tier1_threshold = 10000000LL,      /* 10 million */
+    .tier2_threshold = 100000000LL,     /* 100 million */
+    .tier3_threshold = 1000000000LL,    /* 1 billion */
+    .tier1_multiplier = 85,             /* 15% penalty */
+    .tier2_multiplier = 67,             /* 33% penalty */
+    .tier3_multiplier = 33,             /* 67% penalty */
+    .max_gain_divisor = 4,              /* 1/4 max */
+    .absolute_minimum = 1,              /* Minimum 1 PL */
+    .equal_enemy_divisor = 10,          /* dam/10 */
+    .half_enemy_divisor = 20,           /* dam/20 */
+    .weak_enemy_divisor = 50,           /* dam/50 */
+    .very_weak_divisor = 100,           /* dam/100 */
+    .anti_farming_ratio = 10            /* 1/10 threshold */
+};
+
 /*
  * Advancement stuff.
  */
@@ -126,86 +164,89 @@ void advance_level( CHAR_DATA * ch )
    }
 }
 
-void gain_exp( CHAR_DATA * ch, xp_t gain )
+void gain_pl( CHAR_DATA *ch, long long gain )
 {
-   double modgain;
-
-   if( IS_NPC( ch ) || ch->level >= LEVEL_AVATAR )
-      return;
-
-   /*
-    * Bonus for deadly lowbies 
-    */
-   modgain = gain;
-   if( modgain > 0 && IS_PKILL( ch ) && ch->level < 17 )
-   {
-      if( ch->level <= 6 )
-      {
-         send_to_char( "The Favor of Gravoc fosters your learning.\r\n", ch );
-         modgain *= 2;
-      }
-      if( ch->level <= 10 && ch->level >= 7 )
-      {
-         send_to_char( "The Hand of Gravoc hastens your learning.\r\n", ch );
-         modgain *= 1.75;
-      }
-      if( ch->level <= 13 && ch->level >= 11 )
-      {
-         send_to_char( "The Cunning of Gravoc succors your learning.\r\n", ch );
-         modgain *= 1.5;
-      }
-      if( ch->level <= 16 && ch->level >= 14 )
-      {
-         send_to_char( "The Patronage of Gravoc reinforces your learning.\r\n", ch );
-         modgain *= 1.25;
-      }
-   }
-
-   /*
-    * per-race experience multipliers 
-    */
-   modgain *= ( race_table[ch->race]->exp_multiplier / 100.0 );
-
-   /*
-    * Deadly exp loss floor is exp floor of level 
-    */
-   if( IS_PKILL( ch ) && modgain < 0 )
-   {
-      if( ch->exp + modgain < exp_level( ch, ch->level ) )
-      {
-         modgain = exp_level( ch, ch->level ) - ch->exp;
-         send_to_char( "Gravoc's Pandect protects your insight.\r\n", ch );
-      }
-   }
-
-   if( IS_PKILL( ch ) )
-      modgain = ( modgain * sysdata.deadly_exp_mod ) / 100;
-   else
-      modgain = ( modgain * sysdata.peaceful_exp_mod ) / 100;
-
-   /*
-    * xp cap to prevent any one event from giving enuf xp to 
-    * gain more than one level - FB 
-    */
-   modgain = UMIN( (int)modgain, exp_level( ch, ch->level + 2 ) - exp_level( ch, ch->level + 1 ) );
-
-   ch->exp = UMAX( 0, ch->exp + ( int )modgain );
-
-   if( NOT_AUTHED( ch ) && ch->exp >= exp_level( ch, ch->level + 1 ) )
-   {
-      send_to_char( "You can not ascend to a higher level until you are authorized.\r\n", ch );
-      ch->exp = ( exp_level( ch, ( ch->level + 1 ) ) - 1 );
-      return;
-   }
-
-   while( ch->level < LEVEL_AVATAR && ch->exp >= exp_level( ch, ch->level + 1 ) )
-   {
-      set_char_color( AT_WHITE + AT_BLINK, ch );
-      ch->level += 1;
-      ch_printf( ch, "You have now obtained experience level %d!\r\n", ch->level );
-      advance_level( ch );
-   }
-   save_char_obj( ch );
+    long long current_pl, original_gain;
+    int race_mult, system_mod;
+    
+    /* Fast early exits */
+    if( IS_NPC( ch ) || gain == 0 )
+        return;
+        
+    current_pl = get_power_level( ch );
+    original_gain = gain;
+    
+    if( gain > 0 )
+    {
+        /* Apply race multiplier efficiently */
+        if( ch->race >= 0 && ch->race < MAX_RACE && race_table[ch->race] ) {
+            race_mult = race_table[ch->race]->exp_multiplier;
+            if( race_mult > 0 && race_mult != 100 ) {
+                gain = (gain * race_mult) / 100;
+            }
+        }
+        
+        /* Apply system modifier efficiently */
+        system_mod = IS_PKILL( ch ) ? sysdata.deadly_exp_mod : sysdata.peaceful_exp_mod;
+        if( system_mod > 0 && system_mod != 100 ) {
+            gain = (gain * system_mod) / 100;
+        }
+        
+        /* Protect against invalid configuration zeroing gains */
+        if( gain <= 0 && original_gain > 0 ) {
+            gain = 1;
+        }
+        
+        /* Apply scaling penalties based on current power level */
+        if( current_pl >= pl_scaling.tier3_threshold ) {
+            gain = UMAX( 1, (gain * pl_scaling.tier3_multiplier) / 100 );
+        }
+        else if( current_pl >= pl_scaling.tier2_threshold ) {
+            gain = UMAX( 1, (gain * pl_scaling.tier2_multiplier) / 100 );
+        }
+        else if( current_pl >= pl_scaling.tier1_threshold ) {
+            gain = UMAX( 1, (gain * pl_scaling.tier1_multiplier) / 100 );
+        }
+        
+        /* Cap excessive gains */
+        long long max_gain = current_pl / pl_scaling.max_gain_divisor;
+        if( gain > max_gain ) {
+            gain = UMAX( max_gain, 1 );
+        }
+    }
+    else /* Negative gain - power level loss */
+    {
+        if( current_pl + gain < pl_scaling.absolute_minimum ) {
+            gain = pl_scaling.absolute_minimum - current_pl;
+            send_to_char( "Your power level cannot drop below the minimum.\r\n", ch );
+        }
+    }
+    
+    /* Apply the change if non-zero */
+    if( gain != 0 )
+    {
+        add_base_power_level( ch, gain );
+        
+        /* Player feedback */
+        if( gain > 0 )
+            ch_printf( ch, "&GYou gain &Y%s &Gpower level!\r\n", num_punct_ll( gain ) );
+        else
+            ch_printf( ch, "&RYou lose &Y%s &Rpower level!\r\n", num_punct_ll( -gain ) );
+            
+        save_char_obj( ch );
+        
+        /* Trigger any special events for gains */
+        if( gain > 0 && !IS_NPC(ch) ) {
+            /* Android schematic checks - only if macros exist */
+            #ifdef IS_ANDROID
+            if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) ) {
+                /* Call android_check_schematics if function exists */
+                extern void android_check_schematics( CHAR_DATA * );
+                android_check_schematics( ch );
+            }
+            #endif
+        }
+    }
 }
 
 /*
@@ -397,7 +438,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
       switch ( iCond )
       {
          case COND_FULL:
-            if( ch->level < LEVEL_AVATAR && ch->Class != CLASS_VAMPIRE )
+            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_HUNGRY, ch );
                send_to_char( "You are STARVING!\r\n", ch );
@@ -409,7 +450,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
             break;
 
          case COND_THIRST:
-            if( ch->level < LEVEL_AVATAR && ch->Class != CLASS_VAMPIRE )
+            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_THIRSTY, ch );
                send_to_char( "You are DYING of THIRST!\r\n", ch );
@@ -452,7 +493,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
       switch ( iCond )
       {
          case COND_FULL:
-            if( ch->level < LEVEL_AVATAR && ch->Class != CLASS_VAMPIRE )
+            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_HUNGRY, ch );
                send_to_char( "You are really hungry.\r\n", ch );
@@ -463,7 +504,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
             break;
 
          case COND_THIRST:
-            if( ch->level < LEVEL_AVATAR && ch->Class != CLASS_VAMPIRE )
+            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_THIRSTY, ch );
                send_to_char( "You are really thirsty.\r\n", ch );
@@ -496,7 +537,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
       switch ( iCond )
       {
          case COND_FULL:
-            if( ch->level < LEVEL_AVATAR && ch->Class != CLASS_VAMPIRE )
+            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_HUNGRY, ch );
                send_to_char( "You are hungry.\r\n", ch );
@@ -504,7 +545,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
             break;
 
          case COND_THIRST:
-            if( ch->level < LEVEL_AVATAR && ch->Class != CLASS_VAMPIRE )
+            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_THIRSTY, ch );
                send_to_char( "You are thirsty.\r\n", ch );
@@ -526,7 +567,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
       switch ( iCond )
       {
          case COND_FULL:
-            if( ch->level < LEVEL_AVATAR && ch->Class != CLASS_VAMPIRE )
+            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_HUNGRY, ch );
                send_to_char( "You are a mite peckish.\r\n", ch );
@@ -534,7 +575,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
             break;
 
          case COND_THIRST:
-            if( ch->level < LEVEL_AVATAR && ch->Class != CLASS_VAMPIRE )
+            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_THIRSTY, ch );
                send_to_char( "You could use a sip of something refreshing.\r\n", ch );
@@ -575,7 +616,7 @@ void check_alignment( CHAR_DATA * ch )
 
    /*
     * Paladins need some restrictions, this is where we crunch 'em -h 
-    */
+    
    if( ch->Class == CLASS_PALADIN )
    {
       if( ch->alignment < 250 )
@@ -595,9 +636,10 @@ void check_alignment( CHAR_DATA * ch )
          worsen_mental_state( ch, 6 );
          return;
       }
-   }
+   }*/
 }
-
+   
+   
 /*
  * Mob autonomous action.
  * This function takes 25% to 35% of ALL Mud cpu time.
@@ -914,6 +956,11 @@ void char_update( void )
 
       if( char_died( ch ) )
          continue;
+	 
+	  /*
+       * Decay focus when not in combat
+       */
+      //decay_focus( ch );  Have to figure out how to make this work --Dragus
 
       /*
        * See if player should be auto-saved.
@@ -1082,7 +1129,7 @@ void char_update( void )
          gain_condition( ch, COND_DRUNK, -1 );
          gain_condition( ch, COND_FULL, -1 + race_table[ch->race]->hunger_mod );
 
-         if( ch->Class == CLASS_VAMPIRE && ch->level >= 10 )
+         if( IS_VAMPIRE(ch) && ch->level >= 10 )
          {
             if( time_info.hour < 21 && time_info.hour > 5 )
                gain_condition( ch, COND_BLOODTHIRST, -1 );

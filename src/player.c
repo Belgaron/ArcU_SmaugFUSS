@@ -103,8 +103,7 @@ void do_worth( CHAR_DATA* ch, const char* argument )
    }
    else
       snprintf( buf2, MAX_STRING_LENGTH, "%d", ch->alignment );
-   pager_printf( ch, "|Level: %-4d |Favor: %-10s |Alignment: %-9s |Powerlevel: %-9s|\r\n",
-              ch->level, buf, buf2, num_punct_ll( ch->exp ) );
+   pager_printf( ch, "&C|Level: &R%-4d&C |Favor: &R%-10s&C |Alignment: &R%-9s&C |Powerlevel: &R%-9lld|\r\n&D", ch->level, buf, buf2, ch->exp );
    send_to_pager( " &C----------------------------------------------------------------------------\r\n&D", ch );
    switch ( ch->style )
    {
@@ -143,6 +142,7 @@ void do_score( CHAR_DATA* ch, const char* argument )
    char buf[MAX_STRING_LENGTH];
    AFFECT_DATA *paf;
    int iLang;
+   
    /*const char *suf;
    short day;
 
@@ -314,7 +314,11 @@ void do_score( CHAR_DATA* ch, const char* argument )
    /*
     * Fighting style support -haus
     */
-   pager_printf( ch, "&CCHA  : &W%2.2d&C(&z%2.2d&C)      Wimpy: &R%-5d&D      ", get_curr_cha( ch ), ch->perm_cha, ch->wimpy );
+   if (is_android(ch)) {
+		ch_printf(ch, "&CCOR  : &W%d(%d)&D\r\n", get_curr_spr(ch), ch->perm_spr);
+	} else {
+		ch_printf(ch, "&CSPR  : &W%d(%d)&D\r\n", get_curr_spr(ch), ch->perm_spr);
+	}
    
    pager_printf(ch, "&b-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=&C\n\r");
 
@@ -336,28 +340,27 @@ void do_score( CHAR_DATA* ch, const char* argument )
          snprintf( buf, MAX_STRING_LENGTH, "%s", "standard" );
          break;
    }
-   pager_printf( ch, "&CPRACT: &G%3.3d&C          &YLife: %-5d \r\n&D", ch->practice, ch->hit );
-   //pager_printf( ch, "&CStyle: &Y%-10.10s              &YLife: %-5d \r\n&D", buf, ch->hit );
+   pager_printf( ch, "&CPRACT: &G%d&C          &YLife: %-5d \r\n&D", ch->practice, ch->hit );
 
-   pager_printf( ch, "&C                  &YEnergy: %d/%d&C&D \r\n", 
-				 ch->mana, ch->max_mana  );
-
+   pager_printf( ch, "&YGOLD : %-13s&C                  &YMana: %d/%d&C&D \r\n", 
+				 num_punct( ch->gold ), ch->mana, ch->max_mana  );
+   
    //pager_printf( ch, "Glory: %4.4d(%4.4d) \r\n", ch->pcdata->quest_curr, ch->pcdata->quest_accum );
 
-   pager_printf( ch, "&C                                                   AutoSac (&W%c&C)   AutoExit(&W%c&C)\r\n&D",
-                 xIS_SET( ch->act, PLR_AUTOSAC ) ? 'X' : ' ', xIS_SET( ch->act, PLR_AUTOEXIT ) ? 'X' : ' ' );
+   pager_printf( ch, "&CBASE POWERLEVEL: %s&C                                AutoSac (&W%c&C)   AutoExit(&W%c&C)\r\n&D",
+                 num_punct_ll( ch->power_level.get_base() ), xIS_SET( ch->act, PLR_AUTOSAC ) ? 'X' : ' ', xIS_SET( ch->act, PLR_AUTOEXIT ) ? 'X' : ' ' );
 
    if( IS_VAMPIRE( ch ) )
-      pager_printf( ch, "&CBase Powerlevel: %-9lld       &RBlood: %-5d &Cof &R%5d&C       AutoLoot(&W%c&C)     Pager(&W%c&C)\r\n&D",
-                    ch->exp, ch->pcdata->condition[COND_BLOODTHIRST], 10 + ch->level, xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ', IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? 'X' : ' ');
+      pager_printf( ch, "&CBASE POWERLEVEL: %s&C       &RBlood: %-5d &Cof &R%5d&C       AutoLoot(&W%c&C)     Pager(&W%c&C)\r\n&D",
+                    num_punct_ll( ch->power_level.get_base() ), ch->pcdata->condition[COND_BLOODTHIRST], 10 + ch->level, xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ', IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? 'X' : ' ');
    else
-      pager_printf( ch, "&CPL   : %-9lld                                   AutoLoot(&W%c&C)    Pager: (&W%c&C)\r\n",
-                    ch->exp, xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ', IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? 'X' : ' ');
+      pager_printf( ch, "&CCURR POWERLEVEL: %s                              AutoLoot(&W%c&C)    Pager: (&W%c&C)\r\n",
+                    num_punct_ll( get_power_level( ch ) ), xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ', IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? 'X' : ' ');
 	
-   pager_printf( ch, "\r\n");	
+   pager_printf( ch, "&GPL GAINED SINCE LOGON: %s\r\n&C", num_punct_ll( ch->power_level.get_base() - ch->power_level.get_logon() ) );	
 
-   pager_printf_color( ch, "&YGOLD : %-13s&C        MKills:  [&R%-5.5d&C] Mdeaths: [&R%-5.5d&C]    &D\r\n",
-                 num_punct( ch->gold ), ch->pcdata->mkills, ch->pcdata->mdeaths );
+   pager_printf_color( ch, "                                      MKills:  [&R%-5.5d&C] Mdeaths: [&R%-5.5d&C]    &D\r\n",
+                  ch->pcdata->mkills, ch->pcdata->mdeaths );
 
    if( !IS_NPC( ch ) && ch->pcdata->condition[COND_DRUNK] > 10 )
       send_to_pager( "You are drunk.\r\n", ch );
@@ -458,16 +461,45 @@ void do_score( CHAR_DATA* ch, const char* argument )
    if( ch->pcdata->bestowments && ch->pcdata->bestowments[0] != '\0' )
       pager_printf( ch, "&CYou are bestowed with the command(s): &W%s.\r\n&D", ch->pcdata->bestowments );
 
-   if( ch->morph && ch->morph->morph )
-   {
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
-      if( IS_IMMORTAL( ch ) )
-         pager_printf( ch, "Morphed as (%d) %s with a timer of %d.\r\n",
-                       ch->morph->morph->vnum, ch->morph->morph->short_desc, ch->morph->timer );
-      else
-         pager_printf( ch, "You are morphed into a %s.\r\n", ch->morph->morph->short_desc );
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
-   }
+/* Android status display - only show if they are currently collecting components */
+if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) && ch->pcdata )
+{
+    static const char *names[] = { "Aegis", "Titan", "Valkyrie", "Olympus", "Ragnarok", "Excalibur" };
+    bool currently_collecting = FALSE;
+    
+    /* Check if they have any unlocked schematics that aren't installed yet */
+    for( int i = 0; i < 6; i++ )
+    {
+        if( IS_SET(ch->pcdata->android_schematics, (1 << i)) &&          /* Has schematic */
+            !IS_SET(ch->pcdata->android_installed, (1 << i)) )           /* But not installed */
+        {
+            currently_collecting = TRUE;
+            break;
+        }
+    }
+    
+    /* Only show protocol section if they are actively collecting */
+    if( currently_collecting )
+    {
+        send_to_char( "\r\n&C--- Android Protocols ---&x\r\n", ch );
+        
+        for( int i = 0; i < 6; i++ )
+        {
+            /* Only show schematics that are unlocked but not installed */
+            if( IS_SET(ch->pcdata->android_schematics, (1 << i)) &&
+                !IS_SET(ch->pcdata->android_installed, (1 << i)) )
+            {
+                ch_printf( ch, "&W%s: &Y%d&W/5 components", names[i], ch->pcdata->android_components[i] );
+                
+                if( ch->pcdata->android_components[i] >= 5 )
+                    send_to_char( " &G[READY TO INSTALL]&x\r\n", ch );
+                else
+                    send_to_char( "&x\r\n", ch );
+            }
+        }
+    }
+    /* If no active collection, show nothing - completely hidden */
+}
    if( CAN_PKILL( ch ) )
    {
       send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
@@ -620,8 +652,8 @@ const char *tiny_affect_loc_name( int location )
          return " WIS  ";
       case APPLY_CON:
          return " CON  ";
-      case APPLY_CHA:
-         return " CHA  ";
+      case APPLY_SPR:
+         return " spr  ";
       case APPLY_LCK:
          return " LCK  ";
       case APPLY_SEX:
@@ -785,13 +817,14 @@ const char *get_race( CHAR_DATA * ch )
 }
 
 /*								-Thoric
- * Display your current exp, level, and surrounding level exp requirements
+ * Display your current pl, level, and surrounding level exp requirements
  */
 void do_level( CHAR_DATA* ch, const char* argument )
 {
    char buf[MAX_STRING_LENGTH];
    char buf2[MAX_STRING_LENGTH];
    int x, lowlvl, hilvl;
+   long long current_pl = get_power_level( ch );
 
    if( ch->level == 1 )
       lowlvl = 1;
@@ -799,13 +832,13 @@ void do_level( CHAR_DATA* ch, const char* argument )
       lowlvl = UMAX( 2, ch->level - 5 );
    hilvl = URANGE( ch->level, ch->level + 5, MAX_LEVEL );
    set_char_color( AT_SCORE, ch );
-   ch_printf( ch, "\r\nExperience required, levels %d to %d:\r\n______________________________________________\r\n\r\n",
-              lowlvl, hilvl );
-   snprintf( buf,  MAX_STRING_LENGTH, " exp  (Current: %12s)", num_punct_ll( ch->exp ) );
-   snprintf( buf2, MAX_STRING_LENGTH, " exp  (Needed:  %12s)", num_punct_ll( exp_level( ch, ch->level + 1 ) - ch->exp ) );
+   ch_printf( ch, "\r\nPower Level required, levels %d to %d:\r\n______________________________________________\r\n\r\n",
+			  lowlvl, hilvl );
+	snprintf( buf, MAX_STRING_LENGTH, " PL  (Current: %15s)", num_punct_ll( get_power_level( ch ) ) );
+	snprintf( buf2, MAX_STRING_LENGTH, " PL  (Needed:  %15s)", num_punct_ll( exp_level( ch, ch->level + 1 ) - current_pl ) );
    for( x = lowlvl; x <= hilvl; x++ )
-      ch_printf( ch, " (%2d) %12s%s\r\n", x, num_punct( exp_level( ch, x ) ),
-                 ( x == ch->level ) ? buf : ( x == ch->level + 1 ) ? buf2 : " exp" );
+      ch_printf( ch, " (%2d) %15s%s\r\n", x, num_punct_ll( exp_level( ch, x ) ),
+                 ( x == ch->level ) ? buf : ( x == ch->level + 1 ) ? buf2 : " PL" );
    send_to_char( "______________________________________________\r\n", ch );
 }
 
@@ -1211,18 +1244,18 @@ void do_statreport( CHAR_DATA* ch, const char* argument )
       act( AT_REPORT, buf, ch, NULL, NULL, TO_ROOM );
    }
 
-   ch_printf( ch, "Your base stats:    %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d cha %-2d lck.\r\n",
-              ch->perm_str, ch->perm_wis, ch->perm_int, ch->perm_dex, ch->perm_con, ch->perm_cha, ch->perm_lck );
-   snprintf( buf, MAX_STRING_LENGTH, "$n's base stats:    %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d cha %-2d lck.",
-             ch->perm_str, ch->perm_wis, ch->perm_int, ch->perm_dex, ch->perm_con, ch->perm_cha, ch->perm_lck );
+   ch_printf( ch, "Your base stats:    %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d spr %-2d lck.\r\n",
+              ch->perm_str, ch->perm_wis, ch->perm_int, ch->perm_dex, ch->perm_con, ch->perm_spr, ch->perm_lck );
+   snprintf( buf, MAX_STRING_LENGTH, "$n's base stats:    %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d spr %-2d lck.",
+             ch->perm_str, ch->perm_wis, ch->perm_int, ch->perm_dex, ch->perm_con, ch->perm_spr, ch->perm_lck );
    act( AT_REPORT, buf, ch, NULL, NULL, TO_ROOM );
 
-   ch_printf( ch, "Your current stats: %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d cha %-2d lck.\r\n",
+   ch_printf( ch, "Your current stats: %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d spr %-2d lck.\r\n",
               get_curr_str( ch ), get_curr_wis( ch ), get_curr_int( ch ),
-              get_curr_dex( ch ), get_curr_con( ch ), get_curr_cha( ch ), get_curr_lck( ch ) );
-   snprintf( buf, MAX_STRING_LENGTH, "$n's current stats: %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d cha %-2d lck.",
+              get_curr_dex( ch ), get_curr_con( ch ), get_curr_spr( ch ), get_curr_lck( ch ) );
+   snprintf( buf, MAX_STRING_LENGTH, "$n's current stats: %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d spr %-2d lck.",
              get_curr_str( ch ), get_curr_wis( ch ), get_curr_int( ch ),
-             get_curr_dex( ch ), get_curr_con( ch ), get_curr_cha( ch ), get_curr_lck( ch ) );
+             get_curr_dex( ch ), get_curr_con( ch ), get_curr_spr( ch ), get_curr_lck( ch ) );
    act( AT_REPORT, buf, ch, NULL, NULL, TO_ROOM );
 }
 
@@ -1242,12 +1275,12 @@ void do_stat( CHAR_DATA* ch, const char* argument )
       ch_printf( ch, "You report: %d/%d hp %d/%d mana %d/%d mv %lld pl.\r\n",
                  ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move, ch->max_move, ch->exp );
 
-   ch_printf( ch, "Your base stats:    %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d cha %-2d lck.\r\n",
-              ch->perm_str, ch->perm_wis, ch->perm_int, ch->perm_dex, ch->perm_con, ch->perm_cha, ch->perm_lck );
+   ch_printf( ch, "Your base stats:    %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d spr %-2d lck.\r\n",
+              ch->perm_str, ch->perm_wis, ch->perm_int, ch->perm_dex, ch->perm_con, ch->perm_spr, ch->perm_lck );
 
-   ch_printf( ch, "Your current stats: %-2d str %-2d wis %-2d int %-2d dex %-2d con %-2d cha %-2d lck.\r\n",
-              get_curr_str( ch ), get_curr_wis( ch ), get_curr_int( ch ),
-              get_curr_dex( ch ), get_curr_con( ch ), get_curr_cha( ch ), get_curr_lck( ch ) );
+   ch_printf(ch, "Str:%d Int:%d Wis:%d Dex:%d Con:%d %s:%d\r\n",
+          get_curr_str(ch), get_curr_int(ch), get_curr_wis(ch),
+          get_curr_dex(ch), get_curr_con(ch), is_android(ch) ? "Cor" : "Spr", get_curr_spr(ch));
 }
 
 void do_report( CHAR_DATA* ch, const char* argument )
@@ -1448,12 +1481,4 @@ void do_favor( CHAR_DATA * ch, const char *argument )
       strlcpy( buf, "damned", MAX_STRING_LENGTH );
 
    ch_printf( ch, "%s considers you to be %s.\r\n", ch->pcdata->deity->name, buf );
-   
-}
-
-
-/* Stub function for exp_level - DBSC uses power levels, not traditional levels */
-xp_t exp_level( CHAR_DATA *ch, short level )
-{
-    return 0;
 }

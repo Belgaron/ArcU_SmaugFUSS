@@ -28,7 +28,7 @@
 
 
 /* truncate a char string if it's length exceeds a given value. */
-void trunc(char *s, int len)
+void trunc(char *s, size_t len)
 {
    if ( strlen(s) > len )
       s[len] = '\0';
@@ -807,7 +807,7 @@ void display_operand_table (CHAR_DATA *ch, int op_num)
   for(cou=0; cou < op_num; cou++)
      if ( go_op[cou].num)
         pager_printf (ch,
-        "%2d %-7s %2s %10ld\n\r", cou+1, go_fd[go_op[cou].field].nam,
+        "%2d %-7s %2s %10d\n\r", cou+1, go_fd[go_op[cou].field].nam,
            opn[go_op[cou].op], go_op[cou].nval);
      else
         pager_printf (ch, "%2d %-7s %2s %s\n\r",
@@ -1273,7 +1273,7 @@ void do_ogrub (CHAR_DATA *ch, const char *argument)
      if ( op_num >= MAX_NUM_OPS )
      {
         pager_printf(ch, "Sorry. You have entered more than %d operands.\n\r",
-           MAX_NUM_OPS, MAX_NUM_OPS );
+           MAX_NUM_OPS );
         return;
      }
      if ( !go_parse_operand (ch, arg1, &op_num, &sor_ind, &sor_dir,
@@ -1773,7 +1773,7 @@ char arg4 [MAX_INPUT_LENGTH];  03.28.05 --Saiyr
 char arg5 [MAX_INPUT_LENGTH];
 char arg6 [MAX_INPUT_LENGTH];*/
 int   num = 20;                               /* display lines requested */
-int   cou;
+//int   cou;
 
 argument = one_argument( argument, arg1 );
 /* argument = one_argument( argument, arg2 );
@@ -1797,11 +1797,11 @@ pager_printf( ch, "mon=%d day=%d hh=%d mm=%d\n\r",
 return;
 }
 
-if (!str_cmp(arg1, "rf"))
+if ( !str_cmp(arg1, "rf") )
 {
    #define DIAG_RF_MAX_SIZE 5000
    ROOM_INDEX_DATA *pRoom;
-   int value, lo, hi, hit_cou, cou, vnum[DIAG_RF_MAX_SIZE];
+   int value, lo, hi, hit_cou, vnum[DIAG_RF_MAX_SIZE];
    char flag[MAX_STRING_LENGTH];
    char arg2[MAX_INPUT_LENGTH];
    char arg3[MAX_INPUT_LENGTH];
@@ -1810,74 +1810,77 @@ if (!str_cmp(arg1, "rf"))
    argument = one_argument( argument, arg3 );
 
    char *flagarg = argument;
-   EXT_BV match;
+   EXT_BV match; xCLEAR_BITS( match );  /* initialize before toggling */
 
-   if (!*arg2 || !*arg3 || !*argument)     /* empty arg gets help scrn */
+   if ( !*arg2 || !*arg3 || !*argument )
    {
       diagnose_help(ch);
       return;
    }
 
-   while( flagarg[0] != '\0' )
+   while ( flagarg[0] != '\0' )
    {
       flagarg = one_argument( flagarg, flag );
       value = get_rflag( flag );
-      if( value < 0 || value > MAX_BITS )
+      if ( value < 0 || value > MAX_BITS )
       {
-          send_to_char( "Invalid flag found.\n\r", ch );
-          return;
+         send_to_char( "Invalid flag found.\n\r", ch );
+         return;
       }
-      else
-         xTOGGLE_BIT( match, value );
+      xTOGGLE_BIT( match, value );
    }
-   hit_cou = 0;                                 /* number of vnums found */
-   lo = (*arg2) ? atoi (arg2) : 0;
-   hi = (*arg3) ? atoi (arg3) : MAX_VNUMS;
 
-   ch_printf (ch, "\n\rRoom Vnums\n\r");
-   for (cou = 0; cou < MAX_KEY_HASH; cou++)
+   hit_cou = 0;
+   lo = (*arg2) ? atoi(arg2) : 0;
+   hi = (*arg3) ? atoi(arg3) : MAX_VNUMS;
+
+   ch_printf( ch, "\n\rRoom Vnums\n\r" );
+   for (int bucket = 0; bucket < MAX_KEY_HASH; ++bucket)
    {
-      if ( room_index_hash[cou] )
-         for (pRoom = room_index_hash[cou]; pRoom; pRoom = pRoom->next)
-         {
+      if ( room_index_hash[bucket] )
+         for (pRoom = room_index_hash[bucket]; pRoom; pRoom = pRoom->next)
             if (pRoom->vnum >= lo && pRoom->vnum <= hi)
-            {
-            if ( xHAS_BITS( pRoom->room_flags, match )
-            && hit_cou < DIAG_RF_MAX_SIZE)
-	       vnum[hit_cou++] = pRoom->vnum;
-            }
-         }
+               if ( xHAS_BITS( pRoom->room_flags, match )
+                    && hit_cou < DIAG_RF_MAX_SIZE )
+                  vnum[hit_cou++] = pRoom->vnum;
    }
-   qsort(vnum, hit_cou, sizeof(int), diag_int_comp);      /* sort vnums    */
-   for (cou=0; cou<hit_cou; cou++)
-       ch_printf (ch, "%5d %6d\n\r", cou+1, vnum[cou]);   /* display vnums */
+
+   qsort(vnum, hit_cou, sizeof(int), diag_int_comp);
+   for (int i = 0; i < hit_cou; ++i)
+      ch_printf( ch, "%5d %6d\n\r", i+1, vnum[i] );
    return;
 }
 
-if (!str_cmp(arg1, "of")) {
-char arg2[MAX_INPUT_LENGTH];
-argument = one_argument( argument, arg2 );
-   if (*arg2)                                    /* empty arg gets dft number */
-      num = atoi (arg2);
-   if (num > DIAG_MAX_SIZE  || num < 1) {        /* display num out of bounds */
+
+if ( !str_cmp(arg1, "of") )
+{
+   char arg2[MAX_INPUT_LENGTH];
+   argument = one_argument( argument, arg2 );
+
+   if ( *arg2 ) num = atoi(arg2);
+   if ( num > DIAG_MAX_SIZE || num < 1 )
+   {
       diagnose_help(ch);
       return;
-      }
-   CREATE(freq, OBJ_INDEX_DATA *, num);           /* dynamic freq array */
-   for (cou = 0; cou < num; cou++)                /* initialize freq array */
-       freq[cou] = NULL;                          /* to NULL pointers */
-   for (cou = 0; cou < MAX_KEY_HASH; cou++) {     /* loop thru obj_index_hash */
-       if ( obj_index_hash[cou] )                 /* safety check */
-          for (pObj=obj_index_hash[cou];          /* loop thru all pObjInd */
-               pObj; pObj=pObj->next)
-               diag_ins (pObj, num, freq, ch);    /* insert pointer into list */
-       }
-   ch_printf (ch, "\n\rObject Frequencies\n\r");  /* send results to char */
-   for (cou = 0; cou < num && freq[cou]; cou++)
-       ch_printf(ch, "%3d%8d%8d\n\r", cou+1,freq[cou]->vnum,freq[cou]->count);
+   }
+
+   CREATE(freq, OBJ_INDEX_DATA *, num);
+   for (int i = 0; i < num; ++i)
+      freq[i] = NULL;
+
+   for (int bucket = 0; bucket < MAX_KEY_HASH; ++bucket)
+      if ( obj_index_hash[bucket] )
+         for (pObj = obj_index_hash[bucket]; pObj; pObj = pObj->next)
+            diag_ins( pObj, num, freq, ch );
+
+   ch_printf( ch, "\n\rObject Frequencies\n\r" );
+   for (int i = 0; i < num && freq[i]; ++i)
+      ch_printf( ch, "%3d%8d%8d\n\r", i+1, freq[i]->vnum, freq[i]->count );
+
    DISPOSE(freq);
    return;
-   }
+}
+
 
 if (!str_cmp(arg1, "mm")) {
    DESCRIPTOR_DATA *d;
@@ -1930,42 +1933,47 @@ if (!str_cmp(arg1, "mm")) {
    return;
    }
 
-if (!str_cmp(arg1, "zero"))
+if ( !str_cmp(arg1, "zero") )
 {
-   #define ZERO_MAX   1500
+   #define ZERO_MAX 1500
    int vnums[ZERO_MAX];
    int count[ZERO_MAX];
-   int zero_obj_ind = 0;                        /* num of obj_ind's with 0 wt */
-   int zero_obj     = 0;                        /* num of objs with 0 wt */
-   int zero_num     = -1;                       /* num of lines requested */
+   int zero_obj_ind = 0;
+   int zero_obj     = 0;
+   int zero_num     = -1;
    char arg2[MAX_INPUT_LENGTH];
 
    argument = one_argument( argument, arg2 );
+   if ( *arg2 ) zero_num = atoi(arg2);
 
-   if (*arg2)
-      zero_num = atoi (arg2);
-   for (cou = 0; cou < MAX_KEY_HASH; cou++)     /* loop thru obj_index_hash */
-       if ( obj_index_hash[cou] )
-          for (pObj=obj_index_hash[cou]; pObj; pObj=pObj->next)
-              if (pObj->weight == 0) {
-                 zero_obj_ind++;
-                 zero_obj += pObj->count;
-                 if (zero_obj_ind <= ZERO_MAX) {
-                    vnums[zero_obj_ind - 1] = pObj->vnum;
-                    count[zero_obj_ind - 1] = pObj->count;
-                    }
-                 }
-   if (zero_num > 0) {
-      zero_sort (vnums, count, 0, zero_obj_ind - 1);
-      zero_num = UMIN (zero_num, ZERO_MAX);
-      zero_num = UMIN (zero_num, zero_obj_ind);
-      for (cou=0; cou<zero_num; cou++)
-          ch_printf (ch, "%6d %6d %6d\n\r",
-                     cou+1, vnums[cou], count[cou]);
-      }
-   ch_printf (ch, "%6d %6d\n\r", zero_obj_ind, zero_obj);
+   for (int bucket = 0; bucket < MAX_KEY_HASH; ++bucket)
+      if ( obj_index_hash[bucket] )
+         for (pObj = obj_index_hash[bucket]; pObj; pObj = pObj->next)
+            if ( pObj->weight == 0 )
+            {
+               zero_obj_ind++;
+               zero_obj += pObj->count;
+               if ( zero_obj_ind <= ZERO_MAX )
+               {
+                  vnums[zero_obj_ind - 1] = pObj->vnum;
+                  count[zero_obj_ind - 1] = pObj->count;
+               }
+            }
+
+   if ( zero_num > 0 )
+   {
+      zero_sort( vnums, count, 0, zero_obj_ind - 1 );
+      zero_num = UMIN( zero_num, ZERO_MAX );
+      zero_num = UMIN( zero_num, zero_obj_ind );
+      for (int i = 0; i < zero_num; ++i)
+         ch_printf( ch, "%6d %6d %6d\n\r",
+                    i+1, vnums[i], count[i] );
+   }
+
+   ch_printf( ch, "%6d %6d\n\r", zero_obj_ind, zero_obj );
    return;
 }
+
 
 if (!str_cmp(arg1, "visit"))
 {
@@ -2059,11 +2067,11 @@ for (po=first_object; po; po=po->next)
 return;
 }
 
-if (!str_cmp(arg1, "mrc"))
+if ( !str_cmp(arg1, "mrc") )
 {
    MOB_INDEX_DATA *pm;
-   short cou, race, cls, dis_num, dis_cou = 0;
-	int vnum1, vnum2;
+   short race, cls, dis_num, dis_cou = 0;
+   int vnum1, vnum2;
    char arg2[MAX_INPUT_LENGTH];
    char arg3[MAX_INPUT_LENGTH];
    char arg4[MAX_INPUT_LENGTH];
@@ -2076,37 +2084,34 @@ if (!str_cmp(arg1, "mrc"))
    argument = one_argument( argument, arg5 );
    argument = one_argument( argument, arg6 );
 
-   if ( !*arg2 || !*arg3 || !*arg4 || !*arg5  || !*arg6
-   ||  !isdigit(*arg2) || !isdigit(*arg3) || !isdigit(*arg4)
-   ||  !isdigit(*arg5) || !isdigit(*arg6) )
+   if ( !*arg2 || !*arg3 || !*arg4 || !*arg5 || !*arg6
+        || !isdigit(*arg2) || !isdigit(*arg3) || !isdigit(*arg4)
+        || !isdigit(*arg5) || !isdigit(*arg6) )
    {
-      send_to_char( "Sorry. Invalid format.\n\r\n\r", ch);
+      send_to_char( "Sorry. Invalid format.\n\r\n\r", ch );
       diagnose_help(ch);
       return;
    }
-   dis_num  = UMIN(atoi (arg2), DIAG_MAX_SIZE);
-   race     = atoi (arg3);
-   cls    = atoi (arg4);
-   vnum1    = atoi (arg5);
-   vnum2    = atoi (arg6);
-/*
-   ch_printf(ch, "dis_num=%d race=%d class=%d vnum1=%d vnum2=%d\n\r",
-       dis_num, race, class, vnum1, vnum2);
-*/
-   send_to_char("\n\r", ch);
 
-   for (cou = 0; cou < MAX_KEY_HASH; cou++)
-   {
-      if ( mob_index_hash[cou] )
-         for (pm = mob_index_hash[cou]; pm; pm = pm->next)
-         {
+   dis_num = UMIN( atoi(arg2), DIAG_MAX_SIZE );
+   race    = atoi(arg3);
+   cls     = atoi(arg4);
+   vnum1   = atoi(arg5);
+   vnum2   = atoi(arg6);
+
+   send_to_char( "\n\r", ch );
+
+   for (int bucket = 0; bucket < MAX_KEY_HASH; ++bucket)
+      if ( mob_index_hash[bucket] )
+         for (pm = mob_index_hash[bucket]; pm; pm = pm->next)
             if ( pm->vnum >= vnum1 && pm->vnum <= vnum2
-            &&   pm->race == race && pm->Class == cls && dis_cou++ < dis_num )
-                pager_printf( ch, "%5d %s\n\r", pm->vnum, pm->player_name );
-         }
-   }
+                 && pm->race == race && pm->Class == cls
+                 && dis_cou++ < dis_num )
+               pager_printf( ch, "%5d %s\n\r", pm->vnum, pm->player_name );
+
    return;
 }
+
 
 diagnose_help( ch );
 }

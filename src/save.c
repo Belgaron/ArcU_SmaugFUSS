@@ -61,25 +61,6 @@ static OBJ_DATA *rgObjNest[MAX_NEST];
  */
 void fwrite_char( CHAR_DATA * ch, FILE * fp );
 void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover );
-/* Add this helper in db.c near fread_number */
-xp_t fread_xp( FILE *fp )
-{
-   xp_t number = 0;
-   int sign = 1;
-   int c = fgetc( fp );
-
-   while( isspace(c) ) c = fgetc(fp);
-   if( c == '-' ) { sign = -1; c = fgetc(fp); }
-   if( !isdigit(c) )
-   {
-      bug( "fread_xp: bad format");
-      return 0;
-   }
-   for( ; isdigit(c); c = fgetc(fp) )
-      number = number * 10 + (c - '0');
-   if( c != ' ' && c != '\n' && c != '\r' ) ungetc( c, fp );
-   return number * sign;
-}
 void write_corpses( CHAR_DATA * ch, char *name, OBJ_DATA * objrem );
 
 #ifdef WIN32   /* NJG */
@@ -373,7 +354,8 @@ void save_char_obj( CHAR_DATA * ch )
             rename( TEMP_FILE, strsave );
       }
    }
-
+   
+   
    re_equip_char( ch );
 
    quitting_char = NULL;
@@ -403,14 +385,19 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
             ch->pcdata->age_bonus, ch->pcdata->day, ch->pcdata->month, ch->pcdata->year );
    fprintf( fp, "Languages    %d %d\n", ch->speaks, ch->speaking );
    fprintf( fp, "Level        %d\n", ch->level );
+   fprintf( fp, "Powerup      %d\n", ch->powerup );
    fprintf( fp, "Played       %d\n", ch->played + ( int )( current_time - ch->logon ) );
    fprintf( fp, "Room         %d\n",
             ( ch->in_room == get_room_index( ROOM_VNUM_LIMBO )
               && ch->was_in_room ) ? ch->was_in_room->vnum : ch->in_room->vnum );
 
    fprintf( fp, "HpManaMove   %d %d %d %d %d %d\n", ch->hit, ch->max_hit, ch->mana, ch->max_mana, ch->move, ch->max_move );
+   fprintf( fp, "Mana       %d %d\n", ch->mana, ch->max_mana );
+   fprintf( fp, "Focus      %d %d\n", ch->focus, ch->max_focus );
    fprintf( fp, "Gold         %d\n", ch->gold );
-   fprintf( fp, "Exp          " XP_FMT "\n", (xp_t)ch->exp );
+   fprintf( fp, "PowerLevel   %lld\n", ch->power_level.get_base() );
+   fprintf( fp, "BasePowerLevel   %lld\n", ch->power_level.get_base() );
+   fprintf( fp, "LogonPowerLevel  %lld\n", ch->power_level.get_logon() );
    fprintf( fp, "Height          %d\n", ch->height );
    fprintf( fp, "Weight          %d\n", ch->weight );
    if( !xIS_EMPTY( ch->act ) )
@@ -442,6 +429,21 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
    fprintf( fp, "Hitroll      %d\n", ch->hitroll );
    fprintf( fp, "Damroll      %d\n", ch->damroll );
    fprintf( fp, "Armor        %d\n", ch->armor );
+	if( !IS_NPC(ch) && ch->pcdata )
+	{
+		/* Save android components array */
+		for( int i = 0; i < 6; i++ )
+		{
+			if( ch->pcdata->android_components[i] > 0 )
+					fprintf( fp, "AndroidComp  %d %d\n", i, ch->pcdata->android_components[i] );
+		}
+		
+		/* Save android schematics and installed bitmasks */
+		if( ch->pcdata->android_schematics > 0 )
+			fprintf( fp, "AndroidSchematics %d\n", ch->pcdata->android_schematics );
+		if( ch->pcdata->android_installed > 0 )
+			fprintf( fp, "AndroidInstalled %d\n", ch->pcdata->android_installed );
+	}
    if( ch->wimpy )
       fprintf( fp, "Wimpy        %d\n", ch->wimpy );
    if( ch->deaf )
@@ -534,10 +536,10 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
    fprintf( fp, "IllegalPK    %d\n", ch->pcdata->illegal_pk );
    fprintf( fp, "Timezone     %d\n", ch->pcdata->timezone );
    fprintf( fp, "AttrPerm     %d %d %d %d %d %d %d\n",
-            ch->perm_str, ch->perm_int, ch->perm_wis, ch->perm_dex, ch->perm_con, ch->perm_cha, ch->perm_lck );
+            ch->perm_str, ch->perm_int, ch->perm_wis, ch->perm_dex, ch->perm_con, ch->perm_spr, ch->perm_lck );
 
    fprintf( fp, "AttrMod      %d %d %d %d %d %d %d\n",
-            ch->mod_str, ch->mod_int, ch->mod_wis, ch->mod_dex, ch->mod_con, ch->mod_cha, ch->mod_lck );
+            ch->mod_str, ch->mod_int, ch->mod_wis, ch->mod_dex, ch->mod_con, ch->mod_spr, ch->mod_lck );
 
    fprintf( fp, "Condition    %d %d %d %d\n",
             ch->pcdata->condition[0], ch->pcdata->condition[1], ch->pcdata->condition[2], ch->pcdata->condition[3] );
@@ -834,7 +836,7 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
    ch->perm_wis = 13;
    ch->perm_dex = 13;
    ch->perm_con = 13;
-   ch->perm_cha = 13;
+   ch->perm_spr = 13;
    ch->perm_lck = 13;
    ch->no_resistant = 0;
    ch->no_susceptible = 0;
@@ -851,6 +853,10 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
    ch->mobinvis = 0;
    for( i = 0; i < MAX_SKILL; i++ )
       ch->pcdata->learned[i] = 0;
+	for( i = 0; i < MAX_ANDROID_COMPONENTS; i++ )		/* Initialize android component system */
+		ch->pcdata->android_components[i] = 0;
+	ch->pcdata->android_schematics = 0;
+	ch->pcdata->android_installed = 0;
    ch->pcdata->release_date = 0;
    ch->pcdata->helled_by = NULL;
    ch->saving_poison_death = 0;
@@ -1115,7 +1121,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                      ch->pcdata->learned[sn] = value;
                      if( ch->level < LEVEL_IMMORTAL )
                      {
-                        if( skill_table[sn]->race_level[ch->race] >= LEVEL_IMMORTAL )
+                        if( skill_table[sn]->race_adept[ch->race] > 0 )
                         {
                            ch->pcdata->learned[sn] = 0;
                            ++ch->practice;
@@ -1200,7 +1206,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                ch->mod_wis = x3;
                ch->mod_dex = x4;
                ch->mod_con = x5;
-               ch->mod_cha = x6;
+               ch->mod_spr = x6;
                ch->mod_lck = x7;
                if( !x7 )
                   ch->mod_lck = 0;
@@ -1218,7 +1224,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                ch->perm_wis = x3;
                ch->perm_dex = x4;
                ch->perm_con = x5;
-               ch->perm_cha = x6;
+               ch->perm_spr = x6;
                ch->perm_lck = x7;
                if( x7 == 0 )
                   ch->perm_lck = 13;
@@ -1226,14 +1232,33 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                break;
             }
             KEY( "AuthedBy", ch->pcdata->authed_by, fread_string( fp ) );
-            break;
+				/* ADD THE ANDROID COMPONENT LOAD CODE HERE */
+				if( !str_cmp( word, "AndroidComp" ) )
+				{
+					int comp_type = fread_number( fp );
+					int comp_count = fread_number( fp );
+					if( comp_type >= 0 && comp_type < 6 && comp_count >= 0 && ch->pcdata )
+						ch->pcdata->android_components[comp_type] = comp_count;
+					fMatch = TRUE;
+					break;
+				}
+				KEY( "AndroidSchematics", ch->pcdata->android_schematics, fread_number( fp ) );
+				KEY( "AndroidInstalled", ch->pcdata->android_installed, fread_number( fp ) );
+            break;		/* End of case 'A' */
 
          case 'B':
             KEY( "Bamfin", ch->pcdata->bamfin, fread_string_nohash( fp ) );
             KEY( "Bamfout", ch->pcdata->bamfout, fread_string_nohash( fp ) );
-            KEY( "Bestowments", ch->pcdata->bestowments, fread_string_nohash( fp ) );
+			KEY( "Bestowments", ch->pcdata->bestowments, fread_string_nohash( fp ) );
             KEY( "Bio", ch->pcdata->bio, fread_string( fp ) );
-            break;
+			if( !str_cmp( word, "BasePowerLevel" ) ) {
+				long long base_pl = fread_number_ll( fp );
+				ch->power_level.set_base( base_pl );
+				ch->exp = ch->power_level.get_exp_equivalent();  // Keep exp synced
+				fMatch = TRUE;
+				break;
+			}
+            break;		
 
          case 'C':
             if( !strcmp( word, "Clan" ) )
@@ -1297,7 +1322,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                fMatch = TRUE;
                break;
             }
-            break;
+            break;		
 
          case 'D':
             KEY( "Damroll", ch->damroll, fread_number( fp ) );
@@ -1320,13 +1345,14 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                break;
             }
             KEY( "Description", ch->description, fread_string( fp ) );
-            break;
+            break;		
 
             /*
              * 'E' was moved to after 'S' 
              */
          case 'F':
             KEY( "Favor", ch->pcdata->favor, fread_number( fp ) );
+			KEY( "Focus",       ch->focus,          fread_number( fp ) );
             if( !strcmp( word, "Filename" ) )
             {
                /*
@@ -1338,7 +1364,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
             }
             KEY( "Flags", ch->pcdata->flags, fread_number( fp ) );
             KEY( "FPrompt", ch->pcdata->fprompt, fread_string( fp ) );
-            break;
+            break;		
 
          case 'G':
             KEY( "Glory", ch->pcdata->quest_curr, fread_number( fp ) );
@@ -1495,7 +1521,14 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
 
          case 'L':
             KEY( "Level", ch->level, fread_number( fp ) );
-            KEY( "LongDescr", ch->long_descr, fread_string( fp ) );
+			KEY( "LongDescr", ch->long_descr, fread_string( fp ) );
+			if( !str_cmp( word, "LogonPowerLevel" ) ) {
+				// Read the old logon power level but don't use it
+				// The logon PL will be set properly when the character logs in
+				fread_number_ll( fp );  // Read and discard the value
+				fMatch = TRUE;
+				break;
+			}
             if( !strcmp( word, "Languages" ) )
             {
                ch->speaks = fread_number( fp );
@@ -1506,7 +1539,8 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
             break;
 
          case 'M':
-            if( !str_cmp( word, "MaxColors" ) )
+            KEY( "Mana",        ch->mana,           fread_number( fp ) );
+			if( !str_cmp( word, "MaxColors" ) )
             {
                int temp = fread_number( fp );
 
@@ -1579,57 +1613,66 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
             KEY( "Password", ch->pcdata->pwd, fread_string_nohash( fp ) );
             KEY( "PDeaths", ch->pcdata->pdeaths, fread_number( fp ) );
             KEY( "PKills", ch->pcdata->pkills, fread_number( fp ) );
-            KEY( "Played", ch->played, fread_number( fp ) );
-            /*
-             *  new positions are stored in the file from 100 up
-             *  old positions are from 0 up
-             *  if reading an old position, some translation is necessary
-             */
-            if( !strcmp( word, "Position" ) )
-            {
-               ch->position = fread_number( fp );
-               if( ch->position < 100 )
-               {
-                  switch ( ch->position )
-                  {
-                     default:;
-                     case 0:;
-                     case 1:;
-                     case 2:;
-                     case 3:;
-                     case 4:
-                        break;
-                     case 5:
-                        ch->position = 6;
-                        break;
-                     case 6:
-                        ch->position = 8;
-                        break;
-                     case 7:
-                        ch->position = 9;
-                        break;
-                     case 8:
-                        ch->position = 12;
-                        break;
-                     case 9:
-                        ch->position = 13;
-                        break;
-                     case 10:
-                        ch->position = 14;
-                        break;
-                     case 11:
-                        ch->position = 15;
-                        break;
-                  }
-                  fMatch = TRUE;
-               }
-               else
-               {
-                  ch->position -= 100;
-                  fMatch = TRUE;
-               }
-               break;
-            }
+				KEY( "Played", ch->played, fread_number( fp ) );
+				if( !str_cmp( word, "PowerLevel" ) )
+				{
+					long long pl = fread_number_ll( fp );
+					ch->power_level.set_base( pl );
+					ch->exp = (int)UMIN( pl, INT_MAX );  // Sync for legacy code
+					fMatch = TRUE;
+					break;
+				}
+				KEY( "Powerup", ch->powerup, fread_number( fp ) );
+					/*
+					*  new positions are stored in the file from 100 up
+					*  old positions are from 0 up
+					*  if reading an old position, some translation is necessary
+					*/
+					if( !strcmp( word, "Position" ) )
+					{
+						ch->position = fread_number( fp );
+						if( ch->position < 100 )
+						{
+							switch ( ch->position )
+							{
+								default:;
+								case 0:;
+								case 1:;
+								case 2:;
+								case 3:;
+								case 4:
+									break;
+								case 5:
+									ch->position = 6;
+									break;
+								case 6:
+									ch->position = 8;
+									break;
+								case 7:
+									ch->position = 9;
+									break;
+								case 8:
+									ch->position = 12;
+									break;
+								case 9:
+									ch->position = 13;
+									break;
+								case 10:
+									ch->position = 14;
+									break;
+								case 11:
+									ch->position = 15;
+									break;
+							}
+							fMatch = TRUE;
+						}
+						else
+						{
+							ch->position -= 100;
+							fMatch = TRUE;
+						}
+						break;
+					}
             KEY( "Practice", ch->practice, fread_number( fp ) );
             KEY( "Prompt", ch->pcdata->prompt, fread_string( fp ) );
             if( !strcmp( word, "PTimer" ) )
@@ -1733,7 +1776,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                       */
                      if( ch->level < LEVEL_IMMORTAL )
                      {
-                        if( skill_table[sn]->skill_level[ch->Class] >= LEVEL_IMMORTAL )
+                        if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
                         {
                            ch->pcdata->learned[sn] = 0;
                            ++ch->practice;
@@ -1762,7 +1805,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   {
                      ch->pcdata->learned[sn] = value;
                      if( ch->level < LEVEL_IMMORTAL )
-                        if( skill_table[sn]->skill_level[ch->Class] >= LEVEL_IMMORTAL )
+                        if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
                         {
                            ch->pcdata->learned[sn] = 0;
                            ++ch->practice;
@@ -1849,20 +1892,27 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   update_roster( ch );
                return;
             }
-            if ( !str_cmp( word, "Exp" ) ) { ch->exp = fread_xp( fp ); fMatch = TRUE; break; }
+            KEY( "Exp", ch->exp, fread_number( fp ) );
+				// Backwards compatibility for old save files
+				if( !str_cmp( word, "Exp" ) )
+				{
+					int exp_value = fread_number( fp );
+					ch->power_level.set_base( (long long)exp_value );
+					ch->exp = exp_value;
+					fMatch = TRUE;
+					break;
+				}
             break;
 
          case 'T':
             if( !strcmp( word, "Tongue" ) )
             {
                int sn, value;
-
                if( preload )
                   word = "End";
                else
                {
                   value = fread_number( fp );
-
                   sn = find_tongue( NULL, fread_word( fp ), FALSE );
                   if( sn < 0 )
                      bug( "%s: unknown tongue.", __func__ );
@@ -1870,7 +1920,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   {
                      ch->pcdata->learned[sn] = value;
                      if( ch->level < LEVEL_IMMORTAL )
-                        if( skill_table[sn]->skill_level[ch->Class] >= LEVEL_IMMORTAL )
+                        if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
                         {
                            ch->pcdata->learned[sn] = 0;
                            ch->practice++;
@@ -1886,7 +1936,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
              * Let no character be trusted higher than one below maxlevel -- Narn 
              */
             ch->trust = UMIN( ch->trust, MAX_LEVEL - 1 );
-
             if( !strcmp( word, "Title" ) )
             {
                ch->pcdata->title = fread_string( fp );
@@ -1897,6 +1946,17 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                      STRFREE( ch->pcdata->title );
                   ch->pcdata->title = STRALLOC( buf );
                }
+               fMatch = TRUE;
+               break;
+            }
+            
+            if( !str_cmp( word, "ActiveTransform" ) || 
+                !str_cmp( word, "TransformDuration" ) ||
+                !str_cmp( word, "TransformDebt" ) || 
+                !str_cmp( word, "TransformHitroll" ) ||
+                !str_cmp( word, "TransformDamroll" ) || 
+                !str_cmp( word, "TransformStart" ) )
+            {
                fMatch = TRUE;
                break;
             }
@@ -1925,7 +1985,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   {
                      ch->pcdata->learned[sn] = value;
                      if( ch->level < LEVEL_IMMORTAL )
-                        if( skill_table[sn]->skill_level[ch->Class] >= LEVEL_IMMORTAL )
+                        if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
                         {
                            ch->pcdata->learned[sn] = 0;
                            ++ch->practice;

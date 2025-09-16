@@ -84,7 +84,11 @@ bool can_morph( CHAR_DATA * ch, MORPH_DATA * morph, bool is_cast )
       return TRUE;
    if( morph->no_cast && is_cast )
       return FALSE;
-   if( ch->level < morph->level )
+	if( ch->level < morph->level )
+      return FALSE;
+   if( morph->min_pl > 0 && get_power_level(ch) < morph->min_pl )
+      return FALSE;
+	if( morph->preq_morph > 0 && !has_used_morph_before(ch, morph->preq_morph) )
       return FALSE;
    if( morph->pkill == ONLY_PKILL && !IS_PKILL( ch ) )
       return FALSE;
@@ -97,6 +101,20 @@ bool can_morph( CHAR_DATA * ch, MORPH_DATA * morph, bool is_cast )
    if( morph->race != 0 && IS_SET( morph->race, ( 1 << ch->race ) ) )
       return FALSE;
    if( morph->deity && ( !ch->pcdata->deity || !get_deity( morph->deity ) ) )
+      return FALSE;
+	if( morph->focus_cost > 0 && ch->focus < morph->focus_cost )
+      return FALSE;
+   if( morph->hpused > 0 && ch->hit <= morph->hpused )
+      return FALSE;
+   if( morph->manaused > 0 && ch->mana < morph->manaused )
+      return FALSE;
+   if( morph->moveused > 0 && ch->move < morph->moveused )
+      return FALSE;
+   if( morph->focusused > 0 && ch->focus < morph->focusused )
+      return FALSE;
+	if( morph->min_hp > 0 && ch->hit < morph->min_hp )
+      return FALSE;
+   if( morph->min_mana > 0 && ch->mana < morph->min_mana )
       return FALSE;
    if( morph->timeto != -1 && morph->timefrom != -1 )
    {
@@ -278,8 +296,8 @@ void fwrite_morph( FILE * fp, MORPH_DATA * morph )
       fprintf( fp, "FavourUsed	%d\n", morph->favourused );
    if( morph->ac != 0 )
       fprintf( fp, "Armor        	%d\n", morph->ac );
-   if( morph->cha != 0 )
-      fprintf( fp, "Charisma        	%d\n", morph->cha );
+   if( morph->spr != 0 )
+      fprintf( fp, "Charisma        	%d\n", morph->spr );
    if( morph->con != 0 )
       fprintf( fp, "Constitution    	%d\n", morph->con );
    if( morph->dex != 0 )
@@ -312,6 +330,36 @@ void fwrite_morph( FILE * fp, MORPH_DATA * morph )
       fprintf( fp, "Wisdom          	%d\n", morph->wis );
    if( morph->no_cast )
       fprintf( fp, "NoCast          	%d\n", morph->no_cast );
+	if( morph->min_pl != 0 )
+      fprintf( fp, "MinPL           %lld\n", morph->min_pl );
+   if( morph->focus_cost != 0 )
+      fprintf( fp, "FocusCost       %d\n", morph->focus_cost );
+   if( morph->preq_morph != 0 )
+      fprintf( fp, "PreqMorph       %d\n", morph->preq_morph );
+   if( morph->next_morph != 0 )
+      fprintf( fp, "NextMorph       %d\n", morph->next_morph );
+   if( morph->mana_maint != 0 )
+      fprintf( fp, "ManaMaint       %d\n", morph->mana_maint );
+   if( morph->move_maint != 0 )
+      fprintf( fp, "MoveMaint       %d\n", morph->move_maint );
+   if( morph->hp_maint != 0 )
+      fprintf( fp, "HPMaint         %d\n", morph->hp_maint );
+   if( morph->focus_maint != 0 )
+      fprintf( fp, "FocusMaint      %d\n", morph->focus_maint );
+   if( morph->min_hp != 0 )
+      fprintf( fp, "MinHP           %d\n", morph->min_hp );
+   if( morph->min_mana != 0 )
+      fprintf( fp, "MinMana         %d\n", morph->min_mana );
+   if( morph->aura_visible )
+      fprintf( fp, "AuraVisible     %d\n", morph->aura_visible );
+   if( morph->aura_color && morph->aura_color[0] != '\0' )
+      fprintf( fp, "AuraColor       %s~\n", morph->aura_color );
+   if( morph->drop_on_stun )
+      fprintf( fp, "DropOnStun      %d\n", morph->drop_on_stun );
+   if( morph->prompt_tag && morph->prompt_tag[0] != '\0' )
+      fprintf( fp, "PromptTag       %s~\n", morph->prompt_tag );
+	if( morph->pl_multiplier != 100 )
+   fprintf( fp, "PLMultiplier    %d\n", morph->pl_multiplier );
    fprintf( fp, "%s", "End\n\n" );
 }
 
@@ -480,7 +528,7 @@ void do_morphset( CHAR_DATA* ch, const char* argument )
       send_to_char( "\r\n", ch );
       send_to_char( "&cField being one of:\r\n", ch );
       send_to_char( "&c-------------------------------------------------\r\n", ch );
-      send_to_char( "  ac, affected, cha, class, con, damroll, dayto,\r\n", ch );
+      send_to_char( "  ac, affected, spr, class, con, damroll, dayto,\r\n", ch );
       send_to_char( "  dayfrom, deity, description, defpos, dex, dodge,\r\n", ch );
       send_to_char( "  favourused, help, hitroll, hp, hpused, immune,\r\n", ch );
       send_to_char( "  int, str, keyword, lck, level, long, mana, manaused,\r\n", ch );
@@ -574,14 +622,14 @@ void do_morphset( CHAR_DATA* ch, const char* argument )
       }
       morph->con = value;
    }
-   else if( !str_cmp( arg2, "cha" ) )
+   else if( !str_cmp( arg2, "spr" ) )
    {
       if( value < -10 || value > 10 )
       {
          send_to_char( "Charisma must be a value from -10 to 10.\r\n", ch );
          return;
       }
-      morph->cha = value;
+      morph->spr = value;
    }
    else if( !str_cmp( arg2, "lck" ) )
    {
@@ -1147,6 +1195,110 @@ void do_morphset( CHAR_DATA* ch, const char* argument )
       ch->substate = SUB_REPEATCMD;
       ch->last_cmd = do_morphset;
    }
+	 else if( !str_cmp( arg2, "plmultiplier" ) )
+   {
+      if( value < 100 || value > 1000 )
+      {
+         send_to_char( "PL multiplier must be a value from 100 to 1000 (100=1.0x, 300=3.0x).\r\n", ch );
+         return;
+      }
+      morph->pl_multiplier = value;
+   }
+   else if( !str_cmp( arg2, "manamaint" ) )
+   {
+      if( value < 0 || value > 1000 )
+      {
+         send_to_char( "Mana maintenance must be a value from 0 to 1000.\r\n", ch );
+         return;
+      }
+      morph->mana_maint = value;
+   }
+   else if( !str_cmp( arg2, "movemaint" ) )
+   {
+      if( value < 0 || value > 1000 )
+      {
+         send_to_char( "Move maintenance must be a value from 0 to 1000.\r\n", ch );
+         return;
+      }
+      morph->move_maint = value;
+   }
+   else if( !str_cmp( arg2, "hpmaint" ) )
+   {
+      if( value < 0 || value > 1000 )
+      {
+         send_to_char( "HP maintenance must be a value from 0 to 1000.\r\n", ch );
+         return;
+      }
+      morph->hp_maint = value;
+   }
+   else if( !str_cmp( arg2, "focusmaint" ) )
+   {
+      if( value < 0 || value > 1000 )
+      {
+         send_to_char( "Focus maintenance must be a value from 0 to 1000.\r\n", ch );
+         return;
+      }
+      morph->focus_maint = value;
+   }
+   else if( !str_cmp( arg2, "minhp" ) )
+   {
+      if( value < 0 || value > 5000 )
+      {
+         send_to_char( "Minimum HP must be a value from 0 to 5000.\r\n", ch );
+         return;
+      }
+      morph->min_hp = value;
+   }
+   else if( !str_cmp( arg2, "minmana" ) )
+   {
+      if( value < 0 || value > 5000 )
+      {
+         send_to_char( "Minimum mana must be a value from 0 to 5000.\r\n", ch );
+         return;
+      }
+      morph->min_mana = value;
+   }
+   else if( !str_cmp( arg2, "auravisible" ) )
+   {
+      morph->aura_visible = (value > 0);
+   }
+   else if( !str_cmp( arg2, "auracolor" ) )
+   {
+      if( morph->aura_color )
+         DISPOSE( morph->aura_color );
+      if( str_cmp( arg3, "clear" ) )
+         morph->aura_color = strdup( arg3 );
+   }
+   else if( !str_cmp( arg2, "droponstun" ) )
+   {
+      morph->drop_on_stun = (value > 0);
+   }
+   else if( !str_cmp( arg2, "prompttag" ) )
+   {
+      if( morph->prompt_tag )
+         DISPOSE( morph->prompt_tag );
+      if( str_cmp( arg3, "clear" ) )
+         morph->prompt_tag = strdup( arg3 );
+   }
+   else if( !str_cmp( arg2, "minpl" ) )
+   {
+      long long pl_value = atoll( arg3 );
+      if( pl_value < 0 )
+      {
+         send_to_char( "Minimum power level cannot be negative.\r\n", ch );
+         return;
+      }
+      morph->min_pl = pl_value;
+   }
+   else if( !str_cmp( arg2, "focuscost" ) )
+   {
+      if( value < 0 || value > 1000 )
+      {
+         send_to_char( "Focus cost must be a value from 0 to 1000.\r\n", ch );
+         return;
+      }
+      morph->focus_cost = value;
+   }
    else
    {
       do_morphset( ch, "" );
@@ -1222,19 +1374,73 @@ void do_morphstat( CHAR_DATA* ch, const char* argument )
       pager_printf( ch, "  &cDay From:  &C%d  &cDay To:  &C%d\r\n", morph->dayfrom, morph->dayto );
       pager_printf( ch, "  &cLevel:  &C%d       &cMorph Via Spell   : &C%s\r\n",
                     morph->level, ( morph->no_cast ) ? "NO" : "yes" );
+      /* NEW: Power Level Information */
+      if( morph->min_pl > 0 )
+         pager_printf( ch, "  &cMin Power Level: &Y%s\r\n", format_power_level(morph->min_pl) );
+      if( morph->preq_morph > 0 )
+         pager_printf( ch, "  &cPrerequisite Morph: &C%d\r\n", morph->preq_morph );
+      if( morph->next_morph > 0 )
+         pager_printf( ch, "  &cNext Morph: &C%d\r\n", morph->next_morph );
+      /* END NEW */
       pager_printf( ch, "  &cUSAGES:  Mana:  &C%d  &cMove:  &C%d  &cHp:  &C%d  &cFavour:  &C%d\r\n",
                     morph->manaused, morph->moveused, morph->hpused, morph->favourused );
+      /* NEW: Focus Cost */
+      if( morph->focusused > 0 || morph->focus_cost > 0 )
+         pager_printf( ch, "  &cFocus Used: &C%d  &cFocus Cost: &C%d\r\n", 
+                       morph->focusused, morph->focus_cost );
       pager_printf( ch,
                     "  &cObj1: &C%d  &cObjuse1: &C%s   &cObj2: &C%d  &cObjuse2: &C%s   &cObj3: &C%d  &cObjuse3: &c%s\r\n",
                     morph->obj[0], ( morph->objuse[0] ? "YES" : "no" ), morph->obj[1], ( morph->objuse[1] ? "YES" : "no" ),
                     morph->obj[2], ( morph->objuse[2] ? "YES" : "no" ) );
       pager_printf( ch, "  &cTimer: &w%d\r\n", morph->timer );
+		pager_printf( ch, "  &cTimer: &w%d\r\n", morph->timer );
+      /* NEW: Maintenance Costs */
+      if( morph->mana_maint > 0 || morph->move_maint > 0 || morph->hp_maint > 0 || morph->focus_maint > 0 )
+      {
+         pager_printf( ch, "  &cMAINTENANCE (per tick): " );
+         if( morph->mana_maint > 0 )
+            pager_printf( ch, "&cMana: &C%d  ", morph->mana_maint );
+         if( morph->move_maint > 0 )
+            pager_printf( ch, "&cMove: &C%d  ", morph->move_maint );
+         if( morph->hp_maint > 0 )
+            pager_printf( ch, "&cHP: &C%d  ", morph->hp_maint );
+         if( morph->focus_maint > 0 )
+            pager_printf( ch, "&cFocus: &C%d  ", morph->focus_maint );
+         send_to_pager( "\r\n", ch );
+      }
+      /* NEW: Minimum Thresholds */
+      if( morph->min_hp > 0 || morph->min_mana > 0 )
+      {
+         pager_printf( ch, "  &cMINIMUM THRESHOLDS: " );
+         if( morph->min_hp > 0 )
+            pager_printf( ch, "&cHP: &C%d  ", morph->min_hp );
+         if( morph->min_mana > 0 )
+            pager_printf( ch, "&cMana: &C%d  ", morph->min_mana );
+         send_to_pager( "\r\n", ch );
+      }
+      /* NEW: Special Features */
+      if( morph->aura_visible || morph->drop_on_stun || morph->prompt_tag )
+      {
+         pager_printf( ch, "  &cSPECIAL FEATURES: " );
+         if( morph->aura_visible )
+         {
+            if( morph->aura_color && morph->aura_color[0] != '\0' )
+               pager_printf( ch, "&cAura: &C%s  ", morph->aura_color );
+            else
+               pager_printf( ch, "&cAura: &CVisible  " );
+         }
+         if( morph->drop_on_stun )
+            pager_printf( ch, "&cDrops on stun  " );
+         if( morph->prompt_tag && morph->prompt_tag[0] != '\0' )
+            pager_printf( ch, "&cPrompt: &C%s  ", morph->prompt_tag );
+         send_to_pager( "\r\n", ch );
+      }
       send_to_pager( "&B[----------------------------------------------------------------------------]\r\n", ch );
       send_to_pager( "                       &BEnhancements to the Player\r\n", ch );
       send_to_pager( "&B[----------------------------------------------------------------------------]\r\n", ch );
       pager_printf( ch,
-                    "  &cStr: &C%2d&c )( Int: &C%2d&c )( Wis: &C%2d&c )( Dex: &C%2d&c )( Con: &C%2d&c )( Cha: &C%2d&c )( Lck: &C%2d&c )\r\n",
-                    morph->str, morph->inte, morph->wis, morph->dex, morph->con, morph->cha, morph->lck );
+                    "  &cStr: &C%2d&c )( Int: &C%2d&c )( Wis: &C%2d&c )( Dex: &C%2d&c )( Con: &C%2d&c )( spr: &C%2d&c )( Lck: &C%2d&c )\r\n",
+                    morph->str, morph->inte, morph->wis, morph->dex, morph->con, morph->spr, morph->lck );
       pager_printf( ch, "  &cSave versus: &w%d %d %d %d %d       &cDodge: &w%d  &cParry: &w%d  &cTumble: &w%d\r\n",
                     morph->saving_poison_death, morph->saving_wand, morph->saving_para_petri, morph->saving_breath,
                     morph->saving_spell_staff, morph->dodge, morph->parry, morph->tumble );
@@ -1326,7 +1532,7 @@ CHAR_MORPH *make_char_morph( MORPH_DATA * morph )
    ch_morph->inte = morph->inte;
    ch_morph->wis = morph->wis;
    ch_morph->dex = morph->dex;
-   ch_morph->cha = morph->cha;
+   ch_morph->spr = morph->spr;
    ch_morph->lck = morph->lck;
    ch_morph->saving_breath = morph->saving_breath;
    ch_morph->saving_para_petri = morph->saving_para_petri;
@@ -1376,7 +1582,7 @@ void do_morph( CHAR_DATA * ch, MORPH_DATA * morph )
    ch->mod_int += morph->inte;
    ch->mod_wis += morph->wis;
    ch->mod_dex += morph->dex;
-   ch->mod_cha += morph->cha;
+   ch->mod_spr += morph->spr;
    ch->mod_lck += morph->lck;
    ch->saving_breath += morph->saving_breath;
    ch->saving_para_petri += morph->saving_para_petri;
@@ -1400,6 +1606,20 @@ void do_morph( CHAR_DATA * ch, MORPH_DATA * morph )
    if( ( ch->mana + ch_morph->mana ) > 32700 )
       ch_morph->mana = ( 32700 - ch->mana );
    ch->mana += ch_morph->mana;
+	
+	ch_morph->mana_debt = 0;
+   ch_morph->move_debt = 0;
+   ch_morph->focus_debt = 0;
+	if( morph->hpused > 0 )
+      ch->hit -= morph->hpused;
+   if( morph->manaused > 0 )
+      ch->mana -= morph->manaused;
+   if( morph->moveused > 0 )
+      ch->move -= morph->moveused;
+   if( morph->focusused > 0 )
+      ch->focus -= morph->focusused;
+   if( morph->focus_cost > 0 )
+      ch->focus -= morph->focus_cost;
 
    xSET_BITS( ch->affected_by, morph->affected_by );
    SET_BIT( ch->immune, morph->immune );
@@ -1539,7 +1759,7 @@ void do_unmorph( CHAR_DATA * ch )
    ch->mod_int -= morph->inte;
    ch->mod_wis -= morph->wis;
    ch->mod_dex -= morph->dex;
-   ch->mod_cha -= morph->cha;
+   ch->mod_spr -= morph->spr;
    ch->mod_lck -= morph->lck;
    ch->saving_breath -= morph->saving_breath;
    ch->saving_para_petri -= morph->saving_para_petri;
@@ -1707,7 +1927,7 @@ void morph_defaults( MORPH_DATA * morph )
    morph->defpos = POS_STANDING;
    morph->dex = 0;
    morph->dodge = 0;
-   morph->cha = 0;
+   morph->spr = 0;
    morph->con = 0;
    morph->inte = 0;
    morph->lck = 0;
@@ -1724,6 +1944,21 @@ void morph_defaults( MORPH_DATA * morph )
    morph->no_cast = FALSE;
    morph->timer = -1;
    morph->vnum = 0;
+	morph->min_pl = 0;
+   morph->focus_cost = 0;
+   morph->preq_morph = 0;
+   morph->next_morph = 0;
+   morph->mana_maint = 0;
+   morph->move_maint = 0;
+   morph->hp_maint = 0;
+   morph->focus_maint = 0;
+   morph->min_hp = 0;
+   morph->min_mana = 0;
+   morph->aura_visible = FALSE;
+   morph->aura_color = NULL;
+   morph->drop_on_stun = FALSE;
+   morph->prompt_tag = NULL;
+	morph->pl_multiplier = 100;
 }
 
 /*
@@ -1757,9 +1992,13 @@ MORPH_DATA *fread_morph( FILE * fp )
          case 'A':
             KEY( "Armor", morph->ac, fread_number( fp ) );
             KEY( "Affected", morph->affected_by, fread_bitvector( fp ) );
+				KEY( "Armor", morph->ac, fread_number( fp ) );
+				KEY( "Affected", morph->affected_by, fread_bitvector( fp ) );
+				KEY( "AuraVisible", morph->aura_visible, fread_number( fp ) );
+				MKEY( "AuraColor", morph->aura_color, fread_string_nohash( fp ) );
             break;
          case 'C':
-            KEY( "Charisma", morph->cha, fread_number( fp ) );
+            KEY( "Charisma", morph->spr, fread_number( fp ) );
             if( !str_cmp( word, "Class" ) )
             {
                arg = fread_flagstring( fp );
@@ -1786,6 +2025,14 @@ MORPH_DATA *fread_morph( FILE * fp )
             MKEY( "Description", morph->description, fread_string_nohash( fp ) );
             KEY( "Dexterity", morph->dex, fread_number( fp ) );
             KEY( "Dodge", morph->dodge, fread_number( fp ) );
+				MKEY( "Damroll", morph->damroll, fread_string_nohash( fp ) );
+				KEY( "DayFrom", morph->dayfrom, fread_number( fp ) );
+				KEY( "DayTo", morph->dayto, fread_number( fp ) );
+				KEY( "Defpos", morph->defpos, fread_number( fp ) );
+				MKEY( "Description", morph->description, fread_string_nohash( fp ) );
+				KEY( "Dexterity", morph->dex, fread_number( fp ) );
+				KEY( "Dodge", morph->dodge, fread_number( fp ) );
+				KEY( "DropOnStun", morph->drop_on_stun, fread_number( fp ) );
             break;
          case 'E':
             if( !str_cmp( word, "End" ) )
@@ -1793,12 +2040,20 @@ MORPH_DATA *fread_morph( FILE * fp )
             break;
          case 'F':
             KEY( "FavourUsed", morph->favourused, fread_number( fp ) );
+				KEY( "FavourUsed", morph->favourused, fread_number( fp ) );
+				KEY( "FocusCost", morph->focus_cost, fread_number( fp ) );
+				KEY( "FocusMaint", morph->focus_maint, fread_number( fp ) );
             break;
          case 'H':
             MKEY( "Help", morph->help, fread_string_nohash( fp ) );
             MKEY( "Hit", morph->hit, fread_string_nohash( fp ) );
             MKEY( "Hitroll", morph->hitroll, fread_string_nohash( fp ) );
             KEY( "HpUsed", morph->hpused, fread_number( fp ) );
+				MKEY( "Help", morph->help, fread_string_nohash( fp ) );
+				MKEY( "Hit", morph->hit, fread_string_nohash( fp ) );
+				MKEY( "Hitroll", morph->hitroll, fread_string_nohash( fp ) );
+				KEY( "HPMaint", morph->hp_maint, fread_number( fp ) );
+				KEY( "HpUsed", morph->hpused, fread_number( fp ) );
             break;
          case 'I':
             KEY( "Intelligence", morph->inte, fread_number( fp ) );
@@ -1819,6 +2074,17 @@ MORPH_DATA *fread_morph( FILE * fp )
             MKEY( "MorphSelf", morph->morph_self, fread_string_nohash( fp ) );
             MKEY( "Move", morph->morph_self, fread_string_nohash( fp ) );
             KEY( "MoveUsed", morph->moveused, fread_number( fp ) );
+				MKEY( "Mana", morph->mana, fread_string_nohash( fp ) );
+				KEY( "ManaMaint", morph->mana_maint, fread_number( fp ) );
+				KEY( "ManaUsed", morph->manaused, fread_number( fp ) );
+				KEY( "MinHP", morph->min_hp, fread_number( fp ) );
+				KEY( "MinMana", morph->min_mana, fread_number( fp ) );
+				KEY( "MinPL", morph->min_pl, fread_number_ll( fp ) );
+				MKEY( "MorphOther", morph->morph_other, fread_string_nohash( fp ) );
+				MKEY( "MorphSelf", morph->morph_self, fread_string_nohash( fp ) );
+				MKEY( "Move", morph->move, fread_string_nohash( fp ) );  // Fix the bug: was morph_self
+				KEY( "MoveMaint", morph->move_maint, fread_number( fp ) );
+				KEY( "MoveUsed", morph->moveused, fread_number( fp ) );
             break;
          case 'N':
             KEY( "NoAffected", morph->no_affected_by, fread_bitvector( fp ) );
@@ -1832,6 +2098,12 @@ MORPH_DATA *fread_morph( FILE * fp )
                fMatch = TRUE;
                break;
             }
+				KEY( "NextMorph", morph->next_morph, fread_number( fp ) );
+				KEY( "NoAffected", morph->no_affected_by, fread_bitvector( fp ) );
+				KEY( "NoImmune", morph->no_immune, fread_number( fp ) );
+				KEY( "NoResistant", morph->no_resistant, fread_number( fp ) );
+				MKEY( "NoSkills", morph->no_skills, fread_string_nohash( fp ) );
+				KEY( "NoSuscept", morph->no_suscept, fread_number( fp ) );
             break;
          case 'O':
             if( !str_cmp( word, "Objs" ) )
@@ -1853,6 +2125,9 @@ MORPH_DATA *fread_morph( FILE * fp )
          case 'P':
             KEY( "Parry", morph->parry, fread_number( fp ) );
             KEY( "Pkill", morph->pkill, fread_number( fp ) );
+				KEY( "PreqMorph", morph->preq_morph, fread_number( fp ) );
+				MKEY( "PromptTag", morph->prompt_tag, fread_string_nohash( fp ) );
+				KEY( "PLMultiplier", morph->pl_multiplier, fread_number( fp ) );
             break;
          case 'R':
             if( !str_cmp( word, "Race" ) )
@@ -2028,7 +2303,7 @@ void copy_morph( MORPH_DATA * morph, MORPH_DATA * temp )
    morph->defpos = temp->defpos;
    morph->dex = temp->dex;
    morph->dodge = temp->dodge;
-   morph->cha = temp->cha;
+   morph->spr = temp->spr;
    morph->con = temp->con;
    morph->inte = temp->inte;
    morph->lck = temp->lck;
@@ -2179,8 +2454,8 @@ void fwrite_morph_data( CHAR_DATA * ch, FILE * fp )
       fprintf( fp, "NoSuscept       %d\n", morph->no_suscept );
    if( morph->ac != 0 )
       fprintf( fp, "Armor           %d\n", morph->ac );
-   if( morph->cha != 0 )
-      fprintf( fp, "Charisma        %d\n", morph->cha );
+   if( morph->spr != 0 )
+      fprintf( fp, "Charisma        %d\n", morph->spr );
    if( morph->con != 0 )
       fprintf( fp, "Constitution    %d\n", morph->con );
    if( morph->damroll != 0 )
@@ -2236,7 +2511,7 @@ void clear_char_morph( CHAR_MORPH * morph )
    morph->resistant = 0;
    morph->suscept = 0;
    morph->ac = 0;
-   morph->cha = 0;
+   morph->spr = 0;
    morph->con = 0;
    morph->damroll = 0;
    morph->dex = 0;
@@ -2278,10 +2553,10 @@ void fread_morph_data( CHAR_DATA * ch, FILE * fp )
          case 'A':
             KEY( "Affect", morph->affected_by, fread_bitvector( fp ) );
             KEY( "Armor", morph->ac, fread_number( fp ) );
-            break;
+				break;
 
          case 'C':
-            KEY( "Charisma", morph->cha, fread_number( fp ) );
+            KEY( "Charisma", morph->spr, fread_number( fp ) );
             KEY( "Constitution", morph->con, fread_number( fp ) );
             break;
 
@@ -2289,14 +2564,14 @@ void fread_morph_data( CHAR_DATA * ch, FILE * fp )
             KEY( "Damroll", morph->damroll, fread_number( fp ) );
             KEY( "Dexterity", morph->dex, fread_number( fp ) );
             KEY( "Dodge", morph->dodge, fread_number( fp ) );
-            break;
+				break;
 
          case 'E':
             if( !str_cmp( "End", word ) )
                return;
             break;
-
-         case 'H':
+			
+			case 'H':
             KEY( "Hit", morph->hit, fread_number( fp ) );
             KEY( "Hitroll", morph->hitroll, fread_number( fp ) );
             break;
@@ -2313,7 +2588,7 @@ void fread_morph_data( CHAR_DATA * ch, FILE * fp )
          case 'M':
             KEY( "Mana", morph->mana, fread_number( fp ) );
             KEY( "Move", morph->move, fread_number( fp ) );
-            break;
+				break;
 
          case 'N':
             if( !str_cmp( "Name", word ) )
@@ -2324,7 +2599,7 @@ void fread_morph_data( CHAR_DATA * ch, FILE * fp )
                fMatch = TRUE;
                break;
             }
-            KEY( "NoAffect", morph->no_affected_by, fread_bitvector( fp ) );
+				KEY( "NoAffect", morph->no_affected_by, fread_bitvector( fp ) );
             KEY( "NoImmune", morph->no_immune, fread_number( fp ) );
             KEY( "NoResistant", morph->no_resistant, fread_number( fp ) );
             KEY( "NoSuscept", morph->no_suscept, fread_number( fp ) );
@@ -2332,7 +2607,7 @@ void fread_morph_data( CHAR_DATA * ch, FILE * fp )
 
          case 'P':
             KEY( "Parry", morph->parry, fread_number( fp ) );
-            break;
+				break;
 
          case 'R':
             KEY( "Resistant", morph->resistant, fread_number( fp ) );
@@ -2465,5 +2740,149 @@ void do_morphlist( CHAR_DATA* ch, const char* argument )
       if( morph == NULL )
          continue;
       pager_printf( ch, "&G%-5d  &Y%s\r\n", morph->vnum, morph->name );
+   }
+}
+
+/* Helper function for prerequisite checking */
+bool has_used_morph_before( CHAR_DATA *ch, int vnum )
+{
+   /* For now, return TRUE to allow all morphs */
+   /* Later you can add morph usage tracking to player data */
+   return TRUE;
+}
+
+/* Process morph maintenance costs per tick */
+void process_morph_maintenance( CHAR_DATA *ch )
+{
+   CHAR_MORPH *morph;
+   MORPH_DATA *morph_data;
+   
+   if( !ch || !ch->morph )
+      return;
+      
+   morph = ch->morph;
+   morph_data = morph->morph;
+   
+   if( !morph_data )
+      return;
+      
+   /* Apply maintenance costs per tick */
+   if( morph_data->mana_maint > 0 )
+   {
+      if( ch->mana < morph_data->mana_maint )
+      {
+         morph->mana_debt += (morph_data->mana_maint - ch->mana);
+         ch->mana = 0;
+         
+         /* Check if debt is too high or below minimum threshold */
+         if( morph->mana_debt > ch->max_mana || 
+             (morph_data->min_mana > 0 && ch->mana < morph_data->min_mana) )
+         {
+            send_to_char( "You collapse from mana exhaustion, ending your transformation!\r\n", ch );
+            do_unmorph_char( ch );
+            return;
+         }
+      }
+      else
+      {
+         ch->mana -= morph_data->mana_maint;
+      }
+   }
+   
+   if( morph_data->move_maint > 0 )
+   {
+      if( ch->move < morph_data->move_maint )
+      {
+         morph->move_debt += (morph_data->move_maint - ch->move);
+         ch->move = 0;
+      }
+      else
+      {
+         ch->move -= morph_data->move_maint;
+      }
+   }
+   
+   if( morph_data->hp_maint > 0 )
+   {
+      ch->hit -= morph_data->hp_maint;
+      
+      /* Check minimum HP threshold */
+      if( morph_data->min_hp > 0 && ch->hit < morph_data->min_hp )
+      {
+         send_to_char( "Your health is too low to maintain the transformation!\r\n", ch );
+         do_unmorph_char( ch );
+         return;
+      }
+      
+      /* Don't let HP go below 1 */
+      if( ch->hit < 1 )
+      {
+         ch->hit = 1;
+         send_to_char( "The transformation is draining your life force!\r\n", ch );
+         do_unmorph_char( ch );
+         return;
+      }
+   }
+   
+   if( morph_data->focus_maint > 0 )
+   {
+      if( ch->focus < morph_data->focus_maint )
+      {
+         morph->focus_debt += (morph_data->focus_maint - ch->focus);
+         ch->focus = 0;
+      }
+      else
+      {
+         ch->focus -= morph_data->focus_maint;
+      }
+   }
+}
+
+/* Check if character should auto-unmorph due to position */
+void check_morph_position( CHAR_DATA *ch )
+{
+   CHAR_MORPH *morph;
+   MORPH_DATA *morph_data;
+   
+   if( !ch || !ch->morph )
+      return;
+      
+   morph = ch->morph;
+   morph_data = morph->morph;
+   
+   if( !morph_data || !morph_data->drop_on_stun )
+      return;
+      
+   if( ch->position <= POS_STUNNED )
+   {
+      send_to_char( "You lose concentration and your transformation fails!\r\n", ch );
+      act( AT_MAGIC, "$n's transformation fails as $e loses concentration.", ch, NULL, NULL, TO_ROOM );
+      do_unmorph_char( ch );
+   }
+}
+
+/* Get morph prompt tag for display */
+const char *get_morph_prompt_tag( CHAR_DATA *ch )
+{
+   if( !ch || !ch->morph || !ch->morph->morph )
+      return "";
+      
+   if( ch->morph->morph->prompt_tag && ch->morph->morph->prompt_tag[0] != '\0' )
+      return ch->morph->morph->prompt_tag;
+      
+   return "";
+}
+
+void update_morphs( void )
+{
+   CHAR_DATA *ch;
+   
+   for( ch = first_char; ch; ch = ch->next )
+   {
+      if( IS_NPC(ch) || !ch->morph )
+         continue;
+         
+      process_morph_maintenance( ch );    /* Process per-tick maintenance costs */
+      check_morph_position( ch );         /* Check for stun-based unmorph */
    }
 }

@@ -998,7 +998,7 @@ void do_smoke( CHAR_DATA* ch, const char* argument )
 
          WAIT_STATE( ch, skill->beats );
          if( skill->spell_fun )
-            obj_cast_spell( sn, UMIN( skill->min_level, ch->level ), ch, ch, NULL );
+            obj_cast_spell( sn, UMIN( skill->min_power_level, ch->level ), ch, ch, NULL );
          if( obj_extracted( opipe ) )
             return;
       }

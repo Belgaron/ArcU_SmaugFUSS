@@ -47,7 +47,7 @@ extern "C" {
 #ifdef __cplusplus
 #include <typeinfo>
 #endif
- 
+#include "powerlevel.h" 
 /* Fallbacks for timeval helpers if the system doesn't expose them in C++ */
 #ifndef timerisset
 #define timerisset(tvp)   ((tvp)->tv_sec != 0 || (tvp)->tv_usec != 0)
@@ -350,6 +350,19 @@ extern bool mud_down;
 #define LEVEL_LOG		    LEVEL_LESSER
 #define LEVEL_HIGOD		    LEVEL_GOD
 
+/* Transformation system constants - ADD THESE */
+#define TIMER_TRANSFORMATION_UPKEEP  20
+#define SKILL_TRANSFORMATION  6
+
+/* World trigger types */
+#define TRIGGER_NONE          0
+#define TRIGGER_TIME_HOUR     1
+#define TRIGGER_MOON_PHASE    2
+#define TRIGGER_WEATHER       3
+#define TRIGGER_NEAR_DEATH    4
+#define TRIGGER_IN_COMBAT     5
+#define TRIGGER_LOCATION      6
+
 /* This is to tell if act uses uppercasestring or not --Shaddai */
 extern bool DONT_UPPER;
 
@@ -362,31 +375,11 @@ extern bool DONT_UPPER;
 #define PULSE_AREA       (60 * sysdata.pulsepersec)
 #define PULSE_AUCTION    (9 * sysdata.pulsepersec)
 
-//#define CODENAME    "Arc Unleashed"
-//#define CODEVERSION "0.1.0"
-
-/* ===== 64-bit EXP support ===== */
-typedef long long xp_t;    /* signed, for gains/losses */
-
-#if defined(_MSC_VER)
-#  define XP_FMT "%I64d"   /* MSVC printf format */
-#else
-#  define XP_FMT "%lld"    /* GCC/Clang printf format */
-#endif
-
-/* Pretty-printer for big numbers (implemented in act_info.c) */
-char *num_punct_ll( xp_t n );
-
-/* Reader for 64-bit numbers in pfiles (implemented in db.c) */
-xp_t fread_xp( FILE *fp );
-
-
 /*
- * Old SMAUG Version to be commented out sometime later
+ * SMAUG Version -- Scryn
  */
 #define SMAUG_VERSION_MAJOR "1"
 #define SMAUG_VERSION_MINOR "8b"
-
 
 /* 
  * Stuff for area versions --Shaddai
@@ -493,19 +486,19 @@ struct extended_bitvector
 
 struct char_morph
 {
-   MORPH_DATA *morph;			/* template this instance came from (name, msgs, etc.)*/
-   EXT_BV affected_by;  		/* status effects to ADD while morphed */
-   EXT_BV no_affected_by;  		/* status effects to BLOCK while morphed */
-   int no_immune; 				/* Prevents Immunities */
-   int no_resistant; 			/* Prevents resistances */
-   int no_suscept;   			/* Prevents Susceptibilities */
-   int immune; 					/* Immunities added */
-   int resistant; 				/* Resistances added */
-   int suscept;   				/* Suscepts added */
-   int timer;  					/* How much time is left */
+   MORPH_DATA *morph;
+   EXT_BV affected_by;  					/* New affected_by added */
+   EXT_BV no_affected_by;  				/* Prevents affects from being added */
+   int no_immune; 							/* Prevents Immunities */
+   int no_resistant; 						/* Prevents resistances */
+   int no_suscept;   						/* Prevents Susceptibilities */
+   int immune; 								/* Immunities added */
+   int resistant; 							/* Resistances added */
+   int suscept;   							/* Suscepts added */
+   int timer;  								/* How much time is left */
    short ac;
    short blood;
-   short cha;
+   short spr;
    short con;
    short damroll;
    short dex;
@@ -525,77 +518,97 @@ struct char_morph
    short str;
    short tumble;
    short wis;
+	int mana_debt;                     /* Accumulated mana debt */
+   int move_debt;                     /* Accumulated move debt */
+   int focus_debt;                    /* Accumulated focus debt */
 };
 
 struct morph_data
 {
-   MORPH_DATA *next; /* Next morph file */
-   MORPH_DATA *prev; /* Previous morph file */
-   const char *blood;   /* Blood added vamps only */
+   MORPH_DATA *next; 						/* Next morph file */
+   MORPH_DATA *prev; 						/* Previous morph file */
+	short level;  								/* Level required to use this morph */
+   const char *blood;   					/* Blood added vamps only */
    const char *damroll;
    const char *deity;
    const char *description;
-   const char *help; /* What player sees for info on morph */
-   const char *hit;  /* Hitpoints added */
+   const char *help; 						/* What player sees for info on morph */
+   const char *hit;  						/* Hitpoints added */
    const char *hitroll;
-   const char *key_words;  /* Keywords added to your name */
-   const char *long_desc;  /* New long_desc for player */
-   const char *mana; /* Mana added not for vamps */
-   const char *morph_other;   /* What others see when you morph */
-   const char *morph_self; /* What you see when you morph */
-   const char *move; /* Move added */
-   const char *name; /* Name used to polymorph into this */
-   const char *short_desc; /* New short desc for player */
-   const char *no_skills;  /* Prevented Skills */
-   const char *skills;
-   const char *unmorph_other; /* What others see when you unmorph */
-   const char *unmorph_self;  /* What you see when you unmorph */
-   EXT_BV affected_by;  /* New affected_by added */
-   int Class;  /* Classes not allowed to use this */
-   int defpos; /* Default position */
-   EXT_BV no_affected_by;  /* Prevents affects from being added */
-   int no_immune; /* Prevents Immunities */
-   int no_resistant; /* Prevents resistances */
-   int no_suscept;   /* Prevents Susceptibilities */
-   int immune; /* Immunities added */
-   int resistant; /* Resistances added */
-   int suscept;   /* Suscepts added */
-   int obj[3]; /* Object needed to morph you */
-   int race;   /* Races not allowed to use this */
-   int timer;  /* Timer for how long it lasts */
-   int used;   /* How many times has this morph been used */
-   int vnum;   /* Unique identifier */
-   short ac;
-   short bloodused;  /* Amount of blood morph requires Vamps only */
-   short cha;  /* Amount Cha gained/Lost */
-   short con;  /* Amount of Con gained/Lost */
-   short dayfrom; /* Starting Day you can morph into this */
-   short dayto;   /* Ending Day you can morph into this */
-   short dex;  /* Amount of dex added */
-   short dodge;   /* Percent of dodge added IE 1 = 1% */
-   short favourused; /* Amount of favour to morph */
-   short gloryused;  /* Amount of glory used to morph */
-   short hpused;  /* Amount of hps used to morph */
-   short inte; /* Amount of Int gained/lost */
-   short lck;  /* Amount of Lck gained/lost */
-   short level;   /* Minimum level to use this morph */
-   short manaused;   /* Amount of mana used to morph */
-   short moveused;   /* Amount of move used to morph */
-   short parry;   /* Percent of parry added IE 1 = 1% */
-   short pkill;   /* Pkill Only, Peacefull Only or Both */
-   short saving_breath; /* Below are saving adjusted */
+   const char *key_words;  				/* Keywords added to your name */
+   const char *long_desc;  				/* New long_desc for player */
+   const char *mana; 						/* Mana added not for vamps */
+   const char *morph_other;   			/* What others see when you morph */
+   const char *morph_self; 				/* What you see when you morph */
+   const char *move; 						/* Move added */
+   const char *name; 						/* Name used to polymorph into this */
+   const char *short_desc; 				/* New short desc for player */
+   const char *no_skills;  				/* Prevented Skills */
+   const char *skills;						/* Gain the use of these skills */
+   const char *unmorph_other; 			/* What others see when you unmorph */
+   const char *unmorph_self;  			/* What you see when you unmorph */
+   EXT_BV affected_by;  					/* New affected_by added */
+   int Class;  								/* Classes not allowed to use this */
+   int defpos; 								/* Default position */
+   EXT_BV no_affected_by;  				/* Prevents affects from being added */
+   int no_immune; 							/* Prevents Immunities */
+   int no_resistant; 						/* Prevents resistances */
+   int no_suscept;   						/* Prevents Susceptibilities */
+   int immune; 								/* Immunities added */
+   int resistant; 							/* Resistances added */
+   int suscept;   							/* Suscepts added */
+   int obj[3]; 								/* Object needed to morph you */
+   int race;   								/* Races not allowed to use this */
+   int timer;  								/* Timer for how long it lasts */
+   int used;   								/* How many times has this morph been used */
+   int vnum;   								/* Unique identifier */
+   short ac;									/* AC that affects the player */
+   short bloodused;  						/* Amount of blood morph requires Vamps only */
+   short spr;  								/* Amount spr gained/Lost */
+   short con;  								/* Amount of Con gained/Lost */
+   short dayfrom; 							/* Starting Day you can morph into this */
+   short dayto;   							/* Ending Day you can morph into this */
+   short dex;  								/* Amount of dex added */
+   short dodge;   							/* Percent of dodge added IE 1 = 1% */
+   short favourused; 						/* Amount of favour to morph */
+   short gloryused;  						/* Amount of glory used to morph */
+   short hpused;  							/* Amount of hps used to morph */
+   short inte; 								/* Amount of Int gained/lost */
+   short lck;  								/* Amount of Lck gained/lost */
+   short manaused;   						/* Amount of mana used to morph */
+   short moveused;   						/* Amount of move used to morph */
+	short focusused;  						/* Amount of focus used to morph */
+   short parry;   							/* Percent of parry added IE 1 = 1% */
+   short pkill;   							/* Pkill Only, Peacefull Only or Both */
+   short saving_breath; 					/* Below are saving adjusted */
    short saving_para_petri;
    short saving_poison_death;
    short saving_spell_staff;
    short saving_wand;
-   short sex;  /* The sex that can morph into this */
-   short str;  /* Amount of str gained lost */
-   short timefrom;   /* Hour starting you can morph */
-   short timeto;  /* Hour ending that you can morph */
-   short tumble;  /* Percent of tumble added IE 1 = 1% */
-   short wis;  /* Amount of Wis gained/lost */
-   bool no_cast;  /* Can you cast a spell to morph into it */
-   bool objuse[3];   /* Objects needed to morph */
+   short sex;  								/* The sex that can morph into this */
+   short str;  								/* Amount of str gained lost */
+   short timefrom;   						/* Hour starting you can morph */
+   short timeto;  							/* Hour ending that you can morph */
+   short tumble;  							/* Percent of tumble added IE 1 = 1% */
+   short wis;  								/* Amount of Wis gained/lost */
+   bool no_cast;  							/* Can you cast a spell to morph into it */
+   bool objuse[3];   						/* Objects needed to morph */
+   long long min_pl;  						/* Minimum power level required */
+   short focus_cost;                   /* Focus cost to activate */
+   short preq_morph;            			/* Required previous morph vnum */
+   short next_morph;                   /* Next morph in chain */
+   short mana_maint;                   /* Mana cost per hour */
+   short move_maint;                   /* Move cost per hour */
+	short hp_maint;							/* HP drain per tick */
+   short focus_maint;                  /* Focus cost per hour */
+	short min_hp;        					/* auto-unmorph if below (0=ignore) */
+	short min_mana;      					/* 0 = ignore */
+   bool aura_visible;                  /* Visible aura */
+   const char *aura_color;             /* Aura color */
+	bool  drop_on_stun;						/* auto-unmorph if <= POS_STUNNED */
+	const char *prompt_tag;      			/* e.g. "[SSJ1]" added to prompt */
+	short pl_multiplier;                /* Power level multiplier (100 = 1.0x, 200 = 2.0x) */
+	
 };
 
 /*
@@ -944,26 +957,23 @@ struct lck_app_type
 /* the races */
 typedef enum
 {
-   RACE_HUMAN, RACE_ELF, RACE_DWARF, RACE_HALFLING, RACE_PIXIE, RACE_VAMPIRE,
-   RACE_HALF_OGRE, RACE_HALF_ORC, RACE_HALF_TROLL, RACE_HALF_ELF, RACE_GITH,
-   RACE_DROW, RACE_SEA_ELF, RACE_LIZARDMAN, RACE_GNOME
+   RACE_HUMAN, RACE_ELDARI, RACE_ANDROID, RACE_BIO_ANDROID, RACE_SPIRITBORN, RACE_HOLLOWBORN, RACE_LYCAN, RACE_VAMPIRE, RACE_ARCOSIAN
 } race_types;
 
 /* npc races */
-#define	RACE_DRAGON	    32
+#define	RACE_DRAGON	    32
 
-#define CLASS_NONE     -1 /* For skill/spells according to guild */
-#define CLASS_MAGE      0
-#define CLASS_CLERIC    1
-#define CLASS_THIEF     2
-#define CLASS_WARRIOR   3
-#define CLASS_VAMPIRE   4
-#define CLASS_DRUID     5
-#define CLASS_RANGER    6
-#define CLASS_AUGURER   7 /* 7-7-96 SB */
-#define CLASS_PALADIN   8 /* 7-7-96 SB */
-#define CLASS_NEPHANDI  9
-#define CLASS_SAVAGE    10
+#define CLASS_NONE        -1 /* For skill/spells according to guild */
+#define CLASS_HUMAN        0
+#define CLASS_ELDARI       1
+#define CLASS_ANDROID      2
+#define CLASS_BIO_ANDROID  3
+#define CLASS_SPIRITBORN   4
+#define CLASS_HOLLOWBORN   5
+#define CLASS_LYCAN		   6
+#define CLASS_VAMPIRE      7
+#define CLASS_ARCOSIAN	   8
+
 
 /*
  * Languages -- Altrag
@@ -986,14 +996,36 @@ typedef enum
 #define LANG_GOD         BV15 /* Clerics possibly?  God creatures */
 #define LANG_ANCIENT     BV16 /* Prelude to a glyph read skill? */
 #define LANG_HALFLING    BV17 /* Halfling base language */
-#define LANG_CLAN	     BV18 /* Clan language */
-#define LANG_GITH	     BV19 /* Gith Language */
+#define LANG_CLAN	       BV18 /* Clan language */
+#define LANG_GITH	       BV19 /* Gith Language */
 #define LANG_GNOME       BV20
 #define LANG_UNKNOWN        0 /* Anything that doesnt fit a category */
 #define VALID_LANGS    ( LANG_COMMON | LANG_ELVEN | LANG_DWARVEN | LANG_PIXIE  \
 		       | LANG_OGRE | LANG_ORCISH | LANG_TROLLISH | LANG_GOBLIN \
 		       | LANG_HALFLING | LANG_GITH | LANG_GNOME )
 /* 19 Languages */
+
+/* Android component system definitions */
+typedef enum {
+    COMP_NANO_PROCESSORS = 0,
+    COMP_QUANTUM_CORES = 1,
+    COMP_PLASMA_CONDUITS = 2,
+    COMP_NEURAL_MATRICES = 3,
+    COMP_FUSION_CELLS = 4,
+    COMP_ETHEREAL_CORES = 5,
+    MAX_ANDROID_COMPONENTS = 6
+} android_component_types;
+
+/* Android transformation protocol IDs */
+typedef enum {
+    ANDROID_AEGIS = 0,
+    ANDROID_TITAN = 1,
+    ANDROID_VALKYRIE = 2,
+    ANDROID_OLYMPUS = 3,
+    ANDROID_RAGNAROK = 4,
+    ANDROID_EXCALIBUR = 5,
+    MAX_ANDROID_PROTOCOLS = 6
+} android_protocols;
 
 /*
  * TO types for act.
@@ -1157,7 +1189,7 @@ struct race_type
    short wis_plus;   /* Wis      "        */
    short int_plus;   /* Int      "        */
    short con_plus;   /* Con      "        */
-   short cha_plus;   /* Cha      "        */
+   short spr_plus;   /* spr      "        */
    short lck_plus;   /* Lck       "       */
    short hit;
    short mana;
@@ -1501,7 +1533,8 @@ typedef enum
 #define RIS_PLUS6		  BV19
 #define RIS_MAGIC		  BV20
 #define RIS_PARALYSIS	  BV21
-/* 22 RIS's*/
+#define RIS_BALLISTIC     BV22
+/* 23 RIS's*/
 
 /* 
  * Attack types
@@ -1627,29 +1660,31 @@ typedef enum
 /*
  * Skill/Spell flags	The minimum BV *MUST* be 11!
  */
-#define SF_WATER		  BV00
-#define SF_EARTH		  BV01
-#define SF_AIR			  BV02
-#define SF_ASTRAL		  BV03
-#define SF_AREA			  BV04   /* is an area spell      */
-#define SF_DISTANT		  BV05   /* affects something far away  */
-#define SF_REVERSE		  BV06
-#define SF_NOSELF		  BV07   /* Can't target yourself!   */
-#define SF_UNUSED2		  BV08   /* free for use!      */
-#define SF_ACCUMULATIVE		  BV09   /* is accumulative    */
-#define SF_RECASTABLE		  BV10   /* can be refreshed      */
-#define SF_NOSCRIBE		  BV11   /* cannot be scribed     */
-#define SF_NOBREW		  BV12   /* cannot be brewed      */
-#define SF_GROUPSPELL		  BV13   /* only affects group members  */
-#define SF_OBJECT		  BV14   /* directed at an object   */
-#define SF_CHARACTER		  BV15   /* directed at a character  */
-#define SF_SECRETSKILL		  BV16   /* hidden unless learned   */
-#define SF_PKSENSITIVE		  BV17   /* much harder for plr vs. plr   */
-#define SF_STOPONFAIL		  BV18   /* stops spell on first failure */
-#define SF_NOFIGHT		  BV19   /* stops if char fighting       */
-#define SF_NODISPEL               BV20 /* stops spell from being dispelled */
-#define SF_RANDOMTARGET		  BV21   /* chooses a random target */
-#define SF_NOMOB		  BV22   /* cannot be cast on mobiles */
+#define SF_WATER		  	BV00
+#define SF_EARTH		  	BV01
+#define SF_AIR			  	BV02
+#define SF_ASTRAL		  	BV03
+#define SF_AREA			  	BV04   /* is an area spell      */
+#define SF_DISTANT		  	BV05   /* affects something far away  */
+#define SF_REVERSE		  	BV06
+#define SF_NOSELF		  	BV07   /* Can't target yourself!   */
+#define SF_TRANSFORMATION 	BV08   /* free for use!      */
+#define SF_ACCUMULATIVE	  	BV09   /* is accumulative    */
+#define SF_RECASTABLE		BV10   /* can be refreshed      */
+#define SF_NOSCRIBE		  	BV11   /* cannot be scribed     */
+#define SF_NOBREW		  	BV12   /* cannot be brewed      */
+#define SF_GROUPSPELL		BV13   /* only affects group members  */
+#define SF_OBJECT		  	BV14   /* directed at an object   */
+#define SF_CHARACTER		BV15   /* directed at a character  */
+#define SF_SECRETSKILL		BV16   /* hidden unless learned   */
+#define SF_PKSENSITIVE		BV17   /* much harder for plr vs. plr   */
+#define SF_STOPONFAIL		BV18   /* stops spell on first failure */
+#define SF_NOFIGHT		  	BV19   /* stops if char fighting       */
+#define SF_NODISPEL        	BV20   /* stops spell from being dispelled */
+#define SF_RANDOMTARGET		BV21   /* chooses a random target */
+#define SF_NOMOB		  	BV22   /* cannot be cast on mobiles */
+#define SF_BASICSKILL     	BV23   /* Always shown on practice lists */
+#define SF_RACESKILL      	BV24   /* Race-specific skills, shown if race can use */
 typedef enum
 { SS_NONE, SS_POISON_DEATH, SS_ROD_WANDS, SS_PARA_PETRI,
    SS_BREATH, SS_SPELL_STAFF
@@ -1795,6 +1830,8 @@ typedef enum
 } item_types;
 
 #define MAX_ITEM_TYPE		     ITEM_DRINK_MIX
+/* Android system constants */
+#define MAX_ANDROID_COMPONENTS 6
 
 /*
  * Extra flags.
@@ -1810,7 +1847,7 @@ typedef enum
    ITEM_HIDDEN, ITEM_POISONED, ITEM_COVERING, ITEM_DEATHROT, ITEM_BURIED,
    ITEM_PROTOTYPE, ITEM_NOLOCATE, ITEM_GROUNDROT, ITEM_LOOTABLE, ITEM_PERSONAL,
    ITEM_MULTI_INVOKE, ITEM_ENCHANTED, ITEM_PERMANENT, ITEM_NOFILL, ITEM_DEATHDROP,
-   ITEM_SKINNED, MAX_ITEM_FLAG
+   ITEM_SKINNED, MAX_ITEM_FLAG, ITEM_ANTI_HUMAN, ITEM_ANTI_ELDARI
 } item_extra_flags;
 
 /* Magic flags - extra extra_flags for objects that are used in spells */
@@ -1897,7 +1934,7 @@ typedef enum
    APPLY_SEX, APPLY_CLASS, APPLY_LEVEL, APPLY_AGE, APPLY_HEIGHT, APPLY_WEIGHT,
    APPLY_MANA, APPLY_HIT, APPLY_MOVE, APPLY_GOLD, APPLY_EXP, APPLY_AC,
    APPLY_HITROLL, APPLY_DAMROLL, APPLY_SAVING_POISON, APPLY_SAVING_ROD,
-   APPLY_SAVING_PARA, APPLY_SAVING_BREATH, APPLY_SAVING_SPELL, APPLY_CHA,
+   APPLY_SAVING_PARA, APPLY_SAVING_BREATH, APPLY_SAVING_SPELL, APPLY_SPR,
    APPLY_AFFECT, APPLY_RESISTANT, APPLY_IMMUNE, APPLY_SUSCEPTIBLE,
    APPLY_WEAPONSPELL, APPLY_LCK, APPLY_BACKSTAB, APPLY_PICK, APPLY_TRACK,
    APPLY_STEAL, APPLY_SNEAK, APPLY_HIDE, APPLY_PALM, APPLY_DETRAP, APPLY_DODGE,
@@ -1908,7 +1945,7 @@ typedef enum
    APPLY_FULL, APPLY_THIRST, APPLY_DRUNK, APPLY_BLOOD, APPLY_COOK,
    APPLY_RECURRINGSPELL, APPLY_CONTAGIOUS, APPLY_EXT_AFFECT, APPLY_ODOR,
    APPLY_ROOMFLAG, APPLY_SECTORTYPE, APPLY_ROOMLIGHT, APPLY_TELEVNUM,
-   APPLY_TELEDELAY, MAX_APPLY_TYPE
+   APPLY_TELEDELAY, MAX_APPLY_TYPE, APPLY_FOCUS, APPLY_MAX_FOCUS
 } apply_types;
 
 #define REVERSE_APPLY		   1000
@@ -2270,7 +2307,7 @@ struct mob_index_data
    short perm_wis;
    short perm_dex;
    short perm_con;
-   short perm_cha;
+   short perm_spr;
    short perm_lck;
    short saving_poison_death;
    short saving_wand;
@@ -2375,6 +2412,12 @@ struct char_data
    time_t save_time;
    short timer;
    short wait;
+   int active_transformation;      /* Active transformation skill number */
+   int transform_duration;         /* Remaining duration */
+   int transform_upkeep_debt;      /* Mana debt */
+   int transform_hitroll_bonus;    /* Applied hitroll */
+   int transform_damroll_bonus;    /* Applied damroll */
+   time_t transform_start_time;    /* When started */
    short hit;
    short max_hit;
    short mana;
@@ -2382,15 +2425,16 @@ struct char_data
    short move;
    short max_move;
    short practice;
-   short		powerup;
-   short		train;
-   short		max_train;
    short numattacks;
    int gold;
-   xp_t exp;
-   long double pl;
-   long double heart_pl;
-   int rage;
+   long long exp;					/* Keep for compatibility - will be synced with PowerLevel */
+   PowerLevel power_level;
+   short powerup;                   /* Current power up level (0-7) */
+   //long long base_powerlevel;      / Base power level /    Marked for deletion
+   //long long current_powerlevel;   / Current power level (with modifiers) / Marked for deletion
+   //long long logon_powerlevel;     / Power level when character logged on / Marked for deletion
+   short focus;           /* Current focus points */
+   short max_focus;       /* Maximum focus (usually = intelligence) */
    EXT_BV act;
    EXT_BV affected_by;
    EXT_BV no_affected_by;
@@ -2433,14 +2477,14 @@ struct char_data
    short perm_wis;
    short perm_dex;
    short perm_con;
-   short perm_cha;
+   short perm_spr;
    short perm_lck;
    short mod_str;
    short mod_int;
    short mod_wis;
    short mod_dex;
    short mod_con;
-   short mod_cha;
+   short mod_spr;
    short mod_lck;
    short mental_state;  /* simplified */
    short emotional_state;  /* simplified */
@@ -2482,7 +2526,7 @@ struct pc_data
    AREA_DATA *area;
    DEITY_DATA *deity;
    GAME_BOARD_DATA *game_board;
-   NUISANCE_DATA *nuisance;   /* New Nuisance structure */
+   NUISANCE_DATA *nuisance;   					/* New Nuisance structure */
    KILLED_DATA killed[MAX_KILLTRACK];
    const char *homepage;
    const char *pointing;
@@ -2492,57 +2536,66 @@ struct pc_data
    const char *pwd;
    const char *bamfin;
    const char *bamfout;
-   const char *filename;   /* For the safe mset name -Shaddai */
+   const char *filename;   						/* For the safe mset name -Shaddai */
    const char *rank;
    const char *title;
-   const char *bestowments;   /* Special bestowed commands     */
-   const char *recent_site;   /* site a player started their most recent session from */
-   const char *prev_site;     /* site a player last quit from */
-   long int outcast_time;  /* The time at which the char was outcast */
-   long int restore_time;  /* The last time the char did a restore all */
-   int flags;  /* Whether the player is deadly and whatever else we add.      */
-   int pkills; /* Number of pkills on behalf of clan */
-   int pdeaths;   /* Number of times pkilled (legally)  */
-   int mkills; /* Number of mobs killed         */
-   int mdeaths;   /* Number of deaths due to mobs       */
-   int illegal_pk;   /* Number of illegal pk's committed   */
-   int r_range_lo;   /* room range */
+   const char *bestowments;  						/* Special bestowed commands     */
+   const char *recent_site;  						/* site a player started their most recent session from */
+   const char *prev_site;    						/* site a player last quit from */
+   long int outcast_time; 							/* The time at which the char was outcast */
+   long int restore_time; 							/* The last time the char did a restore all */
+   int flags;  										/* Whether the player is deadly and whatever else we add.      */
+   int pkills; 										/* Number of pkills on behalf of clan */
+   int pdeaths;   									/* Number of times pkilled (legally)  */
+   int mkills; 										/* Number of mobs killed         */
+   int mdeaths;   									/* Number of deaths due to mobs       */
+   int illegal_pk;   								/* Number of illegal pk's committed   */
+   int r_range_lo;   								/* room range */
    int r_range_hi;
-   int m_range_lo;   /* mob range  */
+   int m_range_lo;   								/* mob range  */
    int m_range_hi;
-   int o_range_lo;   /* obj range  */
+   int o_range_lo;   								/* obj range  */
    int o_range_hi;
-   short wizinvis;   /* wizinvis level */
-   short min_snoop;  /* minimum snoop level */
+   short wizinvis;   								/* wizinvis level */
+   short min_snoop;  								/* minimum snoop level */
    short condition[MAX_CONDS];
    short learned[MAX_SKILL];
-   unsigned int cyber; /* bitmask of installed cybernetics (CYBER_*) */
-   short quest_number;  /* current *QUEST BEING DONE* DON'T REMOVE! */
-   short quest_curr; /* current number of quest points */
-   int quest_accum;  /* quest points accumulated in players life */
-   short favor;   /* deity favor */
-   short charmies;   /* Number of Charmies */
+   unsigned int cyber; 								/* bitmask of installed cybernetics (CYBER_*) */
+   short quest_number;  							/* current *QUEST BEING DONE* DON'T REMOVE! */
+   short quest_curr; 								/* current number of quest points */
+   int quest_accum;  								/* quest points accumulated in players life */
+   short favor;   									/* deity favor */
+   short charmies;   								/* Number of Charmies */
    int auth_state;
-   time_t release_date; /* Auto-helling.. Altrag */
+   time_t release_date; 							/* Auto-helling.. Altrag */
    const char *helled_by;
-   const char *bio;  /* Personal Bio */
-   const char *authed_by;  /* what crazy imm authed this name ;) */
+   const char *bio;  								/* Personal Bio */
+   const char *authed_by;  						/* what crazy imm authed this name ;) */
    SKILLTYPE *special_skills[MAX_PERSONAL];  /* personalized skills/spells */
-   const char *prompt;  /* User config prompts */
-   const char *fprompt; /* Fight prompts */
-   const char *subprompt;  /* Substate prompt */
-   short pagerlen;   /* For pager (NOT menus) */
-   IGNORE_DATA *first_ignored;   /* keep track of who to ignore */
+   const char *prompt;  							/* User config prompts */
+   const char *fprompt; 							/* Fight prompts */
+   const char *subprompt;  						/* Substate prompt */
+   short pagerlen;   								/* For pager (NOT menus) */
+   IGNORE_DATA *first_ignored;   				/* keep track of who to ignore */
    IGNORE_DATA *last_ignored;
-   const char **tell_history; /* for immortal only command lasttell */
-   short lt_index;   /* last_tell index */
-   bool hotboot;  /* hotboot tracker */
+   const char **tell_history; 					/* for immortal only command lasttell */
+   short lt_index;   								/* last_tell index */
+   bool hotboot;  									/* hotboot tracker */
    short age_bonus;
    short age;
    short day;
    short month;
    short year;
    int timezone;
+   const char* og_hair;         					/* Original hair color before transformation */
+   const char* og_eyes;         					/* Original eye color before transformation */
+   const char* og_skin;         					/* Original skin color before transformation */
+	int absorption_debt;         					/* PL debt for bio-androids to collect on absorption */
+	short absorbed_count;        					/* Bio-android absorption tracking */
+	short evolution_stage;       					/* Bio-android evolution level */
+	short android_components[6];    /* Components: nano, quantum, plasma, neural, fusion, ethereal */
+   short android_schematics;       /* Bitmask: bits 0-5 for unlocked schematics */
+   short android_installed;        /* Bitmask: bits 0-5 for installed transformations */
 };
 
 /*
@@ -2552,7 +2605,7 @@ typedef enum
 {
    DAM_HIT, DAM_SLICE, DAM_STAB, DAM_SLASH, DAM_WHIP, DAM_CLAW,
    DAM_BLAST, DAM_POUND, DAM_CRUSH, DAM_GREP, DAM_BITE, DAM_PIERCE,
-   DAM_SUCTION, DAM_BOLT, DAM_ARROW, DAM_DART, DAM_STONE, DAM_PEA
+   DAM_SUCTION, DAM_BOLT, DAM_ARROW, DAM_DART, DAM_STONE, DAM_PEA, DAM_BALLISTIC
 } damage_types;
 
 /*
@@ -2967,9 +3020,7 @@ struct timerset
 struct skill_type
 {
    const char *name; /* Name of skill     */
-   short skill_level[MAX_CLASS]; /* Level needed by class   */
    short skill_adept[MAX_CLASS]; /* Max attainable % in this skill */
-   short race_level[MAX_RACE];   /* Racial abilities: level      */
    short race_adept[MAX_RACE];   /* Racial abilities: adept      */
    SPELL_FUN *spell_fun;   /* Spell pointer (for spells) */
    const char *spell_fun_name;   /* Spell function name - Trax */
@@ -2983,9 +3034,10 @@ struct skill_type
    const char *noun_damage;   /* Damage message    */
    const char *msg_off; /* Wear off message     */
    short guild;   /* Which guild the skill belongs to */
-   short min_level;  /* Minimum level to be able to cast */
+   short min_power_level;  /* Minimum power level required */
    short type; /* Spell/Skill/Weapon/Tongue  */
    short range;   /* Range of spell (rooms)  */
+   short focus_cost;      /* Focus required to use this skill */
    int info;   /* Spell action/class/etc  */
    int flags;  /* Flags       */
    short alignment; /* Caster has to be this align  */
@@ -3013,6 +3065,27 @@ struct skill_type
    const char *teachers;   /* Skill requires a special teacher */
    char participants;   /* # of required participants */
    struct timerset userec; /* Usage record         */
+   int base_upkeep_cost;           /* Mana cost per tick */
+   int base_duration;              /* Duration in ticks */
+   const char *transform_msg_self; /* Transform message to self */
+   const char *transform_msg_room; /* Transform message to room */
+   const char *revert_msg_self;    /* Revert message to self */
+   const char *revert_msg_room;    /* Revert message to room */
+   const char *transformed_desc;   /* Description while transformed */
+   const char *hitroll_bonus;      /* Hitroll dice formula */
+   const char *damroll_bonus;      /* Damroll dice formula */
+   short ac_bonus;                 /* Armor class bonus */
+   short str_bonus;                /* Strength bonus */
+   short dex_bonus;                /* Dexterity bonus */
+   short con_bonus;                /* Constitution bonus */
+   short int_bonus;                /* Intelligence bonus */
+   short wis_bonus;                /* Wisdom bonus */
+   short spr_bonus;                /* Charisma bonus */
+   short trigger_type;             /* World trigger type */
+   int trigger_condition;          /* Trigger condition value */
+   int trigger_probability;        /* Trigger probability % */
+   EXT_BV affects_add;            /* Affects to add */
+   EXT_BV affects_remove;         /* Affects to remove */
 };
 
 /* how many items to track.... prevent repeat auctions */
@@ -3120,13 +3193,20 @@ extern short gsn_scribe;
 extern short gsn_brew;
 extern short gsn_climb;
 
-extern short gsn_pugilism;
 extern short gsn_long_blades;
 extern short gsn_short_blades;
 extern short gsn_flexible_arms;
 extern short gsn_talonous_arms;
 extern short gsn_bludgeons;
 extern short gsn_missile_weapons;
+extern short gsn_unarmed;
+extern short gsn_maces;
+extern short gsn_staves;
+extern short gsn_firearms;
+extern short gsn_staves;
+extern short gsn_bows;
+extern short gsn_xbows;
+extern short gsn_polearms;
 
 extern short gsn_grip;
 extern short gsn_slice;
@@ -3135,15 +3215,15 @@ extern short gsn_tumble;
 
 /* Language gsns. -- Altrag */
 extern short gsn_common;
-extern short gsn_elven;
-extern short gsn_dwarven;
-extern short gsn_pixie;
-extern short gsn_ogre;
-extern short gsn_orcish;
-extern short gsn_trollish;
-extern short gsn_goblin;
-extern short gsn_halfling;
-extern short gsn_gnomish;
+extern short gsn_gibberish;
+extern short gsn_elder;
+extern short gsn_spirit;
+extern short gsn_hollow;
+extern short gsn_lycan;
+extern short gsn_echospeak;
+extern short gsn_critter;
+
+
 
 /*
  * Cmd flag names --Shaddai
@@ -3381,17 +3461,24 @@ do								\
 /*
  * Character macros.
  */
-#define IS_NPC(ch)		(xIS_SET((ch)->act, ACT_IS_NPC))
+#define IS_NPC(ch)		    (xIS_SET((ch)->act, ACT_IS_NPC))
 #define IS_IMMORTAL(ch)		(get_trust((ch)) >= LEVEL_IMMORTAL)
-#define IS_HERO(ch)		(get_trust((ch)) >= LEVEL_HERO)
+#define IS_HERO(ch)		    (get_trust((ch)) >= LEVEL_HERO)
 #define IS_AFFECTED(ch, sn)	(xIS_SET((ch)->affected_by, (sn)))
 #define HAS_BODYPART(ch, part)	((ch)->xflags == 0 || IS_SET((ch)->xflags, (part)))
 #define GET_TIME_PLAYED(ch)     (((ch)->played + (current_time - (ch)->logon)) / 3600)
-#define CAN_CAST(ch)		((ch)->Class != 2 && (ch)->Class != 3)
+#define CAN_CAST(ch)		    ((ch)->Class != 2 && (ch)->Class != 3)
 
-#define IS_VAMPIRE(ch)		(!IS_NPC(ch)				    \
-				&& ((ch)->race==RACE_VAMPIRE		    \
-				||  (ch)->Class==CLASS_VAMPIRE))
+#define IS_HUMAN(ch)       (!IS_NPC(ch) && ((ch)->race==RACE_HUMAN || (ch)->Class==CLASS_HUMAN))
+#define IS_ELDARI(ch)      (!IS_NPC(ch) && ((ch)->race==RACE_ELDARI || (ch)->Class==CLASS_ELDARI))
+#define IS_ANDROID(ch)     (!IS_NPC(ch) && ((ch)->race==RACE_ANDROID ||  (ch)->Class==RACE_ANDROID))
+#define IS_BIO_ANDROID(ch) (!IS_NPC(ch)	&& ((ch)->race==RACE_BIO_ANDROID ||  (ch)->Class==CLASS_BIO_ANDROID))
+#define IS_SPIRITBORN(ch)  (!IS_NPC(ch)	&& ((ch)->race==RACE_SPIRITBORN ||  (ch)->Class==CLASS_SPIRITBORN))
+#define IS_HOLLOWBORN(ch)  (!IS_NPC(ch)	&& ((ch)->race==RACE_HOLLOWBORN ||  (ch)->Class==CLASS_HOLLOWBORN))
+#define IS_LYCAN(ch)       (!IS_NPC(ch)	&& ((ch)->race==RACE_LYCAN ||  (ch)->Class==CLASS_LYCAN))
+#define IS_VAMPIRE(ch)     (!IS_NPC(ch)	&& ((ch)->race==RACE_VAMPIRE ||  (ch)->Class==CLASS_VAMPIRE))
+#define IS_ARCOSIAN(ch)    (!IS_NPC(ch)	&& ((ch)->race==RACE_ARCOSIAN ||  (ch)->Class==CLASS_ARCOSIAN))
+
 #define IS_GOOD(ch)		((ch)->alignment >= 350)
 #define IS_EVIL(ch)		((ch)->alignment <= -350)
 #define IS_NEUTRAL(ch)		(!IS_GOOD(ch) && !IS_EVIL(ch))
@@ -3549,7 +3636,8 @@ do								\
                                 : "someone" )
 
 #define log_string(txt)		( log_string_plus( (txt), LOG_NORMAL, LEVEL_LOG ) )
-#define dam_message(ch, victim, dam, dt)	( new_dam_message((ch), (victim), (dam), (dt), NULL) )
+#define dam_message(ch, victim, dam, dt) ( enhanced_dam_message((ch), (victim), (dam), (dt), NULL) )
+void enhanced_dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt, OBJ_DATA *obj);
 
 /*
  *  Defines for the command flags. --Shaddai
@@ -3613,10 +3701,10 @@ extern const struct lck_app_type lck_app[26];
 
 extern const struct race_type _race_table[MAX_RACE];
 extern struct race_type *race_table[MAX_RACE];
-extern const char *const attack_table[18];
+extern const char *const attack_table[19];
 
-extern const char **const s_message_table[18];
-extern const char **const p_message_table[18];
+extern const char **const s_message_table[19];
+extern const char **const p_message_table[19];
 
 extern const char *skill_tname[];
 extern short const movement_loss[SECT_MAX];
@@ -3700,6 +3788,7 @@ extern bool cur_char_died;
 extern ch_ret global_retcode;
 extern SKILLTYPE *herb_table[MAX_HERB];
 extern SKILLTYPE *disease_table[MAX_DISEASE];
+extern const char *const spell_flag[];
 
 extern int cur_obj;
 extern int cur_obj_serial;
@@ -3788,6 +3877,7 @@ DECLARE_DO_FUN( do_rdig );
 DECLARE_DO_FUN( do_rgrid );
 DECLARE_DO_FUN( skill_notfound );
 DECLARE_DO_FUN( do_aassign );
+DECLARE_DO_FUN( do_acomp );
 DECLARE_DO_FUN( do_add_imm_host );
 DECLARE_DO_FUN( do_adminlist );
 DECLARE_DO_FUN( do_advance );
@@ -4062,6 +4152,8 @@ DECLARE_DO_FUN( do_plist );
 DECLARE_DO_FUN( do_poison_weapon );
 DECLARE_DO_FUN( do_pose );
 DECLARE_DO_FUN( do_pounce );
+DECLARE_DO_FUN( do_powerup );
+DECLARE_DO_FUN( do_powerdown );
 DECLARE_DO_FUN( do_practice );
 DECLARE_DO_FUN( do_project );
 DECLARE_DO_FUN( do_prompt );
@@ -4240,7 +4332,6 @@ DECLARE_DO_FUN( do_worth );
 DECLARE_DO_FUN( do_yell );
 DECLARE_DO_FUN( do_zap );
 DECLARE_DO_FUN( do_zones );
-xp_t exp_level( CHAR_DATA *ch, short level );
 
 /* mob prog stuff */
 DECLARE_DO_FUN( do_mp_close_passage );
@@ -4313,6 +4404,7 @@ DECLARE_DO_FUN( do_mpplace );
 DECLARE_SPELL_FUN( spell_null );
 DECLARE_SPELL_FUN( spell_notfound );
 DECLARE_SPELL_FUN( spell_acid_blast );
+DECLARE_SPELL_FUN( spell_ancient_ascension );
 DECLARE_SPELL_FUN( spell_animate_dead );
 DECLARE_SPELL_FUN( spell_astral_walk );
 DECLARE_SPELL_FUN( spell_blindness );
@@ -4405,6 +4497,22 @@ DECLARE_SPELL_FUN( spell_midas_touch );
 DECLARE_SPELL_FUN( spell_bethsaidean_touch );
 DECLARE_SPELL_FUN( spell_expurgation );
 DECLARE_SPELL_FUN( spell_sacral_divinity );
+DECLARE_SPELL_FUN( spell_ancient );
+
+/* Android transformation system functions */
+DECLARE_SPELL_FUN( spell_aegis );
+DECLARE_SPELL_FUN( spell_titan );  
+DECLARE_SPELL_FUN( spell_valkyrie );
+DECLARE_SPELL_FUN( spell_olympus );
+DECLARE_SPELL_FUN( spell_ragnarok );
+DECLARE_SPELL_FUN( spell_excalibur );
+DECLARE_DO_FUN( do_ainstall );
+
+/* Android system function declarations */
+void check_android_components( CHAR_DATA *ch, CHAR_DATA *victim );
+void give_android_component( CHAR_DATA *android );
+void check_android_schematics( CHAR_DATA *ch );
+int android_component_drop_chance( CHAR_DATA *android, CHAR_DATA *victim );
 
 /*
  * Data files used by the server.
@@ -4522,6 +4630,23 @@ char *format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort );
 void show_list_to_char( OBJ_DATA * list, CHAR_DATA * ch, bool fShort, bool fShowNothing );
 bool is_ignoring( CHAR_DATA * ch, CHAR_DATA * ign_ch );
 void show_race_line( CHAR_DATA * ch, CHAR_DATA * victim );
+void show_practice_list( CHAR_DATA *ch, CHAR_DATA *mob );
+void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argument );
+bool can_practice_skill( CHAR_DATA *ch, CHAR_DATA *mob, const SKILLTYPE *skill, int sn );
+int get_skill_adept( CHAR_DATA *ch, int sn );
+void show_skill_category( CHAR_DATA *ch, CHAR_DATA *mob, int flag_type, const char *category );
+void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can_learn, long long char_pl );
+bool has_race_skills( CHAR_DATA *ch );
+bool show_learned_hidden_skills( CHAR_DATA *ch, CHAR_DATA *mob );
+bool can_trainer_teach_hidden_skill( CHAR_DATA *mob, int sn );
+
+/* Power level functions */
+long long get_power_level( CHAR_DATA *ch );
+void set_base_power_level( CHAR_DATA *ch, long long amount );
+void add_base_power_level( CHAR_DATA *ch, long long amount );
+void set_logon_powerlevel( CHAR_DATA *ch );
+char *num_punct_ll( long long foo );
+char *format_power_level( long long power );
 
 /* act_move.c */
 void clear_vrooms( void );
@@ -4672,6 +4797,7 @@ OID *get_obj_index( int vnum );
 RID *get_room_index( int vnum );
 char fread_letter( FILE * fp );
 int fread_number( FILE * fp );
+long long fread_number_ll( FILE *fp );
 EXT_BV fread_bitvector( FILE * fp );
 void fwrite_bitvector( EXT_BV * bits, FILE * fp );
 char *print_bitvector( EXT_BV * bits );
@@ -4761,6 +4887,9 @@ bool check_illegal_pk( CHAR_DATA * ch, CHAR_DATA * victim );
 OBJ_DATA *raw_kill( CHAR_DATA * ch, CHAR_DATA * victim );
 bool in_arena( CHAR_DATA * ch );
 bool can_astral( CHAR_DATA * ch, CHAR_DATA * victim );
+void update_level_from_pl( CHAR_DATA *ch );
+void group_gain( CHAR_DATA *ch, CHAR_DATA *victim );
+int get_pl_combat_bonus( CHAR_DATA *ch, CHAR_DATA *victim );
 
 /* makeobjs.c */
 OBJ_DATA *make_corpse( CHAR_DATA * ch, CHAR_DATA * killer );
@@ -4819,6 +4948,14 @@ void set_title( CHAR_DATA * ch, const char *title );
 const char *get_class( CHAR_DATA * ch );
 const char *get_race( CHAR_DATA * ch );
 
+/* Command prototypes */
+DECLARE_DO_FUN(do_transform);
+DECLARE_DO_FUN(do_untransform);
+DECLARE_DO_FUN(do_transformations);
+DECLARE_DO_FUN(do_transstat);
+DECLARE_DO_FUN(do_transforce);
+DECLARE_DO_FUN(do_form);
+
 /* polymorph.c */
 void fwrite_morph_data( CHAR_DATA * ch, FILE * fp );
 void fread_morph_data( CHAR_DATA * ch, FILE * fp );
@@ -4845,6 +4982,11 @@ MORPH_DATA *fread_morph( FILE * fp );
 void free_morph( MORPH_DATA * morph );
 void morph_defaults( MORPH_DATA * morph );
 void sort_morphs( void );
+bool has_used_morph_before( CHAR_DATA *ch, int morph_vnum );
+void process_morph_maintenance( CHAR_DATA *ch );
+void check_morph_position( CHAR_DATA *ch );
+const char *get_morph_prompt_tag( CHAR_DATA *ch );
+void update_morphs( void );
 
 /* skills.c */
 bool can_use_skill( CHAR_DATA * ch, int percent, int gsn );
@@ -4882,6 +5024,7 @@ CHAR_DATA *carried_by( OBJ_DATA * obj );
 AREA_DATA *get_area_obj( OBJ_INDEX_DATA * obj );
 int get_exp( CHAR_DATA * ch );
 int get_exp_worth( CHAR_DATA * ch );
+int exp_level( CHAR_DATA * ch, short level );
 short get_trust( CHAR_DATA * ch );
 short calculate_age( CHAR_DATA * ch );
 short get_curr_str( CHAR_DATA * ch );
@@ -4889,8 +5032,9 @@ short get_curr_int( CHAR_DATA * ch );
 short get_curr_wis( CHAR_DATA * ch );
 short get_curr_dex( CHAR_DATA * ch );
 short get_curr_con( CHAR_DATA * ch );
-short get_curr_cha( CHAR_DATA * ch );
+short get_curr_spr( CHAR_DATA * ch );
 short get_curr_lck( CHAR_DATA * ch );
+bool is_android(CHAR_DATA *ch);
 bool can_take_proto( CHAR_DATA * ch );
 int can_carry_n( CHAR_DATA * ch );
 int can_carry_w( CHAR_DATA * ch );
@@ -5034,6 +5178,8 @@ int dice_parse( CHAR_DATA * ch, int level, const char *texp );
 SK *get_skilltype( int sn );
 short get_chain_type( ch_ret retcode );
 ch_ret chain_spells( int sn, int level, CHAR_DATA * ch, void *vo, short chain );
+bool check_focus_cost( CHAR_DATA * ch, int sn );
+void consume_focus( CHAR_DATA * ch, int sn );
 
 /* save.c */
 /* object saving defines for fread/write_obj. -- Altrag */
@@ -5085,7 +5231,7 @@ void hunt_victim( CHAR_DATA * ch );
 
 /* update.c */
 void advance_level( CHAR_DATA * ch );
-void gain_exp( CHAR_DATA * ch, xp_t gain );
+void gain_pl( CHAR_DATA * ch, int gain );
 void gain_condition( CHAR_DATA * ch, int iCond, int value );
 void check_alignment( CHAR_DATA * ch );
 void update_handler( void );
@@ -5093,6 +5239,7 @@ void reboot_check( time_t reset );
 void auction_update( void );
 void remove_portal( OBJ_DATA * portal );
 void weather_update( void );
+
 
 /* variables.c */
 void delete_variable( VARIABLE_DATA * vd );

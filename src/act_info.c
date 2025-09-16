@@ -24,13 +24,14 @@
 #include "mapper.h"
 #include "sha256.h"
 
-/* Temporary: treat Power Level as EXP so we can gate skills by PL. */
-static inline int power_level( const CHAR_DATA *ch )
+
+static inline long long power_level( const CHAR_DATA *ch )
 {
-    //return (int)ch->exp;
-	//return 0;  // TEMP: pretend PL is zero
-	//return 1000000;  // TEMP: huge PL to test allow
-	return (int)ch->gold;   /* TEMP: use gold as PL so we can test easily */
+    if( !ch )
+        return 0;
+    
+    /* Simply use the new system */
+    return get_power_level( (CHAR_DATA*)ch );
 }
 
 
@@ -287,9 +288,10 @@ char *format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort )
    buf[0] = '\0';
    if( IS_OBJ_STAT( obj, ITEM_INVIS ) )
       strlcat( buf, "(Invis) ", MAX_STRING_LENGTH );
-   if( ( IS_AFFECTED( ch, AFF_DETECT_EVIL ) || ch->Class == CLASS_PALADIN ) && IS_OBJ_STAT( obj, ITEM_EVIL ) )
+   if( ( IS_AFFECTED( ch, AFF_DETECT_EVIL ) ) && IS_OBJ_STAT( obj, ITEM_EVIL ) ) //|| ch->Class == CLASS_PALADIN ) && IS_OBJ_STAT( obj, ITEM_EVIL ) )
       strlcat( buf, "(Red Aura) ", MAX_STRING_LENGTH );
-
+/*
+ * OLD PALADIN CODE COULD BE USED FOR SOMETHING ELSE
    if ( ch->Class == CLASS_PALADIN && ( IS_OBJ_STAT(obj, ITEM_ANTI_EVIL) && !IS_OBJ_STAT(obj, ITEM_ANTI_NEUTRAL) && !IS_OBJ_STAT(obj, ITEM_ANTI_GOOD))   )
       strlcat( buf, "(Smouldering Grey-White) ", MAX_STRING_LENGTH  );
    if ( ch->Class == CLASS_PALADIN && ( !IS_OBJ_STAT(obj, ITEM_ANTI_EVIL) && IS_OBJ_STAT(obj, ITEM_ANTI_NEUTRAL) && !IS_OBJ_STAT(obj, ITEM_ANTI_GOOD))   )
@@ -302,6 +304,7 @@ char *format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort )
       strlcat( buf, "(Burning Grey) ", MAX_STRING_LENGTH  );
    if ( ch->Class == CLASS_PALADIN && ( !IS_OBJ_STAT(obj, ITEM_ANTI_EVIL) && IS_OBJ_STAT(obj, ITEM_ANTI_NEUTRAL) && IS_OBJ_STAT(obj, ITEM_ANTI_GOOD))   )
       strlcat( buf, "(Burning Red) ", MAX_STRING_LENGTH  );
+ */ 
 
    if( ( IS_AFFECTED( ch, AFF_DETECT_MAGIC ) || xIS_SET( ch->act, PLR_HOLYLIGHT ) ) && IS_OBJ_STAT( obj, ITEM_MAGIC ) )
       strlcat( buf, "(Magical) ", MAX_STRING_LENGTH );
@@ -462,30 +465,48 @@ char *num_punct( int foo )
    return buf_new;
 }
 
-char *num_punct_ll( xp_t foo )
+char *num_punct_ll( long long foo )
 {
-   int index_new, rest, x;
-   size_t nindex;
-   char buf[32];
-   static char buf_new[32];
-
-   /* Use the same grouping as num_punct, just with wider buffers/types */
-   snprintf( buf, sizeof(buf), XP_FMT, foo );
-   rest = (int)(strlen( buf ) % 3);
-
-   for( nindex = index_new = 0; nindex < strlen( buf ); nindex++, index_new++ )
+   static char buf[4][256];  /* Use multiple buffers for multiple calls */
+   static int flip = 0;
+   char *p;
+   char temp_buf[256];
+   int len, i, j;
+   
+   flip = (flip + 1) % 4;  /* Rotate through buffers */
+   
+   if( foo < 0 )
    {
-      x = (int)nindex - rest;
-      if( nindex != 0 && ( x % 3 ) == 0 )
-      {
-         buf_new[index_new++] = ',';
-         buf_new[index_new] = buf[nindex];
-      }
-      else
-         buf_new[index_new] = buf[nindex];
+      snprintf( buf[flip], sizeof(buf[flip]), "-%s", num_punct_ll( -foo ) );
+      return buf[flip];
    }
-   buf_new[index_new] = '\0';
-   return buf_new;
+   
+   /* Convert to string */
+   snprintf( temp_buf, sizeof(temp_buf), "%lld", foo );
+   len = strlen( temp_buf );
+   
+   /* Calculate result length with commas */
+   int result_len = len + (len - 1) / 3;
+   
+   if( result_len >= (int)sizeof(buf[flip]) )
+   {
+       /* Number too large, return without commas */
+       snprintf( buf[flip], sizeof(buf[flip]), "%lld", foo );
+       return buf[flip];
+   }
+   
+   /* Fill result buffer backwards */
+   buf[flip][result_len] = '\0';
+   p = buf[flip] + result_len - 1;
+   
+   for( i = len - 1, j = 0; i >= 0; i--, j++ )
+   {
+      if( j > 0 && j % 3 == 0 )
+         *p-- = ',';
+      *p-- = temp_buf[i];
+   }
+   
+   return buf[flip];
 }
 
 /*
@@ -817,13 +838,14 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch )
       strlcat( buf, "(Translucent) ", MAX_STRING_LENGTH );
    if( IS_AFFECTED( victim, AFF_FAERIE_FIRE ) )
       strlcat( buf, "(Pink Aura) ", MAX_STRING_LENGTH );
+   /*
    if( IS_EVIL( victim ) && ( IS_AFFECTED( ch, AFF_DETECT_EVIL ) || ch->Class == CLASS_PALADIN ) )
       strlcat( buf, "(Red Aura) ", MAX_STRING_LENGTH );
    if( IS_NEUTRAL( victim ) && ch->Class == CLASS_PALADIN )
       strlcat( buf, "(Grey Aura) ", MAX_STRING_LENGTH );
    if( IS_GOOD( victim ) && ch->Class == CLASS_PALADIN )
       strlcat( buf, "(White Aura) ", MAX_STRING_LENGTH );
-
+	*/
    if( IS_AFFECTED( victim, AFF_BERSERK ) )
       strlcat( buf, "(Wild-eyed) ", MAX_STRING_LENGTH );
    if( IS_AFFECTED( victim, AFF_GRAPPLE ) )
@@ -1503,7 +1525,7 @@ void do_look( CHAR_DATA * ch, const char *argument )
        */
       if( pexit->to_room
           && ( IS_AFFECTED( ch, AFF_SCRYING )
-               || ch->Class == CLASS_THIEF || IS_SET( pexit->exit_info, EX_xLOOK ) || get_trust( ch ) >= LEVEL_IMMORTAL ) )
+               || IS_SET( pexit->exit_info, EX_xLOOK ) || get_trust( ch ) >= LEVEL_IMMORTAL ) )
       {
          if( !IS_SET( pexit->exit_info, EX_xLOOK ) && get_trust( ch ) < LEVEL_IMMORTAL )
          {
@@ -1518,7 +1540,7 @@ void do_look( CHAR_DATA * ch, const char *argument )
                int percent = LEARNED( ch, skill_lookup( "scry" ) );
                if( !percent )
                {
-                  if( ch->Class == CLASS_THIEF )
+                  if( IS_HUMAN(ch) )
                      percent = 95;
                   else
                      percent = 55;  /* 95 was too good -Thoric */
@@ -3559,239 +3581,534 @@ void do_consider( CHAR_DATA* ch, const char* argument )
 void do_practice( CHAR_DATA* ch, const char* argument )
 {
    CHAR_DATA *mob;
-   char buf[MAX_STRING_LENGTH];
-   int sn;
-
+   
    if( IS_NPC( ch ) )
       return;
 
+   // Find practice trainer in room
    for( mob = ch->in_room->first_person; mob; mob = mob->next_in_room )
       if( IS_NPC( mob ) && xIS_SET( mob->act, ACT_PRACTICE ) )
          break;
 
    if( argument[0] == '\0' )
    {
-      int col;
-      short lasttype, cnt;
-      bool is_ok;
-
-      col = cnt = 0;
-      lasttype = SKILL_SPELL;
-      set_pager_color( AT_MAGIC, ch );
-
-      for( sn = 0; sn < num_skills; ++sn )
-      {
-         const SKILLTYPE *skill;
-         int normalSn;
-
-         // the first num_sorted_skills are sorted by type, so we don't want
-         // to index into skill_table -- that is sorted alphabetically -- so
-         // we need to do the following dance to check if we are in the
-         // sorted section or the unsorted section.
-         if( sn < num_sorted_skills )
-         {
-            skill = skill_table_bytype[sn];
-
-            // we are looping over the skills sorted by type.
-            // So, we need to get the normal sn as well.
-            normalSn = skill_lookup( skill->name );
-         }
-         else
-         {
-            skill = skill_table[sn];
-            normalSn = sn;
-         }
-
-         if( !skill || !skill->name || skill->name[0] == '\0' )
-            continue;
-
-         if( strcmp( skill->name, "reserved" ) == 0 && ( IS_IMMORTAL( ch ) || CAN_CAST( ch ) ) )
-         {
-            if( col % 3 != 0 )
-               send_to_pager( "\r\n", ch );
-            set_pager_color( AT_MAGIC, ch );
-            send_to_pager_color( " ----------------------------------[&CSpells&B]----------------------------------\r\n",
-                                 ch );
-            col = 0;
-         }
-
-         if( skill->type != lasttype )
-         {
-            if( !cnt )
-               send_to_pager( "                                   (none)\r\n", ch );
-            else if( col % 3 != 0 )
-               send_to_pager( "\r\n", ch );
-            set_pager_color( AT_MAGIC, ch );
-            pager_printf_color( ch,
-                                " ----------------------------------&C%ss&B----------------------------------\r\n",
-                                skill_tname[skill->type] );
-            col = cnt = 0;
-         }
-         lasttype = skill->type;
-
-         if( !IS_IMMORTAL( ch )
-             && ( skill->guild != CLASS_NONE && ( !IS_GUILDED( ch ) || ( ch->pcdata->clan->Class != skill->guild ) ) ) )
-            continue;
-
-         /**
-         * mob will only display practice skills it can train a player in (up to its own level in rank)  
-         * (e.g. A level 10 NPC trainer mob will display the skills and spells a character can train
-         * up to level 10) 
-         **/
-         if( mob )  
-         {
-            if( skill->skill_level[ch->Class] > mob->level && skill->race_level[ch->race] > mob->level )
-               continue;
-         }
-        
-         is_ok = FALSE;
-
-         if( ch->level >= skill->skill_level[ch->Class] )
-            is_ok = TRUE;
-         if( ch->level >= skill->race_level[ch->race] )
-            is_ok = TRUE;
-
-         if( !is_ok )
-            continue;
-          
-
-         if( ch->pcdata->learned[sn] <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
-            continue;
-
-         ++cnt;
-         set_pager_color( AT_MAGIC, ch );
-         pager_printf( ch, "%20.20s", skill->name );
-         if( ch->pcdata->learned[normalSn] > 0 )
-            set_pager_color( AT_SCORE, ch );
-         pager_printf( ch, " %3d%% ", ch->pcdata->learned[normalSn] );
-         if( ++col % 3 == 0 )
-            send_to_pager( "\r\n", ch );
-      }
-
-      if( col % 3 != 0 )
-         send_to_pager( "\r\n", ch );
-      set_pager_color( AT_MAGIC, ch );
-      pager_printf( ch, "You have %d practice sessions left.\r\n", ch->practice );
+      // Display available skills
+      show_practice_list( ch, mob );
    }
    else
    {
-      int adept;
-      bool can_prac = TRUE;
-
-      if( !IS_AWAKE( ch ) )
-      {
-         send_to_char( "In your dreams, or what?\r\n", ch );
-         return;
-      }
-
-      if( !mob )
-      {
-         send_to_char( "You can't do that here.\r\n", ch );
-         return;
-      }
-
-      if( ch->practice <= 0 )
-      {
-         act( AT_TELL, "$n tells you 'You must earn some more practice sessions.'", mob, NULL, ch, TO_VICT );
-         return;
-      }
-
-      sn = skill_lookup( argument );
-
-		/* Use Minlevel from skills.dat as the Power-Level requirement */
-		int req = skill_table[sn]->min_level;  /* this is "Minlevel" on disk */
-
-      /* Block only if: trainer is active, this is a real skill, player is PC,
-			AND there is a requirement (>0), AND PL is below it. */
-		if ( can_prac
-			&& sn != -1
-			&& !IS_NPC(ch)
-			&& req > 0
-			&& power_level(ch) < req )
-	  {
-         act( AT_TELL, "$n tells you 'You're not ready to learn that yet...'", mob, NULL, ch, TO_VICT );
-         return;
-      }
-
-      if( is_name( skill_tname[skill_table[sn]->type], CANT_PRAC ) )
-      {
-         act( AT_TELL, "$n tells you 'I do not know how to teach that.'", mob, NULL, ch, TO_VICT );
-         return;
-      }
-
-      /*
-       * Skill requires a special teacher
-       */
-      if( skill_table[sn]->teachers && skill_table[sn]->teachers[0] != '\0' )
-      {
-         snprintf( buf, MAX_STRING_LENGTH, "%d", mob->pIndexData->vnum );
-         if( !is_name( buf, skill_table[sn]->teachers ) )
-         {
-            act( AT_TELL, "$n tells you, 'I know not know how to teach that.'", mob, NULL, ch, TO_VICT );
-            return;
-         }
-      }
+      // Practice specific skill
+      practice_specific_skill( ch, mob, argument );
+   }
+}
 
 /*
- * Guild checks - right now, cant practice guild skills - done on 
- * induct/outcast
+ * Determine if a skill should be shown on practice lists
  */
-/*	
-	if ( !IS_NPC(ch) && !IS_GUILDED(ch)
-	&&    skill_table[sn]->guild != CLASS_NONE)
+bool should_show_skill( CHAR_DATA *ch, const SKILLTYPE *skill, int sn )
+{
+   // Always show if already learned
+   if( ch->pcdata->learned[sn] > 0 )
+      return TRUE;
+
+   // Check for basic skills (always shown)
+   if( SPELL_FLAG( skill, SF_BASICSKILL ) )
+      return TRUE;
+
+   // Check for race-specific skills  
+   if( SPELL_FLAG( skill, SF_RACESKILL ) )
+   {
+      // Only show if this skill is available to character's race
+      if( skill->race_adept[ch->race] > 0 )
+         return TRUE;
+   }
+
+   // Secret skills are never shown on practice list unless already learned
+   if( SPELL_FLAG( skill, SF_SECRETSKILL ) )
+      return FALSE;
+
+   // Default: don't show (these are discoverable skills)
+   return FALSE;
+}
+
+/*
+ * Show the list of skills available for practice
+ */
+void show_practice_list( CHAR_DATA *ch, CHAR_DATA *mob )
+{
+   long long char_pl;
+
+   char_pl = get_power_level(ch);
+   
+   set_pager_color( AT_MAGIC, ch );
+   pager_printf( ch, "Skills and Spells Available for Training:\r\n" );
+   pager_printf( ch, "Your Power Level: %s\r\n", format_power_level(char_pl) );
+   pager_printf( ch, "Practice Sessions: %d\r\n\r\n", ch->practice );
+
+   // Show basic skills first
+   set_pager_color( AT_WHITE, ch );
+   pager_printf( ch, "--- Basic Skills ---\r\n" );
+   show_skill_category( ch, mob, SF_BASICSKILL, "Basic" );
+
+   // Show race-specific skills
+   if( has_race_skills( ch ) )
+   {
+      set_pager_color( AT_WHITE, ch );
+      pager_printf( ch, "\r\n--- %s Racial Abilities ---\r\n", 
+                   capitalize(race_table[ch->race]->race_name) );
+      show_skill_category( ch, mob, SF_RACESKILL, "Racial" );
+   }
+
+   // Show any other skills the character has learned (but normally hidden)
+   if( show_learned_hidden_skills( ch, mob ) )
+   {
+      set_pager_color( AT_WHITE, ch );
+      pager_printf( ch, "\r\n--- Special Abilities ---\r\n" );
+      show_learned_hidden_skills( ch, mob );
+   }
+
+   set_pager_color( AT_WHITE, ch );
+   send_to_pager( "\r\nLegend: ", ch );
+   set_pager_color( AT_CYAN, ch );
+   send_to_pager( "Available  ", ch );
+   set_pager_color( AT_YELLOW, ch );
+   send_to_pager( "Learning  ", ch );
+   set_pager_color( AT_GREEN, ch );
+   send_to_pager( "Mastered  ", ch );
+   set_pager_color( AT_DGREY, ch );
+   send_to_pager( "Locked", ch );
+   set_pager_color( AT_WHITE, ch );
+   pager_printf( ch, "\r\n\r\n&CHint: Some skills can only be learned from special teachers or discovered through exploration!&D\r\n" );
+}
+
+/*
+ * Show skills of a specific category
+ */
+void show_skill_category( CHAR_DATA *ch, CHAR_DATA *mob, int flag_type, const char *category )
+{
+   int sn, cnt = 0;
+   bool can_learn;
+   long long char_pl = get_power_level(ch);
+
+   for( sn = 0; sn < num_skills; ++sn )
+   {
+      const SKILLTYPE *skill = skill_table[sn];
+
+      if( !skill->name || skill->name[0] == '\0' )
+         continue;
+
+      // Skip if not in this category
+      if( flag_type == SF_BASICSKILL && !SPELL_FLAG( skill, SF_BASICSKILL ) )
+         continue;
+      if( flag_type == SF_RACESKILL && (!SPELL_FLAG( skill, SF_RACESKILL ) || skill->race_adept[ch->race] <= 0) )
+         continue;
+
+      // Skip skills that can't be practiced normally
+      if( is_name( skill_tname[skill->type], CANT_PRAC ) )
+         continue;
+
+      // Check if skill can be learned
+      can_learn = can_practice_skill( ch, mob, skill, sn );
+      
+      cnt++;
+      display_skill_line( ch, skill, sn, can_learn, char_pl );
+   }
+
+   if( cnt == 0 )
+   {
+      set_pager_color( AT_DGREY, ch );
+      pager_printf( ch, "  No %s skills available.\r\n", category );
+   }
+}
+
+/*
+ * Show any hidden/secret skills the character has already learned
+ */
+bool show_learned_hidden_skills( CHAR_DATA *ch, CHAR_DATA *mob )
+{
+   int sn, cnt = 0;
+   bool can_learn;
+   long long char_pl = get_power_level(ch);
+
+   for( sn = 0; sn < num_skills; ++sn )
+   {
+      const SKILLTYPE *skill = skill_table[sn];
+
+      if( !skill->name || skill->name[0] == '\0' )
+         continue;
+
+      // Only show if already learned AND it's a secret skill
+      if( ch->pcdata->learned[sn] <= 0 )
+         continue;
+      if( !SPELL_FLAG( skill, SF_SECRETSKILL ) )
+         continue;
+
+      // Skip basic and race skills (already shown above)
+      if( SPELL_FLAG( skill, SF_BASICSKILL ) || SPELL_FLAG( skill, SF_RACESKILL ) )
+         continue;
+
+      can_learn = can_practice_skill( ch, mob, skill, sn );
+      cnt++;
+      display_skill_line( ch, skill, sn, can_learn, char_pl );
+   }
+
+   return (cnt > 0);
+}
+
+/*
+ * Display a single skill line with formatting
+ */
+void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can_learn, long long char_pl )
+{
+   int adept = get_skill_adept( ch, sn );
+
+   // Color code based on availability
+   if( !can_learn && skill->min_power_level > char_pl )
+      set_pager_color( AT_DGREY, ch );    // Too low power level
+   else if( ch->pcdata->learned[sn] >= adept )
+      set_pager_color( AT_GREEN, ch );    // Mastered
+   else if( ch->pcdata->learned[sn] > 0 )
+      set_pager_color( AT_YELLOW, ch );   // Partially learned
+   else
+      set_pager_color( AT_CYAN, ch );     // Available to learn
+   
+   // Skill name (truncated to fit)
+   pager_printf( ch, "  %-20.20s", skill->name );
+   
+   // Current skill percentage
+   if( ch->pcdata->learned[sn] > 0 )
+   {
+      pager_printf( ch, " %3d%%", ch->pcdata->learned[sn] );
+   }
+   else
+   {
+      pager_printf( ch, "  --" );
+   }
+   
+   // Power level requirement
+   if( skill->min_power_level > 0 )
+   {
+      if( char_pl >= skill->min_power_level )
+         set_pager_color( AT_GREEN, ch );
+      else
+         set_pager_color( AT_RED, ch );
+      pager_printf( ch, " [%s]", format_power_level(skill->min_power_level) );
+   }
+   else
+   {
+      set_pager_color( AT_WHITE, ch );
+      pager_printf( ch, " [None]" );
+   }
+   
+   // Status indicator
+   if( !can_learn && skill->min_power_level > char_pl )
+   {
+      set_pager_color( AT_RED, ch );
+      pager_printf( ch, " (Need More Power)" );
+   }
+   else if( ch->pcdata->learned[sn] >= adept )
+   {
+      set_pager_color( AT_GREEN, ch );
+      pager_printf( ch, " (Mastered)" );
+   }
+   else if( SPELL_FLAG( skill, SF_SECRETSKILL ) )
+   {
+      set_pager_color( AT_PURPLE, ch );
+      pager_printf( ch, " (Secret)" );
+   }
+   send_to_pager( "\r\n", ch );
+}
+
+/*
+ * Check if character's race has any racial skills
+ */
+bool has_race_skills( CHAR_DATA *ch )
+{
+   int sn;
+
+   for( sn = 0; sn < num_skills; ++sn )
+   {
+      const SKILLTYPE *skill = skill_table[sn];
+      
+      if( !skill->name || skill->name[0] == '\0' )
+         continue;
+         
+      if( SPELL_FLAG( skill, SF_RACESKILL ) && skill->race_adept[ch->race] > 0 )
+         return TRUE;
+   }
+   
+   return FALSE;
+}
+
+/*
+ * Practice a specific skill - now handles hidden skills too
+ */
+void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argument )
+{
+   char buf[MAX_STRING_LENGTH];
+   int sn, adept, gain;
+   long long char_pl = get_power_level(ch);
+   bool is_hidden_skill;
+
+   if( !IS_AWAKE( ch ) )
+   {
+      send_to_char( "In your dreams, or what?\r\n", ch );
+      return;
+   }
+
+   if( !mob )
 	{
-	    act( AT_TELL, "$n tells you 'Only guild members can use that..'"
-		mob, NULL, ch, TO_VICT );
-	    return;
+		send_to_char( "You must find a trainer to learn skills. Look for someone willing to teach.\r\n", ch );
+		return;
 	}
 
-	if ( !IS_NPC(ch) && skill_table[sn]->guild != CLASS_NONE 
-	     && ch->pcdata->clan->class != skill_table[sn]->guild )
+   if( ch->practice <= 0 )
+   {
+      act( AT_TELL, "$n tells you 'You must earn some more practice sessions.'", 
+           mob, NULL, ch, TO_VICT );
+      return;
+   }
+
+   sn = skill_lookup( argument );
+
+	if( sn == -1 || sn >= num_skills || !skill_table[sn] )
 	{
-	    act( AT_TELL, "$n tells you 'That can not be used by your guild.'"
-		mob, NULL, ch, TO_VICT );
-	    return;
+		act( AT_TELL, "$n tells you 'I've never heard of that skill.'", 
+				mob, NULL, ch, TO_VICT );
+		return;
 	}
-*/
-      if( !IS_NPC( ch ) && skill_table[sn]->guild != CLASS_NONE )
+	
+	// Additional safety check
+	if( !skill_table[sn]->name )
+	{
+		bug( "%s: skill_table[%d] has NULL name", __func__, sn );
+		act( AT_TELL, "$n tells you 'That skill seems to be corrupted.'", 
+				mob, NULL, ch, TO_VICT );
+		return;
+	}
+
+   is_hidden_skill = SPELL_FLAG( skill_table[sn], SF_SECRETSKILL );
+
+   // Special handling for hidden/secret skills
+   // Check if this trainer can teach this specific hidden skill FIRST
+   if( is_hidden_skill && ch->pcdata->learned[sn] <= 0 )
+   {
+      if( !can_trainer_teach_hidden_skill( mob, sn ) )
       {
-         act( AT_TELL, "$n tells you 'That is only for members of guilds...'", mob, NULL, ch, TO_VICT );
-         return;
+      	act( AT_TELL, "$n tells you 'I don't know anything about that...'", 
+      		mob, NULL, ch, TO_VICT );
+      	return;
       }
+   }
+   
+   // Comprehensive skill practice checks
+   if( !can_practice_skill( ch, mob, skill_table[sn], sn ) )
+      return;
+   
+   // NOW show discovery message if it's a hidden skill being learned for first time
+   if( is_hidden_skill && ch->pcdata->learned[sn] <= 0 )
+   {
+      ch_printf( ch, "&Y*** You've discovered a hidden skill: %s! ***&D\r\n", 
+   			skill_table[sn]->name );
+   }
+   
+   // Power level requirement check with detailed feedback
+   if( skill_table[sn]->min_power_level > 0 && char_pl < skill_table[sn]->min_power_level )
+   {
+      act( AT_TELL, "$n tells you 'You're not ready to learn that yet.'", 
+           mob, NULL, ch, TO_VICT );
+      ch_printf( ch, "&RRequired Power Level: &W%s &C(You have: &W%s&C)\r\n", 
+                format_power_level(skill_table[sn]->min_power_level),
+                format_power_level(char_pl) );
+      
+      // Show how close they are
+      double percentage = (double)char_pl / skill_table[sn]->min_power_level * 100.0;
+      ch_printf( ch, "&CYou are &W%.1f%% &Cof the way there.\r\n", percentage );
+      return;
+   }
 
-      /*
-       * Disabled for now
-       if ( mob->level < skill_table[sn]->skill_level[ch->class]
-       ||   mob->level < skill_table[sn]->skill_level[mob->class] )
-       {
-       act( AT_TELL, "$n tells you 'You must seek another to teach you that...'",
-       mob, NULL, ch, TO_VICT );
-       return;
-       }
-       */
+   // Calculate adept limit
+   adept = get_skill_adept( ch, sn );
 
-      adept = UMAX(1, (int)(class_table[ch->Class]->skill_adept * 0.15));
-
+   // Check if already at maximum
+   if( ch->pcdata->learned[sn] >= adept )
+   {
+      snprintf( buf, MAX_STRING_LENGTH, 
+               "$n tells you, 'I've taught you everything I can about %s.'",
+               skill_table[sn]->name );
+      act( AT_TELL, buf, mob, NULL, ch, TO_VICT );
+      act( AT_TELL, "$n tells you, 'You'll have to practice it on your own now...'", 
+           mob, NULL, ch, TO_VICT );
+      ch_printf( ch, "&GYou have mastered this skill at &W%d%%&G!\r\n", adept );
+   }
+   else
+   {
+      // Practice the skill
+      ch->practice--;
+      gain = int_app[get_curr_int( ch )].learn;
+      
+      // Bonus learning for high power level
+      if( skill_table[sn]->min_power_level > 0 && char_pl >= (skill_table[sn]->min_power_level * 2) )
+      {
+         gain += (gain / 4);  // 25% bonus
+         ch_printf( ch, "&YYour high power level helps you learn faster!\r\n" );
+      }
+      
+      // Bonus for discovering hidden skills
+      if( is_hidden_skill && ch->pcdata->learned[sn] <= 0 )
+      {
+         gain += (gain / 2);  // 50% bonus for first learning of hidden skill
+         ch_printf( ch, "&MYour curiosity and discovery grants bonus learning!\r\n" );
+      }
+      
+      ch->pcdata->learned[sn] += gain;
+      
+      act( AT_ACTION, "You practice $T.", ch, NULL, skill_table[sn]->name, TO_CHAR );
+      act( AT_ACTION, "$n practices $T.", ch, NULL, skill_table[sn]->name, TO_ROOM );
+      
+      // Check if reached adept level
       if( ch->pcdata->learned[sn] >= adept )
       {
-         snprintf( buf, MAX_STRING_LENGTH, "$n tells you, 'I've taught you everything I can about %s.'",
-                   skill_table[sn]->name );
-         act( AT_TELL, buf, mob, NULL, ch, TO_VICT );
-         act( AT_TELL, "$n tells you, 'You'll have to practice it on your own now...'", mob, NULL, ch, TO_VICT );
+         ch->pcdata->learned[sn] = adept;
+         act( AT_TELL, "$n tells you, 'You have now mastered $T!'",
+             mob, skill_table[sn]->name, ch, TO_VICT );
+         ch_printf( ch, "&G*** You have MASTERED %s! ***&D\r\n", skill_table[sn]->name );
+         
+         // Bigger power level bonus for mastering hidden skills
+         long long bonus = skill_table[sn]->min_power_level / (is_hidden_skill ? 5 : 10);
+         if( bonus > 0 )
+         {
+            add_base_power_level( ch, bonus );
+            ch_printf( ch, "&CYou gain &W%s &Cpower from mastering this skill!\r\n", 
+                      format_power_level(bonus) );
+         }
       }
       else
       {
-         ch->practice--;
-         ch->pcdata->learned[sn] += int_app[get_curr_int( ch )].learn;
-         act( AT_ACTION, "You practice $T.", ch, NULL, skill_table[sn]->name, TO_CHAR );
-         act( AT_ACTION, "$n practices $T.", ch, NULL, skill_table[sn]->name, TO_ROOM );
-         if( ch->pcdata->learned[sn] >= adept )
-         {
-            ch->pcdata->learned[sn] = adept;
-            act( AT_TELL, "$n tells you. 'You'll have to practice it on your own now...'", mob, NULL, ch, TO_VICT );
-         }
+         int percentage = (ch->pcdata->learned[sn] * 100) / adept;
+         ch_printf( ch, "&CYou are now &W%d%% &Cproficient in &W%s &C(&W%d%%&C mastery).\r\n", 
+                   ch->pcdata->learned[sn], skill_table[sn]->name, percentage );
       }
    }
+}
+
+/*
+ * Check if a trainer can teach a specific hidden skill
+ */
+bool can_trainer_teach_hidden_skill( CHAR_DATA *mob, int sn )
+{
+   char buf[MAX_STRING_LENGTH];
+   
+   if( !mob || !skill_table[sn] )
+      return FALSE;
+
+   // Check if this specific trainer is listed for this skill
+   if( skill_table[sn]->teachers && skill_table[sn]->teachers[0] != '\0' )
+   {
+      snprintf( buf, MAX_STRING_LENGTH, "%d", mob->pIndexData->vnum );
+      return is_name( buf, skill_table[sn]->teachers );
+   }
+
+   // If no specific teachers listed, no regular trainer can teach hidden skills
+   return FALSE;
+}
+
+/*
+ * Check if a character can practice a specific skill
+ */
+bool can_practice_skill( CHAR_DATA *ch, CHAR_DATA *mob, const SKILLTYPE *skill, int sn )
+{
+   char buf[MAX_STRING_LENGTH];
+   long long char_pl;
+
+   if( !skill || !ch )
+      return FALSE;
+
+   // Check if this skill can be practiced normally
+   if( is_name( skill_tname[skill->type], CANT_PRAC ) )
+   {
+      if( mob )
+         act( AT_TELL, "$n tells you 'I do not know how to teach that.'", 
+              mob, NULL, ch, TO_VICT );
+      return FALSE;
+   }
+
+   // Check if skill requires a special teacher (applies to all skills with teachers set)
+   if( skill->teachers && skill->teachers[0] != '\0' )
+   {
+      if( !mob )
+         return FALSE;
+         
+      snprintf( buf, MAX_STRING_LENGTH, "%d", mob->pIndexData->vnum );
+      if( !is_name( buf, skill->teachers ) )
+      {
+         if( SPELL_FLAG( skill, SF_SECRETSKILL ) )
+            act( AT_TELL, "$n tells you, 'I don't know anything about that...'", 
+                 mob, NULL, ch, TO_VICT );
+         else
+            act( AT_TELL, "$n tells you, 'I don't know how to teach that skill.'", 
+                 mob, NULL, ch, TO_VICT );
+         return FALSE;
+      }
+   }
+
+   // Check guild restrictions
+   if( !IS_NPC( ch ) && skill->guild != CLASS_NONE )
+   {
+      if( mob )
+         act( AT_TELL, "$n tells you 'That is only for members of guilds...'", 
+              mob, NULL, ch, TO_VICT );
+      return FALSE;
+   }
+
+   // Power level requirement check
+   char_pl = get_power_level(ch);
+   if( skill->min_power_level > 0 && char_pl < skill->min_power_level )
+   {
+      return FALSE;  // Don't show error here, let caller handle it
+   }
+
+   return TRUE;
+}
+
+/*
+ * Get the adept limit for a character and skill
+ */
+int get_skill_adept( CHAR_DATA *ch, int sn )
+{
+   if( sn < 0 || sn >= num_skills || !skill_table[sn] )
+   {
+      bug( "%s: Invalid skill number %d", __func__, sn );
+      return 0;
+   }
+   
+   if( !ch )
+   {
+      bug( "%s: NULL character", __func__ );
+      return 0;
+   }
+   
+   if( ch->race < 0 || ch->race >= MAX_PC_RACE )
+   {
+      bug( "%s: Invalid race %d for character %s", __func__, ch->race, ch->name ? ch->name : "Unknown" );
+      return 0;
+   }
+   
+   int adept;
+   
+   if( sn < 0 || sn >= MAX_SKILL || !skill_table[sn] )
+      return 0;
+
+   // Use the higher of class adept or race adept
+   adept = skill_table[sn]->skill_adept[ch->Class];
+   if( skill_table[sn]->race_adept[ch->race] > adept )
+      adept = skill_table[sn]->race_adept[ch->race];
+   
+   // Default to a reasonable minimum if no adept is set
+   if( adept <= 0 )
+      adept = UMAX(1, (int)(class_table[ch->Class]->skill_adept * 0.15));
+
+   return adept;
 }
 
 void do_wimpy( CHAR_DATA* ch, const char* argument )
@@ -4600,15 +4917,23 @@ void do_afk( CHAR_DATA* ch, const char* argument )
 void do_slist( CHAR_DATA* ch, const char* argument )
 {
    int sn, i, lFound;
-   char skn[MAX_INPUT_LENGTH];
-   char buf[MAX_INPUT_LENGTH];
-   char arg1[MAX_INPUT_LENGTH];
-   char arg2[MAX_INPUT_LENGTH];
+   char skn[128];
+   char output_buf[512];
+   char arg1[64];
+   char arg2[64];
+   char temp_line[256];
    int lowlev, hilev;
    short lasttype = SKILL_SPELL;
+   int skills_shown = 0;
 
    if( IS_NPC( ch ) )
       return;
+
+   if( !ch->pcdata )
+   {
+      send_to_char( "Players only.\r\n", ch );
+      return;
+   }
 
    argument = one_argument( argument, arg1 );
    argument = one_argument( argument, arg2 );
@@ -4631,36 +4956,29 @@ void do_slist( CHAR_DATA* ch, const char* argument )
    if( lowlev > hilev )
       lowlev = hilev;
 
-   set_pager_color( AT_MAGIC, ch );
-   send_to_pager( "SPELL & SKILL LIST\r\n", ch );
-   send_to_pager( "------------------\r\n", ch );
+   send_to_char( "SPELL & SKILL LIST\r\n", ch );
+   send_to_char( "------------------\r\n", ch );
 
-   for( i = lowlev; i <= hilev; i++ )
+   if( num_skills <= 0 || num_skills > MAX_SKILL )
+   {
+      send_to_char( "Skill system error - contact an administrator.\r\n", ch );
+      return;
+   }
+
+   output_buf[0] = '\0';
+
+   for( i = lowlev; i <= hilev && skills_shown < 1000; i++ )
    {
       lFound = 0;
-      snprintf( skn, MAX_INPUT_LENGTH, "%s", "Spell" );
-      for( sn = 0; sn < num_skills; ++sn )
+      snprintf( skn, sizeof(skn), "%s", "Spell" );
+      
+      for( sn = 0; sn < num_skills && sn < MAX_SKILL; ++sn )
       {
          const SKILLTYPE *skill;
          int normalSn;
 
-         // the first num_sorted_skills are sorted by type, so we don't want
-         // to index into skill_table -- that is sorted alphabetically -- so
-         // we need to do the following dance to check if we are in the 
-         // sorted section or the unsorted section.
-         if( sn < num_sorted_skills )
-         {
-            skill = skill_table_bytype[sn];
-
-            // we are looping over the skills sorted by type.
-            // So, we need to get the normal sn as well.
-            normalSn = skill_lookup( skill->name );
-         }
-         else
-         {
-            skill = skill_table[sn];
-            normalSn = sn;
-         }
+         skill = skill_table[sn];
+         normalSn = sn;
 
          if( !skill || !skill->name || skill->name[0] == '\0' )
             continue;
@@ -4668,86 +4986,78 @@ void do_slist( CHAR_DATA* ch, const char* argument )
          if( skill->type != lasttype )
          {
             lasttype = skill->type;
-            strlcpy( skn, skill_tname[lasttype], MAX_INPUT_LENGTH );
+            if( lasttype >= 0 && lasttype < 8 )
+               strlcpy( skn, skill_tname[lasttype], sizeof(skn) );
+            else
+               strlcpy( skn, "Unknown", sizeof(skn) );
          }
+
+         if( normalSn < 0 || normalSn >= MAX_SKILL )
+            continue;
 
          if( ch->pcdata->learned[normalSn] <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
             continue;
 
-         if( i == skill->skill_level[ch->Class] || i == skill->race_level[ch->race] )
+         long long char_pl = get_power_level( ch );
+         long long min_pl = ( skill->min_power_level >= 0 ) ? skill->min_power_level : 0;
+         
+         if( char_pl >= min_pl )
          {
             if( !lFound )
             {
                lFound = 1;
-               pager_printf( ch, "Level %d\r\n", i );
+               snprintf( temp_line, sizeof(temp_line), "\r\nLevel %d\r\n", i );
+               
+               if( strlen(output_buf) + strlen(temp_line) > 400 )
+               {
+                  send_to_char( output_buf, ch );
+                  output_buf[0] = '\0';
+               }
+               strlcat( output_buf, temp_line, sizeof(output_buf) );
             }
 
-            switch ( skill->minimum_position )
+            snprintf( temp_line, sizeof(temp_line), "%-7.7s: %-20.20s %3d%%\r\n", 
+                     skn, 
+                     skill->name, 
+                     ch->pcdata->learned[normalSn] );
+            
+            if( strlen(output_buf) + strlen(temp_line) > 400 )
             {
-               default:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "Invalid" );
-                  bug( "%s: skill with invalid minpos, skill=%s", __func__, skill->name );
-                  break;
-
-               case POS_DEAD:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "any" );
-                  break;
-
-               case POS_MORTAL:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "mortally wounded" );
-                  break;
-
-               case POS_INCAP:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "incapacitated" );
-                  break;
-
-               case POS_STUNNED:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "stunned" );
-                  break;
-
-               case POS_SLEEPING:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "sleeping" );
-                  break;
-
-               case POS_RESTING:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "resting" );
-                  break;
-
-               case POS_STANDING:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "standing" );
-                  break;
-
-               case POS_FIGHTING:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "fighting" );
-                  break;
-
-               case POS_EVASIVE:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "fighting (evasive)" ); /* Fighting style support -haus */
-                  break;
-
-               case POS_DEFENSIVE:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "fighting (defensive)" );
-                  break;
-
-               case POS_AGGRESSIVE:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "fighting (aggressive)" );
-                  break;
-
-               case POS_BERSERK:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "fighting (berserk)" );
-                  break;
-               case POS_MOUNTED:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "mounted" );
-                  break;
-
-               case POS_SITTING:
-                  snprintf( buf, MAX_INPUT_LENGTH, "%s", "sitting" );
-                  break;
+               send_to_char( output_buf, ch );
+               output_buf[0] = '\0';
             }
-
-            pager_printf( ch, "%7s: %20.20s \t Current: %-3d Max: %-3d  MinPos: %s \r\n",
-                          skn, skill->name, ch->pcdata->learned[normalSn], skill->skill_adept[ch->Class], buf );
+            
+            strlcat( output_buf, temp_line, sizeof(output_buf) );
+            skills_shown++;
+            
+            if( skills_shown >= 1000 )
+            {
+               strlcat( output_buf, "... (showing first 1000 skills - use level ranges for more)\r\n", sizeof(output_buf) );
+               break;
+            }
          }
+      }
+      
+      if( skills_shown >= 1000 )
+         break;
+   }
+   
+   if( output_buf[0] != '\0' )
+   {
+      send_to_char( output_buf, ch );
+   }
+   
+   if( skills_shown == 0 )
+   {
+      send_to_char( "No skills available at your level range.\r\n", ch );
+   }
+   else
+   {
+      snprintf( temp_line, sizeof(temp_line), "\r\nTotal skills shown: %d\r\n", skills_shown );
+      send_to_char( temp_line, ch );
+      if( skills_shown >= 1000 )
+      {
+         send_to_char( "Use 'slist <low> <high>' for specific ranges (e.g., 'slist 1 10').\r\n", ch );
       }
    }
 }

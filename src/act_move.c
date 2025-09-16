@@ -2001,7 +2001,7 @@ void do_bashdoor( CHAR_DATA* ch, const char* argument)
    EXIT_DATA *pexit;
    char arg[MAX_INPUT_LENGTH];
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_bashdoor]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && get_power_level(ch) < skill_table[gsn_bashdoor]->min_power_level )
    {
       send_to_char( "You're not enough of a warrior to bash doors!\r\n", ch );
       return;
@@ -2199,6 +2199,8 @@ void do_rest( CHAR_DATA* ch, const char* argument)
          send_to_char( "You rouse from your slumber.\r\n", ch );
          act( AT_ACTION, "$n rouses from $s slumber.", ch, NULL, NULL, TO_ROOM );
          ch->position = POS_RESTING;
+		 if( !IS_NPC( ch ) )
+            ch->focus = 0;
          break;
 
       case POS_RESTING:
@@ -2209,12 +2211,16 @@ void do_rest( CHAR_DATA* ch, const char* argument)
          send_to_char( "You sprawl out haphazardly.\r\n", ch );
          act( AT_ACTION, "$n sprawls out haphazardly.", ch, NULL, NULL, TO_ROOM );
          ch->position = POS_RESTING;
+		 if( !IS_NPC( ch ) )
+            ch->focus = 0;
          break;
 
       case POS_SITTING:
          send_to_char( "You lie back and sprawl out to rest.\r\n", ch );
          act( AT_ACTION, "$n lies back and sprawls out to rest.", ch, NULL, NULL, TO_ROOM );
          ch->position = POS_RESTING;
+		 if( !IS_NPC( ch ) )
+            ch->focus = 0;
          break;
 
       case POS_FIGHTING:
@@ -2253,6 +2259,8 @@ void do_sleep( CHAR_DATA* ch, const char* argument)
          send_to_char( "You close your eyes and drift into slumber.\r\n", ch );
          act( AT_ACTION, "$n closes $s eyes and drifts into a deep slumber.", ch, NULL, NULL, TO_ROOM );
          ch->position = POS_SLEEPING;
+		 if( !IS_NPC( ch ) )
+            ch->focus = 0;
          break;
 
       case POS_SITTING:
@@ -2266,6 +2274,8 @@ void do_sleep( CHAR_DATA* ch, const char* argument)
          send_to_char( "You slump over and fall dead asleep.\r\n", ch );
          act( AT_ACTION, "$n nods off and slowly slumps over, dead asleep.", ch, NULL, NULL, TO_ROOM );
          ch->position = POS_SLEEPING;
+		 if( !IS_NPC( ch ) )
+            ch->focus = 0;
          break;
 
       case POS_STANDING:
@@ -2278,6 +2288,8 @@ void do_sleep( CHAR_DATA* ch, const char* argument)
          }
          send_to_char( "You collapse into a deep sleep.\r\n", ch );
          act( AT_ACTION, "$n collapses into a deep sleep.", ch, NULL, NULL, TO_ROOM );
+		 if( !IS_NPC( ch ) )
+            ch->focus = 0;
          ch->position = POS_SLEEPING;
          break;
 

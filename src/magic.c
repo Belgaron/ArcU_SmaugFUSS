@@ -21,6 +21,60 @@
 #include "mud.h"
 
 /*
+ * Check if character has enough focus to cast a spell/skill
+ */
+bool check_focus_cost( CHAR_DATA * ch, int sn )
+{
+    SKILLTYPE *skill;
+    
+    if( IS_NPC(ch) )
+        return TRUE;  // NPCs don't use focus
+    
+    if( !IS_VALID_SN(sn) )
+        return TRUE;
+    
+    skill = skill_table[sn];
+    if( !skill )
+        return TRUE;
+    
+    if( skill->focus_cost <= 0 )
+        return TRUE;  // No focus cost
+    
+    if( ch->focus < skill->focus_cost )
+    {
+        send_to_char( "You don't have enough focus to do that.\r\n", ch );
+        return FALSE;
+    }
+    
+    return TRUE;
+}
+
+/*
+ * Consume focus when casting a spell/skill
+ */
+void consume_focus( CHAR_DATA * ch, int sn )
+{
+    SKILLTYPE *skill;
+    
+    if( IS_NPC(ch) )
+        return;  // NPCs don't use focus
+    
+    if( !IS_VALID_SN(sn) )
+        return;
+    
+    skill = skill_table[sn];
+    if( !skill )
+        return;
+    
+    if( skill->focus_cost <= 0 )
+        return;  // No focus cost
+    
+    ch->focus -= skill->focus_cost;
+    if( ch->focus < 0 )
+        ch->focus = 0;
+}
+
+/*
  * Local functions.
  */
 static int bsearch_skill_prefix( const char *name, int first, int top );
@@ -74,7 +128,7 @@ int ch_slookup( CHAR_DATA * ch, const char *name )
    if( IS_NPC(ch) )
       return sn;
    if( ch->pcdata->learned[sn] > 0
-       && ( ch->level >= skill_table[sn]->skill_level[ch->Class] || ch->level >= skill_table[sn]->race_level[ch->race] ) )
+    && get_power_level(ch) >= skill_table[sn]->min_power_level )
    {
       return sn;
    }
@@ -98,7 +152,7 @@ int ch_slookup( CHAR_DATA * ch, const char *name )
       if( !skill_table[sn]->name )
          break;
       if( ch->pcdata->learned[sn] > 0
-          && ch->level >= skill_table[sn]->skill_level[ch->Class]
+          && ch->level >= skill_table[sn]->skill_adept[ch->Class]
           && LOWER( name[0] ) == LOWER( skill_table[sn]->name[0] ) && !str_prefix( name, skill_table[sn]->name ) )
          return sn;
    }
@@ -355,11 +409,11 @@ int dispel_casting( AFFECT_DATA * paf, CHAR_DATA * ch, CHAR_DATA * victim, int a
    char buf[MAX_STRING_LENGTH];
    const char *spell;
    SKILLTYPE *sktmp;
-   bool is_mage = FALSE, has_detect = FALSE;
+   bool is_eldari = FALSE, has_detect = FALSE;
    EXT_BV ext_bv = meb( affect );
 
-   if( IS_NPC( ch ) || ch->Class == CLASS_MAGE )
-      is_mage = TRUE;
+   if( IS_NPC( ch ) || IS_ELDARI(ch) )
+      is_eldari = TRUE;
    if( IS_AFFECTED( ch, AFF_DETECT_MAGIC ) )
       has_detect = TRUE;
 
@@ -386,14 +440,14 @@ int dispel_casting( AFFECT_DATA * paf, CHAR_DATA * ch, CHAR_DATA * victim, int a
    if( dispel )
    {
       ch_printf( victim, "Your %s vanishes.\r\n", spell );
-      if( is_mage && has_detect )
+      if( is_eldari && has_detect )
          ch_printf( ch, "%s's %s vanishes.\r\n", buf, spell );
       else
          return 0;   /* So we give the default Ok. Message */
    }
    else
    {
-      if( is_mage && has_detect )
+      if( is_eldari && has_detect )
          ch_printf( ch, "%s's %s wavers but holds.\r\n", buf, spell );
       else
          return 0;   /* The wonderful Failed. Message */
@@ -678,7 +732,7 @@ int ris_save( CHAR_DATA * ch, int schance, int ris )
  * Fancy dice expression parsing complete with order of operations,
  * simple exponent support, dice support as well as a few extra
  * variables: L = level, H = hp, M = mana, V = move, S = str, X = dex
- *            I = int, W = wis, C = con, A = cha, U = luck, A = age
+ *            I = int, W = wis, C = con, A = spr, U = luck, A = age
  *
  * Used for spell dice parsing, ie: 3d8+L-6
  *
@@ -744,7 +798,7 @@ int rd_parse( CHAR_DATA * ch, int level, char *texp )
             return get_curr_con( ch );
          case 'A':
          case 'a':
-            return get_curr_cha( ch );
+            return get_curr_spr( ch );
          case 'U':
          case 'u':
             return get_curr_lck( ch );
@@ -1415,7 +1469,7 @@ void do_cast( CHAR_DATA* ch, const char* argument )
          if( get_trust( ch ) < LEVEL_GOD )
          {
             if( ( sn = find_spell( ch, arg1, TRUE ) ) < 0
-                || ( !IS_NPC( ch ) && ch->level < skill_table[sn]->skill_level[ch->Class] ) )
+                || ( !IS_NPC( ch ) && get_power_level(ch) < skill_table[sn]->min_power_level ))
             {
                send_to_char( "You can't do that.\r\n", ch );
                return;
@@ -1554,7 +1608,7 @@ void do_cast( CHAR_DATA* ch, const char* argument )
             return;
          }
 
-         mana = IS_NPC( ch ) ? 0 : UMAX( skill->min_mana, 100 / ( 2 + ch->level - skill->skill_level[ch->Class] ) );
+         mana = IS_NPC( ch ) ? 0 : UMAX( skill->min_mana, skill->min_mana );
 
          /*
           * Locate targets.
@@ -1612,7 +1666,7 @@ void do_cast( CHAR_DATA* ch, const char* argument )
                bug( "%s: SUB_TIMER_DO_ABORT: bad sn %d", __func__, sn );
                return;
             }
-            mana = IS_NPC( ch ) ? 0 : UMAX( skill->min_mana, 100 / ( 2 + ch->level - skill->skill_level[ch->Class] ) );
+            mana = IS_NPC( ch ) ? 0 : UMAX( skill->min_mana, skill->min_mana );
             blood = UMAX( 1, ( mana + 4 ) / 8 );
             if( IS_VAMPIRE( ch ) )
                gain_condition( ch, COND_BLOODTHIRST, -UMAX( 1, blood / 3 ) );
@@ -1639,7 +1693,7 @@ void do_cast( CHAR_DATA* ch, const char* argument )
             bug( "%s: ch->alloc_ptr NULL or bad sn (%d)", __func__, sn );
             return;
          }
-         mana = IS_NPC( ch ) ? 0 : UMAX( skill->min_mana, 100 / ( 2 + ch->level - skill->skill_level[ch->Class] ) );
+         mana = IS_NPC( ch ) ? 0 : UMAX( skill->min_mana, skill->min_mana );
          blood = UMAX( 1, ( mana + 4 ) / 8 );
          strlcpy( staticbuf, ch->alloc_ptr, MAX_INPUT_LENGTH );
          target_name = one_argument( staticbuf, arg2 );
@@ -1912,6 +1966,12 @@ ch_ret obj_cast_spell( int sn, int level, CHAR_DATA * ch, CHAR_DATA * victim, OB
       }
       return rNONE;
    }
+   
+   /*
+    * Check if focus is required and available
+    */
+   if( !check_focus_cost( ch, sn ) )
+    return rNONE;
 
    target_name = "";
    switch ( skill->target )
@@ -1980,7 +2040,7 @@ ch_ret obj_cast_spell( int sn, int level, CHAR_DATA * ch, CHAR_DATA * victim, OB
          vo = ( void * )obj;
          break;
    }
-
+   consume_focus( ch, sn );
    start_timer( &time_used );
    retcode = ( *skill->spell_fun ) ( sn, level, ch, vo );
    end_timer( &time_used );
@@ -2026,6 +2086,66 @@ ch_ret spell_acid_blast( int sn, int level, CHAR_DATA * ch, void *vo )
    if( saves_spell_staff( level, victim ) )
       dam /= 2;
    return damage( ch, victim, dam, sn );
+}
+
+/* Ancient Eldari Ascension Transformation Spell
+ * Add this function to your magic.c file
+ */
+ch_ret spell_ancient_ascension( int sn, int level, CHAR_DATA *ch, void *vo )
+{
+    MORPH_DATA *morph;
+    SKILLTYPE *skill = get_skilltype( sn );
+    
+    /* Only Eldari can use this transformation */
+    if( !IS_ELDARI( ch ) )
+    {
+        send_to_char( "You are not eldari and cannot undergo ancient ascension.\r\n", ch );
+        return rSPELL_FAILED;
+    }
+    
+    /* Check if already morphed */
+    if( ch->morph )
+    {
+        send_to_char( "You are already in an ascended state.\r\n", ch );
+        return rSPELL_FAILED;
+    }
+    
+    /* Find the eldari ancient ascension morph */
+    morph = get_morph( "ancient_ascension" );
+    if( !morph )
+    {
+        bug( "%s: Could not find ancient_ascension morph", __func__ );
+        send_to_char( "The ancient power is not available.\r\n", ch );
+        return rERROR;
+    }
+    
+    /* Check if character can morph */
+    if( !can_morph( ch, morph, TRUE ) )
+    {
+        send_to_char( "You cannot undergo ancient ascension at this time.\r\n", ch );
+        return rSPELL_FAILED;
+    }
+    
+    /* Check power level requirement (adjust as needed) */
+    if( get_power_level( ch ) < 500000 )
+    {
+        send_to_char( "Your power level is too low for ancient ascension.\r\n", ch );
+        return rSPELL_FAILED;
+    }
+    
+    /* Apply the morph transformation */
+    if( do_morph_char( ch, morph ) )
+    {
+        /* Success messages are handled by the morph system */
+        successful_casting( skill, ch, ch, NULL );
+        return rNONE;
+    }
+    else
+    {
+        /* Morph failed */
+        failed_casting( skill, ch, ch, NULL );
+        return rSPELL_FAILED;
+    }
 }
 
 ch_ret spell_blindness( int sn, int level, CHAR_DATA * ch, void *vo )
@@ -2197,7 +2317,7 @@ bool can_charm( CHAR_DATA * ch )
 {
    if( IS_NPC( ch ) || IS_IMMORTAL( ch ) )
       return TRUE;
-   if( ( ( get_curr_cha( ch ) / 3 ) + 1 ) > ch->pcdata->charmies )
+   if( ( ( get_curr_spr( ch ) / 3 ) + 1 ) > ch->pcdata->charmies )
       return TRUE;
    return FALSE;
 }
@@ -2660,7 +2780,7 @@ ch_ret spell_dispel_magic( int sn, int level, CHAR_DATA * ch, void *vo )
    SKILLTYPE *skill = get_skilltype( sn );
    AFFECT_DATA *paf;
    bool found = FALSE, twice = FALSE, three = FALSE;
-   bool is_mage = FALSE;
+   bool is_eldari = FALSE;
 
    set_char_color( AT_MAGIC, ch );
 
@@ -2672,11 +2792,6 @@ ch_ret spell_dispel_magic( int sn, int level, CHAR_DATA * ch, void *vo )
       return rSPELL_FAILED;
    }
 
-   if( IS_NPC( ch ) || ch->Class == CLASS_MAGE )
-      is_mage = TRUE;
-
-   if( is_mage )
-      schance += 5;
    else
       schance -= 15;
 
@@ -2704,7 +2819,7 @@ ch_ret spell_dispel_magic( int sn, int level, CHAR_DATA * ch, void *vo )
          return rNONE;
       }
    }
-   if( !is_mage && !IS_AFFECTED( ch, AFF_DETECT_MAGIC ) )
+   if( !is_eldari && !IS_AFFECTED( ch, AFF_DETECT_MAGIC ) )
    {
       send_to_char( "You don't sense a magical aura to dispel.\r\n", ch );
       return rERROR; /* You don't cast it so don't attack */
@@ -3052,7 +3167,7 @@ ch_ret spell_energy_drain( int sn, int level, CHAR_DATA * ch, void *vo )
       dam = ch->hit + 1;
    else
    {
-      gain_exp( victim, 0 - number_range( level / 2, 3 * level / 2 ) );
+      gain_pl( victim, 0 - number_range( level / 2, 3 * level / 2 ) );
       victim->mana /= 2;
       victim->move /= 2;
       dam = dice( 1, level );
@@ -5467,7 +5582,7 @@ ch_ret spell_attack( int sn, int level, CHAR_DATA * ch, void *vo )
                int xp = ch->fighting ? ch->fighting->xp : victim->fighting->xp;
                int xp_gain = ( int )( xp * dam * 2 ) / victim->max_hit;
 
-               gain_exp( ch, 0 - xp_gain );
+               gain_pl( ch, 0 - xp_gain );
             }
             if( skill->first_affect )
                retcode = spell_affectchar( sn, level, ch, victim );
@@ -5567,7 +5682,7 @@ ch_ret spell_area_attack( int sn, int level, CHAR_DATA * ch, void *vo )
                   int xp = ch->fighting ? ch->fighting->xp : vch->fighting->xp;
                   int xp_gain = ( int )( xp * dam * 2 ) / vch->max_hit;
 
-                  gain_exp( ch, 0 - xp_gain );
+                  gain_pl( ch, 0 - xp_gain );
                }
                continue;
 
@@ -5721,7 +5836,7 @@ ch_ret spell_affectchar( int sn, int level, CHAR_DATA * ch, void *vo )
                   int xp = ch->fighting ? ch->fighting->xp : victim->fighting->xp;
 
                   xp_gain = ( int )( xp * af.modifier * 2 ) / victim->max_hit;
-                  gain_exp( ch, 0 - xp_gain );
+                  gain_pl( ch, 0 - xp_gain );
                }
                if( IS_NPC( victim ) && victim->hit <= 0 )
                   damage( ch, victim, 5, TYPE_UNDEFINED );

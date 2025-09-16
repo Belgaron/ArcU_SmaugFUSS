@@ -105,7 +105,7 @@ void do_dnd( CHAR_DATA* ch, const char* argument)
    pl <name> <number>-> set someone else's PL
 */
 
-void do_pl( CHAR_DATA *ch, char *argument )
+void do_pl( CHAR_DATA *ch, const char *argument )
 {
     char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
     CHAR_DATA *victim;
@@ -114,7 +114,12 @@ void do_pl( CHAR_DATA *ch, char *argument )
     argument = one_argument( argument, arg2 );
 
     if ( arg1[0] == '\0' ) {  /* just show your PL */
-        ch_printf( ch, "Power Level: " XP_FMT "\r\n", (xp_t)ch->exp );
+        long long current_pl = get_power_level( ch );
+        long long base_pl = ch->power_level.get_base();
+        ch_printf( ch, "Base Power Level: %s\r\n", num_punct_ll( base_pl ) );
+        ch_printf( ch, "Current Power Level: %s\r\n", num_punct_ll( current_pl ) );
+        if( current_pl != base_pl )
+            ch_printf( ch, "Modifier: %+lld\r\n", current_pl - base_pl );
         return;
     }
 
@@ -135,15 +140,14 @@ void do_pl( CHAR_DATA *ch, char *argument )
         return;
     }
 
-    long val = atol( arg2 );
+    long long val = atoll( arg2 );  /* Use atoll for long long */
     if ( val < 0 ) val = 0;
 
-    /* For now PL == EXP */
-    victim->exp = (xp_t)val;
+    set_base_power_level( victim, val );
 
-    ch_printf( ch, "Set %s's Power Level to %ld.\r\n", PERS( victim, ch ), val );
+    ch_printf( ch, "Set %s's Base Power Level to %s.\r\n", PERS( victim, ch ), num_punct_ll( val ) );
     if ( ch != victim )
-        ch_printf( victim, "%s sets your Power Level to %ld.\r\n", PERS( ch, victim ), val );
+        ch_printf( victim, "%s sets your Base Power Level to %s.\r\n", PERS( ch, victim ), num_punct_ll( val ) );
 }
 
 /*
@@ -2100,15 +2104,15 @@ void do_mstat( CHAR_DATA* ch, const char* argument )
                        IS_NPC( victim ) ? victim->pIndexData->count : 1,
                        IS_NPC( victim ) ? victim->pIndexData->killed : victim->pcdata->mdeaths + victim->pcdata->pdeaths );
    pager_printf_color( ch,
-                       "&cStr: &C%2d&c )( Int: &C%2d&c )( Wis: &C%2d&c )( Dex: &C%2d&c )( Con: &C%2d&c )( Cha: &C%2d&c )( Lck: &C%2d&c\r\n",
+                       "&cStr: &C%2d&c )( Int: &C%2d&c )( Wis: &C%2d&c )( Dex: &C%2d&c )( Con: &C%2d&c )( spr: &C%2d&c )( Lck: &C%2d&c\r\n",
                        get_curr_str( victim ), get_curr_int( victim ), get_curr_wis( victim ), get_curr_dex( victim ),
-                       get_curr_con( victim ), get_curr_cha( victim ), get_curr_lck( victim ) );
+                       get_curr_con( victim ), get_curr_spr( victim ), get_curr_lck( victim ) );
    pager_printf_color( ch, "&cLevel   : &P%-2d              ", victim->level );
    if( IS_NPC( victim ) )
       pager_printf_color( ch, "&c(&w%-2.2d&c)         ", victim->pIndexData->level );
    else                  
       pager_printf_color( ch, "             ");
-   pager_printf_color( ch, "&cclass  : &w%-2.2d/%-10s   &cRace      : &w%-2.2d/%-10s\r\n",
+   pager_printf_color( ch, "&cclass  : &w%-2.2d/%-3s   &cRace      : &w%-2.2d/%-10s\r\n",
                        victim->Class,
                        IS_NPC( victim ) ? victim->Class < MAX_NPC_CLASS && victim->Class >= 0 ?
                        npc_class[victim->Class] : "unknown" : victim->Class < MAX_PC_CLASS &&
@@ -2199,8 +2203,8 @@ void do_mstat( CHAR_DATA* ch, const char* argument )
          pager_printf_color( ch, "&cMorphed as: Morph was deleted.\r\n" );
    }
    pager_printf_color( ch, "&cAffected by: &C%s\r\n", affect_bit_name( &victim->affected_by ) );
-   pager_printf_color( ch, "&cSpeaks: &w%d   &cSpeaking: &w%d   &cExperience: &w" XP_FMT,
-                    victim->speaks, victim->speaking, (xp_t)victim->exp );
+   pager_printf_color( ch, "&cSpeaks: &w%d   &cSpeaking: &w%d   &cPowerlevel: &w%lld",
+                       victim->speaks, victim->speaking, victim->exp );
    if( !IS_NPC( victim ) && victim->wait )
       pager_printf_color( ch, "   &cWaitState: &R%d\r\n", victim->wait / 12 );
    else
@@ -5838,7 +5842,7 @@ void do_fixchar( CHAR_DATA* ch, const char* argument )
     victim->mod_wis	= 0;
     victim->mod_int	= 0;
     victim->mod_con	= 0;
-    victim->mod_cha	= 0;
+    victim->mod_spr	= 0;
     victim->mod_lck	= 0;
     victim->damroll	= 0;
     victim->hitroll	= 0;
@@ -5889,23 +5893,8 @@ void do_newbieset( CHAR_DATA* ch, const char* argument )
    obj = create_object( get_obj_index( OBJ_VNUM_SCHOOL_BANNER ), 1 );
    obj_to_char( obj, victim );
 
-   if( ( victim->Class == CLASS_MAGE ) || ( victim->Class == CLASS_THIEF )
-       || ( victim->Class == CLASS_VAMPIRE ) || ( victim->Class == CLASS_AUGURER ) )
-   {
-      obj = create_object( get_obj_index( OBJ_VNUM_SCHOOL_DAGGER ), 1 );
-      obj_to_char( obj, victim );
-   }
-   else if( ( victim->Class == CLASS_CLERIC ) || ( victim->Class == CLASS_DRUID ) )
-   {
-      obj = create_object( get_obj_index( OBJ_VNUM_SCHOOL_MACE ), 1 );
-      obj_to_char( obj, victim );
-   }
-   else if( ( victim->Class == CLASS_WARRIOR ) || ( victim->Class == CLASS_RANGER ) || ( victim->Class == CLASS_PALADIN ) )
-   {
-      obj = create_object( get_obj_index( OBJ_VNUM_SCHOOL_SWORD ), 1 );
-      obj_to_char( obj, victim );
-   }
-
+   obj = create_object( get_obj_index( OBJ_VNUM_SCHOOL_SWORD ), 1 );
+   obj_to_char( obj, victim );
    /*
     * Added by Brittany, on Nov. 24, 1996. The object is the adventurer's 
     * guide to the realms of despair, part of academy.are. 
@@ -8427,7 +8416,7 @@ void do_showclass( CHAR_DATA* ch, const char* argument )
          cnt = 0;
          set_pager_color( AT_BLUE, ch );
          for( y = 0; y < num_skills; ++y )
-            if( skill_table[y]->skill_level[cl] == x )
+            if( skill_table[y]->skill_adept[cl] == x )
             {
                pager_printf( ch, "  %-7s %-19s%3d     ",
                              skill_tname[skill_table[y]->type], skill_table[y]->name, skill_table[y]->skill_adept[cl] );
@@ -8605,7 +8594,6 @@ void do_setclass( CHAR_DATA* ch, const char* argument )
          level = atoi( arg2 );
          argument = one_argument( argument, arg2 );
          adept = atoi( arg2 );
-         skill->skill_level[cl] = level;
          skill->skill_adept[cl] = adept;
          write_class_file( cl );
          ch_printf( ch, "Skill \"%s\" added at level %d and %d%%.\r\n", skill->name, level, adept );
@@ -8743,7 +8731,7 @@ void do_setclass( CHAR_DATA* ch, const char* argument )
    {
       int x = get_atype( argument );
 
-      if( x < APPLY_NONE || ( x > APPLY_CON && x != APPLY_LCK && x != APPLY_CHA ) )
+      if( x < APPLY_NONE || ( x > APPLY_CON && x != APPLY_LCK && x != APPLY_SPR ) )
          send_to_char( "Invalid second attribute!\r\n", ch );
       else
       {
@@ -8758,7 +8746,7 @@ void do_setclass( CHAR_DATA* ch, const char* argument )
    {
       int x = get_atype( argument );
 
-      if( x < APPLY_NONE || ( x > APPLY_CON && x != APPLY_LCK && x != APPLY_CHA ) )
+      if( x < APPLY_NONE || ( x > APPLY_CON && x != APPLY_LCK && x != APPLY_SPR ) )
          send_to_char( "Invalid deficient attribute!\r\n", ch );
       else
       {
@@ -8773,7 +8761,7 @@ void do_setclass( CHAR_DATA* ch, const char* argument )
    {
       int x = get_atype( argument );
 
-      if( x < APPLY_NONE || ( x > APPLY_CON && x != APPLY_LCK && x != APPLY_CHA ) )
+      if( x < APPLY_NONE || ( x > APPLY_CON && x != APPLY_LCK && x != APPLY_SPR ) )
          send_to_char( "Invalid prime attribute!\r\n", ch );
       else
       {
@@ -8926,7 +8914,7 @@ bool create_new_race( int rcindex, char *argument )
    race_table[rcindex]->wis_plus = 0;
    race_table[rcindex]->int_plus = 0;
    race_table[rcindex]->con_plus = 0;
-   race_table[rcindex]->cha_plus = 0;
+   race_table[rcindex]->spr_plus = 0;
    race_table[rcindex]->lck_plus = 0;
    race_table[rcindex]->hit = 0;
    race_table[rcindex]->mana = 0;
@@ -8999,7 +8987,7 @@ void do_setrace( CHAR_DATA* ch, const char* argument )
          }
       }
    }
-
+/*
    if( !str_cmp( arg2, "create" ) && race )
    {
       send_to_char( "That race already exists!\r\n", ch );
@@ -9009,41 +8997,49 @@ void do_setrace( CHAR_DATA* ch, const char* argument )
    {
       send_to_char( "No such race.\r\n", ch );
       return;
-   }
+   } */
 
    if( !str_cmp( arg2, "create" ) )
+{
+   // Check if we have room for a new race
+   if( MAX_PC_RACE >= MAX_RACE )
    {
-      if( MAX_PC_RACE >= MAX_RACE )
-      {
-         send_to_char( "You need to up MAX_RACE in mud.h and make clean.\r\n", ch );
-         return;
-      }
-      if( ( create_new_race( MAX_PC_RACE, arg1 ) ) == FALSE )
-      {
-         send_to_char( "Couldn't create a new race.\r\n", ch );
-         return;
-      }
-      write_race_file( MAX_PC_RACE );
-      MAX_PC_RACE++;
-      snprintf( racelist, 256, "%s%s", RACE_DIR, RACE_LIST );
-      if( !( fpList = fopen( racelist, "w" ) ) )
-      {
-         bug( "%s: Error opening racelist.", __func__ );
-         return;
-      }
-      for( i = 0; i < MAX_PC_RACE; ++i )
-         fprintf( fpList, "%s.race\n", race_table[i]->race_name );
-      fprintf( fpList, "%s", "$\n" );
-      FCLOSE( fpList );
-      send_to_char( "Done.\r\n", ch );
+      send_to_char( "No available race slots. You need to up MAX_RACE in mud.h and make clean.\r\n", ch );
       return;
    }
-
-   if( !argument )
+   
+   // Use the next available slot (MAX_PC_RACE is the next free slot)
+   if( create_new_race( MAX_PC_RACE, arg1 ) == FALSE )
    {
-      send_to_char( "You must specify an argument.\r\n", ch );
+      send_to_char( "Couldn't create a new race.\r\n", ch );
       return;
    }
+   
+   // Write the race file
+   write_race_file( MAX_PC_RACE );
+   
+   // Increment MAX_PC_RACE since we used this slot
+   MAX_PC_RACE++;
+   
+   // Update the race list file
+   snprintf( racelist, 256, "%s%s", RACE_DIR, RACE_LIST );
+   if( !( fpList = fopen( racelist, "w" ) ) )
+   {
+      bug( "%s: Error opening racelist.", __func__ );
+      return;
+   }
+   
+   // Write all race filenames to the list
+   for( i = 0; i < MAX_PC_RACE; i++ )
+   {
+      fprintf( fpList, "%s.race\n", race_table[i]->race_name );
+   }
+   fprintf( fpList, "$\n" );
+   FCLOSE( fpList );
+   
+   send_to_char( "Race created successfully.\r\n", ch );
+   return;
+}
 
    if( !str_cmp( arg2, "name" ) )
    {
@@ -9140,7 +9136,7 @@ void do_setrace( CHAR_DATA* ch, const char* argument )
 
    if( !str_cmp( arg2, "chaplus" ) )
    {
-      race->cha_plus = ( short )atoi( argument );
+      race->spr_plus = ( short )atoi( argument );
       write_race_file( ra );
       send_to_char( "Done.\r\n", ch );
       return;
@@ -9559,7 +9555,7 @@ void do_showrace( CHAR_DATA* ch, const char* argument )
 
    ch_printf( ch, "Str Plus: %-3d\tDex Plus: %-3d\tWis Plus: %-3d\tInt Plus: %-3d\t\r\n",
               race->str_plus, race->dex_plus, race->wis_plus, race->int_plus );
-   ch_printf( ch, "Con Plus: %-3d\tCha Plus: %-3d\tLck Plus: %-3d\r\n", race->con_plus, race->cha_plus, race->lck_plus );
+   ch_printf( ch, "Con Plus: %-3d\tSpr Plus: %-3d\tLck Plus: %-3d\r\n", race->con_plus, race->spr_plus, race->lck_plus );
    ch_printf( ch, "Hit Pts:  %-3d\tMana: %-3d\tAlign: %-4d\tAC: %-d\r\n",
               race->hit, race->mana, race->alignment, race->ac_plus );
    ch_printf( ch, "Min Align: %d\tMax Align: %-d\t\tXP Mult: %-d%%\r\n",

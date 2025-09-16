@@ -22,10 +22,32 @@
 bool validate_spec_fun( const char *name );
 void remove_bexit_flag( EXIT_DATA * pexit, int flag );
 
-const char *const spell_flag[] = { "water", "earth", "air", "astral", "area", "distant", "reverse",
-   "noself", "_unused2_", "accumulative", "recastable", "noscribe",
-   "nobrew", "group", "object", "character", "secretskill", "pksensitive",
-   "stoponfail", "nofight", "nodispel", "randomtarget", "nomob", "r3", "r4",
+const char *const spell_flag[] = { 
+   "water",          // 0  - SF_WATER (BV00)
+   "earth",          // 1  - SF_EARTH (BV01)
+   "air",            // 2  - SF_AIR (BV02)
+   "astral",         // 3  - SF_ASTRAL (BV03)
+   "area",           // 4  - SF_AREA (BV04)
+   "distant",        // 5  - SF_DISTANT (BV05)
+   "reverse",        // 6  - SF_REVERSE (BV06)
+   "noself",         // 7  - SF_NOSELF (BV07)
+   "transformation", // 8  - SF_TRANSFORMATION (BV08)
+   "accumulative",   // 9  - SF_ACCUMULATIVE (BV09)
+   "recastable",     // 10 - SF_RECASTABLE (BV10)
+   "noscribe",       // 11 - SF_NOSCRIBE (BV11)
+   "nobrew",         // 12 - SF_NOBREW (BV12)
+   "group",          // 13 - SF_GROUPSPELL (BV13)
+   "object",         // 14 - SF_OBJECT (BV14)
+   "character",      // 15 - SF_CHARACTER (BV15)
+   "secretskill",    // 16 - SF_SECRETSKILL (BV16)
+   "pksensitive",    // 17 - SF_PKSENSITIVE (BV17)
+   "stoponfail",     // 18 - SF_STOPONFAIL (BV18)
+   "nofight",        // 19 - SF_NOFIGHT (BV19)
+   "nodispel",       // 20 - SF_NODISPEL (BV20)
+   "randomtarget",   // 21 - SF_RANDOMTARGET (BV21)
+   "nomob",          // 22 - SF_NOMOB (BV22)
+   "basicskill",     // 23 - SF_BASICSKILL (BV23)
+   "raceskill",      // 24 - SF_RACESKILL (BV24)
    "r5", "r6", "r7", "r8", "r9", "r10", "r11"
 };
 
@@ -59,12 +81,17 @@ void free_skill( SKILLTYPE * skill )
 {
    SMAUG_AFF *aff, *aff_next;
 
+   if( !skill )
+   {
+      bug( "%s: NULL skill pointer", __func__ );
+      return;
+   }
+
    if( skill->first_affect )
    {
       for( aff = skill->first_affect; aff; aff = aff_next )
       {
          aff_next = aff->next;
-
          UNLINK( aff, skill->first_affect, skill->last_affect, next, prev );
          DISPOSE( aff->duration );
          DISPOSE( aff->modifier );
@@ -89,13 +116,20 @@ void free_skill( SKILLTYPE * skill )
    DISPOSE( skill->imm_room );
    DISPOSE( skill->dice );
    if( skill->spell_fun_name )
+   {
       DISPOSE( skill->spell_fun_name );
+      skill->spell_fun_name = NULL;
+   }
    if( skill->skill_fun_name )
+   {
       DISPOSE( skill->skill_fun_name );
-   DISPOSE( skill->components );
-   DISPOSE( skill->teachers );
+      skill->skill_fun_name = NULL;
+   }
+   
+   // Clear function pointers
    skill->spell_fun = NULL;
    skill->skill_fun = NULL;
+   
    DISPOSE( skill );
 }
 
@@ -105,12 +139,15 @@ void free_skills( void )
    int hash = 0;
 
    for( hash = 0; hash < num_skills; ++hash )
-   {
-      skill = skill_table[hash];
-      free_skill( skill );
-
-      skill_table_bytype[hash] = NULL;
-   }
+	{
+		skill = skill_table[hash];
+		if( skill )
+		{
+			free_skill( skill );
+			skill_table[hash] = NULL;
+			skill_table_bytype[hash] = NULL;
+		}
+	}
 
    for( hash = 0; hash < top_herb; hash++ )
    {
@@ -257,17 +294,17 @@ bool check_ability( CHAR_DATA * ch, char *command, char *argument )
    {
       mana =
          IS_NPC( ch ) ? 0 : UMAX( skill_table[sn]->min_mana,
-                                  100 / ( 2 + ch->level - skill_table[sn]->race_level[ch->race] ) );
+                                  100 / ( 2 + ch->level - skill_table[sn]->race_adept[ch->race] ) );
       blood = ( mana / 2 );
       if( IS_VAMPIRE( ch ) )
-      {
-         if( ch->pcdata->condition[COND_BLOODTHIRST] < blood )
-         {
-            send_to_char( "You don't have enough blood power.\r\n", ch );
-            return TRUE;
-         }
-      }
-      else if( !IS_NPC( ch ) && ch->mana < mana )
+		{
+			if( ch->pcdata->condition[COND_BLOODTHIRST] < blood )
+			{
+				send_to_char( "You don't have enough blood power.\r\n", ch );
+				return TRUE;
+			}
+		}
+		else if( !IS_NPC( ch ) && ch->mana < mana )
       {
          send_to_char( "You don't have enough mana.\r\n", ch );
          return TRUE;
@@ -278,7 +315,14 @@ bool check_ability( CHAR_DATA * ch, char *command, char *argument )
       mana = 0;
       blood = 0;
    }
-
+   
+    /*
+    * Check if focus is required and available
+    */
+   if( !check_focus_cost( ch, sn ) )
+    return TRUE;
+   
+      
    /*
     * Is this a real do-fun, or a really a spell?
     */
@@ -439,6 +483,7 @@ bool check_ability( CHAR_DATA * ch, char *command, char *argument )
             ch->mana -= mana;
       }
       start_timer( &time_used );
+	  consume_focus( ch, sn );
       retcode = ( *skill_table[sn]->spell_fun ) ( sn, ch->level, ch, vo );
       end_timer( &time_used );
       update_userec( &time_used, &skill_table[sn]->userec );
@@ -483,6 +528,7 @@ bool check_ability( CHAR_DATA * ch, char *command, char *argument )
          ch->mana -= mana;
    }
    ch->prev_cmd = ch->last_cmd;  /* haus, for automapping */
+   consume_focus( ch, sn );
    ch->last_cmd = skill_table[sn]->skill_fun;
    start_timer( &time_used );
    ( *skill_table[sn]->skill_fun ) ( ch, argument );
@@ -533,7 +579,7 @@ bool check_skill( CHAR_DATA * ch, char *command, char *argument )
    if( skill_table[sn]->min_mana )
    {
       mana = IS_NPC( ch ) ? 0 : UMAX( skill_table[sn]->min_mana,
-                                      100 / ( 2 + ch->level - skill_table[sn]->skill_level[ch->Class] ) );
+                                      100 / ( 2 + ch->level - skill_table[sn]->skill_adept[ch->Class] ) );
       blood = UMAX( 1, ( mana + 4 ) / 8 );   /* NPCs don't have PCDatas. -- Altrag */
       if( IS_VAMPIRE( ch ) )
       {
@@ -554,7 +600,13 @@ bool check_skill( CHAR_DATA * ch, char *command, char *argument )
       mana = 0;
       blood = 0;
    }
-
+   
+   /*
+    * Check if focus is required and available
+    */
+   if( !check_focus_cost( ch, sn ) )
+       return TRUE;
+ 
    /*
     * Is this a real do-fun, or a really a spell?
     */
@@ -707,6 +759,7 @@ bool check_skill( CHAR_DATA * ch, char *command, char *argument )
             ch->mana -= mana;
       }
       start_timer( &time_used );
+	  consume_focus( ch, sn );
       retcode = ( *skill_table[sn]->spell_fun ) ( sn, ch->level, ch, vo );
       end_timer( &time_used );
       update_userec( &time_used, &skill_table[sn]->userec );
@@ -751,6 +804,7 @@ bool check_skill( CHAR_DATA * ch, char *command, char *argument )
          ch->mana -= mana;
    }
    ch->prev_cmd = ch->last_cmd;  /* haus, for automapping */
+   consume_focus( ch, sn );
    ch->last_cmd = skill_table[sn]->skill_fun;
    start_timer( &time_used );
    ( *skill_table[sn]->skill_fun ) ( ch, argument );
@@ -1036,8 +1090,7 @@ void do_slookup( CHAR_DATA* ch, const char* argument )
             for( iClass = 0; iClass < MAX_PC_CLASS; iClass++ )
             {
                strlcpy( buf, class_table[iClass]->who_name, MAX_STRING_LENGTH );
-               snprintf( buf + 3, MAX_STRING_LENGTH - 3, ") lvl: %3d max: %2d%%", skill->skill_level[iClass],
-                         skill->skill_adept[iClass] );
+               snprintf( buf + 3, MAX_STRING_LENGTH - 3, ") max: %2d%%", skill->skill_adept[iClass] );
                if( iClass % 3 == 2 )
                   strlcat( buf, "\r\n", MAX_STRING_LENGTH );
                else
@@ -1050,8 +1103,8 @@ void do_slookup( CHAR_DATA* ch, const char* argument )
             send_to_char( "\r\n--------------------------[RACE USE]--------------------------\r\n", ch );
             for( iRace = 0; iRace < MAX_PC_RACE; iRace++ )
             {
-               snprintf( buf, MAX_STRING_LENGTH, "%8.8s) lvl: %3d max: %2d%%",
-                         race_table[iRace]->race_name, skill->race_level[iRace], skill->race_adept[iRace] );
+               snprintf( buf, MAX_STRING_LENGTH, "%8.8s) max: %2d%%",
+					race_table[iRace]->race_name, skill->race_adept[iRace] );
                if( !strcmp( race_table[iRace]->race_name, "unused" ) )
                   snprintf( buf, MAX_STRING_LENGTH, "                           " );
                if( ( iRace > 0 ) && ( iRace % 2 == 1 ) )
@@ -1078,6 +1131,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
    int value;
    int sn, i;
    bool fAll;
+   SKILLTYPE *skill;
 
    argument = one_argument( argument, arg1 );
    argument = one_argument( argument, arg2 );
@@ -1131,7 +1185,6 @@ void do_sset( CHAR_DATA* ch, const char* argument )
        && !str_cmp( arg1, "create" )
        && ( !str_cmp( arg2, "skill" ) || !str_cmp( arg2, "herb" ) || !str_cmp( arg2, "ability" ) ) )
    {
-      struct skill_type *skill;
       short type = SKILL_UNKNOWN;
 
       if( !str_cmp( arg2, "herb" ) )
@@ -1174,17 +1227,19 @@ void do_sset( CHAR_DATA* ch, const char* argument )
       skill->type = type;
       skill->spell_sector = 0;
       skill->guild = -1;
+	  if( skill->focus_cost > 0 )
+       ch_printf( ch, "Focus Cost: %d\r\n", skill->focus_cost );
       if( !str_cmp( arg2, "ability" ) )
          skill->type = SKILL_RACIAL;
 
       for( i = 0; i < MAX_PC_CLASS; i++ )
       {
-         skill->skill_level[i] = LEVEL_IMMORTAL;
+         skill->skill_adept[i] = LEVEL_IMMORTAL;
          skill->skill_adept[i] = 95;
       }
       for( i = 0; i < MAX_PC_RACE; i++ )
       {
-         skill->race_level[i] = LEVEL_IMMORTAL;
+         skill->race_adept[i] = LEVEL_IMMORTAL;
          skill->race_adept[i] = 95;
       }
 
@@ -1200,8 +1255,6 @@ void do_sset( CHAR_DATA* ch, const char* argument )
        && ( ( arg1[0] == 'h' && is_number( arg1 + 1 ) && ( sn = atoi( arg1 + 1 ) ) >= 0 )
             || ( is_number( arg1 ) && ( sn = atoi( arg1 ) ) >= 0 ) ) )
    {
-      struct skill_type *skill;
-
       if( arg1[0] == 'h' )
       {
          if( sn >= top_herb )
@@ -1379,7 +1432,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
       }
       if( !str_cmp( arg2, "minlevel" ) )
       {
-         skill->min_level = URANGE( 1, atoi( argument ), MAX_LEVEL );
+         skill->min_power_level = URANGE( 1, atoi( argument ), MAX_LEVEL );
          send_to_char( "Ok.\r\n", ch );
          return;
       }
@@ -1466,9 +1519,122 @@ void do_sset( CHAR_DATA* ch, const char* argument )
                return;
             }
          }
+		 
          send_to_char( "Not found.\r\n", ch );
          return;
       }
+	  // Add these to the field handling section in do_sset()
+
+	  if( !str_cmp( arg2, "strbonus" ) )
+	  {
+		 skill->str_bonus = URANGE( -50, atoi( argument ), 50 );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "dexbonus" ) )
+	  {
+		 skill->dex_bonus = URANGE( -50, atoi( argument ), 50 );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "conbonus" ) )
+	  {
+		 skill->con_bonus = URANGE( -50, atoi( argument ), 50 );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "intbonus" ) )
+	  {
+		 skill->int_bonus = URANGE( -50, atoi( argument ), 50 );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "wisbonus" ) )
+	  {
+		 skill->wis_bonus = URANGE( -50, atoi( argument ), 50 );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "sprbonus" ) )
+	  {
+		 skill->spr_bonus = URANGE( -50, atoi( argument ), 50 );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "acbonus" ) )
+	  {
+		 skill->ac_bonus = URANGE( -100, atoi( argument ), 100 );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "baseupkeep" ) )
+	  {
+		 skill->base_upkeep_cost = URANGE( 0, atoi( argument ), 1000 );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "baseduration" ) )
+	  {
+		 skill->base_duration = atoi( argument );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "hitrollbonus" ) )
+	  {
+		 DISPOSE( skill->hitroll_bonus );
+		 skill->hitroll_bonus = strdup( argument );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "damrollbonus" ) )
+	  {
+		 DISPOSE( skill->damroll_bonus );
+		 skill->damroll_bonus = strdup( argument );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "transformself" ) )
+	  {
+		 DISPOSE( skill->transform_msg_self );
+		 skill->transform_msg_self = strdup( argument );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "transformroom" ) )
+	  {
+		 DISPOSE( skill->transform_msg_room );
+		 skill->transform_msg_room = strdup( argument );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "revertself" ) )
+	  {
+		 DISPOSE( skill->revert_msg_self );
+		 skill->revert_msg_self = strdup( argument );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
+	  
+	  if( !str_cmp( arg2, "revertroom" ) )
+	  {
+		 DISPOSE( skill->revert_msg_room );
+		 skill->revert_msg_room = strdup( argument );
+		 send_to_char( "Ok.\r\n", ch );
+		 return;
+	  }
       /*
        * affect <location> <modifier> <duration> <bitvector>
        */
@@ -1540,7 +1706,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          if( Class >= MAX_PC_CLASS || Class < 0 )
             send_to_char( "Not a valid class.\r\n", ch );
          else
-            skill->skill_level[Class] = URANGE( 0, atoi( argument ), MAX_LEVEL );
+            skill->skill_adept[Class] = URANGE( 0, atoi( argument ), 100 );
          return;
       }
 
@@ -1554,7 +1720,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          if( race >= MAX_PC_RACE || race < 0 )
             send_to_char( "Not a valid race.\r\n", ch );
          else
-            skill->race_level[race] = URANGE( 0, atoi( argument ), MAX_LEVEL );
+            skill->race_adept[race] = URANGE( 0, atoi( argument ), 100 );
          return;
       }
 
@@ -1776,6 +1942,16 @@ void do_sset( CHAR_DATA* ch, const char* argument )
       do_sset( ch, "" );
       return;
    }
+   
+   // In the skill setting command, add support for "focus" field:
+   if( !str_cmp( arg2, "focus" ) )
+   {
+	  skill = skill_table[sn];
+      skill = skill_table[sn];  // Initialize skill variable
+      skill->focus_cost = URANGE( 0, atoi( argument ), 1000 );
+      send_to_char( "Ok.\r\n", ch );
+      return;
+   }
 
    if( !( victim = get_char_world( ch, arg1 ) ) )
    {
@@ -1828,8 +2004,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          /*
           * Fix by Narn to prevent ssetting skills the player shouldn't have. 
           */
-         if( victim->level >= skill_table[sn]->skill_level[victim->Class]
-             || victim->level >= skill_table[sn]->race_level[victim->race] )
+         if( get_power_level(victim) >= skill_table[sn]->min_power_level )
          {
             // Bugfix by Sadiq - Modified slightly by Samson. No need to call GET_ADEPT more than once each time this loop runs.
             int adept = GET_ADEPT( victim, sn );
@@ -1857,10 +2032,9 @@ void ability_learn_from_success( CHAR_DATA * ch, int sn )
 
    adept = skill_table[sn]->race_adept[ch->race];
 
-   sklvl = skill_table[sn]->race_level[ch->race];
-
+   sklvl = skill_table[sn]->min_power_level;
    if( sklvl == 0 )
-      sklvl = ch->level;
+      sklvl = 1;
    if( ch->pcdata->learned[sn] < adept )
    {
       schance = ch->pcdata->learned[sn] + ( 5 * skill_table[sn]->difficulty );
@@ -1887,7 +2061,7 @@ void ability_learn_from_success( CHAR_DATA * ch, int sn )
             ch_printf( ch, "You gain %d experience points from your success!\r\n", gain );
          }
       }
-      gain_exp( ch, gain );
+      gain_pl( ch, gain );
    }
 }
 
@@ -1898,9 +2072,9 @@ void learn_from_success( CHAR_DATA * ch, int sn )
    if( IS_NPC( ch ) || ch->pcdata->learned[sn] <= 0 )
       return;
    adept = GET_ADEPT( ch, sn );
-   sklvl = skill_table[sn]->skill_level[ch->Class];
+   sklvl = skill_table[sn]->min_power_level;
    if( sklvl == 0 )
-      sklvl = ch->level;
+      sklvl = 1;
    if( ch->pcdata->learned[sn] < adept )
    {
       schance = ch->pcdata->learned[sn] + ( 5 * skill_table[sn]->difficulty );
@@ -1915,27 +2089,23 @@ void learn_from_success( CHAR_DATA * ch, int sn )
       if( ch->pcdata->learned[sn] == adept ) /* fully learned! */
       {
          gain = 1000 * sklvl;
-         if( ch->Class == CLASS_MAGE )
-            gain *= 5;  /* h, mage upgrade */
+         /*if( ch->Class == CLASS_MAGE )
+            gain *= 5;  / h, mage upgrade /
          if( ch->Class == CLASS_CLERIC )
-            gain *= 2;  /* h, mage upgrade */
+            gain *= 2;  / h, mage upgrade */
          set_char_color( AT_WHITE, ch );
          ch_printf( ch, "You are now an adept of %s!  You gain %d bonus experience!\r\n", skill_table[sn]->name, gain );
       }
       else
       {
          gain = 20 * sklvl;
-         if( ch->Class == CLASS_MAGE )
-            gain *= 6;  /* h, mage upgrade */
-         if( ch->Class == CLASS_CLERIC )
-            gain *= 3;  /* h, mage upgrade */
          if( !ch->fighting && sn != gsn_hide && sn != gsn_sneak )
          {
             set_char_color( AT_WHITE, ch );
             ch_printf( ch, "You gain %d experience points from your success!\r\n", gain );
          }
       }
-      gain_exp( ch, gain );
+      gain_pl( ch, gain );
    }
 }
 
@@ -3049,7 +3219,29 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
 {
    char *arg;
    int percent;
-   int managain = ( ch->Class == CLASS_DRUID ? 0 : 22 );
+   int managain = ( IS_ELDARI(ch) ? 0 : 22 ); //was druid... potential change
+
+   /* Block meditation for androids, but allow bio-androids who have learned it */
+   if( IS_ANDROID(ch) || IS_BIO_ANDROID(ch) )
+   {
+       int meditate_sn = skill_lookup("meditate");
+       
+       if( meditate_sn == -1 || !ch->pcdata || ch->pcdata->learned[meditate_sn] == 0 )
+       {
+           if( IS_BIO_ANDROID(ch) )
+           {
+               send_to_char( "Your artificial neural pathways block traditional meditation.\r\n", ch );
+               send_to_char( "Absorb organic beings to potentially gain their meditation abilities.\r\n", ch );
+           }
+           else
+           {
+               send_to_char( "Your mechanical systems cannot achieve the organic mental state required for meditation.\r\n", ch );
+               send_to_char( "Seek to upgrade your system if you wish to generate energy autonomously.\r\n", ch );
+           }
+           return;
+       }
+       /* If we get here, it's a bio-android with meditation skill - let them proceed */
+   }
 
    switch ( ch->substate )
    {
@@ -3094,9 +3286,9 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
       case SECT_HILLS:
       case SECT_FOREST:
       case SECT_MOUNTAIN:
-         if( ch->Class == CLASS_DRUID )
+         /*if( ch->Class == CLASS_DRUID )
             managain = 24;
-         else
+         else*/
             managain += 2;
          break;
 
@@ -3104,16 +3296,16 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
       case SECT_WATER_NOSWIM:
       case SECT_UNDERWATER:
       case SECT_OCEANFLOOR:
-         if( ch->race == RACE_SEA_ELF )
+         /*if( ch->race == RACE_SEA_ELF )
             managain += 3;
-         else if( !IS_AFFECTED( ch, AFF_AQUA_BREATH ) )
+         else*/ if( !IS_AFFECTED( ch, AFF_AQUA_BREATH ) )
             managain -= 2;
          break;
 
       case SECT_AIR:
-         if( ch->race == RACE_PIXIE )
+         /*if( ch->race == RACE_PIXIE )
             managain += 3;
-         else if( !IS_AFFECTED( ch, AFF_FLYING ) )
+         else*/ if( !IS_AFFECTED( ch, AFF_FLYING ) )
             managain -= 2;
          break;
 
@@ -3130,6 +3322,76 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
       learn_from_success( ch, gsn_meditate );
       send_to_char_color( "&BYou meditate peacefully, collecting mana from the cosmos.\r\n", ch );
       ch->mana = UMIN( ch->max_mana, ch->mana + managain );
+      
+      /* Eldari transformation discovery through meditation */
+      if( !IS_NPC(ch) && IS_ELDARI(ch) )
+      {
+          int discovery_chance = get_curr_spr(ch) / 20;  /* 1-6% based on spirit */
+          int bonus_mana;
+          
+          /* Require quiet environment for optimal meditation */
+          if( ch->fighting )
+          {
+              send_to_char( "&RYour mind cannot focus during combat!&x\r\n", ch );
+              discovery_chance = 0;  /* No discovery chance while fighting */
+          }
+          else if( ch->in_room->first_person != ch && ch->in_room->first_person->next_in_room )
+          {
+              /* Other people in room reduce concentration */
+              discovery_chance /= 3;  /* Much lower chance if not alone */
+              send_to_char( "&YThe presence of others disrupts your deep meditation.&x\r\n", ch );
+          }
+          else
+          {
+              /* Perfect meditation environment */
+              send_to_char( "&CYou find perfect stillness and focus in your solitude.&x\r\n", ch );
+          }
+          
+          /* Check for transformation discovery */
+          if( discovery_chance > 0 && number_percent() <= discovery_chance )
+          {
+              send_to_char( "&CAncient knowledge flows through your meditation...&x\r\n", ch );
+              send_to_char( "&WYou sense the potential for mystical ascension within yourself.&x\r\n", ch );
+              
+              act( AT_MAGIC, "$n's meditation deepens, and a faint mystical aura surrounds $m.", ch, NULL, NULL, TO_ROOM );
+              
+              /* TODO: Replace this with actual transformation discovery logic */
+              ch_printf( ch, "&GYou have discovered the path to a new mystical transformation!&x\r\n" );
+              
+              /* Bonus mana recovery for successful discovery */
+              ch->mana = UMIN( ch->max_mana, ch->mana + 100 );
+              send_to_char( "&CThe mystical insight grants you additional spiritual energy!&x\r\n", ch );
+          }
+          
+          /* Eldari always get enhanced mana recovery from meditation */
+          bonus_mana = get_curr_spr(ch) / 10;  /* 2-12 bonus mana typically */
+          ch->mana = UMIN( ch->max_mana, ch->mana + bonus_mana );
+          
+          if( bonus_mana > 0 )
+          {
+              ch_printf( ch, "&CYour mystical nature grants you %d additional mana recovery.&x\r\n", bonus_mana );
+          }
+          
+          /* Special atmospheric messages for Eldari meditation */
+          switch( number_percent() )
+          {
+              case 1: case 2: case 3:
+                  send_to_char( "&CStars seem to pulse in harmony with your breathing.&x\r\n", ch );
+                  act( AT_MAGIC, "Tiny motes of light dance around $n during $s meditation.", ch, NULL, NULL, TO_ROOM );
+                  break;
+              case 4: case 5: case 6:
+                  send_to_char( "&CAncient whispers echo at the edge of your consciousness.&x\r\n", ch );
+                  act( AT_MAGIC, "The air around $n shimmers with subtle energy.", ch, NULL, NULL, TO_ROOM );
+                  break;
+              case 7: case 8: case 9:
+                  send_to_char( "&CYou feel connected to the cosmic flow of the universe.&x\r\n", ch );
+                  act( AT_MAGIC, "$n's form seems to waver slightly, as if partially phased.", ch, NULL, NULL, TO_ROOM );
+                  break;
+              default:
+                  /* Most of the time, just normal meditation */
+                  break;
+          }
+      }
    }
    else
    {
@@ -3155,7 +3417,7 @@ void do_trance( CHAR_DATA * ch, const char *argument )
 {
    char *arg;
    int percent;
-   int managain = ( ch->Class == CLASS_DRUID ? 0 : 50 );
+   int managain = ( IS_ELDARI(ch) ? 0 : 50 ); // was druid... potential change
 
    switch ( ch->substate )
    {
@@ -3200,9 +3462,9 @@ void do_trance( CHAR_DATA * ch, const char *argument )
       case SECT_HILLS:
       case SECT_FOREST:
       case SECT_MOUNTAIN:
-         if( ch->Class == CLASS_DRUID )
+         /*if( ch->Class == CLASS_DRUID )
             managain = 50;
-         else
+         else*/
             managain += 2;
          break;
 
@@ -3210,16 +3472,16 @@ void do_trance( CHAR_DATA * ch, const char *argument )
       case SECT_WATER_NOSWIM:
       case SECT_UNDERWATER:
       case SECT_OCEANFLOOR:
-         if( ch->race == RACE_SEA_ELF )
+         /*if( ch->race == RACE_SEA_ELF )
             managain += 3;
-         else if( !IS_AFFECTED( ch, AFF_AQUA_BREATH ) )
+         else*/ if( !IS_AFFECTED( ch, AFF_AQUA_BREATH ) )
             managain -= 2;
          break;
 
       case SECT_AIR:
-         if( ch->race == RACE_PIXIE )
+         /*if( ch->race == RACE_PIXIE )
             managain += 3;
-         else if( !IS_AFFECTED( ch, AFF_FLYING ) )
+         else*/ if( !IS_AFFECTED( ch, AFF_FLYING ) )
             managain -= 2;
          break;
 
@@ -3267,7 +3529,7 @@ void do_kick( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_kick]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && get_power_level(ch) < skill_table[gsn_kick]->min_power_level )
    {
       send_to_char( "You better leave the martial arts to fighters.\r\n", ch );
       return;
@@ -3302,7 +3564,7 @@ void do_punch( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_punch]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && get_power_level(ch) < skill_table[gsn_punch]->min_power_level )
    {
       send_to_char( "You better leave the martial arts to fighters.\r\n", ch );
       return;
@@ -3337,7 +3599,7 @@ void do_bite( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_bite]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && get_power_level(ch) < skill_table[gsn_bite]->min_power_level )
    {
       send_to_char( "That isn't quite one of your natural skills.\r\n", ch );
       return;
@@ -3366,7 +3628,7 @@ void do_claw( CHAR_DATA* ch, const char* argument )
 {
    CHAR_DATA *victim;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_claw]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && get_power_level(ch) < skill_table[gsn_claw]->min_power_level )
    {
       send_to_char( "That isn't quite one of your natural skills.\r\n", ch );
       return;
@@ -3401,7 +3663,7 @@ void do_sting( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_sting]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && get_power_level(ch) < skill_table[gsn_sting]->min_power_level )
    {
       send_to_char( "That isn't quite one of your natural skills.\r\n", ch );
       return;
@@ -3436,7 +3698,7 @@ void do_tail( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_tail]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && get_power_level(ch) < skill_table[gsn_tail]->min_power_level )
    {
       send_to_char( "That isn't quite one of your natural skills.\r\n", ch );
       return;
@@ -3472,7 +3734,7 @@ void do_bash( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_bash]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_bash]->skill_adept[ch->Class] )
    {
       send_to_char( "You better leave the martial arts to fighters.\r\n", ch );
       return;
@@ -3521,7 +3783,7 @@ void do_stun( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_stun]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_stun]->skill_adept[ch->Class] )
    {
       send_to_char( "You better leave the martial arts to fighters.\r\n", ch );
       return;
@@ -3789,7 +4051,7 @@ void do_disarm( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_disarm]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_disarm]->skill_adept[ch->Class] )
    {
       send_to_char( "You don't know how to disarm opponents.\r\n", ch );
       return;
@@ -3875,7 +4137,7 @@ void do_cleave( CHAR_DATA * ch, const char *argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_cleave]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_cleave]->skill_adept[ch->Class] )
    {
       send_to_char( "You can't seem to summon the strength.\r\n", ch );
       return;
@@ -4319,24 +4581,24 @@ void do_recall( CHAR_DATA* ch, const char* argument )
 
    if( ( opponent = who_fighting( ch ) ) != NULL )
    {
-      xp_t lose;
+      int lose;
 
       if( number_bits( 1 ) == 0 || ( !IS_NPC( opponent ) && number_bits( 3 ) > 1 ) )
       {
          WAIT_STATE( ch, 4 );
-         xp_t delta = exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level );
-			lose = delta / 10;
+         lose = ( int )( ( exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) ) * 0.1 );
          if( ch->desc )
             lose /= 2;
-         gain_exp( ch, 0 - lose );
-         ch_printf( ch, "You failed!  You lose " XP_FMT " pl.\r\n", lose );
+         gain_pl( ch, 0 - lose );
+         ch_printf( ch, "You failed!  You lose %d power level.\r\n", lose );
          return;
       }
-	  xp_t delta = exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) * 0.2;
+
+      lose = ( int )( ( exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) ) * 0.2 );
       if( ch->desc )
-         lose = delta / 5;
-      gain_exp( ch, 0 - lose );
-      ch_printf( ch, "You recall from combat!  You lose " XP_FMT " pl.\r\n", lose );
+         lose /= 2;
+      gain_pl( ch, 0 - lose );
+      ch_printf( ch, "You recall from combat!  You lose %d power level.\r\n", lose );
       stop_fighting( ch, TRUE );
    }
 
@@ -4431,7 +4693,7 @@ void do_mount( CHAR_DATA* ch, const char* argument )
 {
    CHAR_DATA *victim;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_mount]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_mount]->skill_adept[ch->Class] )
    {
       send_to_char( "I don't think that would be a good idea...\r\n", ch );
       return;
@@ -4623,8 +4885,8 @@ bool check_tumble( CHAR_DATA * ch, CHAR_DATA * victim )
    int chances;
    int mod_tumble_by;
 
-   if( victim->Class != CLASS_THIEF || !IS_AWAKE( victim ) )
-      return FALSE;
+   /*if( victim->Class != CLASS_THIEF || !IS_AWAKE( victim ) )
+      return FALSE;*/
    if( !IS_NPC( victim ) && !( victim->pcdata->learned[gsn_tumble] > 0 ) )
       return FALSE;
    if( IS_PKILL( victim ) )
@@ -4655,7 +4917,7 @@ void do_poison_weapon( CHAR_DATA* ch, const char* argument )
    char arg[MAX_INPUT_LENGTH];
    int percent;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_poison_weapon]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_poison_weapon]->skill_adept[ch->Class] )
    {
       send_to_char( "What do you think you are, a thief?\r\n", ch );
       return;
@@ -4800,7 +5062,7 @@ void do_scribe( CHAR_DATA* ch, const char* argument )
    if( IS_NPC( ch ) )
       return;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_scribe]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_scribe]->skill_adept[ch->Class] )
    {
       send_to_char( "A skill such as this requires more magical ability than that of your class.\r\n", ch );
       return;
@@ -4834,7 +5096,7 @@ void do_scribe( CHAR_DATA* ch, const char* argument )
    }
 
    mana = IS_NPC( ch ) ? 0 : UMAX( skill_table[sn]->min_mana,
-                                   100 / ( 2 + ch->level - skill_table[sn]->skill_level[ch->Class] ) );
+                                   100 / ( 2 + ch->level - skill_table[sn]->skill_adept[ch->Class] ) );
 
    mana *= 5;
 
@@ -4913,7 +5175,7 @@ void do_brew( CHAR_DATA* ch, const char* argument )
    if( IS_NPC( ch ) )
       return;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_brew]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_brew]->skill_adept[ch->Class] )
    {
       send_to_char( "A skill such as this requires more magical ability than that of your class.\r\n", ch );
       return;
@@ -4947,7 +5209,7 @@ void do_brew( CHAR_DATA* ch, const char* argument )
    }
 
    mana = IS_NPC( ch ) ? 0 : UMAX( skill_table[sn]->min_mana,
-                                   100 / ( 2 + ch->level - skill_table[sn]->skill_level[ch->Class] ) );
+                                   100 / ( 2 + ch->level - skill_table[sn]->skill_adept[ch->Class] ) );
 
    mana *= 4;
 
@@ -6057,6 +6319,9 @@ void do_fire( CHAR_DATA* ch, const char* argument )
          case DAM_PEA:
             msg = "You have no peas...\r\n";
             break;
+		 case DAM_BALLISTIC:
+            msg = "You have no bullets...\r\n";
+            break;
       }
       send_to_char( msg, ch );
       return;
@@ -6190,7 +6455,7 @@ void do_slice( CHAR_DATA* ch, const char* argument )
     * Noticed that it was checking gsn_kick.  Bug report by Li'l Lukey
     */
 
-   if( !IS_NPC( ch ) && !IS_IMMORTAL( ch ) && ch->level < skill_table[gsn_slice]->skill_level[ch->Class] )
+   if( !IS_NPC( ch ) && !IS_IMMORTAL( ch ) && ch->level < skill_table[gsn_slice]->skill_adept[ch->Class] )
    {
       send_to_char( "You are not learned in this skill.\r\n", ch );
       return;
@@ -6293,7 +6558,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
 
    if( !str_prefix( arg, "evasive" ) )
    {
-      if( ch->level < skill_table[gsn_style_evasive]->skill_level[ch->Class] )
+      if( ch->level < skill_table[gsn_style_evasive]->skill_adept[ch->Class] )
       {
          send_to_char( "You have not yet learned enough to fight evasively.\r\n", ch );
          return;
@@ -6326,7 +6591,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
    }
    else if( !str_prefix( arg, "defensive" ) )
    {
-      if( ch->level < skill_table[gsn_style_defensive]->skill_level[ch->Class] )
+      if( ch->level < skill_table[gsn_style_defensive]->skill_adept[ch->Class] )
       {
          send_to_char( "You have not yet learned enough to fight defensively.\r\n", ch );
          return;
@@ -6359,7 +6624,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
    }
    else if( !str_prefix( arg, "standard" ) )
    {
-      if( ch->level < skill_table[gsn_style_standard]->skill_level[ch->Class] )
+      if( ch->level < skill_table[gsn_style_standard]->skill_adept[ch->Class] )
       {
          send_to_char( "You have not yet learned enough to fight in the standard style.\r\n", ch );
          return;
@@ -6392,7 +6657,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
    }
    else if( !str_prefix( arg, "aggressive" ) )
    {
-      if( ch->level < skill_table[gsn_style_aggressive]->skill_level[ch->Class] )
+      if( ch->level < skill_table[gsn_style_aggressive]->skill_adept[ch->Class] )
       {
          send_to_char( "You have not yet learned enough to fight aggressively.\r\n", ch );
          return;
@@ -6425,7 +6690,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
    }
    else if( !str_prefix( arg, "berserk" ) )
    {
-      if( ch->level < skill_table[gsn_style_berserk]->skill_level[ch->Class] )
+      if( ch->level < skill_table[gsn_style_berserk]->skill_adept[ch->Class] )
       {
          send_to_char( "You have not yet learned enough to fight as a berserker.\r\n", ch );
          return;
@@ -6490,7 +6755,7 @@ void do_cook( CHAR_DATA* ch, const char* argument )
    char buf[MAX_STRING_LENGTH];
 
    one_argument( argument, arg );
-   if( IS_NPC( ch ) || ch->level < skill_table[gsn_cook]->skill_level[ch->Class] )
+   if( IS_NPC( ch ) || ch->level < skill_table[gsn_cook]->skill_adept[ch->Class] )
    {
       send_to_char( "That skill is beyond your understanding.\r\n", ch );
       return;

@@ -28,6 +28,8 @@
 
 bool load_race_file( const char *fname );
 
+extern const char *const spell_flag[];
+
 /* global variables */
 int top_herb;
 int MAX_PC_CLASS;
@@ -175,29 +177,28 @@ bool load_class_file( const char *fname )
 
          case 'S':
             if( !str_cmp( word, "Skill" ) )
-            {
-               int sn, lev, adp;
-
-               word = fread_word( fp );
-               lev = fread_number( fp );
-               adp = fread_number( fp );
-               sn = skill_lookup( word );
-               if( cl < 0 || cl >= MAX_CLASS )
-               {
-                  bug( "%s: Skill %s -- class bad/not found (%d)", __func__, word, cl );
-               }
-               else if( !IS_VALID_SN( sn ) )
-               {
-                  bug( "%s: Skill %s unknown", __func__, word );
-               }
-               else
-               {
-                  skill_table[sn]->skill_level[cl] = lev;
-                  skill_table[sn]->skill_adept[cl] = adp;
-               }
-               fMatch = TRUE;
-               break;
-            }
+			{
+				int sn, adp;
+				
+				word = fread_word( fp );
+				fread_number( fp );  // Skip the old level value
+				adp = fread_number( fp );
+				sn = skill_lookup( word );
+				if( cl < 0 || cl >= MAX_CLASS )
+				{
+					bug( "%s: Skill %s -- class bad/not found (%d)", __func__, word, cl );
+				}
+				else if( !IS_VALID_SN( sn ) )
+				{
+					bug( "%s: Skill %s unknown", __func__, word );
+				}
+				else
+				{
+					skill_table[sn]->skill_adept[cl] = adp;
+				}
+				fMatch = TRUE;
+				break;
+			}
             KEY( "Skilladept", Class->skill_adept, fread_number( fp ) );
             KEY( "Suscept", Class->suscept, fread_number( fp ) );
             break;
@@ -328,7 +329,7 @@ void write_class_file( int cl )
    {
       if( !skill_table[x]->name || skill_table[x]->name[0] == '\0' )
          break;
-      if( ( y = skill_table[x]->skill_level[cl] ) < LEVEL_IMMORTAL )
+      if( ( y = skill_table[x]->skill_adept[cl] ) < LEVEL_IMMORTAL )
          fprintf( fpout, "Skill '%s' %d %d\n", skill_table[x]->name, y, skill_table[x]->skill_adept[cl] );
    }
 
@@ -415,7 +416,7 @@ void write_race_file( int ra )
    fprintf( fpout, "Wis_Plus    %d\n", race->wis_plus );
    fprintf( fpout, "Int_Plus    %d\n", race->int_plus );
    fprintf( fpout, "Con_Plus    %d\n", race->con_plus );
-   fprintf( fpout, "Cha_Plus    %d\n", race->cha_plus );
+   fprintf( fpout, "Spr_Plus    %d\n", race->spr_plus );
    fprintf( fpout, "Lck_Plus    %d\n", race->lck_plus );
    fprintf( fpout, "Hit         %d\n", race->hit );
    fprintf( fpout, "Mana        %d\n", race->mana );
@@ -442,12 +443,12 @@ void write_race_file( int ra )
       fprintf( fpout, "WhereName  %s~\n", race->where_name[i] );
 
    for( x = 0; x < num_skills; ++x )
-   {
-      if( !skill_table[x]->name || skill_table[x]->name[0] == '\0' )
-         break;
-      if( ( y = skill_table[x]->race_level[ra] ) < LEVEL_IMMORTAL )
-         fprintf( fpout, "Skill '%s' %d %d\n", skill_table[x]->name, y, skill_table[x]->race_adept[ra] );
-   }
+	{
+		if( !skill_table[x]->name || skill_table[x]->name[0] == '\0' )
+			break;
+		if( ( y = skill_table[x]->race_adept[ra] ) > 0 && y < LEVEL_IMMORTAL )
+			fprintf( fpout, "Skill '%s' 0 %d\n", skill_table[x]->name, skill_table[x]->race_adept[ra] );
+	}
    fprintf( fpout, "End\n" );
    FCLOSE( fpout );
 }
@@ -494,7 +495,7 @@ bool load_race_file( const char *fname )
 
          case 'C':
             KEY( "Con_Plus", race->con_plus, fread_number( fp ) );
-            KEY( "Cha_Plus", race->cha_plus, fread_number( fp ) );
+            KEY( "spr_plus", race->spr_plus, fread_number( fp ) );
             KEY( "Classes", race->class_restriction, fread_number( fp ) );
             break;
 
@@ -561,10 +562,10 @@ bool load_race_file( const char *fname )
             KEY( "Suscept", race->suscept, fread_number( fp ) );
             if( !str_cmp( word, "Skill" ) )
             {
-               int sn, lev, adp;
+               int sn, adp;
 
                word = fread_word( fp );
-               lev = fread_number( fp );
+               //lev = fread_number( fp ); up for deletion
                adp = fread_number( fp );
                sn = skill_lookup( word );
                if( ra < 0 || ra >= MAX_RACE )
@@ -577,7 +578,6 @@ bool load_race_file( const char *fname )
                }
                else
                {
-                  skill_table[sn]->race_level[ra] = lev;
                   skill_table[sn]->race_adept[ra] = adp;
                }
                fMatch = TRUE;
@@ -748,6 +748,8 @@ void fwrite_skill( FILE * fpout, SKILLTYPE * skill )
       fprintf( fpout, "Slot         %d\n", skill->slot );
    if( skill->min_mana )
       fprintf( fpout, "Mana         %d\n", skill->min_mana );
+   if( skill->focus_cost > 0 )
+   fprintf( fpout, "Focus        %d\n", skill->focus_cost );
    if( skill->beats )
       fprintf( fpout, "Rounds       %d\n", skill->beats );
    if( skill->range )
@@ -824,15 +826,15 @@ void fwrite_skill( FILE * fpout, SKILLTYPE * skill )
       int y;
       int min = 1000;
       for( y = 0; y < MAX_PC_CLASS; ++y )
-         if( skill->skill_level[y] < min )
-            min = skill->skill_level[y];
+         if( skill->skill_adept[y] < min )
+            min = skill->skill_adept[y];
 
-      fprintf( fpout, "Minlevel     %d\n", min );
+      fprintf( fpout, "Minlevel     %d\n", skill->min_power_level );
 
       min = 1000;
       for( y = 0; y < MAX_PC_RACE; ++y )
-         if( skill->race_level[y] < min )
-            min = skill->race_level[y];
+         if( skill->race_adept[y] < min )
+            min = skill->race_adept[y];
 
    }
    fprintf( fpout, "End\n\n" );
@@ -1015,16 +1017,16 @@ SKILLTYPE *fread_skill( FILE * fp )
    CREATE( skill, SKILLTYPE, 1 );
    skill->slot = 0;
    skill->min_mana = 0;
+   skill->teachers = NULL;
+   skill->focus_cost = 0;
    for( x = 0; x < MAX_CLASS; ++x )
-   {
-      skill->skill_level[x] = LEVEL_IMMORTAL;
-      skill->skill_adept[x] = 95;
-   }
-   for( x = 0; x < MAX_RACE; ++x )
-   {
-      skill->race_level[x] = LEVEL_IMMORTAL;
-      skill->race_adept[x] = 95;
-   }
+	{
+		skill->skill_adept[x] = 95;
+	}
+	for( x = 0; x < MAX_RACE; ++x )
+	{
+		skill->race_adept[x] = 95;
+}
    skill->guild = -1;
    skill->target = 0;
    skill->skill_fun = NULL;
@@ -1072,18 +1074,61 @@ SKILLTYPE *fread_skill( FILE * fp )
                break;
             }
             KEY( "Alignment", skill->alignment, fread_number( fp ) );
-            break;
-
-         case 'C':
-            if( !str_cmp( word, "Class" ) )
+			
+            if( !str_cmp( word, "AcBonus" ) )
             {
-               int Class = fread_number( fp );
-
-               skill->skill_level[Class] = fread_number( fp );
-               skill->skill_adept[Class] = fread_number( fp );
+               skill->ac_bonus = fread_number( fp );
                fMatch = TRUE;
                break;
             }
+            if( !str_cmp( word, "AffectsAdd" ) )
+            {
+               skill->affects_add = fread_bitvector( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "AffectsRemove" ) )
+            {
+               skill->affects_remove = fread_bitvector( fp );
+               fMatch = TRUE;
+               break;
+            }
+            break;
+
+         case 'B':
+            if( !str_cmp( word, "BaseUpkeep" ) )
+            {
+               skill->base_upkeep_cost = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "BaseDuration" ) )
+            {
+               skill->base_duration = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
+            break;
+		 
+		 case 'C':
+            if( !str_cmp( word, "Class" ) )
+			{
+				int Class = fread_number( fp );
+				fread_number( fp );  // Skip the old level value
+				int adept_level = fread_number( fp );
+				
+				// Validate class index
+				if( Class >= 0 && Class < MAX_PC_CLASS )
+				{
+					skill->skill_adept[Class] = adept_level;
+				}
+				else
+				{
+					bug( "%s: Invalid class %d for skill %s", __func__, Class, skill->name );
+				}
+				fMatch = TRUE;
+				break;
+			}
 
             if( !str_cmp( word, "Code" ) )
             {
@@ -1111,16 +1156,74 @@ SKILLTYPE *fread_skill( FILE * fp )
                }
                break;
             }
-            KEY( "Components", skill->components, fread_string_nohash( fp ) );
+            
+			if( !str_cmp( word, "Components" ) )
+			{
+				if( skill->components )
+					DISPOSE( skill->components );
+				skill->components = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
+			if( !str_cmp( word, "ConBonus" ) )
+            {
+               skill->con_bonus = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "ChaBonus" ) )
+            {
+               skill->spr_bonus = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
             break;
 
          case 'D':
             KEY( "Dammsg", skill->noun_damage, fread_string_nohash( fp ) );
             KEY( "Dice", skill->dice, fread_string_nohash( fp ) );
-            KEY( "Diechar", skill->die_char, fread_string_nohash( fp ) );
-            KEY( "Dieroom", skill->die_room, fread_string_nohash( fp ) );
-            KEY( "Dievict", skill->die_vict, fread_string_nohash( fp ) );
+            
+			if( !str_cmp( word, "Diechar" ) )
+			{
+				if( skill->die_char )
+					DISPOSE( skill->die_char );
+				skill->die_char = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
+            
+			if( !str_cmp( word, "Dieroom" ) )
+			{
+				if( skill->die_room )
+					DISPOSE( skill->die_room );
+				skill->die_room = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
+            
+			if( !str_cmp( word, "Dievict" ) )
+			{
+				if( skill->die_vict )
+					DISPOSE( skill->die_vict );
+				skill->die_vict = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
             KEY( "Difficulty", skill->difficulty, fread_number( fp ) );
+            
+			if( !str_cmp( word, "DexBonus" ) )
+            {
+               skill->dex_bonus = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "DamrollBonus" ) )
+            {
+               DISPOSE( skill->damroll_bonus );
+               skill->damroll_bonus = fread_string( fp );
+               fMatch = TRUE;
+               break;
+            }
             break;
 
          case 'E':
@@ -1136,6 +1239,7 @@ SKILLTYPE *fread_skill( FILE * fp )
             break;
 
          case 'F':
+		    KEY( "Focus", skill->focus_cost, fread_number( fp ) );
             if( !str_cmp( word, "Flags" ) )
             {
                skill->flags = fread_number( fp );
@@ -1173,10 +1277,41 @@ SKILLTYPE *fread_skill( FILE * fp )
             break;
 
          case 'H':
-            KEY( "Hitchar", skill->hit_char, fread_string_nohash( fp ) );
+            if( !str_cmp( word, "Hitchar" ) )
+			{
+				if( skill->hit_char )
+					DISPOSE( skill->hit_char );
+				skill->hit_char = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
             KEY( "Hitdest", skill->hit_dest, fread_string_nohash( fp ) );
-            KEY( "Hitroom", skill->hit_room, fread_string_nohash( fp ) );
-            KEY( "Hitvict", skill->hit_vict, fread_string_nohash( fp ) );
+            
+			if( !str_cmp( word, "Hitroom" ) )
+			{
+				if( skill->hit_room )
+					DISPOSE( skill->hit_room );
+				skill->hit_room = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
+            
+			if( !str_cmp( word, "Hitvict" ) )
+			{
+				if( skill->hit_vict )
+					DISPOSE( skill->hit_vict );
+				skill->hit_vict = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
+			
+			if( !str_cmp( word, "HitrollBonus" ) )
+            {
+               DISPOSE( skill->hitroll_bonus );
+               skill->hitroll_bonus = fread_string( fp );
+               fMatch = TRUE;
+               break;
+            }
             break;
 
          case 'I':
@@ -1190,11 +1325,18 @@ SKILLTYPE *fread_skill( FILE * fp )
                fMatch = TRUE;
                break;
             }
+            
+			if( !str_cmp( word, "IntBonus" ) )
+            {
+               skill->int_bonus = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
             break;
 
          case 'M':
             KEY( "Mana", skill->min_mana, fread_number( fp ) );
-            if( !str_cmp( word, "Minlevel" ) )
+			if( !str_cmp( word, "Minlevel" ) )
             {
                fread_to_eol( fp );
                fMatch = TRUE;
@@ -1247,9 +1389,32 @@ SKILLTYPE *fread_skill( FILE * fp )
                break;
             }
 
-            KEY( "Misschar", skill->miss_char, fread_string_nohash( fp ) );
-            KEY( "Missroom", skill->miss_room, fread_string_nohash( fp ) );
-            KEY( "Missvict", skill->miss_vict, fread_string_nohash( fp ) );
+            if( !str_cmp( word, "Misschar" ) )
+			{
+				if( skill->miss_char )
+					DISPOSE( skill->miss_char );
+				skill->miss_char = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
+            
+			if( !str_cmp( word, "Missroom" ) )
+			{
+				if( skill->miss_room )
+					DISPOSE( skill->miss_room );
+				skill->miss_room = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
+			
+            if( !str_cmp( word, "Missvict" ) )
+			{
+				if( skill->miss_vict )
+					DISPOSE( skill->miss_vict );
+				skill->miss_vict = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
             break;
 
          case 'N':
@@ -1264,11 +1429,26 @@ SKILLTYPE *fread_skill( FILE * fp )
             KEY( "Range", skill->range, fread_number( fp ) );
             KEY( "Rounds", skill->beats, fread_number( fp ) );
             if( !str_cmp( word, "Race" ) )
+			{
+				int race = fread_number( fp );
+				
+				fread_number( fp );  // Skip the old level value
+				skill->race_adept[race] = fread_number( fp );  // Read the adept value
+				fMatch = TRUE;
+				break;
+			}
+			
+			if( !str_cmp( word, "RevertSelf" ) )
             {
-               int race = fread_number( fp );
-
-               skill->race_level[race] = fread_number( fp );
-               skill->race_adept[race] = fread_number( fp );
+               DISPOSE( skill->revert_msg_self );
+               skill->revert_msg_self = fread_string( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "RevertRoom" ) )
+            {
+               DISPOSE( skill->revert_msg_room );
+               skill->revert_msg_room = fread_string( fp );
                fMatch = TRUE;
                break;
             }
@@ -1278,12 +1458,67 @@ SKILLTYPE *fread_skill( FILE * fp )
             KEY( "Saves", skill->saves, fread_number( fp ) );
             KEY( "Slot", skill->slot, fread_number( fp ) );
             KEY( "Ssector", skill->spell_sector, fread_number( fp ) );
+			
+			if( !str_cmp( word, "StrBonus" ) )
+            {
+               skill->str_bonus = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
             break;
 
          case 'T':
             KEY( "Target", skill->target, fread_number( fp ) );
-            KEY( "Teachers", skill->teachers, fread_string_nohash( fp ) );
+            
+            if( !str_cmp( word, "Teachers" ) )
+			{
+				if( skill->teachers )
+					DISPOSE( skill->teachers );
+				skill->teachers = fread_string_nohash( fp );
+				fMatch = TRUE;
+				break;
+			}
             KEY( "Type", skill->type, get_skill( fread_word( fp ) ) );
+			
+			if( !str_cmp( word, "TransformSelf" ) )
+            {
+               DISPOSE( skill->transform_msg_self );
+               skill->transform_msg_self = fread_string( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "TransformRoom" ) )
+            {
+               DISPOSE( skill->transform_msg_room );
+               skill->transform_msg_room = fread_string( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "TransformedDesc" ) )
+            {
+               DISPOSE( skill->transformed_desc );
+               skill->transformed_desc = fread_string( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "TriggerType" ) )
+            {
+               skill->trigger_type = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "TriggerCondition" ) )
+            {
+               skill->trigger_condition = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !str_cmp( word, "TriggerProbability" ) )
+            {
+               skill->trigger_probability = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
             break;
 
          case 'V':
@@ -1292,7 +1527,14 @@ SKILLTYPE *fread_skill( FILE * fp )
 
          case 'W':
             KEY( "Wearoff", skill->msg_off, fread_string_nohash( fp ) );
-            break;
+			
+			if( !str_cmp( word, "WisBonus" ) )
+            {
+               skill->wis_bonus = fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
+            break;         
       }
 
       if( !fMatch )
