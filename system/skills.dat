@@ -449,16 +449,6 @@ Minlevel     0
 End
 
 #SKILL
-Name         critter~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
 Name         curse~
 Type         Spell
 Info         0
@@ -573,6 +563,16 @@ Minlevel     0
 End
 
 #SKILL
+Name         arcosian~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
 Name         elder~
 Type         Tongue
 Info         0
@@ -590,7 +590,7 @@ Flags        256
 Target       1
 Mana         20
 Rounds       1
-Code         (null)
+Code         spell_null
 Dammsg       a blast of energy~
 Hitchar      You blast $N with crackling energy!~
 Hitvict      $n blasts you with crackling energy!~
@@ -708,7 +708,7 @@ Minlevel     0
 End
 
 #SKILL
-Name         gibberish~
+Name         machine~
 Type         Tongue
 Info         0
 Flags        0
@@ -905,16 +905,6 @@ Code         do_meditate
 Dammsg       ~
 Hitvict      You meditate peacefully, collecting mana from the cosmos.~
 Missvict     You spend several minutes in deep concentration, but fail to collect any mana.~
-Minlevel     0
-End
-
-#SKILL
-Name         missle weapons~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
 Minlevel     0
 End
 
@@ -1212,7 +1202,57 @@ Minlevel     0
 End
 
 #SKILL
-Name         spirit~
+Name         spiritual~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         pixie~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         ogre~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         orcish~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         trollese~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         goblin~
 Type         Tongue
 Info         0
 Flags        0
@@ -1370,6 +1410,18 @@ End
 
 #SKILL
 Name         unarmed~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     0
+End
+
+
+
+#SKILL
+Name         missle weapons~
 Type         Weapon
 Info         0
 Flags        0

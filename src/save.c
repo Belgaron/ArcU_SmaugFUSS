@@ -395,11 +395,13 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
    fprintf( fp, "Mana       %d %d\n", ch->mana, ch->max_mana );
    fprintf( fp, "Focus      %d %d\n", ch->focus, ch->max_focus );
    fprintf( fp, "Gold         %d\n", ch->gold );
-   fprintf( fp, "PowerLevel   %lld\n", ch->power_level.get_base() );
+   fprintf( fp, "Power Level   %lld\n", ch->power_level.get_base() );
    fprintf( fp, "BasePowerLevel   %lld\n", ch->power_level.get_base() );
    fprintf( fp, "LogonPowerLevel  %lld\n", ch->power_level.get_logon() );
    fprintf( fp, "Height          %d\n", ch->height );
    fprintf( fp, "Weight          %d\n", ch->weight );
+	fprintf(fp, "PhysicalMeter    %d\n", ch->pcdata->physical_skill_meter);
+	fprintf(fp, "MentalMeter      %d\n", ch->pcdata->mental_skill_meter);
    if( !xIS_EMPTY( ch->act ) )
       fprintf( fp, "Act          %s\n", print_bitvector( &ch->act ) );
    if( !xIS_EMPTY( ch->affected_by ) )
@@ -1550,6 +1552,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                break;
             }
             KEY( "MDeaths", ch->pcdata->mdeaths, fread_number( fp ) );
+				KEY("MentalMeter", ch->pcdata->mental_skill_meter, fread_number(fp));
             KEY( "Mentalstate", ch->mental_state, fread_number( fp ) );
             KEY( "MGlory", ch->pcdata->quest_accum, fread_number( fp ) );
             KEY( "Minsnoop", ch->pcdata->min_snoop, fread_number( fp ) );
@@ -1612,6 +1615,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
             KEY( "Pagerlen", ch->pcdata->pagerlen, fread_number( fp ) );
             KEY( "Password", ch->pcdata->pwd, fread_string_nohash( fp ) );
             KEY( "PDeaths", ch->pcdata->pdeaths, fread_number( fp ) );
+				KEY("PhysicalMeter", ch->pcdata->physical_skill_meter, fread_number(fp));
             KEY( "PKills", ch->pcdata->pkills, fread_number( fp ) );
 				KEY( "Played", ch->played, fread_number( fp ) );
 				if( !str_cmp( word, "PowerLevel" ) )

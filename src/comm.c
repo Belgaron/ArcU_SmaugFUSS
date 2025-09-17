@@ -2594,12 +2594,12 @@ void nanny_read_motd( DESCRIPTOR_DATA * d, const char *argument )
        */
       if( race_table[ch->race] )
       {
-         for( iLang = 0; lang_array[iLang] != LANG_UNKNOWN; iLang++ )
+         for( iLang = 0; language_table[iLang].flag != LANG_UNKNOWN; iLang++ )
          {
             if( IS_SET( race_table[ch->race]->language, 1 << iLang ) )
             {
-               if( ( uLang = skill_lookup( lang_names[iLang] ) ) < 0 )
-                  bug( "%s: cannot find racial language [%s].", __func__, lang_names[iLang] );
+               if( ( uLang = skill_lookup( language_table[iLang].name ) ) < 0 )
+                  bug( "%s: cannot find racial language [%s].", __func__, language_table[iLang].name );
                else
                   ch->pcdata->learned[uLang] = 100;
             }
@@ -3947,25 +3947,26 @@ void display_prompt( DESCRIPTOR_DATA * d )
                   }
                   break;
 
-               case 'x':  /* Experience (synced with power level) */
-                  if (!IS_NPC(ch))
-                     pstat = ch->exp;
-                  else
-                     pstat = 0;
-                  break;
-
-               case 'X':  /* Experience needed to next level */
-                  if (!IS_NPC(ch)) {
-                     int needed = exp_level(ch, ch->level + 1) - ch->exp;
-                     pstat = (needed > 0) ? needed : 0;
-                  } else {
-                     pstat = 0;
-                  }
-                  break;
-
-               case 'w':
-                  pstat = ch->carry_weight;
-                  break;
+               case 'x':  // Show Power Level (abbreviated for large numbers)
+					if (!IS_NPC(ch)) 
+						
+						{	// For very large numbers, use abbreviated format
+							long long pl = ch->power_level.get_base();
+							if( pl >= 1000000000000LL )         /* 1 trillion+ */
+								snprintf( pbuf, MAX_STRING_LENGTH, "%.1fT", pl / 1000000000000.0 );
+							else if( pl >= 1000000000LL )       /* 1 billion+ */
+								snprintf( pbuf, MAX_STRING_LENGTH, "%.1fB", pl / 1000000000.0 );
+							else if( pl >= 1000000LL )          /* 1 million+ */
+								snprintf( pbuf, MAX_STRING_LENGTH, "%.1fM", pl / 1000000.0 );
+							else if( pl >= 1000LL )             /* 1 thousand+ */
+								snprintf( pbuf, MAX_STRING_LENGTH, "%.1fK", pl / 1000.0 );
+							else
+								snprintf( pbuf, MAX_STRING_LENGTH, "%lld", pl );
+						} 
+							else {
+							snprintf( pbuf, MAX_STRING_LENGTH, "0" );
+					}
+					break;
 
                case 'W':
                   pstat = can_carry_w(ch);

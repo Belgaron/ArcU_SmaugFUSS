@@ -718,26 +718,6 @@ int get_defenseflag( const char *flag )
    return -1;
 }
 
-int get_langflag( const char *flag )
-{
-   unsigned int x;
-
-   for( x = 0; lang_array[x] != LANG_UNKNOWN; x++ )
-      if( !str_cmp( flag, lang_names[x] ) )
-         return lang_array[x];
-   return LANG_UNKNOWN;
-}
-
-int get_langnum( const char *flag )
-{
-   unsigned int x;
-
-   for( x = 0; lang_array[x] != LANG_UNKNOWN; x++ )
-      if( !str_cmp( flag, lang_names[x] ) )
-         return x;
-   return -1;
-}
-
 int get_npc_position( const char *position )
 {
    size_t x;
@@ -1217,7 +1197,7 @@ void do_mset( CHAR_DATA* ch, const char* argument )
       send_to_char( "  gold hp mana move practice align race\r\n", ch );
       send_to_char( "  hitroll damroll armor affected level\r\n", ch );
       send_to_char( "  thirst drunk full blood flags\r\n", ch );
-      send_to_char( "  pos defpos part (see BODYPARTS)\r\n", ch );
+      send_to_char( "  pl pos defpos part (see BODYPARTS)\r\n", ch );
       send_to_char( "  sav1 sav2 sav4 sav4 sav5 (see SAVINGTHROWS)\r\n", ch );
       send_to_char( "  resistant immune susceptible (see RIS)\r\n", ch );
       send_to_char( "  attack defense numattacks\r\n", ch );
@@ -1560,6 +1540,85 @@ void do_mset( CHAR_DATA* ch, const char* argument )
       victim->race = value;
       if( IS_NPC( victim ) && xIS_SET( victim->act, ACT_PROTOTYPE ) )
          victim->pIndexData->race = value;
+      return;
+   }
+	
+	if( !str_cmp( arg2, "pl" ) || !str_cmp( arg2, "powerlevel" ) )
+   {
+      if( !can_mmodify( ch, victim ) )
+         return;
+      
+      long long pl_value = atoll( arg3 );
+      if( pl_value < 1 )
+      {
+         send_to_char( "Power level must be at least 1.\r\n", ch );
+         return;
+      }
+      
+      /* Set the power level */
+      if( IS_NPC( victim ) )
+      {
+         /* For NPCs, we need to modify their exp field directly since they don't use PowerLevel class */
+         victim->exp = pl_value;
+         
+         /* If this is a prototype, save to the index data */
+         if( xIS_SET( victim->act, ACT_PROTOTYPE ) )
+         {
+            victim->pIndexData->exp = pl_value;
+         }
+         
+         ch_printf( ch, "%s's power level set to %s.\r\n", 
+                   victim->name, format_power_level( pl_value ) );
+      }
+      else
+      {
+         /* For PCs, use the proper power level function */
+         set_base_power_level( victim, pl_value );
+         ch_printf( ch, "%s's power level set to %s.\r\n", 
+                   victim->name, format_power_level( pl_value ) );
+         ch_printf( victim, "Your power level has been set to %s by an immortal.\r\n", 
+                   format_power_level( pl_value ) );
+         save_char_obj( victim );
+      }
+      
+      send_to_char( "Done.\r\n", ch );
+      return;
+   }
+
+   if( !str_cmp( arg2, "exp" ) )
+   {
+      if( !can_mmodify( ch, victim ) )
+         return;
+      
+      long long exp_value = atoll( arg3 );
+      if( exp_value < 0 )
+      {
+         send_to_char( "Experience cannot be negative.\r\n", ch );
+         return;
+      }
+      
+      /* For backwards compatibility, set exp field for NPCs, PL for PCs */
+      if( IS_NPC( victim ) )
+      {
+         victim->exp = exp_value;
+         if( xIS_SET( victim->act, ACT_PROTOTYPE ) )
+         {
+            victim->pIndexData->exp = exp_value;
+         }
+         ch_printf( ch, "%s's experience set to %lld.\r\n", victim->name, exp_value );
+      }
+      else
+      {
+         /* For PCs, treat exp setting as power level setting */
+         set_base_power_level( victim, exp_value );
+         ch_printf( ch, "%s's power level set to %s.\r\n", 
+                   victim->name, format_power_level( exp_value ) );
+         ch_printf( victim, "Your power level has been set to %s by an immortal.\r\n", 
+                   format_power_level( exp_value ) );
+         save_char_obj( victim );
+      }
+      
+      send_to_char( "Done.\r\n", ch );
       return;
    }
 

@@ -2068,9 +2068,11 @@ void ability_learn_from_success( CHAR_DATA * ch, int sn )
 void learn_from_success( CHAR_DATA * ch, int sn )
 {
    int adept, gain, sklvl, learn, percent, schance;
+	int old_skill_level, new_skill_level;
 
    if( IS_NPC( ch ) || ch->pcdata->learned[sn] <= 0 )
       return;
+	 old_skill_level = ch->pcdata->learned[sn];			/* Store original skill level */
    adept = GET_ADEPT( ch, sn );
    sklvl = skill_table[sn]->min_power_level;
    if( sklvl == 0 )
@@ -2086,7 +2088,7 @@ void learn_from_success( CHAR_DATA * ch, int sn )
       else
          learn = 1;
       ch->pcdata->learned[sn] = UMIN( adept, ch->pcdata->learned[sn] + learn );
-      if( ch->pcdata->learned[sn] == adept ) /* fully learned! */
+      if( ch->pcdata->learned[sn] == adept )			/* fully learned! */
       {
          gain = 1000 * sklvl;
          /*if( ch->Class == CLASS_MAGE )
@@ -2107,6 +2109,13 @@ void learn_from_success( CHAR_DATA * ch, int sn )
       }
       gain_pl( ch, gain );
    }
+	/* Get new skill level AFTER learning */
+	new_skill_level = ch->pcdata->learned[sn];
+	/* NEW: Update hidden skill meters if skill actually increased */
+    if(new_skill_level > old_skill_level) 
+	 {
+        update_skill_meters(ch, sn, old_skill_level, new_skill_level);
+    }
 }
 
 void learn_from_failure( CHAR_DATA * ch, int sn )

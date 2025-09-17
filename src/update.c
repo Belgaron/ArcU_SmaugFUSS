@@ -58,28 +58,7 @@ const char *corpse_descs[] = {
    "The corpse of %s lies here."
 };
 
-struct pl_scaling_config {
-    /* Power level scaling thresholds */
-    long long tier1_threshold;      /* Light penalty threshold */
-    long long tier2_threshold;      /* Medium penalty threshold */
-    long long tier3_threshold;      /* Heavy penalty threshold */
-    
-    /* Penalty multipliers (percentage of normal gain) */
-    int tier1_multiplier;           /* Light penalty: 85% */
-    int tier2_multiplier;           /* Medium penalty: 67% */
-    int tier3_multiplier;           /* Heavy penalty: 33% */
-    
-    /* Gain limits */
-    int max_gain_divisor;           /* Max gain = current_pl / this */
-    long long absolute_minimum;     /* Cannot go below this PL */
-    
-    /* Combat gain rates */
-    int equal_enemy_divisor;        /* damage / this for equal enemies */
-    int half_enemy_divisor;         /* damage / this for half-strength */
-    int weak_enemy_divisor;         /* damage / this for weak enemies */
-    int very_weak_divisor;          /* damage / this for very weak */
-    int anti_farming_ratio;         /* Enemy must be 1/this of player PL */
-} pl_scaling = {
+struct pl_scaling_config pl_scaling = {
     /* Default DBSC values - modify as needed */
     .tier1_threshold = 10000000LL,      /* 10 million */
     .tier2_threshold = 100000000LL,     /* 100 million */
@@ -97,35 +76,27 @@ struct pl_scaling_config {
 };
 
 /*
- * Advancement stuff.
+ * Advancement stuff - Now only for immortals (level 51+)
+ * Mortals progress via power level only
  */
 void advance_level( CHAR_DATA * ch )
 {
    char buf[MAX_STRING_LENGTH];
    int add_hp, add_mana, add_move, add_prac;
 
+   /* Only advance immortals - mortals don't have "levels" anymore */
+   if( !ch || IS_NPC(ch) || ch->level < LEVEL_IMMORTAL )
+      return;
+
+   /* Set immortal title */
    snprintf( buf, MAX_STRING_LENGTH, "the %s", title_table[ch->Class][ch->level][ch->sex == SEX_FEMALE ? 1 : 0] );
    set_title( ch, buf );
 
-   add_hp = con_app[get_curr_con( ch )].hitp + number_range( class_table[ch->Class]->hp_min, class_table[ch->Class]->hp_max );
-   add_mana = class_table[ch->Class]->fMana ? number_range( 2, ( 2 * get_curr_int( ch ) + get_curr_wis( ch ) ) / 8 ) : 0;
-   add_move = number_range( 5, ( get_curr_con( ch ) + get_curr_dex( ch ) ) / 4 );
-   add_prac = wis_app[get_curr_wis( ch )].practice;
-
-   add_hp = UMAX( 1, add_hp );
-   add_mana = UMAX( 0, add_mana );
-   add_move = UMAX( 10, add_move );
-
-   /*
-    * bonus for deadlies 
-    */
-   if( IS_PKILL( ch ) )
-   {
-      add_mana = ( int )( add_mana + add_mana * .3 );
-      add_move = ( int )( add_move + add_move * .3 );
-      add_hp += 1;   /* bitch at blod if you don't like this :) */
-      send_to_char( "Gravoc's Pandect steels your sinews.\r\n", ch );
-   }
+   /* Immortals get fixed progression, not level-based calculations */
+   add_hp = 100;   /* Immortals get fixed HP gain */
+   add_mana = 100; /* Immortals get fixed mana gain */
+   add_move = 100; /* Immortals get fixed move gain */
+   add_prac = 5;   /* Immortals get fixed practice gain */
 
    ch->max_hit += add_hp;
    ch->max_mana += add_mana;
@@ -135,6 +106,7 @@ void advance_level( CHAR_DATA * ch )
    if( !IS_NPC( ch ) )
       xREMOVE_BIT( ch->act, PLR_BOUGHT_PET );
 
+   /* Special immortal level notifications */
    if( ch->level == LEVEL_AVATAR )
    {
       DESCRIPTOR_DATA *d;
@@ -143,25 +115,18 @@ void advance_level( CHAR_DATA * ch )
          if( d->connected == CON_PLAYING && d->character != ch )
          {
             set_char_color( AT_IMMORT, d->character );
-            ch_printf( d->character, "%s has attained the rank of Avatar!\r\n", ch->name );
+            ch_printf( d->character, "%s has become an immortal!\r\n", ch->name );
          }
       set_char_color( AT_WHITE, ch );
       do_help( ch, "M_ADVHERO_" );
    }
 
-   if( ch->level < LEVEL_IMMORTAL )
-   {
-      if( IS_VAMPIRE( ch ) )
-         snprintf( buf, MAX_STRING_LENGTH,
-                   "Your gain is: %d/%d hp, %d/%d bp, %d/%d mv %d/%d prac.\r\n",
-                   add_hp, ch->max_hit, 1, ch->level + 10, add_move, ch->max_move, add_prac, ch->practice );
-      else
-         snprintf( buf, MAX_STRING_LENGTH,
-                   "Your gain is: %d/%d hp, %d/%d mana, %d/%d mv %d/%d prac.\r\n",
-                   add_hp, ch->max_hit, add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice );
-      set_char_color( AT_WHITE, ch );
-      send_to_char( buf, ch );
-   }
+   /* Show immortal advancement gains */
+   snprintf( buf, MAX_STRING_LENGTH,
+             "Your immortal powers grow: %d/%d hp, %d/%d mana, %d/%d mv %d/%d prac.\r\n",
+             add_hp, ch->max_hit, add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice );
+   set_char_color( AT_WHITE, ch );
+   send_to_char( buf, ch );
 }
 
 void gain_pl( CHAR_DATA *ch, long long gain )
@@ -242,7 +207,7 @@ void gain_pl( CHAR_DATA *ch, long long gain )
             if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) ) {
                 /* Call android_check_schematics if function exists */
                 extern void android_check_schematics( CHAR_DATA * );
-                android_check_schematics( ch );
+                check_android_schematics( ch );
             }
             #endif
         }

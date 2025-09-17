@@ -672,9 +672,7 @@ void set_base_power_level( CHAR_DATA *ch, long long amount )
       
    ch->power_level.set_base(amount);
    ch->exp = ch->power_level.get_exp_equivalent();  /* Keep exp field synced for compatibility */
-   
-   /* Auto-level based on power level ranges (DBSC style) */
-   update_level_from_pl( ch );
+      
 }
 
 /* Add to base power level */
@@ -686,8 +684,6 @@ void add_base_power_level( CHAR_DATA *ch, long long amount )
    ch->power_level.add_base(amount);
    ch->exp = ch->power_level.get_exp_equivalent();  /* Keep exp field synced */
    
-   /* Auto-level based on power level ranges (DBSC style) */
-   update_level_from_pl( ch );
 }
 
 /* Set logon power level when character logs in */
@@ -729,69 +725,6 @@ char *format_power_level( long long power )
    }
    
    return buf[flip];
-}
-
-/* Update character level based on power level (DBSC methodology) */
-void update_level_from_pl( CHAR_DATA *ch )
-{
-   int new_level;
-   long long pl;
-   
-   if( !ch || IS_NPC( ch ) )
-      return;
-      
-   pl = ch->power_level.get_base();
-   
-   /* DBSC-style level calculation based on power level */
-   if( pl < 1000 )
-      new_level = 1;
-   else if( pl < 5000 )
-      new_level = 2;
-   else if( pl < 10000 )
-      new_level = 3;
-   else if( pl < 25000 )
-      new_level = 4;
-   else if( pl < 50000 )
-      new_level = 5;
-   else if( pl < 100000 )
-      new_level = 6;
-   else if( pl < 250000 )
-      new_level = 7;
-   else if( pl < 500000 )
-      new_level = 8;
-   else if( pl < 1000000 )
-      new_level = 9;
-   else if( pl < 2500000 )
-      new_level = 10;
-   else if( pl < 5000000 )
-      new_level = 11;
-   else if( pl < 10000000 )
-      new_level = 12;
-   else if( pl < 25000000 )
-      new_level = 13;
-   else if( pl < 50000000 )
-      new_level = 14;
-   else if( pl < 100000000 )
-      new_level = 15;
-   else if( pl < 250000000 )
-      new_level = 16;
-   else if( pl < 500000000 )
-      new_level = 17;
-   else if( pl < 1000000000LL )
-      new_level = 18;
-   else if( pl < 2500000000LL )
-      new_level = 19;
-   else if( pl < 5000000000LL )
-      new_level = 20;
-   else
-      new_level = UMIN( 50, 20 + (int)(pl / 10000000000LL) );
-   
-   if( new_level > ch->level )
-   {
-      ch->level = new_level;
-      ch_printf( ch, "&WYou feel your power increase! &YLevel %d&W!\r\n", new_level );
-      advance_level( ch );
-   }
 }
 
 /* Calculate experience worth of a character based on power level */

@@ -1,0 +1,333 @@
+#FUSSAREA
+#AREADATA
+Version      1
+Name         Arc Unleashed Tutorial~
+Author       Dragus~
+WeatherX     2
+WeatherY     2
+Ranges       0 65 0 65
+Economy      0 0
+Flags        nopkill~
+#ENDAREADATA
+
+#MOBILE
+Vnum       100
+Keywords   training android~
+Short      An android~
+Long       An android is here ready to fight you.
+~
+Race       construct~
+Class      warrior~
+Position   standing~
+DefPos     standing~
+Gender     neuter~
+Actflags   npc~
+Stats1     67 1 100 0 0 0
+Stats2     1 0 5
+Stats3     0 0 1
+Stats4     0 0 0 0 0
+Attribs    5 5 5 5 5 5 5
+Saves      0 0 0 0 0
+Speaks     common~
+Speaking   common~
+Bodyparts  head arms legs guts hands feet~
+#MUDPROG
+Progtype  death_prog~
+Arglist   100~
+Comlist   mpmload 100
+~
+#ENDPROG
+
+#ENDMOBILE
+
+#MOBILE
+Vnum       199
+Keywords   last mob~
+Short      a newly created last mob~
+Long       Some god abandoned a newly created last mob here.
+~
+Race       human~
+Class      warrior~
+Position   standing~
+DefPos     standing~
+Gender     neuter~
+Actflags   npc prototype~
+Stats1     1 1 100 0 0 0
+Stats2     1 0 5
+Stats3     0 0 0
+Stats4     0 0 0 0 0
+Attribs    5 5 5 5 5 5 5
+Saves      0 0 0 0 0
+Speaks     common~
+Speaking   common~
+Bodyparts  head arms legs heart brains guts hands feet fingers ear eye~
+#ENDMOBILE
+
+#OBJECT
+Vnum     100
+Keywords newbie saiyan battle armor~
+Type     armor~
+Short    Newbie Saiyan Battle Armor~
+Long     Newbie Saiyan Battle Armor is laying on the ground here.~
+WFlags   take body~
+Values   95 95 0 0 0 0
+Stats    1 0 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     199
+Keywords last obj~
+Type     trash~
+Short    a newly created last obj~
+Long     Some god dropped a newly created last obj here.~
+Flags    prototype~
+Values   0 0 0 0 0 0
+Stats    1 0 0 0 0
+#ENDOBJECT
+
+#ROOM
+Vnum     100
+Name     So it Begins~
+Sector   inside~
+Flags    indoors~
+Desc     Welcome!!! to Arc Unleashed! You are a fresh soul about to go on
+adventures and have epic battles! Hopefully, your time here will be
+entertaining. Right now, we will start a tutorial program for you so
+that you may learn to play this MUD. Please, continue north by typing
+"north".
+~
+#EXIT
+Direction north~
+ToRoom    101
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     101
+Name     Lesson 1 - Move Commands~
+Sector   inside~
+Flags    indoors~
+Desc     Here you will be introduced to simple commands. First, we shall teach you
+how to move around in this world. By typing in the direction you wish to go, 
+that is where you shall be moved. north, south, west, east, northwest,
+northeast, southwest, southeast, up, and down. All of these directions can be
+abbreviated like this: n, s, w, e, nw, ne, sw, se, u, d. That is all for this lesson. 
+Now type "up" to continue with the tutorial.
+~
+#EXIT
+Direction south~
+ToRoom    100
+#ENDEXIT
+
+#EXIT
+Direction up~
+ToRoom    102
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     102
+Name     Lesson 2 - Communication~
+Sector   inside~
+Flags    indoors~
+Desc     Communication is the key to surviving in any world. You can talk to
+people in the same room as you by typing "say <what you want to say>". You
+may also speak to a person not in the same room as you with the "tell"
+command. The public channels are channels that everyone who has them
+activated will hear what you say. You may use all of them; however, the
+"CHAT" channel is only for role-playing messages. If you want to
+talk to people, but you don't want to role-play at the moment, then please
+use the "OOC" channel. OOC stands for Out of Character.
+~
+#EXIT
+Direction up~
+ToRoom    103
+#ENDEXIT
+
+#EXIT
+Direction down~
+ToRoom    101
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     103
+Name     Lesson 3 - Combat~
+Sector   inside~
+Flags    indoors~
+Desc     You will have to fight many different battles in this world. So you will
+need to learn how to fight back. Use the "kill" command to get into a fight
+with someone. Your power level determines how well you can fight in many
+ways. It determines how strong you are compared to your opponent. If
+you would like to practice fighting, go to the "east"; to the west are the
+"healing tanks" where you can quickly gain back your strength.
+~
+#EXIT
+Direction east~
+ToRoom    104
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    105
+#ENDEXIT
+
+#EXIT
+Direction up~
+ToRoom    107
+#ENDEXIT
+
+#EXIT
+Direction down~
+ToRoom    102
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     104
+Name     Lesson 3a - Fighting~
+Sector   inside~
+Flags    indoors~
+Desc     Here you will practice actual combat. There is an android here that is
+programmed to help you learn how to fight. Just type "kill android" to begin
+the battle.
+~
+#EXIT
+Direction west~
+ToRoom    103
+#ENDEXIT
+
+Reset M 0 100 1 104
+#ENDROOM
+
+#ROOM
+Vnum     105
+Name     Break Room - The Healing Tanks~
+Sector   inside~
+Flags    indoors~
+Desc     Take a load off and step into one of the state-of-the-art healing tanks.
+While in this room, your life force and energy will go up twice as fast
+as when you are not in the healing tanks. Resting and sleeping can speed
+up the healing process. Use the "rest" command to rest while still being 
+aware of whats going on around you. Use the "sleep" command to go to sleep.
+~
+#EXIT
+Direction east~
+ToRoom    103
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     106
+Name     Tutorial End~
+Sector   inside~
+Flags    indoors~
+Desc     That is all that you need to know to survive in Arc Unleashed. There is much,
+much more for you to learn, but you should now have a basic understanding of
+this world. If you are ready to leave this tutorial, then answer one question
+using the "say" command.
+
+"What kind of Triggers are allowed?"
+
+Upon answering the question, you will be transported to Highgard, or
+Dr. Gero's lab, if you are an Android. Happy Mudding and G'luck.
+
+This is where your Journey shall begin.
+~
+#EXIT
+Direction down~
+ToRoom    107
+#ENDEXIT
+
+#MUDPROG
+Progtype  speech_prog~
+Arglist   'none'~
+Comlist   if race($n) == android
+ mpecho You have completed the tutoral.
+ mpecho You are engulfed in a bright white light
+ mptransfer $n 200
+ mpat 200 mpforce $n look
+else
+ mpecho You have completed the tutoral.
+ mpecho You are engulfed in a bright white light
+ mpecho As you regain your senses you find yourself
+ mpecho on your home world.
+ mptransfer $n 200
+ mpat 200 mpforce $n look
+endif
+~
+#ENDPROG
+
+#ENDROOM
+
+#ROOM
+Vnum     107
+Name     Lesson 4 - Rules of the Game~
+Sector   inside~
+Flags    indoors~
+Desc     You must become familiar with the rules of this game to continue.  Type
+'help rules', 'help swear', 'help botting', 'help misc_rules', and 'help
+punishment' to read all the rules.  When you are done reading all of the
+rules, you must agree to follow them by using the "say I agree" command.
+You will not be permitted to continue this game without agreeing to the rules.
+~
+#EXIT
+Direction down~
+ToRoom    103
+#ENDEXIT
+
+#MUDPROG
+Progtype  speech_prog~
+Arglist   'i agree'~
+Comlist   mpecho Okay.
+mptransfer $n 106
+mpat 106 mpforce $n look
+~
+#ENDPROG
+
+#ENDROOM
+
+#ROOM
+Vnum     108
+Name     Room 9~
+Sector   inside~
+Flags    indoors~
+Desc     You are in room 9.
+~
+#ENDROOM
+
+#ROOM
+Vnum     109
+Name     Room 10~
+Sector   inside~
+Flags    indoors~
+Desc     You are in room 10.
+~
+#ENDROOM
+
+#ROOM
+Vnum     110
+Name     Room 11~
+Sector   inside~
+Flags    indoors~
+Desc     You are in room 11.
+~
+#ENDROOM
+
+#ROOM
+Vnum     199
+Name     Floating in a void~
+Sector   inside~
+Flags    indoors~
+Desc     You are floating in a void.
+~
+#ENDROOM
+
+Reset M 0 100 1 104
+
+#ENDAREA

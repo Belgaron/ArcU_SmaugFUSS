@@ -1394,14 +1394,6 @@ Log         0
 End
 
 #COMMAND
-Name        level~
-Code        do_level
-Position    100
-Level       0
-Log         0
-End
-
-#COMMAND
 Name        list~
 Code        do_list
 Position    106
@@ -2664,10 +2656,19 @@ End
 
 #COMMAND
 Name        pl~
-Code        do_pl
+Code        do_plconfig
 Position    100
 Level       51
 Log         0
+End
+
+#COMMAND
+Name        plrank~
+Code        do_plrank
+Position    100
+Level       56
+Log         0
+Flags       8
 End
 
 #COMMAND

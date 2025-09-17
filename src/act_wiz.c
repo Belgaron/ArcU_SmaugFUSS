@@ -105,49 +105,83 @@ void do_dnd( CHAR_DATA* ch, const char* argument)
    pl <name> <number>-> set someone else's PL
 */
 
-void do_pl( CHAR_DATA *ch, const char *argument )
+void do_plconfig( CHAR_DATA *ch, const char *argument )
 {
     char arg1[MAX_INPUT_LENGTH], arg2[MAX_INPUT_LENGTH];
-    CHAR_DATA *victim;
-
-    argument = one_argument( argument, arg1 );
-    argument = one_argument( argument, arg2 );
-
-    if ( arg1[0] == '\0' ) {  /* just show your PL */
-        long long current_pl = get_power_level( ch );
-        long long base_pl = ch->power_level.get_base();
-        ch_printf( ch, "Base Power Level: %s\r\n", num_punct_ll( base_pl ) );
-        ch_printf( ch, "Current Power Level: %s\r\n", num_punct_ll( current_pl ) );
-        if( current_pl != base_pl )
-            ch_printf( ch, "Modifier: %+lld\r\n", current_pl - base_pl );
-        return;
-    }
-
-    if ( !IS_IMMORTAL( ch ) ) {  /* imm-only */
+    
+    if( !IS_IMMORTAL(ch) ) {
         send_to_char( "Huh?\r\n", ch );
         return;
     }
-
-    if ( !str_cmp( arg1, "self" ) )
-        victim = ch;
-    else if ( ( victim = get_char_world( ch, arg1 ) ) == NULL ) {
-        send_to_char( "They aren't here.\r\n", ch );
+    
+    argument = one_argument( argument, arg1 );
+    argument = one_argument( argument, arg2 );
+    
+    if( !str_cmp( arg1, "show" ) || arg1[0] == '\0' ) {
+        ch_printf( ch, "&WPower Level System Configuration:\r\n" );
+        ch_printf( ch, "&C================================\r\n" );
+        ch_printf( ch, "&CTier 1 Threshold: &Y%s &C(%d%% gain rate)\r\n", 
+                   num_punct_ll( pl_scaling.tier1_threshold ), pl_scaling.tier1_multiplier );
+        ch_printf( ch, "&CTier 2 Threshold: &Y%s &C(%d%% gain rate)\r\n", 
+                   num_punct_ll( pl_scaling.tier2_threshold ), pl_scaling.tier2_multiplier );
+        ch_printf( ch, "&CTier 3 Threshold: &Y%s &C(%d%% gain rate)\r\n", 
+                   num_punct_ll( pl_scaling.tier3_threshold ), pl_scaling.tier3_multiplier );
+        ch_printf( ch, "&CMax Gain Ratio: &Y1/%d &Cof current PL\r\n", pl_scaling.max_gain_divisor );
+        ch_printf( ch, "&CMinimum PL: &Y%s\r\n", num_punct_ll( pl_scaling.absolute_minimum ) );
+        ch_printf( ch, "&CAnti-farming ratio: &Y1/%d &C(enemy must be this fraction of player PL)\r\n", 
+                   pl_scaling.anti_farming_ratio );
+        
+        /* Show current rank thresholds for reference */
+        ch_printf( ch, "\r\n&WCurrent Rank Thresholds:\r\n" );
+        ch_printf( ch, "&P  Cosmic Entity:      &Y1T+\r\n" );
+        ch_printf( ch, "&R  Universal Destroyer: &Y100B+\r\n" );
+        ch_printf( ch, "&Y  Galaxy Shaker:       &Y10B+\r\n" );
+        ch_printf( ch, "&M  Planet Buster:       &Y1B+\r\n" );
+        ch_printf( ch, "&W  Legendary Warrior:   &Y100M+\r\n" );
+        ch_printf( ch, "&C  Elite Fighter:       &Y10M+\r\n" );
+        ch_printf( ch, "&B  Veteran Combatant:   &Y1M+\r\n" );
+        ch_printf( ch, "&G  Experienced Fighter: &Y100K+\r\n" );
+        ch_printf( ch, "&g  Skilled Warrior:     &Y10K+\r\n" );
+        ch_printf( ch, "&w  Novice Fighter:      &Y1K+\r\n" );
+        ch_printf( ch, "&L  Trainee:             &Y<1K\r\n" );
         return;
     }
-
-    if ( arg2[0] == '\0' || !is_number( arg2 ) ) {
-        send_to_char( "Syntax: pl <name|self> <number>\r\n", ch );
+    
+    if( !str_cmp( arg1, "tier1" ) && is_number( arg2 ) ) {
+        pl_scaling.tier1_threshold = atoll( arg2 );
+        ch_printf( ch, "&CTier 1 threshold set to: &Y%s\r\n", 
+                   num_punct_ll( pl_scaling.tier1_threshold ) );
         return;
     }
-
-    long long val = atoll( arg2 );  /* Use atoll for long long */
-    if ( val < 0 ) val = 0;
-
-    set_base_power_level( victim, val );
-
-    ch_printf( ch, "Set %s's Base Power Level to %s.\r\n", PERS( victim, ch ), num_punct_ll( val ) );
-    if ( ch != victim )
-        ch_printf( victim, "%s sets your Base Power Level to %s.\r\n", PERS( ch, victim ), num_punct_ll( val ) );
+    
+    if( !str_cmp( arg1, "tier2" ) && is_number( arg2 ) ) {
+        pl_scaling.tier2_threshold = atoll( arg2 );
+        ch_printf( ch, "&CTier 2 threshold set to: &Y%s\r\n", 
+                   num_punct_ll( pl_scaling.tier2_threshold ) );
+        return;
+    }
+    
+    if( !str_cmp( arg1, "tier3" ) && is_number( arg2 ) ) {
+        pl_scaling.tier3_threshold = atoll( arg2 );
+        ch_printf( ch, "&CTier 3 threshold set to: &Y%s\r\n", 
+                   num_punct_ll( pl_scaling.tier3_threshold ) );
+        return;
+    }
+    
+    if( !str_cmp( arg1, "maxratio" ) && is_number( arg2 ) ) {
+        int ratio = atoi( arg2 );
+        if( ratio >= 2 && ratio <= 20 ) {
+            pl_scaling.max_gain_divisor = ratio;
+            ch_printf( ch, "&CMax gain ratio set to: &Y1/%d\r\n", ratio );
+        } else {
+            send_to_char( "&RRatio must be between 2 and 20.\r\n", ch );
+        }
+        return;
+    }
+    
+    ch_printf( ch, "&CUsage: plconfig show\r\n" );
+    ch_printf( ch, "&C       plconfig tier1|tier2|tier3 <threshold>\r\n" );
+    ch_printf( ch, "&C       plconfig maxratio <2-20>\r\n" );
 }
 
 /*
@@ -2057,6 +2091,33 @@ void do_mstat( CHAR_DATA* ch, const char* argument )
       send_to_pager( "They aren't here.\r\n", ch );
       return;
    }
+	
+	/* Only show to immortals - players never see hidden meters */
+	if(!IS_NPC(victim) && victim->pcdata && get_trust(ch) >= LEVEL_IMMORTAL) 
+	{
+		
+		ch_printf(ch, "&W--- Hidden Skill Training Meters ---&x\r\n");
+		ch_printf(ch, "&CPhysical Training: &Y%d&C/100 (&Y%d%%&C) toward next +10 HP\r\n", 
+					victim->pcdata->physical_skill_meter, victim->pcdata->physical_skill_meter);
+		ch_printf(ch, "&BMental Training:   &Y%d&C/100 (&Y%d%%&C) toward next +5 mana\r\n", 
+					victim->pcdata->mental_skill_meter, victim->pcdata->mental_skill_meter);
+		
+		/* Progress indicators for immortals */
+		int physical_remaining = 100 - victim->pcdata->physical_skill_meter;
+		int mental_remaining = 100 - victim->pcdata->mental_skill_meter;
+		
+		if(physical_remaining > 0) {
+			ch_printf(ch, "&CNext HP gain in: &Y%d%% &Cphysical training\r\n", physical_remaining);
+		} else {
+			ch_printf(ch, "&C&FREADY FOR HP GAIN! &Y(Next physical skill will trigger)&x\r\n");
+		}
+		
+		if(mental_remaining > 0) {
+			ch_printf(ch, "&BNext mana gain in: &Y%d%% &Bmental training\r\n", mental_remaining);
+		} else {
+			ch_printf(ch, "&B&FREADY FOR MANA GAIN! &Y(Next mental skill will trigger)&x\r\n");
+		}
+	}
 
    if( get_trust( ch ) < get_trust( victim ) && !IS_NPC( victim ) )
    {
@@ -2210,19 +2271,19 @@ void do_mstat( CHAR_DATA* ch, const char* argument )
    else
       send_to_pager( "\r\n", ch );
    send_to_pager_color( "&cLanguages  : &w", ch );
-   for( x = 0; lang_array[x] != LANG_UNKNOWN; x++ )
-      if( knows_language( victim, lang_array[x], victim ) || ( IS_NPC( victim ) && victim->speaks == 0 ) )
+   for( x = 0; language_table[x].flag != LANG_UNKNOWN; x++ )
+      if( knows_language( victim, language_table[x].flag, victim ) || ( IS_NPC( victim ) && victim->speaks == 0 ) )
       {
-         if( IS_SET( lang_array[x], victim->speaking ) || ( IS_NPC( victim ) && !victim->speaking ) )
+         if( IS_SET( language_table[x].flag, victim->speaking ) || ( IS_NPC( victim ) && !victim->speaking ) )
             set_pager_color( AT_RED, ch );
-         send_to_pager( lang_names[x], ch );
+         send_to_pager( language_table[x].name, ch );
          send_to_pager( " ", ch );
          set_pager_color( AT_PLAIN, ch );
       }
-      else if( IS_SET( lang_array[x], victim->speaking ) || ( IS_NPC( victim ) && !victim->speaking ) )
+      else if( IS_SET( language_table[x].flag, victim->speaking ) || ( IS_NPC( victim ) && !victim->speaking ) )
       {
          set_pager_color( AT_PINK, ch );
-         send_to_pager( lang_names[x], ch );
+         send_to_pager( language_table[x].name, ch );
          send_to_pager( " ", ch );
          set_pager_color( AT_PLAIN, ch );
       }
@@ -9134,7 +9195,7 @@ void do_setrace( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !str_cmp( arg2, "chaplus" ) )
+   if( !str_cmp( arg2, "sprplus" ) )
    {
       race->spr_plus = ( short )atoi( argument );
       write_race_file( ra );

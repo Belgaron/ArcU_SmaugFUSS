@@ -1,0 +1,1289 @@
+#FUSSAREA
+#AREADATA
+Version      1
+Name         Highgard~
+Author       Dragus~
+WeatherX     0
+WeatherY     0
+Ranges       0 65 0 65
+Economy      0 51203450
+ResetMsg     A dim pulse of light filters through the swirling mists.~
+ResetFreq    60
+Flags        ~
+#ENDAREADATA
+
+#MOBILE
+Vnum       200
+Keywords   human teenager~
+Short      A brooding teenager~
+Long       A teenager walking around, focused on their phone.
+~
+Desc       A lathargic teenager wanders around the city without ever looking up
+from his phone.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Male~
+Actflags   npc~
+Stats1     100 100 0 0 50 0
+Stats2     18 2 1
+Stats3     5 6 20
+Stats4     1 6 2 0 0
+Attribs    13 14 13 15 16 12 13
+Saves      0 0 0 0 0
+Speaks     common~
+Speaking   common~
+Bodyparts  head arms legs heart hands feet eye~
+#MUDPROG
+Progtype  greet_prog~
+Arglist   50~
+Comlist   mpechoaround $n A teenager rolls his eyes as $n walks by.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  death_prog~
+Arglist   30~
+Comlist   mpoload 200
+~
+#ENDPROG
+
+#ENDMOBILE
+
+#MOBILE
+Vnum       201
+Keywords   irl streamer girl chick~
+Short      An IRL Streamer~
+Long       A mid looking IRL streamer filming herself.
+~
+Desc       An average looking woman is filming herself doing absolutely nothing,
+and she keeps talking to "chat". She seems to be annoying everyone
+around her.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Female~
+Actflags   npc~
+Stats1     150 100 0 0 50 0
+Stats2     18 2 1
+Stats3     5 6 20
+Stats4     1 6 2 0 0
+Attribs    13 14 13 15 16 12 13
+Saves      0 0 0 0 0
+Speaks     common~
+Speaking   common~
+Bodyparts  head arms legs heart hands feet eye~
+#ENDMOBILE
+
+#MOBILE
+Vnum       202
+Keywords   thug street human bandit tattoo~
+Short      a street thug~
+Long       A mean looking street thug prowls the area, looking for trouble.
+~
+Desc       A rough looking street thug, covered in face and neck tattoos, regards you 
+with contempt. He is looking for someone weak to pick on.
+~
+Race       Human~
+Class      Thief~
+Position   standing~
+DefPos     standing~
+Gender     Male~
+Actflags   npc aggressive~
+Stats1     -200 150 0 2 75 0
+Stats2     16 3 2
+Stats3     7 6 30
+Stats4     2 4 3 0 0
+Attribs    14 12 11 16 15 10 12
+Saves      0 0 0 0 0
+Speaks     common~
+Speaking   common~
+Bodyparts  head arms legs hands feet ear eye~
+#MUDPROG
+Progtype  greet_prog~
+Arglist   25~
+Comlist   say Well, well... what do we have here?
+sneer $n
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  death_prog~
+Arglist   40~
+Comlist   mpoload 201
+mpecho The thug's stolen coins scatter across the ground.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  fight_prog~
+Arglist   20~
+Comlist   if hpercent($n) < 30
+  say You'll pay for that!
+  kick $n
+endif
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  rand_prog~
+Arglist   3~
+Comlist   emote spits on the ground and glares around menacingly.
+~
+#ENDPROG
+
+#ENDMOBILE
+
+#MOBILE
+Vnum       203
+Keywords   elderly old woman man wife husband diane john~
+Short      A cute elderly couple~
+Long       An elderly couple slowly navigate the bustling city.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Female~
+Actflags   npc~
+Stats1     350 75 0 0 20 0
+Stats2     20 1 0
+Stats3     3 6 12
+Stats4     1 2 1 0 0
+Attribs    9 14 17 13 12 16 15
+Saves      0 0 0 0 0
+Speaks     common~
+Speaking   common~
+Bodyparts  head arms legs hands feet ear eye~
+#ENDMOBILE
+
+#MOBILE
+Vnum       210
+Keywords   clerk manatech technician shop keeper~
+Short      a manatech clerk~
+Long       A manatech clerk stands behind the counter, surrounded by glowing crystals and arcane devices.
+~
+Desc       This middle-aged human has the focused look of someone who spends their days working
+with delicate magical machinery. Her dark hair is pulled back in a practical bun,
+secured with what appears to be a small mana crystal that pulses with soft blue light.
+She wears a well-tailored robe of deep purple, reinforced with thin metal threading
+that occasionally sparks with residual magical energy. Her hands are stained with
+various alchemical compounds, and she wears a pair of intricate goggles pushed up
+on her forehead - lenses inscribed with tiny runic patterns. Behind her, shelves
+line the walls filled with glowing orbs, crystalline matrices, and humming devices
+whose purposes are known only to those trained in the manatech arts.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Female~
+Actflags   npc sentinel~
+Affected   detect_magic sanctuary~
+Stats1     0 250 0 3 150 0
+Stats2     15 4 3
+Stats3     8 8 40
+Stats4     2 6 4 0 0
+Attribs    12 18 16 14 13 15 17
+Saves      -2 -2 -2 -2 -2
+Speaks     common~
+Speaking   common~
+Bodyparts  head arms legs hands feet ear eye~
+#MUDPROG
+Progtype  all_greet_prog~
+Arglist   40~
+Comlist   if ispc($n)
+  nod $n
+  say Welcome to Crystalforge Manatech, where magic meets precision engineering.
+  say I have the finest selection of mana-powered devices in all of Highgard.
+endif
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  speech_prog~
+Arglist   p manatech magic devices~
+Comlist   adjust goggles
+say Ah, interested in manatech, are you?
+say These devices harness ambient magical energy and focus it for practical purposes.
+say Much more reliable than traditional spellcasting, and far more efficient.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  speech_prog~
+Arglist   p crystals crystal mana~
+Comlist   hold crystal
+say These mana crystals are the heart of any good manatech device.
+say They store and regulate magical energy - think of them as magical batteries.
+say The purer the crystal, the more stable the energy output.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  speech_prog~
+Arglist   p buy purchase shop wares~
+Comlist   smile $n
+say I offer a variety of manatech solutions for the discerning customer.
+say Healing crystals, energy shields, communication orbs, and much more.
+say Each device comes with full operational instructions and a warranty.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  speech_prog~
+Arglist   p repair fix broken~
+Comlist   push goggles
+say Bring me any malfunctioning manatech devices and I'll diagnose the problem.
+say Most issues stem from crystal degradation or runic misalignment.
+say My repair rates are quite reasonable, especially for fortress personnel.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  speech_prog~
+Arglist   p city guards highgard~
+Comlist   nod approvingly
+say The city guard has been very supportive of my research.
+say Many of our defensive systems now incorporate manatech enhancements.
+say It's always satisfying to see magic and the city working in harmony.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  rand_prog~
+Arglist   4~
+Comlist   emote adjusts a glowing crystal, causing the nearby devices to hum more quietly.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  rand_prog~
+Arglist   3~
+Comlist   emote pulls down her goggles and examines a complex runic pattern etched into a metal disc.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  rand_prog~
+Arglist   2~
+Comlist   emote makes a note in a leather-bound journal, the ink glowing briefly before fading.
+~
+#ENDPROG
+
+#MUDPROG
+Progtype  fight_prog~
+Arglist   90~
+Comlist   if hpercent($i) > 80
+  say Security protocols activated!
+  cast 'magic missile' $n
+else
+  yell Help! Someone is attacking the manatech shop!
+endif
+~
+#ENDPROG
+
+#ENDMOBILE
+
+#MOBILE
+Vnum       299
+Keywords   placeholder mob~
+Short      a placeholder mob~
+Long       A placeholder mob is here, holding the place.
+~
+Desc       What? Never seen a placeholder before?
+~
+Race       monster~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Specfun    spec_thief~
+Gender     Male~
+Actflags   npc~
+Stats1     -5 3 17 6 300 400
+Stats2     1 4 30
+Stats3     1 3 6
+Stats4     0 0 0 0 0
+Attribs    13 13 13 13 13 13 13
+Saves      0 0 0 0 0
+Speaks     common~
+Speaking   common~
+Bodyparts  head arms legs heart hands feet eye~
+#ENDMOBILE
+
+#OBJECT
+Vnum     200
+Keywords kids phone~
+Type     trash~
+Short    a kids phone~
+Long     Some kid must have dropped his phone here~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    0 0 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     201
+Keywords glyphlight light~
+Type     trash~
+Short    a glyphlight~
+Long     A compact glyphlight hums with caged sarlight.~
+WFlags   take~
+Values   0 0 72 0 0 0
+Stats    0 0 0 0 0
+#EXDESC
+ExDescKey    glow hum magitech~
+ExDesc       This ingenious manatech device contains captured starlight within a crystalline
+matrix. The soft glow emanates from tiny runic circuits etched into the device's
+brass housing. It hums quietly with contained magical energy, providing steady
+illumination without the need for flame or oil.
+~
+#ENDEXDESC
+
+#ENDOBJECT
+
+#OBJECT
+Vnum     202
+Keywords brass sigil key sigil-key~
+Type     trash~
+Short    a brass sigil-key~
+Long     A brass key etched with tiny runes lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    0 0 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     299
+Keywords placeholder obj~
+Type     weapon~
+Short    a placeholder obj~
+Long     A placeholder obj is here, holding the place~
+WFlags   take wield~
+Values   0 2 8 0 0 0
+Stats    15 600 60 0 0
+#ENDOBJECT
+
+#ROOM
+Vnum     200
+Name     City Square~
+Sector   city~
+Flags    nomob~
+Desc     This is the heart of the city. There a shops, pizza carts, and thousands
+of people walking everywhere. 
+~
+#EXIT
+Direction north~
+ToRoom    205
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    221
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    222
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    239
+#ENDEXIT
+
+#EXIT
+Direction northeast~
+ToRoom    201
+#ENDEXIT
+
+#EXIT
+Direction northwest~
+ToRoom    202
+#ENDEXIT
+
+#EXIT
+Direction southeast~
+ToRoom    204
+#ENDEXIT
+
+#EXIT
+Direction southwest~
+ToRoom    203
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     201
+Name     Bel's Materia Outlet~
+Sector   city~
+Flags    nomob~
+Desc     This store sells materia, potion reagents, and ancient scrolls alike.
+~
+#EXIT
+Direction southwest~
+ToRoom    200
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     202
+Name     Tech Surplus~
+Sector   city~
+Flags    nomob~
+Desc     This shop is famous for having the cutting edge manatech gear. 
+~
+#EXIT
+Direction southeast~
+ToRoom    200
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     203
+Name     Dick's Adventure Goods~
+Sector   city~
+Flags    nomob~
+Desc     They carry all the modern adventuring gear and apparel.
+~
+#EXIT
+Direction northeast~
+ToRoom    200
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     204
+Name     Forever 29!~
+Sector   city~
+Flags    nomob~
+Desc     As soon as you walk in someone yells "29! 29!". A VERY aggressive 
+greeting. Forever 29 carries the latest in clothing fashion for any
+occasion.
+~
+#EXIT
+Direction northwest~
+ToRoom    200
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     205
+Name     Main Street~
+Sector   city~
+Flags    nomob~
+Desc     Main Street runs straight through neon and steam, stone warm with light.
+Stormglass lamps hum blue while sigils flare, then softly fade.
+A lev-tram whispers along the aether rail, not quite touching stone.
+Shops hawk charms and coffee by a blinking map kiosk and warm bench.
+~
+#EXIT
+Direction north~
+ToRoom    206
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    200
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     206
+Name     Main Street~
+Sector   city~
+Flags    nomob~
+Desc     Main Street runs straight through neon and steam, stone warm with light.
+Stormglass lamps hum blue while sigils flare, then softly fade.
+A lev-tram whispers along the aether rail, not quite touching stone.
+Shops hawk charms and coffee by a blinking map kiosk and warm bench.
+~
+#EXIT
+Direction north~
+ToRoom    207
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    240
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    205
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    241
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     207
+Name     Main Street~
+Sector   city~
+Flags    nomob~
+Desc     Main Street runs straight through neon and steam, stone warm with light.
+Stormglass lamps hum blue while sigils flare, then softly fade.
+A lev-tram whispers along the aether rail, not quite touching stone.
+Shops hawk charms and coffee by a blinking map kiosk and warm bench.
+~
+#EXIT
+Direction north~
+ToRoom    208
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    206
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     208
+Name     Main and Miller~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction east~
+ToRoom    209
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    207
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     209
+Name     Miller Road~
+Sector   city~
+Flags    nomob~
+Desc     Miller Road threads between brick mills that thrum with warded
+gears and heat, amber stormglass casting honeyed light across drifting 
+flour and cobble. Warm yeast rides the air with steam and the bite of
+river water.
+
+To the south, &rNick's Bar&g leaks fryer heat and low talk, its amber 
+sign steay. A shutter clicks open, then shuts, as if the building were
+watching.&D
+~
+#EXIT
+Direction east~
+ToRoom    210
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    244
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    208
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     210
+Name     Miller Road~
+Sector   city~
+Flags    nomob~
+Desc     Miller Road threads between brick mills that thrum with warded gears and
+heat, amber stormglass casting honeyed light across drifting flour and
+cobble. Warm yeast rides the air with steam and the bite of river water.
+A tow cart stalls on the aether track, shivering with blue sparks,
+then glides forward as a buried rune wakes and nudges it along.
+~
+#EXIT
+Direction east~
+ToRoom    211
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    209
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     211
+Name     Miller Road~
+Sector   city~
+Flags    nomob~
+Desc     Miller Road threads between brick mills that thrum with warded gears and
+heat, amber stormglass casting honeyed light across drifting flour and
+cobble. Warm yeast rides the air with steam and the bite of river water.
+A foreman's whistle skates the noise, thin and sharp, then the belts
+catch rhythm as the mills breathe in and the dust settles.
+~
+#EXIT
+Direction east~
+ToRoom    212
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    210
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     212
+Name     Miller Road~
+Sector   city~
+Flags    nomob~
+Desc     Miller Road threads between brick mills that thrum with warded gears and
+heat, amber stormglass casting honeyed light across drifting flour and
+cobble. Warm yeast rides the air with steam and the bite of river water.
+A flour-pawed cat ghosts between carts with the calm of a foreman,
+pauses to study you, then vanishes into a spill of dust.
+~
+#EXIT
+Direction east~
+ToRoom    213
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    211
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     213
+Name     Miller and Schmidt~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction south~
+ToRoom    214
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    212
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     214
+Name     Schmidt Ave.~
+Sector   city~
+Flags    nomob~
+Desc     Schmidt Ave threads below stacked brick flats as stormglass lamps hum
+blue and warm, laundry snapping between rails and balconies in slow wind.
+Aether trolleys whisper past corner shops, their neon breathing in and out.
+~
+#EXIT
+Direction north~
+ToRoom    213
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    215
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     215
+Name     Schmidt Ave.~
+Sector   city~
+Flags    nomob~
+Desc     Schmidt Ave threads below stacked brick flats as stormglass lamps hum
+blue and warm, laundry snapping between rails and balconies in slow wind.
+Aether trolleys whisper past corner shops, their neon breathing in and out.
+~
+#EXIT
+Direction north~
+ToRoom    214
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    216
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     216
+Name     Schmidt Ave.~
+Sector   city~
+Flags    nomob~
+Desc     Schmidt Ave threads below stacked brick flats as stormglass lamps hum
+blue and warm, laundry snapping between rails and balconies in slow wind.
+Aether trolleys whisper past corner shops, their neon breathing in and out.
+A kettle whistles upstairs, then turns into soft talk and a door click.
+~
+#EXIT
+Direction north~
+ToRoom    215
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    217
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     217
+Name     Day and Schmidt~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction north~
+ToRoom    216
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    218
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    219
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     218
+Name     Schmidt Ave.~
+Sector   city~
+Flags    nomob~
+Desc     Schmidt Ave threads below stacked brick flats as stormglass lamps hum
+blue and warm, laundry snapping between rails and balconies in slow wind.
+Aether trolleys whisper past corner shops, their neon breathing in and out.
+Somewhere a lift gate clatters and the sound runs the length of the
+block like a zipper pulling the evening into place.
+~
+#EXIT
+Direction north~
+ToRoom    217
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    230
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     219
+Name     Day Road~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction east~
+ToRoom    217
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    220
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     220
+Name     Day Road~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction north~
+ToRoom    243
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    219
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    221
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     221
+Name     Day Road~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction east~
+ToRoom    220
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    200
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     222
+Name     Main Street~
+Sector   city~
+Flags    nomob~
+Desc     Main Street runs straight through neon and steam, stone warm with light.
+Stormglass lamps hum blue while sigils flare, then softly fade.
+A lev-tram whispers along the aether rail, not quite touching stone.
+Shops hawk charms and coffee by a blinking map kiosk and warm bench.
+~
+#EXIT
+Direction north~
+ToRoom    200
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    223
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     223
+Name     Main Street~
+Sector   city~
+Flags    nomob~
+Desc     Main Street runs straight through neon and steam, stone warm with light.
+Stormglass lamps hum blue while sigils flare, then softly fade.
+A lev-tram whispers along the aether rail, not quite touching stone.
+Shops hawk charms and coffee by a blinking map kiosk and warm bench.
+~
+#EXIT
+Direction north~
+ToRoom    222
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    242
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    224
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     224
+Name     Main Street~
+Sector   city~
+Flags    nomob~
+Desc     Main Street runs straight through neon and steam, stone warm with light.
+Stormglass lamps hum blue while sigils flare, then softly fade.
+A lev-tram whispers along the aether rail, not quite touching stone.
+Shops hawk charms and coffee by a blinking map kiosk and warm bench.
+~
+#EXIT
+Direction north~
+ToRoom    223
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    225
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     225
+Name     Main and Coach~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction north~
+ToRoom    224
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    226
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    231
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     226
+Name     Coach Blvd.~
+Sector   city~
+Flags    nomob~
+Desc     Coach Blvd runs broad past depots, offices, and corner cafes, the stone kept
+clean under steady lampglow and lane glyphs that breathe at crossings.
+The air carries leather, ozone, and warm oil while curbside chargers hum.
+~
+#EXIT
+Direction east~
+ToRoom    227
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    225
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     227
+Name     Coach Blvd.~
+Sector   city~
+Flags    nomob~
+Desc     Coach Blvd runs broad past depots, offices, and corner cafes, the stone kept
+clean under steady lampglow and lane glyphs that breathe at crossings.
+The air carries leather, ozone, and warm oil while curbside chargers hum.
+Cafe vents breathe coffee and sugar that linger at the back of the tongue.
+~
+#EXIT
+Direction east~
+ToRoom    228
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    226
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     228
+Name     Schmidt and Coach~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction north~
+ToRoom    229
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    227
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     229
+Name     Schmidt Ave.~
+Sector   city~
+Flags    nomob~
+Desc     Schmidt Ave threads below stacked brick flats as stormglass lamps hum
+blue and warm, laundry snapping between rails and balconies in slow wind.
+Aether trolleys whisper past corner shops, their neon breathing in and out.
+~
+#EXIT
+Direction north~
+ToRoom    230
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    228
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     230
+Name     Schmidt Ave.~
+Sector   city~
+Flags    nomob~
+Desc     Schmidt Ave threads below stacked brick flats as stormglass lamps hum
+blue and warm, laundry snapping between rails and balconies in slow wind.
+Aether trolleys whisper past corner shops, their neon breathing in and out.
+A street sweeper golem clicks bottlecaps into tidy rows.
+~
+#EXIT
+Direction north~
+ToRoom    218
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    229
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     231
+Name     Coach Blvd.~
+Sector   city~
+Flags    nomob~
+Desc     Coach Blvd runs broad past depots, offices, and corner cafes, the stone kept
+clean under steady lampglow and lane glyphs that breathe at crossings.
+The air carries leather, ozone, and warm oil while curbside chargers hum.
+~
+#EXIT
+Direction east~
+ToRoom    225
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    232
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     232
+Name     Coach Blvd.~
+Sector   city~
+Flags    nomob~
+Desc     Coach Blvd runs broad past depots, offices, and corner cafes, the stone kept
+clean under steady lampglow and lane glyphs that breathe at crossings.
+The air carries leather, ozone, and warm oil while curbside chargers hum.
+~
+#EXIT
+Direction east~
+ToRoom    231
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    233
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     233
+Name     Coach and Winston~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction north~
+ToRoom    234
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    232
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     234
+Name     Winston Lane~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction north~
+ToRoom    235
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    233
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     235
+Name     Winston Lane~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction north~
+ToRoom    236
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    234
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     236
+Name     Winston Lane~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction north~
+ToRoom    237
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    235
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     237
+Name     Day and Winston~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction east~
+ToRoom    238
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    236
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     238
+Name     Day Road~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction east~
+ToRoom    239
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    237
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     239
+Name     Day Road~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction east~
+ToRoom    200
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    238
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     240
+Name     shop 1~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction west~
+ToRoom    206
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     241
+Name     shop 2~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction east~
+ToRoom    206
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     242
+Name     shop 3~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction west~
+ToRoom    223
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     243
+Name     shop 4~
+Sector   city~
+Flags    nomob~
+#EXIT
+Direction south~
+ToRoom    220
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     244
+Name     Nick's Bar~
+Sector   city~
+Flags    nomob~
+Desc     Doors need to be in the room description it seems. There is a door to the south. Behind the bar.
+~
+#EXIT
+Direction north~
+ToRoom    209
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     245
+Name     Floating in a void~
+Sector   city~
+Flags    nomob prototype~
+#ENDROOM
+
+#ROOM
+Vnum     299
+Name     Placeholder Space~
+Sector   inside~
+Flags    nomob indoors~
+Desc     It's really bland in here.
+~
+#ENDROOM
+
+#ENDAREA
