@@ -2597,6 +2597,7 @@ bool mprog_keyword_check( const char *argu, const char *argl )
    char word[MAX_INPUT_LENGTH];
    char arg1[MAX_INPUT_LENGTH];
    char arg2[MAX_INPUT_LENGTH];
+   unsigned int i;
    char *arg, *arglist;
    char *start, *end;
 
@@ -2605,17 +2606,16 @@ bool mprog_keyword_check( const char *argu, const char *argl )
    strcpy( arg2, strlower( argl ) );
    arglist = arg2;
 
-   for( char *p = arglist; *p; ++p )
-      *p = LOWER( *p );
-   for( char *p = arg; *p; ++p )
-      *p = LOWER( *p );
+   for( i = 0; i < strlen( arglist ); i++ )
+      arglist[i] = LOWER( arglist[i] );
+   for( i = 0; i < strlen( arg ); i++ )
+      arg[i] = LOWER( arg[i] );
    if( ( arglist[0] == 'p' ) && ( arglist[1] == ' ' ) )
    {
       arglist += 2;
-      size_t arglist_len = strlen( arglist );
       while( ( start = strstr( arg, arglist ) ) )
          if( ( start == arg || *( start - 1 ) == ' ' )
-             && ( *( end = start + arglist_len ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
+             && ( *( end = start + strlen( arglist ) ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
             return TRUE;
          else
             arg = start + 1;
@@ -2624,15 +2624,12 @@ bool mprog_keyword_check( const char *argu, const char *argl )
    {
       arglist = one_argument( arglist, word );
       for( ; word[0] != '\0'; arglist = one_argument( arglist, word ) )
-      {
-         size_t word_len = strlen( word );
          while( ( start = strstr( arg, word ) ) )
             if( ( start == arg || *( start - 1 ) == ' ' )
-                && ( *( end = start + word_len ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
+                && ( *( end = start + strlen( word ) ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
                return TRUE;
             else
                arg = start + 1;
-      }
    }
    return FALSE;
 }
@@ -2648,6 +2645,7 @@ bool mprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
    char word[MAX_INPUT_LENGTH];
    MPROG_DATA *mprg;
    char *list, *start, *dupl, *end;
+   size_t i;
    bool executed = FALSE;
 
    for( mprg = mob->pIndexData->mudprogs; mprg; mprg = mprg->next )
@@ -2656,19 +2654,18 @@ bool mprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
       {
          strcpy( temp1, mprg->arglist );
          list = temp1;
-         for( char *p = list; *p; ++p )
-            *p = LOWER( *p );
+         for( i = 0; i < strlen( list ); i++ )
+            list[i] = LOWER( list[i] );
          strcpy( temp2, arg );
          dupl = temp2;
-         for( char *p = dupl; *p; ++p )
-            *p = LOWER( *p );
+         for( i = 0; i < strlen( dupl ); i++ )
+            dupl[i] = LOWER( dupl[i] );
          if( ( list[0] == 'p' ) && ( list[1] == ' ' ) )
          {
             list += 2;
-            size_t list_len = strlen( list );
             while( ( start = strstr( dupl, list ) ) )
                if( ( start == dupl || *( start - 1 ) == ' ' )
-                   && ( *( end = start + list_len ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
+                   && ( *( end = start + strlen( list ) ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
                {
                   mprog_driver( mprg->comlist, mob, actor, obj, victim, target, FALSE );
                   executed = TRUE;
@@ -2681,11 +2678,9 @@ bool mprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
          {
             list = one_argument( list, word );
             for( ; word[0] != '\0'; list = one_argument( list, word ) )
-            {
-               size_t word_len = strlen( word );
                while( ( start = strstr( dupl, word ) ) )
                   if( ( start == dupl || *( start - 1 ) == ' ' )
-                      && ( *( end = start + word_len ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
+                      && ( *( end = start + strlen( word ) ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
                   {
                      mprog_driver( mprg->comlist, mob, actor, obj, victim, target, FALSE );
                      executed = TRUE;
@@ -2693,7 +2688,6 @@ bool mprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
                   }
                   else
                      dupl = start + 1;
-            }
          }
       }
    }
@@ -3522,6 +3516,7 @@ bool oprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
    char word[MAX_INPUT_LENGTH];
    MPROG_DATA *mprg;
    char *list, *start, *dupl, *end;
+   size_t i;
    bool executed = FALSE;
 
    for( mprg = iobj->pIndexData->mudprogs; mprg; mprg = mprg->next )
@@ -3530,19 +3525,18 @@ bool oprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
       {
          strcpy( temp1, mprg->arglist );
          list = temp1;
-         for( char *p = list; *p; ++p )
-            *p = LOWER( *p );
+         for( i = 0; i < strlen( list ); i++ )
+            list[i] = LOWER( list[i] );
          strcpy( temp2, arg );
          dupl = temp2;
-         for( char *p = dupl; *p; ++p )
-            *p = LOWER( *p );
+         for( i = 0; i < strlen( dupl ); i++ )
+            dupl[i] = LOWER( dupl[i] );
          if( ( list[0] == 'p' ) && ( list[1] == ' ' ) )
          {
             list += 2;
-            size_t list_len = strlen( list );
             while( ( start = strstr( dupl, list ) ) )
                if( ( start == dupl || *( start - 1 ) == ' ' )
-                   && ( *( end = start + list_len ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
+                   && ( *( end = start + strlen( list ) ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
                {
                   set_supermob( iobj );
                   mprog_driver( mprg->comlist, mob, actor, obj, victim, target, FALSE );
@@ -3557,11 +3551,9 @@ bool oprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
          {
             list = one_argument( list, word );
             for( ; word[0] != '\0'; list = one_argument( list, word ) )
-            {
-               size_t word_len = strlen( word );
                while( ( start = strstr( dupl, word ) ) )
                   if( ( start == dupl || *( start - 1 ) == ' ' )
-                      && ( *( end = start + word_len ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
+                      && ( *( end = start + strlen( word ) ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
                   {
                      set_supermob( iobj );
                      mprog_driver( mprg->comlist, mob, actor, obj, victim, target, FALSE );
@@ -3571,7 +3563,6 @@ bool oprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
                   }
                   else
                      dupl = start + 1;
-            }
          }
       }
    }
@@ -3794,6 +3785,7 @@ bool rprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
    char word[MAX_INPUT_LENGTH];
    MPROG_DATA *mprg;
    char *list, *start, *dupl, *end;
+   size_t i;
    bool executed = FALSE;
 
    if( actor && !char_died( actor ) && actor->in_room )
@@ -3805,19 +3797,18 @@ bool rprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
       {
          strcpy( temp1, mprg->arglist );
          list = temp1;
-         for( char *p = list; *p; ++p )
-            *p = LOWER( *p );
+         for( i = 0; i < strlen( list ); ++i )
+            list[i] = LOWER( list[i] );
          strcpy( temp2, arg );
          dupl = temp2;
-         for( char *p = dupl; *p; ++p )
-            *p = LOWER( *p );
+         for( i = 0; i < strlen( dupl ); ++i )
+            dupl[i] = LOWER( dupl[i] );
          if( ( list[0] == 'p' ) && ( list[1] == ' ' ) )
          {
             list += 2;
-            size_t list_len = strlen( list );
             while( ( start = strstr( dupl, list ) ) )
                if( ( start == dupl || *( start - 1 ) == ' ' )
-                   && ( *( end = start + list_len ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
+                   && ( *( end = start + strlen( list ) ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
                {
                   rset_supermob( room );
                   mprog_driver( mprg->comlist, mob, actor, obj, victim, target, FALSE );
@@ -3832,11 +3823,9 @@ bool rprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
          {
             list = one_argument( list, word );
             for( ; word[0] != '\0'; list = one_argument( list, word ) )
-            {
-               size_t word_len = strlen( word );
                while( ( start = strstr( dupl, word ) ) )
                   if( ( start == dupl || *( start - 1 ) == ' ' )
-                      && ( *( end = start + word_len ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
+                      && ( *( end = start + strlen( word ) ) == ' ' || *end == '\n' || *end == '\r' || *end == '\0' ) )
                   {
                      rset_supermob( room );
                      mprog_driver( mprg->comlist, mob, actor, obj, victim, target, FALSE );
@@ -3846,7 +3835,6 @@ bool rprog_wordlist_check( const char *arg, CHAR_DATA * mob, CHAR_DATA * actor, 
                   }
                   else
                      dupl = start + 1;
-            }
          }
       }
    }

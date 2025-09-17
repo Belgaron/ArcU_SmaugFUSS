@@ -16,7 +16,6 @@
  ****************************************************************************/
 
 #include <stdio.h>
-#include <math.h>
 #include "mud.h"
 #include "custom_slay.h"
 
@@ -33,62 +32,6 @@ int align_compute( CHAR_DATA * gch, CHAR_DATA * victim );
 ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt );
 int obj_hitroll( OBJ_DATA * obj );
 void show_condition( CHAR_DATA * ch, CHAR_DATA * victim );
-static void track_combat_damage_effect( CHAR_DATA *ch, damage_effect_type effect );
-static void reset_combat_counters( CHAR_DATA *ch );
-static const char *damage_effect_color( const CHAR_DATA *ch );
-
-static void track_combat_damage_effect( CHAR_DATA *ch, damage_effect_type effect )
-{
-   if( !ch || IS_NPC( ch ) || !ch->pcdata )
-      return;
-
-   switch ( effect )
-   {
-      case DMG_EFFECT_IMMUNE:
-         ch->pcdata->combat_hit_immune = TRUE;
-         break;
-
-      case DMG_EFFECT_SUSCEPT:
-         ch->pcdata->combat_hit_susceptible = TRUE;
-         break;
-
-      case DMG_EFFECT_RESIST:
-         ch->pcdata->combat_hit_resisted = TRUE;
-         break;
-
-      default:
-         break;
-   }
-}
-
-static void reset_combat_counters( CHAR_DATA *ch )
-{
-   if( !ch || IS_NPC( ch ) || !ch->pcdata )
-      return;
-
-   ch->pcdata->combat_damage = 0;
-   ch->pcdata->combat_pl_gain = 0;
-   ch->pcdata->combat_hit_resisted = FALSE;
-   ch->pcdata->combat_hit_susceptible = FALSE;
-   ch->pcdata->combat_hit_immune = FALSE;
-}
-
-static const char *damage_effect_color( const CHAR_DATA *ch )
-{
-   if( !ch || IS_NPC( ch ) || !ch->pcdata )
-      return "&W";
-
-   if( ch->pcdata->combat_hit_immune && ch->pcdata->combat_damage == 0 )
-      return "&B";
-
-   if( ch->pcdata->combat_hit_susceptible )
-      return "&R";
-
-   if( ch->pcdata->combat_hit_resisted )
-      return "&Y";
-
-   return "&W";
-}
 
 bool loot_coins_from_corpse( CHAR_DATA * ch, OBJ_DATA * corpse )
 {
@@ -1554,7 +1497,6 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
    if( dam )
    {
       int x, res, imm, sus, mod;
-      damage_effect_type effect;
 
       if( plusris )
          plusris = RIS_PLUS1 << UMIN( plusris, 7 );
@@ -1585,25 +1527,13 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
       if( sus <= plusris )
          mod += 2;
 
-      effect = DMG_EFFECT_NORMAL;
-
-      if( mod <= 0 )
-         effect = DMG_EFFECT_IMMUNE;
-      else if( mod < 10 )
-         effect = DMG_EFFECT_RESIST;
-      else if( mod > 10 )
-         effect = DMG_EFFECT_SUSCEPT;
-
       /*
-       * check if immune
+       * check if immune 
        */
       if( mod <= 0 )
          dam = -1;
       if( mod != 10 )
          dam = ( dam * mod ) / 10;
-
-      if( effect != DMG_EFFECT_NORMAL )
-         track_combat_damage_effect( ch, effect );
    }
 
    if( prof_gsn != -1 )
@@ -1893,7 +1823,6 @@ ch_ret projectile_hit( CHAR_DATA * ch, CHAR_DATA * victim, OBJ_DATA * wield, OBJ
    if( dam )
    {
       int x, res, imm, sus, mod;
-      damage_effect_type effect;
 
       if( plusris )
          plusris = RIS_PLUS1 << UMIN( plusris, 7 );
@@ -1924,25 +1853,13 @@ ch_ret projectile_hit( CHAR_DATA * ch, CHAR_DATA * victim, OBJ_DATA * wield, OBJ
       if( sus <= plusris )
          mod += 2;
 
-      effect = DMG_EFFECT_NORMAL;
-
-      if( mod <= 0 )
-         effect = DMG_EFFECT_IMMUNE;
-      else if( mod < 10 )
-         effect = DMG_EFFECT_RESIST;
-      else if( mod > 10 )
-         effect = DMG_EFFECT_SUSCEPT;
-
       /*
-       * check if immune
+       * check if immune 
        */
       if( mod <= 0 )
          dam = -1;
       if( mod != 10 )
          dam = ( dam * mod ) / 10;
-
-      if( effect != DMG_EFFECT_NORMAL )
-         track_combat_damage_effect( ch, effect );
    }
 
    if( prof_gsn != -1 )
@@ -2117,10 +2034,6 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
 
    retcode = rNONE;
 
-   damage_effect_type ris_effect = DMG_EFFECT_NORMAL;
-   int dam_before_resist = dam;
-   int dam_after_resist = dam;
-
    if( !ch )
    {
       bug( "%s: null ch!", __func__ );
@@ -2169,11 +2082,9 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
              || dt == ( TYPE_HIT + DAM_DART ) || dt == ( TYPE_HIT + DAM_ARROW ) )
          dam = ris_damage( victim, dam, RIS_PIERCE );
       else
-      if( dt == ( TYPE_HIT + DAM_SLICE ) || dt == ( TYPE_HIT + DAM_SLASH )
+         if( dt == ( TYPE_HIT + DAM_SLICE ) || dt == ( TYPE_HIT + DAM_SLASH )
              || dt == ( TYPE_HIT + DAM_WHIP ) || dt == ( TYPE_HIT + DAM_CLAW ) )
          dam = ris_damage( victim, dam, RIS_SLASH );
-
-      dam_after_resist = dam;
 
       if( dam == -1 )
       {
@@ -2181,9 +2092,6 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          {
             bool found = FALSE;
             SKILLTYPE *skill = skill_table[dt];
-
-            if( dam_before_resist > 0 && ch != victim )
-               track_combat_damage_effect( ch, DMG_EFFECT_IMMUNE );
 
             if( skill->imm_char && skill->imm_char[0] != '\0' )
             {
@@ -2206,19 +2114,6 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          dam = 0;
       }
    }
-
-   if( dam_before_resist > 0 )
-   {
-      if( dam_after_resist == -1 )
-         ris_effect = DMG_EFFECT_IMMUNE;
-      else if( dam_after_resist < dam_before_resist )
-         ris_effect = DMG_EFFECT_RESIST;
-      else if( dam_after_resist > dam_before_resist )
-         ris_effect = DMG_EFFECT_SUSCEPT;
-   }
-
-   if( ris_effect != DMG_EFFECT_NORMAL && ch != victim )
-      track_combat_damage_effect( ch, ris_effect );
 
    /*
     * Precautionary step mainly to prevent people in Hell from finding
@@ -2537,9 +2432,6 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
     */
    victim->hit -= dam;
 
-   if( dam > 0 && ch != victim && !IS_NPC( ch ) && ch->pcdata )
-      ch->pcdata->combat_damage += dam;
-
    /*
     * Get experience based on % of damage done       -Thoric
     */
@@ -2551,18 +2443,7 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          xp_gain = ( int )( xp_compute( ch, victim ) * 0.85 * dam ) / victim->max_hit;
       if( dt == gsn_backstab || dt == gsn_circle )
          xp_gain = ( int )( xp_gain * 0.05 );
-      if( xp_gain != 0 )
-      {
-         bool old_suppress;
-
-         if( ch->pcdata )
-            ch->pcdata->combat_pl_gain += xp_gain;
-
-         old_suppress = ch->suppress_exp_message;
-         ch->suppress_exp_message = TRUE;
-         gain_exp( ch, xp_gain );
-         ch->suppress_exp_message = old_suppress;
-      }
+      gain_exp( ch, xp_gain );
    }
 
    if( !IS_NPC( victim ) && victim->level >= LEVEL_IMMORTAL && victim->hit < 1 )
@@ -2612,41 +2493,49 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
    /* DBSC-style power level gain from combat damage */
 	if( dam > 0 && ch != victim && !IS_NPC( ch ) && IS_NPC( victim ) )
 	{
-                long long ch_pl = get_power_level( ch );
-                long long victim_pl = get_power_level( victim );
-
-                /* Only gain PL if the opponent isn't too weak */
-                if( victim_pl >= ( ch_pl / 10 ) )  /* Victim must be at least 1/10th your PL */
-                {
-                        long long safe_ch_pl = UMAX( 1LL, ch_pl );
-                        double ratio = (double)victim_pl / (double)safe_ch_pl;
-                        double base = dam / 10.0;
-                        double scaled_gain = base * ratio;
-
-                        if( scaled_gain > 0.0 )
-                        {
-                                int pl_gain = (int)ceil( scaled_gain );
-
-                                pl_gain = UMAX( 1, pl_gain );
-
-                                /* Bio-Androids get reduced combat PL gain - they get the difference back on absorption */
-                                if( IS_BIO_ANDROID( ch ) )
-                                {
-                                        int reduced_gain = pl_gain * 75 / 100;  /* 25% reduction */
-                                        int debt = pl_gain - reduced_gain;      /* Amount they're missing */
-
-                                        /* Track the debt for later absorption */
-                                        if( ch->pcdata )
-                                                ch->pcdata->absorption_debt += debt;
-
-                                        pl_gain = reduced_gain;
-                                }
-
-                                /* Apply the power level gain */
-                                gain_exp( ch, pl_gain );
-                        }
-                }
-        }
+		long long ch_pl = get_power_level( ch );
+		long long victim_pl = get_power_level( victim );
+		
+		/* Only gain PL if the opponent isn't too weak */
+		if( victim_pl >= (ch_pl / 10) )  /* Victim must be at least 1/10th your PL */
+		{
+			int pl_gain = 0;
+			double ratio = (double)victim_pl / (double)ch_pl;
+			
+			/* Calculate PL gain based on opponent strength and damage dealt */
+			if( ratio >= 1.0 )        /* Equal or stronger opponent */
+					pl_gain = dam / 10;    /* Full gain */
+			else if( ratio >= 0.5 )   /* Half as strong */
+					pl_gain = dam / 20;    /* Half gain */
+			else if( ratio >= 0.2 )   /* 1/5 as strong */
+					pl_gain = dam / 50;    /* Minimal gain */
+			else if( ratio >= 0.1 )   /* 1/10 as strong */
+					pl_gain = dam / 100;   /* Very small gain */
+			/* Below 1/10 strength = no gain */
+			
+			/* Minimum gain of 1 if any gain at all */
+			if( pl_gain > 0 )
+			{
+					pl_gain = UMAX( 1, pl_gain );
+					
+					/* Bio-Androids get reduced combat PL gain - they get the difference back on absorption */
+					if( IS_BIO_ANDROID( ch ) )
+					{
+						int reduced_gain = pl_gain * 75 / 100;  /* 25% reduction */
+						int debt = pl_gain - reduced_gain;      /* Amount they're missing */
+						
+						/* Track the debt for later absorption */
+						if( ch->pcdata )
+							ch->pcdata->absorption_debt += debt;
+						
+						pl_gain = reduced_gain;
+					}
+					
+					/* Apply the power level gain */
+					gain_exp( ch, pl_gain );
+			}
+		}
+	}
 
    switch ( victim->position )
    {
@@ -3445,8 +3334,6 @@ void set_fighting( CHAR_DATA * ch, CHAR_DATA * victim )
     */
    reset_focus( ch );
    reset_focus( victim );
-   reset_combat_counters( ch );
-   reset_combat_counters( victim );
 
    CREATE( fight, FIGHT_DATA, 1 );
    fight->who = victim;
@@ -3515,41 +3402,6 @@ void free_fight( CHAR_DATA * ch )
    }
 
    ch->fighting = NULL;
-
-   if( !IS_NPC( ch ) && ch->pcdata )
-   {
-      bool should_report = FALSE;
-
-      if( ch->pcdata->combat_damage > 0 || ch->pcdata->combat_pl_gain > 0 )
-         should_report = TRUE;
-      else if( ch->pcdata->combat_hit_resisted || ch->pcdata->combat_hit_susceptible
-               || ( ch->pcdata->combat_hit_immune && ch->pcdata->combat_damage == 0 ) )
-         should_report = TRUE;
-
-      if( should_report )
-      {
-         const char *color;
-         long long pl_total;
-         long long abs_pl;
-         char pl_sign;
-         const char *pl_amount;
-
-         color = damage_effect_color( ch );
-         pl_total = ch->pcdata->combat_pl_gain;
-         abs_pl = ( pl_total >= 0 ) ? pl_total : -pl_total;
-         pl_sign = ( pl_total >= 0 ) ? '+' : '-';
-         pl_amount = num_punct_ll( abs_pl );
-
-         ch_printf( ch, "&w[%s%s&w dmg] [&C %c%s pl&w]&x\r\n",
-                    color,
-                    num_punct_ll( ch->pcdata->combat_damage ),
-                    pl_sign,
-                    pl_amount );
-      }
-
-      reset_combat_counters( ch );
-   }
-
    if( ch->mount )
       ch->position = POS_MOUNTED;
    else
@@ -3977,13 +3829,28 @@ void group_gain( CHAR_DATA * ch, CHAR_DATA * victim )
 {
    CHAR_DATA *gch, *gch_next;
    CHAR_DATA *lch;
+   int xp;
+   int members;
 
    
-   * Handle alignment shifts and post-kill item effects.
-   * Power level rewards are applied continuously during combat.
+    * Monsters don't get kill xp's or alignment changes.
+    * Dying of mortal wounds or poison doesn't give xp to anyone!
     
    if( IS_NPC( ch ) || victim == ch )
       return;
+
+   members = 0;
+   for( gch = ch->in_room->first_person; gch; gch = gch->next_in_room )
+   {
+      if( is_same_group( gch, ch ) )
+         members++;
+   }
+
+   if( members == 0 )
+   {
+      bug( "%s: members %d", __func__, members );
+      members = 1;
+   }
 
    lch = ch->leader ? ch->leader : ch;
 
@@ -4009,7 +3876,12 @@ void group_gain( CHAR_DATA * ch, CHAR_DATA * victim )
          continue;
       }
 
+      xp = ( int )( xp_compute( gch, victim ) * 0.1765 ) / members;
+      if( !gch->fighting )
+         xp /= 2;
       gch->alignment = align_compute( gch, victim );
+      ch_printf( gch, "You receive %d experience points.\r\n", xp );
+      gain_exp( gch, xp );
 
       for( obj = gch->first_carrying; obj; obj = obj_next )
       {

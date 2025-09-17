@@ -3217,7 +3217,7 @@ void do_rescue( CHAR_DATA* ch, const char* argument )
 
 void do_meditate( CHAR_DATA * ch, const char *argument )
 {
-   const char *arg = NULL;
+   char *arg;
    int percent;
    int managain = ( IS_ELDARI(ch) ? 0 : 22 ); //was druid... potential change
 
@@ -3263,18 +3263,14 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
             bug( "%s: alloc_ptr NULL or not numeric", __func__ );
             return;
          }
-         arg = ch->alloc_ptr;
-         ch->alloc_ptr = NULL;
+         arg = strdup( ch->alloc_ptr );
+         DISPOSE( ch->alloc_ptr );
          break;
 
       case SUB_TIMER_DO_ABORT:
          ch->substate = SUB_NONE;
          send_to_char_color( "&BYou stop meditating.\r\n", ch );
-         if( ch->alloc_ptr )
-         {
-            DISPOSE( ch->alloc_ptr );
-            ch->alloc_ptr = NULL;
-         }
+         DISPOSE( ch->alloc_ptr );
          return;
    }
 
@@ -3339,31 +3335,16 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
               send_to_char( "&RYour mind cannot focus during combat!&x\r\n", ch );
               discovery_chance = 0;  /* No discovery chance while fighting */
           }
+          else if( ch->in_room->first_person != ch && ch->in_room->first_person->next_in_room )
+          {
+              /* Other people in room reduce concentration */
+              discovery_chance /= 3;  /* Much lower chance if not alone */
+              send_to_char( "&YThe presence of others disrupts your deep meditation.&x\r\n", ch );
+          }
           else
           {
-              bool has_companion = FALSE;
-              CHAR_DATA *rch;
-
-              for( rch = ch->in_room ? ch->in_room->first_person : NULL; rch; rch = rch->next_in_room )
-              {
-                  if( rch != ch )
-                  {
-                     has_companion = TRUE;
-                     break;
-                  }
-              }
-
-              if( has_companion )
-              {
-                  /* Other people in room reduce concentration */
-                  discovery_chance /= 3;  /* Much lower chance if not alone */
-                  send_to_char( "&YThe presence of others disrupts your deep meditation.&x\r\n", ch );
-              }
-              else
-              {
-                  /* Perfect meditation environment */
-                  send_to_char( "&CYou find perfect stillness and focus in your solitude.&x\r\n", ch );
-              }
+              /* Perfect meditation environment */
+              send_to_char( "&CYou find perfect stillness and focus in your solitude.&x\r\n", ch );
           }
           
           /* Check for transformation discovery */
@@ -3423,22 +3404,18 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
       TIMER *timer;
       timer = get_timerptr( ch, TIMER_DO_FUN );
       timer->count += UMAX( 2, ( skill_table[gsn_meditate]->beats / 8 ) );
-      ch->alloc_ptr = arg;
-      arg = NULL;
+      ch->alloc_ptr = strdup( arg );
    }
    else
    {
       send_to_char_color( "&BYou complete your meditations.\r\n", ch );
       ch->substate = SUB_NONE;
    }
-
-   if( arg )
-      DISPOSE( arg );
 }
 
 void do_trance( CHAR_DATA * ch, const char *argument )
 {
-   const char *arg = NULL;
+   char *arg;
    int percent;
    int managain = ( IS_ELDARI(ch) ? 0 : 50 ); // was druid... potential change
 
@@ -3462,18 +3439,14 @@ void do_trance( CHAR_DATA * ch, const char *argument )
             bug( "%s: alloc_ptr NULL or not numeric", __func__ );
             return;
          }
-         arg = ch->alloc_ptr;
-         ch->alloc_ptr = NULL;
+         arg = strdup( ch->alloc_ptr );
+         DISPOSE( ch->alloc_ptr );
          break;
 
       case SUB_TIMER_DO_ABORT:
          ch->substate = SUB_NONE;
          send_to_char_color( "&BYou come out of your trance.\r\n", ch );
-         if( ch->alloc_ptr )
-         {
-            DISPOSE( ch->alloc_ptr );
-            ch->alloc_ptr = NULL;
-         }
+         DISPOSE( ch->alloc_ptr );
          return;
    }
 
@@ -3537,17 +3510,13 @@ void do_trance( CHAR_DATA * ch, const char *argument )
       TIMER *timer;
       timer = get_timerptr( ch, TIMER_DO_FUN );
       timer->count += UMAX( 2, ( skill_table[gsn_trance]->beats / 8 ) );
-      ch->alloc_ptr = arg;
-      arg = NULL;
+      ch->alloc_ptr = strdup( arg );
    }
    else
    {
       send_to_char_color( "&BYou complete your trance.\r\n", ch );
       ch->substate = SUB_NONE;
    }
-
-   if( arg )
-      DISPOSE( arg );
 }
 
 void do_kick( CHAR_DATA* ch, const char* argument )

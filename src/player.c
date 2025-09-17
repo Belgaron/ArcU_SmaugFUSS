@@ -26,21 +26,6 @@
  */
 const char *tiny_affect_loc_name( int location );
 
-static void format_time_string( char *outbuf, size_t outsize, time_t time_value )
-{
-   if( !outbuf || outsize == 0 )
-      return;
-
-   if( time_value <= 0 )
-   {
-      mudstrlcpy( outbuf, "N/A", outsize );
-      return;
-   }
-
-   mudstrlcpy( outbuf, ctime( &time_value ), outsize );
-   outbuf[strcspn( outbuf, "\r\n" )] = '\0';
-}
-
 void do_gold( CHAR_DATA* ch, const char* argument )
 {
    set_char_color( AT_GOLD, ch );
@@ -155,24 +140,6 @@ void do_worth( CHAR_DATA* ch, const char* argument )
 void do_score( CHAR_DATA* ch, const char* argument )
 {
    char buf[MAX_STRING_LENGTH];
-   char logon_time[26];
-   char save_time[26];
-   char now_time[26];
-   char armor_desc[32];
-   char align_desc[16];
-   char armor_value[32];
-   char carry_buf[32];
-   char carry_max_buf[32];
-   char weight_buf[32];
-   char weight_max_buf[32];
-   char base_pl_buf[32];
-   char curr_pl_buf[32];
-   char gained_pl_buf[32];
-   char gold_buf[32];
-   char autosac;
-   char autoexit;
-   char autoloot;
-   char pager_on;
    AFFECT_DATA *paf;
    int iLang;
    
@@ -196,100 +163,105 @@ void do_score( CHAR_DATA* ch, const char* argument )
 
    set_pager_color( AT_SCORE, ch );
 
-   format_time_string( logon_time, sizeof( logon_time ), ch->logon );
-   if( ch->save_time )
-      format_time_string( save_time, sizeof( save_time ), ch->save_time );
-   else
-      mudstrlcpy( save_time, "no save this session", sizeof( save_time ) );
-   format_time_string( now_time, sizeof( now_time ), current_time );
-
-   mudstrlcpy( gold_buf, num_punct( ch->gold ), sizeof( gold_buf ) );
-   mudstrlcpy( carry_buf, num_punct( ch->carry_number ), sizeof( carry_buf ) );
-   mudstrlcpy( carry_max_buf, num_punct( can_carry_n( ch ) ), sizeof( carry_max_buf ) );
-   mudstrlcpy( weight_buf, num_punct( ch->carry_weight ), sizeof( weight_buf ) );
-   mudstrlcpy( weight_max_buf, num_punct( can_carry_w( ch ) ), sizeof( weight_max_buf ) );
-   mudstrlcpy( base_pl_buf, num_punct_ll( ch->power_level.get_base() ), sizeof( base_pl_buf ) );
-   mudstrlcpy( curr_pl_buf, num_punct_ll( get_power_level( ch ) ), sizeof( curr_pl_buf ) );
-   mudstrlcpy( gained_pl_buf,
-               num_punct_ll( ch->power_level.get_base() - ch->power_level.get_logon() ), sizeof( gained_pl_buf ) );
-
-   autosac = xIS_SET( ch->act, PLR_AUTOSAC ) ? 'X' : ' ';
-   autoexit = xIS_SET( ch->act, PLR_AUTOEXIT ) ? 'X' : ' ';
-   autoloot = xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ';
-   pager_on = ( !IS_NPC( ch ) && IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ) ? 'X' : ' ';
-
-   pager_printf( ch, "&C\r\n %s%s.&D\r\n", ch->name, IS_NPC( ch ) ? "" : ch->pcdata->title );
+   pager_printf( ch, "&c\r\n %s%s.\r\n&D", ch->name, IS_NPC(ch) ? "" : ch->pcdata->title );
    if( get_trust( ch ) != ch->level )
-      pager_printf( ch, "&CYou are trusted at level %d.&D\r\n", get_trust( ch ) );
+      pager_printf( ch, "&cYou are trusted at level %d.\r\n&D", get_trust( ch ) );
 
-   pager_printf( ch, "&C Race : &W%-18.18s&C                 Played: &W%7ld &Chours&D\r\n",
-                 capitalize( get_race( ch ) ), ( long )GET_TIME_PLAYED( ch ) );
+   send_to_pager( "&c----------------------------------------------------------------------------\r\n&D", ch );
 
-   pager_printf( ch, "&C Years: &W%-8d&C                 Log In: &W%s&D\r\n", calculate_age( ch ), logon_time );
+   /*if( time_info.day == ch->pcdata->day && time_info.month == ch->pcdata->month )
+      send_to_char( "Today is your birthday!\r\n", ch );
+   else
+      ch_printf( ch, "Your birthday is: Day of %s, %d%s day in the Month of %s, in the year %d.\r\n",
+                 day_name[ch->pcdata->day % sysdata.daysperweek], day, suf, month_name[ch->pcdata->month], ch->pcdata->year );
+   send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
+   * - Uncomment this if you want players to see their birthday's on score. - Kayle 1/22/08
+   */
 
-   pager_printf( ch, "&C STR  : &W%4d&C(&W%4d&C)  &CHitRoll: &R%5d&C          Saved: &W%s&D\r\n",
-                 get_curr_str( ch ), ch->perm_str, GET_HITROLL( ch ), save_time );
+   pager_printf( ch, "&cRace : &w%-10.10s&c                           Played: &z%ld hours\r\n&D",
+                 capitalize( get_race( ch ) ), ( long int )GET_TIME_PLAYED( ch ) );
 
-   pager_printf( ch, "&C INT  : &W%4d&C(&W%4d&C)  &CDamRoll: &R%5d&C          Time : &W%s&D\r\n",
-                 get_curr_int( ch ), ch->perm_int, GET_DAMROLL( ch ), now_time );
+   pager_printf( ch, "&cYEARS: &w%-6d&c                               Log In: &z%s\r&D",
+                 calculate_age( ch ), ctime( &( ch->logon ) ) );
+
+   if( ch->level >= 15 || IS_PKILL( ch ) )
+   {
+      pager_printf( ch, "&cSTR  : &w%2.2d&c(&z%2.2d&c)    HitRoll: &r%-4d&c               Saved: &z%s\r&D",
+                    get_curr_str( ch ), ch->perm_str, GET_HITROLL( ch ),
+                    ch->save_time ? ctime( &( ch->save_time ) ) : "&zno save this session\n&D" );
+
+      pager_printf( ch, "&cINT  : &w%2.2d&c(&z%2.2d&c)    DamRoll: &r%-4d&c                Time: &z%s\r&D",
+                    get_curr_int( ch ), ch->perm_int, GET_DAMROLL( ch ), ctime( &current_time ) );
+   }
+   else
+   {
+      pager_printf( ch, "&cSTR  : &w%2.2d&c(&z%2.2d&c)                               Saved:  &z%s\r&D",
+                    get_curr_str( ch ), ch->perm_str, ch->save_time ? ctime( &( ch->save_time ) ) : "no\n" );
+
+      pager_printf( ch, "&cINT  : &w%2.2d&c(&z%2.2d&c)                               Time:   &z%s\r&D",
+                    get_curr_int( ch ), ch->perm_int, ctime( &current_time ) );
+   }
 
    if( GET_AC( ch ) >= 101 )
-      mudstrlcpy( armor_desc, "rags", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "rags" );
    else if( GET_AC( ch ) >= 80 )
-      mudstrlcpy( armor_desc, "pathetic", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "pathetic" );
    else if( GET_AC( ch ) >= 55 )
-      mudstrlcpy( armor_desc, "shabby", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "shabby" );
    else if( GET_AC( ch ) >= 40 )
-      mudstrlcpy( armor_desc, "poor quality", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "poor quality" );
    else if( GET_AC( ch ) >= 20 )
-      mudstrlcpy( armor_desc, "scant protection", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "scant protection" );
    else if( GET_AC( ch ) >= 10 )
-      mudstrlcpy( armor_desc, "that of a knave", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "that of a knave" );
    else if( GET_AC( ch ) >= 0 )
-      mudstrlcpy( armor_desc, "moderately crafted", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "moderately crafted" );
    else if( GET_AC( ch ) >= -10 )
-      mudstrlcpy( armor_desc, "well crafted", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "well crafted" );
    else if( GET_AC( ch ) >= -20 )
-      mudstrlcpy( armor_desc, "the envy of squires", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "the envy of squires" );
    else if( GET_AC( ch ) >= -40 )
-      mudstrlcpy( armor_desc, "excellently crafted", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "excellently crafted" );
    else if( GET_AC( ch ) >= -60 )
-      mudstrlcpy( armor_desc, "the envy of knights", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "the envy of knights" );
    else if( GET_AC( ch ) >= -80 )
-      mudstrlcpy( armor_desc, "the envy of barons", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "the envy of barons" );
    else if( GET_AC( ch ) >= -100 )
-      mudstrlcpy( armor_desc, "the envy of dukes", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "the envy of dukes" );
    else if( GET_AC( ch ) >= -200 )
-      mudstrlcpy( armor_desc, "the envy of emperors", sizeof( armor_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "the envy of emperors" );
    else
-      mudstrlcpy( armor_desc, "that of an avatar", sizeof( armor_desc ) );
-
-   snprintf( armor_value, sizeof( armor_value ), "%d", GET_AC( ch ) );
-
-   pager_printf( ch, "&C WIS  : &W%4d&C(&W%4d&C)  &CArmor: &W%-12s&C (%-22s)&D\r\n",
-                 get_curr_wis( ch ), ch->perm_wis, armor_value, armor_desc );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "that of an avatar" );
+   if( ch->level > 24 )
+      pager_printf( ch, "&cWIS  : &w%2.2d&c(&z%2.2d&c)      Armor: &w%4.4d, %s\r\n&D",
+                    get_curr_wis( ch ), ch->perm_wis, GET_AC( ch ), buf );
+   else
+      pager_printf( ch, "&cWIS  : &w%2.2d&c(&z%2.2d&c)      Armor: &w%s \r\n&D", get_curr_wis( ch ), ch->perm_wis, buf );
 
    if( ch->alignment > 900 )
-      mudstrlcpy( align_desc, "devout", sizeof( align_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "devout" );
    else if( ch->alignment > 700 )
-      mudstrlcpy( align_desc, "noble", sizeof( align_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "noble" );
    else if( ch->alignment > 350 )
-      mudstrlcpy( align_desc, "honorable", sizeof( align_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "honorable" );
    else if( ch->alignment > 100 )
-      mudstrlcpy( align_desc, "worthy", sizeof( align_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "worthy" );
    else if( ch->alignment > -100 )
-      mudstrlcpy( align_desc, "neutral", sizeof( align_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "neutral" );
    else if( ch->alignment > -350 )
-      mudstrlcpy( align_desc, "base", sizeof( align_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "base" );
    else if( ch->alignment > -700 )
-      mudstrlcpy( align_desc, "evil", sizeof( align_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "evil" );
    else if( ch->alignment > -900 )
-      mudstrlcpy( align_desc, "ignoble", sizeof( align_desc ) );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "ignoble" );
    else
-      mudstrlcpy( align_desc, "fiendish", sizeof( align_desc ) );
-
-   pager_printf( ch, "&C DEX  : &W%4d&C(&W%4d&C)  &CAlign: &W%+6d&C, &R%-12s&C   Items: &W%-15s &C(max %-15s)&D\r\n",
-                 get_curr_dex( ch ), ch->perm_dex, ch->alignment, align_desc, carry_buf, carry_max_buf );
+      snprintf( buf, MAX_STRING_LENGTH, "%s", "fiendish" );
+   if( ch->level < 10 )
+      pager_printf( ch, "&cDEX  : &w%2.2d&c(&z%2.2d&c)      Align: &w%-20.20s&c    Items: &w%5.5d&c   (&zmax %5.5d&c)&D\r\n",
+                    get_curr_dex( ch ), ch->perm_dex, buf, ch->carry_number, can_carry_n( ch ) );
+   else
+      pager_printf( ch, "&cDEX  : &w%2.2d&C(&z%2.2d&c)      Align: &w%+4.4d, &R%-14.14s&c   Items: &w%5.5d&c   (&zmax %5.5d&c)&D\r\n",
+                    get_curr_dex( ch ), ch->perm_dex, ch->alignment, buf, ch->carry_number, can_carry_n( ch ) );
 
    switch ( ch->position )
    {
@@ -336,18 +308,19 @@ void do_score( CHAR_DATA* ch, const char* argument )
          snprintf( buf, MAX_STRING_LENGTH, "%s", "sitting" );
          break;
    }
-   pager_printf( ch, "&C CON  : &W%4d&C(&W%4d&C)  &CPos'n: &W%-20.20s&C   Weight: &W%-15s &C(max %-15s)&D\r\n",
-                 get_curr_con( ch ), ch->perm_con, buf, weight_buf, weight_max_buf );
+   pager_printf( ch, "&cCON  : &w%2.2d&c(&z%2.2d&c)      Pos'n: &w%-21.21s&c  Weight: &w%5.5d &c(&zmax %7.7d&C)&D\r\n",
+                 get_curr_con( ch ), ch->perm_con, buf, ch->carry_weight, can_carry_w( ch ) );
 
    /*
     * Fighting style support -haus
     */
-   if( is_android( ch ) )
-      ch_printf( ch, "&C COR  : &W%4d&C(&W%4d&C)&D\r\n", get_curr_spr( ch ), ch->perm_spr );
-   else
-      ch_printf( ch, "&C SPR  : &W%4d&C(&W%4d&C)&D\r\n", get_curr_spr( ch ), ch->perm_spr );
+   if (is_android(ch)) {
+		ch_printf(ch, "&cCOR  : &w%d(&z%d)&D\r\n", get_curr_spr(ch), ch->perm_spr);
+	} else {
+		ch_printf(ch, "&cSPR  : &w%d(&z%d)&D\r\n", get_curr_spr(ch), ch->perm_spr);
+	}
    
-   pager_printf(ch, "&b-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=&C\n\r");
+   pager_printf(ch, "&c-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=&D\n\r");
 
    switch ( ch->style )
    {
@@ -367,26 +340,27 @@ void do_score( CHAR_DATA* ch, const char* argument )
          snprintf( buf, MAX_STRING_LENGTH, "%s", "standard" );
          break;
    }
-   pager_printf( ch, "&CPRACT: &G%-6d&C         &YLife: &W%-7d/%-7d&D\r\n", ch->practice, ch->hit, ch->max_hit );
+   pager_printf( ch, "&cPRACT: &G%d&c                     &cLife: &G%-5d \r\n&D", ch->practice, ch->hit );
 
-   pager_printf( ch, "&YGOLD : &W%-15s&C       &YMana: &W%-7d/%-7d&D\r\n", gold_buf, ch->mana, ch->max_mana );
+   pager_printf( ch, "&OGOLD : %-13s&c         &cMana: &C%d/%d&C&D \r\n", 
+				 num_punct( ch->gold ), ch->mana, ch->max_mana  );
    
    //pager_printf( ch, "Glory: %4.4d(%4.4d) \r\n", ch->pcdata->quest_curr, ch->pcdata->quest_accum );
 
-   pager_printf( ch, "&C BASE POWERLEVEL: &W%-26s&C   AutoSac [%c]   AutoExit [%c]&D\r\n",
-                 base_pl_buf, autosac, autoexit );
+   pager_printf( ch, "&cBASE POWERLEVEL: 13%s&c                          AutoSac (&W%c&c)  AutoExit(&W%c&c)\r\n&D",
+                 num_punct_ll( ch->power_level.get_base() ), xIS_SET( ch->act, PLR_AUTOSAC ) ? 'X' : ' ', xIS_SET( ch->act, PLR_AUTOEXIT ) ? 'X' : ' ' );
 
    if( IS_VAMPIRE( ch ) )
-      pager_printf( ch, "&C CURR POWERLEVEL: &W%-26s&C   &CBlood: &R%-6d&C/&R%-6d&C   AutoLoot [%c]   Pager [%c]&D\r\n",
-                    curr_pl_buf, ch->pcdata->condition[COND_BLOODTHIRST], 10 + ch->level, autoloot, pager_on );
+      pager_printf( ch, "&cBASE POWERLEVEL: 13%s&c       &RBlood: %-5d &Cof &R%5d&c  AutoLoot(&W%c&c)  Pager(&W%c&c)\r\n&D",
+                    num_punct_ll( ch->power_level.get_base() ), ch->pcdata->condition[COND_BLOODTHIRST], 10 + ch->level, xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ', IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? 'X' : ' ');
    else
-      pager_printf( ch, "&C CURR POWERLEVEL: &W%-26s&C   AutoLoot [%c]   Pager [%c]&D\r\n",
-                    curr_pl_buf, autoloot, pager_on );
+      pager_printf( ch, "&cCURR POWERLEVEL: 13%s                           AutoLoot(&W%c&c)  Pager: (&W%c&c)\r\n",
+                    num_punct_ll( get_power_level( ch ) ), xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ', IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? 'X' : ' ');
+	
+   pager_printf( ch, "&gPL GAINED SINCE LOGON: 13%s\r\n&c", num_punct_ll( ch->power_level.get_base() - ch->power_level.get_logon() ) );	
 
-   pager_printf( ch, "&C PL GAINED SINCE LOGON: &W%-26s&D\r\n", gained_pl_buf );
-
-   pager_printf_color( ch, "&C                                      MKills:  [&R%05d&C]  Mdeaths: [&R%05d&C]&D\r\n",
-                       ch->pcdata->mkills, ch->pcdata->mdeaths );
+   pager_printf_color( ch, "                                             &cMKills:  [&R%-5.5d&c] Mdeaths: [&R%-5.5d&c]    &D\r\n",
+                  ch->pcdata->mkills, ch->pcdata->mdeaths );
 
    if( !IS_NPC( ch ) && ch->pcdata->condition[COND_DRUNK] > 10 )
       send_to_pager( "You are drunk.\r\n", ch );
@@ -472,7 +446,7 @@ void do_score( CHAR_DATA* ch, const char* argument )
       send_to_pager( "You are deep in a much needed sleep.\r\n", ch );
    else if( ch->mental_state < -25 )
       send_to_pager( "You are in deep slumber.\r\n", ch );
-   send_to_pager( "&CLanguages: &D", ch );
+   send_to_pager( "&cLanguages: &w", ch );
    for( iLang = 0; lang_array[iLang] != LANG_UNKNOWN; iLang++ )
       if( knows_language( ch, lang_array[iLang], ch ) || ( IS_NPC( ch ) && ch->speaks == 0 ) )
       {
@@ -482,10 +456,10 @@ void do_score( CHAR_DATA* ch, const char* argument )
          send_to_pager( " ", ch );
          set_pager_color( AT_SCORE, ch );
       }
-   send_to_pager( "\r\n", ch );
+   send_to_pager( "&D\r\n", ch );
 
    if( ch->pcdata->bestowments && ch->pcdata->bestowments[0] != '\0' )
-      pager_printf( ch, "&CYou are bestowed with the command(s): &W%s.\r\n&D", ch->pcdata->bestowments );
+      pager_printf( ch, "&cYou are bestowed with the command(s): &w%s.\r\n&D", ch->pcdata->bestowments );
 
 /* Android status display - only show if they are currently collecting components */
 if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) && ch->pcdata )
@@ -518,9 +492,9 @@ if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) && ch->pcdata )
                 ch_printf( ch, "&W%s: &Y%d&W/5 components", names[i], ch->pcdata->android_components[i] );
                 
                 if( ch->pcdata->android_components[i] >= 5 )
-                    send_to_char( " &G[READY TO INSTALL]&x\r\n", ch );
+                    send_to_char( " &G[READY TO INSTALL]&D\r\n", ch );
                 else
-                    send_to_char( "&x\r\n", ch );
+                    send_to_char( "&z\r\n&D", ch );
             }
         }
     }
@@ -528,25 +502,25 @@ if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) && ch->pcdata )
 }
    if( CAN_PKILL( ch ) )
    {
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
-      pager_printf( ch, "PKILL DATA:  Pkills (%3.3d)     Illegal Pkills (%3.3d)     Pdeaths (%3.3d)\r\n",
+      send_to_pager( "&c----------------------------------------------------------------------------\r\n&D", ch );
+      pager_printf( ch, "&cPKILL DATA:  Pkills [&R%3.3d&c]     Illegal Pkills [&R%3.3d&c]     Pdeaths [&R%3.3d&c]&D\r\n",
                     ch->pcdata->pkills, ch->pcdata->illegal_pk, ch->pcdata->pdeaths );
    }
    if( ch->pcdata->clan && ch->pcdata->clan->clan_type != CLAN_ORDER && ch->pcdata->clan->clan_type != CLAN_GUILD )
    {
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
-      pager_printf( ch, "CLAN STATS:  %-14.14s  Clan AvPkills : %-5d  Clan NonAvpkills : %-5d\r\n",
+      send_to_pager( "&c----------------------------------------------------------------------------&D\r\n", ch );
+      pager_printf( ch, "&cCLAN STATS:  %-14.14s  Clan AvPkills : [&R%-5d&c]  Clan NonAvpkills : [&R%-5d&c]&D\r\n",
                     ch->pcdata->clan->name, ch->pcdata->clan->pkills[6],
                     ( ch->pcdata->clan->pkills[1] + ch->pcdata->clan->pkills[2] +
                       ch->pcdata->clan->pkills[3] + ch->pcdata->clan->pkills[4] + ch->pcdata->clan->pkills[5] ) );
-      pager_printf( ch, "                             Clan AvPdeaths: %-5d  Clan NonAvpdeaths: %-5d\r\n",
+      pager_printf( ch, "&c                             Clan AvPdeaths: [&R%-5d&c]  Clan NonAvpdeaths: [&R%-5d&c]&D\r\n",
                     ch->pcdata->clan->pdeaths[6],
                     ( ch->pcdata->clan->pdeaths[1] + ch->pcdata->clan->pdeaths[2] +
                       ch->pcdata->clan->pdeaths[3] + ch->pcdata->clan->pdeaths[4] + ch->pcdata->clan->pdeaths[5] ) );
    }
    if( ch->pcdata->deity )
    {
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
+      send_to_pager( "&c----------------------------------------------------------------------------&D\r\n", ch );
       if( ch->pcdata->favor > 2250 )
          snprintf( buf, MAX_STRING_LENGTH, "%s", "loved" );
       else if( ch->pcdata->favor > 2000 )
@@ -581,30 +555,30 @@ if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) && ch->pcdata )
          snprintf( buf, MAX_STRING_LENGTH, "%s", "hated" );
       else
          snprintf( buf, MAX_STRING_LENGTH, "%s", "damned" );
-      pager_printf( ch, "Deity:  %-20s  Favor: %s\r\n", ch->pcdata->deity->name, buf );
+      pager_printf( ch, "&cDeity:  %-20s  Favor: %s&D\r\n", ch->pcdata->deity->name, buf );
    }
    if( ch->pcdata->clan && ch->pcdata->clan->clan_type == CLAN_ORDER )
    {
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
-      pager_printf( ch, "Order:  %-20s  Order Mkills:  %-6d   Order MDeaths:  %-6d\r\n",
+      send_to_pager( "&c----------------------------------------------------------------------------&D\r\n", ch );
+      pager_printf( ch, "&cOrder:  %-20s  Order Mkills:  %-6d   Order MDeaths:  %-6d&D\r\n",
                     ch->pcdata->clan->name, ch->pcdata->clan->mkills, ch->pcdata->clan->mdeaths );
    }
    if( ch->pcdata->clan && ch->pcdata->clan->clan_type == CLAN_GUILD )
    {
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
-      pager_printf( ch, "Guild:  %-20s  Guild Mkills:  %-6d   Guild MDeaths:  %-6d\r\n",
+      send_to_pager( "&c----------------------------------------------------------------------------&D\r\n", ch );
+      pager_printf( ch, "&cGuild:  %-20s  Guild Mkills:  %-6d   Guild MDeaths:  %-6d&D\r\n",
                     ch->pcdata->clan->name, ch->pcdata->clan->mkills, ch->pcdata->clan->mdeaths );
    }
    if( IS_IMMORTAL( ch ) )
    {
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
+      send_to_pager( "&c----------------------------------------------------------------------------&D\r\n", ch );
 
-      pager_printf( ch, "IMMORTAL DATA:  Wizinvis [%s]  Wizlevel (%d)\r\n",
+      pager_printf( ch, "&wIMMORTAL DATA:  Wizinvis [%s]  Wizlevel (%d)&D\r\n",
                     xIS_SET( ch->act, PLR_WIZINVIS ) ? "X" : " ", ch->pcdata->wizinvis );
 
-      pager_printf( ch, "Bamfin:  %s %s\r\n", ch->name, ( ch->pcdata->bamfin[0] != '\0' )
+      pager_printf( ch, "&wBamfin:  %s %s&D\r\n", ch->name, ( ch->pcdata->bamfin[0] != '\0' )
                     ? ch->pcdata->bamfin : "appears in a swirling mist." );
-      pager_printf( ch, "Bamfout: %s %s\r\n", ch->name, ( ch->pcdata->bamfout[0] != '\0' )
+      pager_printf( ch, "&wBamfout: %s %s&D\r\n", ch->name, ( ch->pcdata->bamfout[0] != '\0' )
                     ? ch->pcdata->bamfout : "leaves in a swirling mist." );
 
       /*
@@ -625,8 +599,8 @@ if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) && ch->pcdata )
       SKILLTYPE *sktmp;
 
       i = 0;
-      send_to_pager( "----------------------------------------------------------------------------\r\n", ch );
-      send_to_pager( "AFFECT DATA:                            ", ch );
+      send_to_pager( "&c----------------------------------------------------------------------------&D\r\n", ch );
+      send_to_pager( "&cAFFECT DATA:&W                            &D", ch );
       for( paf = ch->first_affect; paf; paf = paf->next )
       {
          if( ( sktmp = get_skilltype( paf->type ) ) == NULL )

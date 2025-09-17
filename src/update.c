@@ -180,15 +180,9 @@ void gain_exp( CHAR_DATA * ch, int gain )
    ch->exp = ch->power_level.get_base();
    
    if( pl_gain > 0 )
-   {
-      if( !ch->suppress_exp_message )
-         ch_printf( ch, "&GYou gain &Y%s &Gpower level!\r\n", num_punct_ll( pl_gain ) );
-   }
+      ch_printf( ch, "&GYou gain &Y%s &Gpower level!\r\n", num_punct_ll( pl_gain ) );
    else if( pl_gain < 0 )
-   {
-      if( !ch->suppress_exp_message )
-         ch_printf( ch, "&RYou lose &Y%s &Rpower level!\r\n", num_punct_ll( -pl_gain ) );
-   }
+      ch_printf( ch, "&RYou lose &Y%s &Rpower level!\r\n", num_punct_ll( -pl_gain ) );
       
    save_char_obj( ch );
 	
