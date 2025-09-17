@@ -2412,6 +2412,7 @@ struct char_data
    time_t save_time;
    short timer;
    short wait;
+   bool suppress_exp_message;                                         /* Suppress PL gain messaging (combat summaries handle it) */
    int active_transformation;      /* Active transformation skill number */
    int transform_duration;         /* Remaining duration */
    int transform_upkeep_debt;      /* Mana debt */
@@ -2504,6 +2505,14 @@ struct killed_data
    char count;
 };
 
+typedef enum
+{
+   DMG_EFFECT_NORMAL = 0,
+   DMG_EFFECT_RESIST,
+   DMG_EFFECT_SUSCEPT,
+   DMG_EFFECT_IMMUNE
+} damage_effect_type;
+
 /* Structure for link list of ignored players */
 struct ignore_data
 {
@@ -2593,9 +2602,14 @@ struct pc_data
 	int absorption_debt;         					/* PL debt for bio-androids to collect on absorption */
 	short absorbed_count;        					/* Bio-android absorption tracking */
 	short evolution_stage;       					/* Bio-android evolution level */
-	short android_components[6];    /* Components: nano, quantum, plasma, neural, fusion, ethereal */
+        short android_components[6];    /* Components: nano, quantum, plasma, neural, fusion, ethereal */
    short android_schematics;       /* Bitmask: bits 0-5 for unlocked schematics */
    short android_installed;        /* Bitmask: bits 0-5 for installed transformations */
+   long long combat_damage;                                           /* Total damage dealt during the current combat */
+   long long combat_pl_gain;                                         /* Total PL gained from damage this combat */
+   bool combat_hit_resisted;                                         /* Whether any attack was resisted */
+   bool combat_hit_susceptible;                                      /* Whether any attack benefited from susceptibility */
+   bool combat_hit_immune;                                           /* Whether any attack was negated by immunity */
 };
 
 /*
