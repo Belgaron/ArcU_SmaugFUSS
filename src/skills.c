@@ -3217,7 +3217,7 @@ void do_rescue( CHAR_DATA* ch, const char* argument )
 
 void do_meditate( CHAR_DATA * ch, const char *argument )
 {
-   char *arg = NULL;
+   const char *arg = NULL;
    int percent;
    int managain = ( IS_ELDARI(ch) ? 0 : 22 ); //was druid... potential change
 
@@ -3438,7 +3438,7 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
 
 void do_trance( CHAR_DATA * ch, const char *argument )
 {
-   char *arg = NULL;
+   const char *arg = NULL;
    int percent;
    int managain = ( IS_ELDARI(ch) ? 0 : 50 ); // was druid... potential change
 
