@@ -2525,6 +2525,7 @@ void nanny_read_motd( DESCRIPTOR_DATA * d, const char *argument )
 
    add_char( ch );
    d->connected = CON_PLAYING;
+   set_logon_powerlevel( ch );
 
    if( ch->level == 0 )
    {
@@ -2920,6 +2921,7 @@ short check_reconnect( DESCRIPTOR_DATA * d, const char *name, bool fConn )
             act( AT_ACTION, "$n has reconnected.", ch, NULL, NULL, TO_CANSEE );
             log_printf_plus( LOG_COMM, UMAX( sysdata.log_level, ch->level ), "%s (%s) reconnected.", ch->name, d->host );
             d->connected = CON_PLAYING;
+            set_logon_powerlevel( ch );
             do_look( ch, "auto" );
             check_loginmsg( ch );
          }

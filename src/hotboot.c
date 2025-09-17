@@ -821,6 +821,7 @@ void hotboot_recover( void )
          act( AT_MAGIC, "A puff of ethereal smoke dissipates around you!", d->character, NULL, NULL, TO_CHAR );
          act( AT_MAGIC, "$n appears in a puff of ethereal smoke!", d->character, NULL, NULL, TO_ROOM );
          d->connected = CON_PLAYING;
+         set_logon_powerlevel( d->character );
          if( ++num_descriptors > sysdata.maxplayers )
             sysdata.maxplayers = num_descriptors;
 #ifdef AUTO_AUTH
