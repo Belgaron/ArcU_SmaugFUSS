@@ -16,6 +16,7 @@
  ****************************************************************************/
 
 #include <stdio.h>
+#include <math.h>
 #include "mud.h"
 #include "custom_slay.h"
 
@@ -2493,49 +2494,41 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
    /* DBSC-style power level gain from combat damage */
 	if( dam > 0 && ch != victim && !IS_NPC( ch ) && IS_NPC( victim ) )
 	{
-		long long ch_pl = get_power_level( ch );
-		long long victim_pl = get_power_level( victim );
-		
-		/* Only gain PL if the opponent isn't too weak */
-		if( victim_pl >= (ch_pl / 10) )  /* Victim must be at least 1/10th your PL */
-		{
-			int pl_gain = 0;
-			double ratio = (double)victim_pl / (double)ch_pl;
-			
-			/* Calculate PL gain based on opponent strength and damage dealt */
-			if( ratio >= 1.0 )        /* Equal or stronger opponent */
-					pl_gain = dam / 10;    /* Full gain */
-			else if( ratio >= 0.5 )   /* Half as strong */
-					pl_gain = dam / 20;    /* Half gain */
-			else if( ratio >= 0.2 )   /* 1/5 as strong */
-					pl_gain = dam / 50;    /* Minimal gain */
-			else if( ratio >= 0.1 )   /* 1/10 as strong */
-					pl_gain = dam / 100;   /* Very small gain */
-			/* Below 1/10 strength = no gain */
-			
-			/* Minimum gain of 1 if any gain at all */
-			if( pl_gain > 0 )
-			{
-					pl_gain = UMAX( 1, pl_gain );
-					
-					/* Bio-Androids get reduced combat PL gain - they get the difference back on absorption */
-					if( IS_BIO_ANDROID( ch ) )
-					{
-						int reduced_gain = pl_gain * 75 / 100;  /* 25% reduction */
-						int debt = pl_gain - reduced_gain;      /* Amount they're missing */
-						
-						/* Track the debt for later absorption */
-						if( ch->pcdata )
-							ch->pcdata->absorption_debt += debt;
-						
-						pl_gain = reduced_gain;
-					}
-					
-					/* Apply the power level gain */
-					gain_exp( ch, pl_gain );
-			}
-		}
-	}
+                long long ch_pl = get_power_level( ch );
+                long long victim_pl = get_power_level( victim );
+
+                /* Only gain PL if the opponent isn't too weak */
+                if( victim_pl >= ( ch_pl / 10 ) )  /* Victim must be at least 1/10th your PL */
+                {
+                        long long safe_ch_pl = UMAX( 1LL, ch_pl );
+                        double ratio = (double)victim_pl / (double)safe_ch_pl;
+                        double base = dam / 10.0;
+                        double scaled_gain = base * ratio;
+
+                        if( scaled_gain > 0.0 )
+                        {
+                                int pl_gain = (int)ceil( scaled_gain );
+
+                                pl_gain = UMAX( 1, pl_gain );
+
+                                /* Bio-Androids get reduced combat PL gain - they get the difference back on absorption */
+                                if( IS_BIO_ANDROID( ch ) )
+                                {
+                                        int reduced_gain = pl_gain * 75 / 100;  /* 25% reduction */
+                                        int debt = pl_gain - reduced_gain;      /* Amount they're missing */
+
+                                        /* Track the debt for later absorption */
+                                        if( ch->pcdata )
+                                                ch->pcdata->absorption_debt += debt;
+
+                                        pl_gain = reduced_gain;
+                                }
+
+                                /* Apply the power level gain */
+                                gain_exp( ch, pl_gain );
+                        }
+                }
+        }
 
    switch ( victim->position )
    {
