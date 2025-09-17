@@ -187,18 +187,15 @@ short gsn_lightning_bolt;
 
 /* languages */
 short gsn_common;
-short gsn_elder;
-short gsn_hollow;
+short gsn_elven;
+short gsn_dwarven;
 short gsn_pixie;
 short gsn_ogre;
 short gsn_orcish;
 short gsn_trollish;
 short gsn_goblin;
-short gsn_machine;
-short gsn_arcosian;
-short gsn_lycan;
-short gsn_echospeak;
-
+short gsn_halfling;
+short gsn_gnomish;
 
 // The total number of skills.
 // Note that the range [0; num_sorted_skills[ is
@@ -421,9 +418,6 @@ void boot_db( bool fCopyOver )
 
    log_string( "Loading socials" );
    load_socials(  );
-	
-	log_string( "Initializing language system" );
-	init_language_system();
 
    log_string( "Loading skill table" );
    load_skill_table(  );
@@ -665,17 +659,15 @@ void boot_db( bool fCopyOver )
       ASSIGN_GSN( gsn_sleep, "sleep" );
       ASSIGN_GSN( gsn_possess, "possess" );
       ASSIGN_GSN( gsn_common, "common" );
-      ASSIGN_GSN( gsn_elder, "elder" );
-      ASSIGN_GSN( gsn_hollow, "hollow" );
+      ASSIGN_GSN( gsn_elven, "elven" );
+      ASSIGN_GSN( gsn_dwarven, "dwarven" );
       ASSIGN_GSN( gsn_pixie, "pixie" );
       ASSIGN_GSN( gsn_ogre, "ogre" );
       ASSIGN_GSN( gsn_orcish, "orcish" );
       ASSIGN_GSN( gsn_trollish, "trollese" );
       ASSIGN_GSN( gsn_goblin, "goblin" );
-      ASSIGN_GSN( gsn_machine, "machine" );
-      ASSIGN_GSN( gsn_lycan, "lycan" );
-		ASSIGN_GSN( gsn_echospeak, "echospeak" );
-		ASSIGN_GSN( gsn_arcosian, "arcosian" );
+      ASSIGN_GSN( gsn_halfling, "halfling" );
+      ASSIGN_GSN( gsn_gnomish, "gnomish" );
    }
 
 #ifdef PLANES
@@ -3035,8 +3027,6 @@ void clear_char( CHAR_DATA * ch )
    ch->mod_spr = 0;
    ch->mod_con = 0;
    ch->mod_lck = 0;
-	ch->pcdata->physical_skill_meter = 0;      					/* Initialize skill training HP meter */
-	ch->pcdata->mental_skill_meter = 0;								/* Initialize skill training MP meter */
 	/* Initialize android component system */
 	if( ch->pcdata )
 	{

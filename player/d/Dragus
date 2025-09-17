@@ -3,19 +3,19 @@ Version      5
 Name         Dragus~
 Sex          1
 Class        5
-Race         2
+Race         1
 Age          0 23 9 605
 Languages    -1 1
 Level        65
 Powerup      0
-Played       243628
+Played       204837
 Room         209
-HpManaMove   150 150 5000 5000 110 110
-Mana       5000 5000
+HpManaMove   150 150 3495 5000 110 110
+Mana       3495 5000
 Focus      0 3
-Gold         22968
-Power Level   1500000
-BasePowerLevel   1500000
+Gold         22967
+Exp          1680230
+BasePowerLevel   1680230
 LogonPowerLevel  5
 Height          24
 Weight          42
@@ -29,9 +29,9 @@ Alignment    -1000
 Favor        0
 Glory        0
 MGlory       0
-Hitroll      5
-Damroll      0
-Armor        -20
+Hitroll      30
+Damroll      20
+Armor        -26
 AndroidComp  0 5
 AndroidComp  1 5
 AndroidComp  2 5
@@ -54,7 +54,7 @@ MDeaths      0
 IllegalPK    0
 Timezone     0
 AttrPerm     10 14 16 16 11 16 12
-AttrMod      0 0 0 0 0 0 0
+AttrMod      5 10 2 1 0 2 0
 Condition    0 100 100 75
 Site         127.0.0.1
 Spell        100 'acid breath'
@@ -98,4 +98,16 @@ MaxColors    116
 Colors       0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 7 7 6 14 14 11 10 15 11 9 1 12 5 13 7 10 10 11 9 9 12 1 9 15 15 2 3 10 14 11 11 10 15 3 12 9 8 7 15 15 8 15 9 1 2 9 12 10 2 10 15 7 13 15 11 12 12 10 14 14 14 10 10 10 13 2 14 14 10 10 2 6 1 9 2 15 7 11 15 10 10 10 10 10 
 End
 
+#MorphData
+Vnum 1000
+Name ancient_ascension~
+Armor           -6
+Charisma        2
+Damroll	 20
+Dexterity       1
+Hitroll         25
+Intelligence    10
+Strength        5
+Wisdom          2
+End
 #END

@@ -20,7 +20,7 @@ Long       A placeholder mob is here, holding the place.
 ~
 Desc       What? Never seen a placeholder before?
 ~
-Race       human~
+Race       android~
 Class      warrior~
 Position   standing~
 DefPos     standing~
@@ -33,7 +33,7 @@ Stats3     1 3 6
 Stats4     0 0 0 0 0
 Attribs    13 13 13 13 13 13 13
 Saves      0 0 0 0 0
-Speaks     common machine~
+Speaks     common gibberish~
 Speaking   common~
 Bodyparts  head arms legs heart hands feet eye~
 #ENDMOBILE
@@ -46,7 +46,7 @@ Long       A placeholder mob is here, holding the place.
 ~
 Desc       What? Never seen a placeholder before?
 ~
-Race       human~
+Race       android~
 Class      warrior~
 Position   standing~
 DefPos     standing~
@@ -59,7 +59,7 @@ Stats3     1 3 6
 Stats4     0 0 0 0 0
 Attribs    13 13 13 13 13 13 13
 Saves      0 0 0 0 0
-Speaks     common machine~
+Speaks     common gibberish~
 Speaking   common~
 Bodyparts  head arms legs heart hands feet eye~
 #ENDMOBILE

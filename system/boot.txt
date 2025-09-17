@@ -1,1 +1,3 @@
 [*****] BOOT: ---------------------[ Boot Log ]--------------------
+[*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+[*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)

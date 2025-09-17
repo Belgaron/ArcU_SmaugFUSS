@@ -33,6 +33,7 @@ Vnum 1001
 Damroll 50~
 Description 'Divine protection algorithms course through this android's enhanced frame.'Divine protection algorithms course through this android's enhanced frame.
 ~
+Hit             	1000~
 Hitroll         	50~
 Longdesc        	This android radiates with divine protection, their form enhanced by celestial energy.
 ~
@@ -45,7 +46,7 @@ UnmorphSelf     	Your divine protection fades as you return to normal.~
 Class           	Android~
 Race        	Android~
 Timer		-1
-Used       	36
+Used       	33
 Pkill		1
 Armor        	-20
 Charisma        	2
@@ -55,9 +56,6 @@ Intelligence    	3
 Luck        	2
 Strength        	5
 Wisdom          	3
-MinPL           1400000
-HPMaint         2
-MinHP           50
 PLMultiplier    440
 End
 

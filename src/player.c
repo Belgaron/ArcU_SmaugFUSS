@@ -447,13 +447,15 @@ void do_score( CHAR_DATA* ch, const char* argument )
    else if( ch->mental_state < -25 )
       send_to_pager( "You are in deep slumber.\r\n", ch );
    send_to_pager( "&CLanguages: &D", ch );
-   for( iLang = 0; language_table[iLang].flag != LANG_UNKNOWN; iLang++ )
-	{
-		if( knows_language( ch, language_table[iLang].flag, ch ) )
-		{
-			send_to_char( language_table[iLang].name, ch );
-		}
-	}
+   for( iLang = 0; lang_array[iLang] != LANG_UNKNOWN; iLang++ )
+      if( knows_language( ch, lang_array[iLang], ch ) || ( IS_NPC( ch ) && ch->speaks == 0 ) )
+      {
+         if( lang_array[iLang] & ch->speaking || ( IS_NPC( ch ) && !ch->speaking ) )
+            set_pager_color( AT_RED, ch );
+         send_to_pager( lang_names[iLang], ch );
+         send_to_pager( " ", ch );
+         set_pager_color( AT_SCORE, ch );
+      }
    send_to_pager( "\r\n", ch );
 
    if( ch->pcdata->bestowments && ch->pcdata->bestowments[0] != '\0' )
@@ -814,110 +816,30 @@ const char *get_race( CHAR_DATA * ch )
    return ( "Unknown" );
 }
 
-/* ============================================================================
- *    NEW RANK COMMAND - replace do_level with do_rank
- * ============================================================================ */
-void do_plrank( CHAR_DATA* ch, const char* argument )
+/*								-Thoric
+ * Display your current pl, level, and surrounding level exp requirements
+ */
+void do_level( CHAR_DATA* ch, const char* argument )
 {
+   char buf[MAX_STRING_LENGTH];
+   char buf2[MAX_STRING_LENGTH];
+   int x, lowlvl, hilvl;
    long long current_pl = get_power_level( ch );
-   const char *rank_name;
-   const char *rank_color;
-   
+
+   if( ch->level == 1 )
+      lowlvl = 1;
+   else
+      lowlvl = UMAX( 2, ch->level - 5 );
+   hilvl = URANGE( ch->level, ch->level + 5, MAX_LEVEL );
    set_char_color( AT_SCORE, ch );
-   
-   /* Determine rank based on power level */
-   if( current_pl >= 1000000000000LL ) {      /* 1 Trillion+ */
-      rank_name = "Demigod";
-      rank_color = "&P";
-   }
-   else if( current_pl >= 100000000000LL ) {  /* 100 Billion+ */
-      rank_name = "Mythic";
-      rank_color = "&R";
-   }
-   else if( current_pl >= 10000000000LL ) {   /* 10 Billion+ */
-      rank_name = "Legendary";
-      rank_color = "&Y";
-   }
-   else if( current_pl >= 1000000000LL ) {    /* 1 Billion+ */
-      rank_name = "Paragon";
-      rank_color = "&M";
-   }
-   else if( current_pl >= 100000000LL ) {     /* 100 Million+ */
-      rank_name = "Grandmaster";
-      rank_color = "&W";
-   }
-   else if( current_pl >= 10000000LL ) {      /* 10 Million+ */
-      rank_name = "Master";
-      rank_color = "&C";
-   }
-   else if( current_pl >= 1000000LL ) {       /* 1 Million+ */
-      rank_name = "Elite";
-      rank_color = "&B";
-   }
-   else if( current_pl >= 100000LL ) {        /* 100,000+ */
-      rank_name = "Seasoned";
-      rank_color = "&G";
-   }
-   else if( current_pl >= 10000LL ) {         /* 10,000+ */
-      rank_name = "Skilled";
-      rank_color = "&g";
-   }
-   else if( current_pl >= 1000LL ) {          /* 1,000+ */
-      rank_name = "Rookie";
-      rank_color = "&w";
-   }
-   else {                                      /* Below 1,000 */
-      rank_name = "Trainee";
-      rank_color = "&L";
-   }
-   
-   ch_printf( ch, "\r\n&WCurrent Power Level: &Y%s&x\r\n", num_punct_ll( current_pl ) );
-   ch_printf( ch, "&WPower Rank: %s%s&x\r\n\r\n", rank_color, rank_name );
-   
-   /* Show some context - nearby ranks */
-   ch_printf( ch, "&CPower Rank Ladder:&x\r\n" );
-   ch_printf( ch, "&w---------------------&x\r\n" );
-   
-   struct {
-      long long threshold;
-      const char *name;
-      const char *color;
-   } ranks[] = {
-      { 1000000000000LL, "Demigod", "&P" },
-      { 100000000000LL, "Mythic", "&R" },
-      { 10000000000LL, "Legendary", "&Y" },
-      { 1000000000LL, "Paragon", "&M" },
-      { 100000000LL, "Grandmaster", "&W" },
-      { 10000000LL, "Master", "&C" },
-      { 1000000LL, "Elite", "&B" },
-      { 100000LL, "Seasoned", "&G" },
-      { 10000LL, "Skilled", "&g" },
-      { 1000LL, "Rookie", "&w" },
-      { 0LL, "Trainee", "&L" }
-   };
-   
-   /* Show current rank and adjacent ranks for context */
-   int current_rank_index = -1;
-   for( int i = 0; i < (int)(sizeof(ranks)/sizeof(ranks[0])); i++ ) {
-      if( current_pl >= ranks[i].threshold ) {
-         current_rank_index = i;
-         break;
-      }
-   }
-   
-   /* Show 2 ranks above, current rank, and 2 ranks below */
-   int start = UMAX( 0, current_rank_index - 2 );
-   int end = UMIN( (sizeof(ranks)/sizeof(ranks[0])) - 1, current_rank_index + 2 );
-   
-   for( int i = start; i <= end; i++ ) {
-      if( i == current_rank_index ) {
-         ch_printf( ch, "%s>>> %s (%s) <<<&x\r\n", 
-                    ranks[i].color, ranks[i].name, num_punct_ll( ranks[i].threshold ) );
-      } else {
-         ch_printf( ch, "%s    %s (%s)&x\r\n", 
-                    ranks[i].color, ranks[i].name, num_punct_ll( ranks[i].threshold ) );
-      }
-   }
+   ch_printf( ch, "\r\nPower Level required, levels %d to %d:\r\n______________________________________________\r\n\r\n",
+			  lowlvl, hilvl );
+	snprintf( buf, MAX_STRING_LENGTH, " PL  (Current: %15s)", num_punct_ll( get_power_level( ch ) ) );
+	snprintf( buf2, MAX_STRING_LENGTH, " PL  (Needed:  %15s)", num_punct_ll( exp_level( ch, ch->level + 1 ) - current_pl ) );
+   for( x = lowlvl; x <= hilvl; x++ )
+      ch_printf( ch, " (%2d) %15s%s\r\n", x, num_punct_ll( exp_level( ch, x ) ),
+                 ( x == ch->level ) ? buf : ( x == ch->level + 1 ) ? buf2 : " PL" );
+   send_to_char( "______________________________________________\r\n", ch );
 }
 
 /* 1997, Blodkai */

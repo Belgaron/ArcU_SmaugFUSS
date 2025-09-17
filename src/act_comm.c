@@ -341,8 +341,8 @@ void talk_channel( CHAR_DATA * ch, const char *argument, int channel, const char
 #ifndef SCRAMBLE
    int speaking = -1, lang;
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -648,7 +648,7 @@ void talk_channel( CHAR_DATA * ch, const char *argument, int channel, const char
                                    knows_language( ch, ch->speaking, vch ) );
 
             if( speakswell < 85 )
-               sbuf = translate( speakswell, argument, language_table[speaking].name );
+               sbuf = translate( speakswell, argument, lang_names[speaking] );
          }
 #else
          if( !knows_language( vch, ch->speaking, ch ) && ( !IS_NPC( ch ) || ch->speaking != 0 ) )
@@ -962,8 +962,8 @@ void do_say_to( CHAR_DATA *ch, const char *argument )
 #ifndef SCRAMBLE
    int speaking = -1, lang;
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -1091,7 +1091,7 @@ void do_say_to( CHAR_DATA *ch, const char *argument )
          int speakswell = UMIN( knows_language( vch, ch->speaking, ch ), knows_language( ch, ch->speaking, vch ) );
 
          if( speakswell < 75 )
-            sbuf = translate( speakswell, argument, language_table[speaking].name );
+            sbuf = translate( speakswell, argument, lang_names[speaking] );
       }
 #else
       if( !knows_language( vch, ch->speaking, ch ) && ( !IS_NPC( ch ) || ch->speaking != 0 ) )
@@ -1152,8 +1152,8 @@ void do_say( CHAR_DATA* ch, const char* argument )
 #ifndef SCRAMBLE
    int speaking = -1, lang;
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -1213,7 +1213,7 @@ void do_say( CHAR_DATA* ch, const char* argument )
                                 knows_language( ch, ch->speaking, vch ) );
 
          if( speakswell < 75 )
-            sbuf = translate( speakswell, argument, language_table[speaking].name );
+            sbuf = translate( speakswell, argument, lang_names[speaking] );
       }
 #else
       if( !knows_language( vch, ch->speaking, ch ) && ( !IS_NPC( ch ) || ch->speaking != 0 ) )
@@ -1280,8 +1280,8 @@ void do_whisper( CHAR_DATA* ch, const char* argument )
    int speaking = -1, lang;
 
 #ifndef SCRAMBLE
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -1397,7 +1397,7 @@ void do_whisper( CHAR_DATA* ch, const char* argument )
 
       if( speakswell < 85 )
          act( AT_WHISPER, "$n whispers to you '$t'", ch,
-              translate( speakswell, argument, language_table[speaking].name ), victim, TO_VICT );
+              translate( speakswell, argument, lang_names[speaking] ), victim, TO_VICT );
       else
          act( AT_WHISPER, "$n whispers to you '$t'", ch, argument, victim, TO_VICT );
    }
@@ -1406,7 +1406,7 @@ void do_whisper( CHAR_DATA* ch, const char* argument )
 #else
    if( !knows_language( vch, ch->speaking, ch ) && ( !IS_NPC( ch ) || ch->speaking != 0 ) )
       act( AT_WHISPER, "$n whispers to you '$t'", ch,
-           translate( speakswell, argument, language_table[speaking].name ), victim, TO_VICT );
+           translate( speakswell, argument, lang_names[speaking] ), victim, TO_VICT );
    else
       act( AT_WHISPER, "$n whispers to you '$t'", ch, argument, victim, TO_VICT );
 #endif
@@ -1497,8 +1497,8 @@ void do_tell( CHAR_DATA* ch, const char* argument )
 #ifndef SCRAMBLE
    int speaking = -1, lang;
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -1684,7 +1684,7 @@ void do_tell( CHAR_DATA* ch, const char* argument )
                              knows_language( ch, ch->speaking, victim ) );
 
       if( speakswell < 85 )
-         act( AT_TELL, "$n tells you '$t'", ch, translate( speakswell, argument, language_table[speaking].name ), victim, TO_VICT );
+         act( AT_TELL, "$n tells you '$t'", ch, translate( speakswell, argument, lang_names[speaking] ), victim, TO_VICT );
       else
          act( AT_TELL, "$n tells you '$t'", ch, argument, victim, TO_VICT );
    }
@@ -1713,8 +1713,8 @@ void do_reply( CHAR_DATA* ch, const char* argument )
 #ifndef SCRAMBLE
    int speaking = -1, lang;
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -1827,7 +1827,7 @@ void do_reply( CHAR_DATA* ch, const char* argument )
                              knows_language( ch, ch->speaking, victim ) );
 
       if( speakswell < 85 )
-         act( AT_TELL, "$n tells you '$t'", ch, translate( speakswell, argument, language_table[speaking].name ), victim, TO_VICT );
+         act( AT_TELL, "$n tells you '$t'", ch, translate( speakswell, argument, lang_names[speaking] ), victim, TO_VICT );
       else
          act( AT_TELL, "$n tells you '$t'", ch, argument, victim, TO_VICT );
    }
@@ -1886,8 +1886,8 @@ void do_retell( CHAR_DATA* ch, const char* argument )
 #ifndef SCRAMBLE
    int speaking = -1, lang;
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -2045,7 +2045,7 @@ void do_retell( CHAR_DATA* ch, const char* argument )
                              knows_language( ch, ch->speaking, victim ) );
 
       if( speakswell < 85 )
-         act( AT_TELL, "$n tells you '$t'", ch, translate( speakswell, argument, language_table[speaking].name ), victim, TO_VICT );
+         act( AT_TELL, "$n tells you '$t'", ch, translate( speakswell, argument, lang_names[speaking] ), victim, TO_VICT );
       else
          act( AT_TELL, "$n tells you '$t'", ch, argument, victim, TO_VICT );
    }
@@ -2119,8 +2119,8 @@ void do_emote( CHAR_DATA* ch, const char* argument )
 #ifndef SCRAMBLE
    int speaking = -1, lang;
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -2175,7 +2175,7 @@ void do_emote( CHAR_DATA* ch, const char* argument )
                                 knows_language( ch, ch->speaking, vch ) );
 
          if( speakswell < 85 )
-            sbuf = translate( speakswell, argument, language_table[speaking].name );
+            sbuf = translate( speakswell, argument, lang_names[speaking] );
       }
 #else
       if( !knows_language( vch, ch->speaking, ch ) && ( !IS_NPC( ch ) && ch->speaking != 0 ) )
@@ -3201,8 +3201,8 @@ void do_gtell( CHAR_DATA* ch, const char* argument )
 #ifndef SCRAMBLE
    int speaking = -1, lang;
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( ch->speaking & language_table[lang].flag )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( ch->speaking & lang_array[lang] )
       {
          speaking = lang;
          break;
@@ -3241,7 +3241,7 @@ void do_gtell( CHAR_DATA* ch, const char* argument )
 
             if( speakswell < 85 )
                ch_printf( gch, "%s tells the group '%s'\r\n", ch->name,
-                          translate( speakswell, argument, language_table[speaking].name ) );
+                          translate( speakswell, argument, lang_names[speaking] ) );
             else
                ch_printf( gch, "%s tells the group '%s'\r\n", ch->name, argument );
          }
@@ -3342,10 +3342,10 @@ int knows_language( CHAR_DATA * ch, int language, CHAR_DATA * cch )
       if( IS_SET( race_table[ch->race]->language, language ) )
          return 100;
 
-      for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-         if( IS_SET( language, language_table[lang].flag ) && IS_SET( ch->speaks, language_table[lang].flag ) )
+      for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+         if( IS_SET( language, lang_array[lang] ) && IS_SET( ch->speaks, lang_array[lang] ) )
          {
-            if( ( sn = skill_lookup( language_table[lang].name ) ) != -1 )
+            if( ( sn = skill_lookup( lang_names[lang] ) ) != -1 )
                return ch->pcdata->learned[sn];
          }
    }
@@ -3364,14 +3364,14 @@ bool can_learn_lang( CHAR_DATA * ch, int language )
    {
       int lang;
 
-      for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-         if( language & language_table[lang].flag )
+      for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+         if( language & lang_array[lang] )
          {
             int sn;
 
-            if( !( VALID_LANGS & language_table[lang].flag ) )
+            if( !( VALID_LANGS & lang_array[lang] ) )
                return FALSE;
-            if( ( sn = skill_lookup( language_table[lang].name ) ) < 0 )
+            if( ( sn = skill_lookup( lang_names[lang] ) ) < 0 )
             {
                bug( "%s: valid language without sn: %d", __func__, lang );
                continue;
@@ -3383,6 +3383,70 @@ bool can_learn_lang( CHAR_DATA * ch, int language )
    if( VALID_LANGS & language )
       return TRUE;
    return FALSE;
+}
+
+int const lang_array[] = {
+   LANG_COMMON, LANG_ELVEN, LANG_DWARVEN, LANG_PIXIE,
+   LANG_OGRE, LANG_ORCISH, LANG_TROLLISH, LANG_RODENT,
+   LANG_INSECTOID, LANG_MAMMAL, LANG_REPTILE,
+   LANG_DRAGON, LANG_SPIRITUAL, LANG_MAGICAL,
+   LANG_GOBLIN, LANG_GOD, LANG_ANCIENT, LANG_HALFLING,
+   LANG_CLAN, LANG_GITH, LANG_GNOME, LANG_UNKNOWN
+};
+
+const char *const lang_names[] = {
+   "common", "elvish", "dwarven", "pixie",
+   "ogre", "orcish", "trollese", "rodent",
+   "insectoid", "mammal", "reptile",
+   "dragon", "spiritual", "magical",
+   "goblin", "god", "ancient", "halfling",
+   "clan", "gith", "gnomish", "", "", "", "",
+   "", "", "", "", "", "", "", ""   /* pad to 32 for compat with flag_string */
+};
+
+/* Note: does not count racial language.  This is intentional (for now). */
+int countlangs( int languages )
+{
+   int numlangs = 0;
+   int looper;
+
+   for( looper = 0; lang_array[looper] != LANG_UNKNOWN; looper++ )
+   {
+      if( lang_array[looper] == LANG_CLAN )
+         continue;
+      if( languages & lang_array[looper] )
+         numlangs++;
+   }
+   return numlangs;
+}
+
+void do_speak( CHAR_DATA* ch, const char* argument )
+{
+   int langs;
+   char arg[MAX_INPUT_LENGTH];
+
+   argument = one_argument( argument, arg );
+
+   if( !str_cmp( arg, "all" ) && IS_IMMORTAL( ch ) )
+   {
+      set_char_color( AT_SAY, ch );
+      ch->speaking = ~LANG_CLAN;
+      send_to_char( "Now speaking all languages.\r\n", ch );
+      return;
+   }
+   for( langs = 0; lang_array[langs] != LANG_UNKNOWN; langs++ )
+      if( !str_prefix( arg, lang_names[langs] ) )
+         if( knows_language( ch, lang_array[langs], ch ) )
+         {
+            if( lang_array[langs] == LANG_CLAN && ( IS_NPC( ch ) || !ch->pcdata->clan ) )
+               continue;
+            ch->speaking = lang_array[langs];
+            set_char_color( AT_SAY, ch );
+            ch_printf( ch, "You now speak %s.\r\n", lang_names[langs] );
+            return;
+         }
+   set_char_color( AT_SAY, ch );
+   send_to_char( "You do not know that language.\r\n", ch );
 }
 
 void do_languages( CHAR_DATA* ch, const char* argument )
@@ -3405,38 +3469,38 @@ void do_languages( CHAR_DATA* ch, const char* argument )
          send_to_char( "Learn which language?\r\n", ch );
          return;
       }
-      for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
+      for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
       {
-         if( language_table[lang].flag == LANG_CLAN )
+         if( lang_array[lang] == LANG_CLAN )
             continue;
-         if( !str_prefix( arg2, language_table[lang].name ) )
+         if( !str_prefix( arg2, lang_names[lang] ) )
             break;
       }
-      if( language_table[lang].flag == LANG_UNKNOWN )
+      if( lang_array[lang] == LANG_UNKNOWN )
       {
          send_to_char( "That is not a language.\r\n", ch );
          return;
       }
-      if( !( VALID_LANGS & language_table[lang].flag ) )
+      if( !( VALID_LANGS & lang_array[lang] ) )
       {
          send_to_char( "You may not learn that language.\r\n", ch );
          return;
       }
-      if( ( sn = skill_lookup( language_table[lang].name ) ) < 0 )
+      if( ( sn = skill_lookup( lang_names[lang] ) ) < 0 )
       {
          send_to_char( "That is not a language.\r\n", ch );
          return;
       }
-      if( race_table[ch->race]->language & language_table[lang].flag ||
-          language_table[lang].flag == LANG_COMMON || ch->pcdata->learned[sn] >= 99 )
+      if( race_table[ch->race]->language & lang_array[lang] ||
+          lang_array[lang] == LANG_COMMON || ch->pcdata->learned[sn] >= 99 )
       {
-         act( AT_PLAIN, "You are already fluent in $t.", ch, language_table[lang].name, NULL, TO_CHAR );
+         act( AT_PLAIN, "You are already fluent in $t.", ch, lang_names[lang], NULL, TO_CHAR );
          return;
       }
       for( sch = ch->in_room->first_person; sch; sch = sch->next_in_room )
          if( IS_NPC( sch ) && xIS_SET( sch->act, ACT_SCHOLAR )
              && knows_language( sch, ch->speaking, ch )
-             && knows_language( sch, language_table[lang].flag, sch )
+             && knows_language( sch, lang_array[lang], sch )
              && ( !sch->speaking || knows_language( ch, sch->speaking, sch ) ) )
             break;
       if( !sch )
@@ -3465,28 +3529,28 @@ void do_languages( CHAR_DATA* ch, const char* argument )
       prct = 5 + ( get_curr_int( ch ) / 6 ) + ( get_curr_wis( ch ) / 7 );
       ch->pcdata->learned[sn] += prct;
       ch->pcdata->learned[sn] = UMIN( ch->pcdata->learned[sn], 99 );
-      SET_BIT( ch->speaks, language_table[lang].flag );
+      SET_BIT( ch->speaks, lang_array[lang] );
       if( ch->pcdata->learned[sn] == prct )
-         act( AT_PLAIN, "You begin lessons in $t.", ch, language_table[lang].name, NULL, TO_CHAR );
+         act( AT_PLAIN, "You begin lessons in $t.", ch, lang_names[lang], NULL, TO_CHAR );
       else if( ch->pcdata->learned[sn] < 60 )
-         act( AT_PLAIN, "You continue lessons in $t.", ch, language_table[lang].name, NULL, TO_CHAR );
+         act( AT_PLAIN, "You continue lessons in $t.", ch, lang_names[lang], NULL, TO_CHAR );
       else if( ch->pcdata->learned[sn] < 60 + prct )
-         act( AT_PLAIN, "You feel you can start communicating in $t.", ch, language_table[lang].name, NULL, TO_CHAR );
+         act( AT_PLAIN, "You feel you can start communicating in $t.", ch, lang_names[lang], NULL, TO_CHAR );
       else if( ch->pcdata->learned[sn] < 99 )
-         act( AT_PLAIN, "You become more fluent in $t.", ch, language_table[lang].name, NULL, TO_CHAR );
+         act( AT_PLAIN, "You become more fluent in $t.", ch, lang_names[lang], NULL, TO_CHAR );
       else
-         act( AT_PLAIN, "You now speak perfect $t.", ch, language_table[lang].name, NULL, TO_CHAR );
+         act( AT_PLAIN, "You now speak perfect $t.", ch, lang_names[lang], NULL, TO_CHAR );
       return;
    }
 
-   for( lang = 0; language_table[lang].flag != LANG_UNKNOWN; lang++ )
-      if( knows_language( ch, language_table[lang].flag, ch ) )
+   for( lang = 0; lang_array[lang] != LANG_UNKNOWN; lang++ )
+      if( knows_language( ch, lang_array[lang], ch ) )
       {
-         if( ch->speaking & language_table[lang].flag || ( IS_NPC( ch ) && !ch->speaking ) )
+         if( ch->speaking & lang_array[lang] || ( IS_NPC( ch ) && !ch->speaking ) )
             set_char_color( AT_SAY, ch );
          else
             set_char_color( AT_PLAIN, ch );
-         send_to_char( language_table[lang].name, ch );
+         send_to_char( lang_names[lang], ch );
          send_to_char( "\r\n", ch );
       }
    send_to_char( "\r\n", ch );

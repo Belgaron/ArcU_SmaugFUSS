@@ -47,8 +47,7 @@ extern "C" {
 #ifdef __cplusplus
 #include <typeinfo>
 #endif
-#include "powerlevel.h"
-#include "languages.h"
+#include "powerlevel.h" 
 /* Fallbacks for timeval helpers if the system doesn't expose them in C++ */
 #ifndef timerisset
 #define timerisset(tvp)   ((tvp)->tv_sec != 0 || (tvp)->tv_usec != 0)
@@ -955,13 +954,6 @@ struct lck_app_type
    short luck;
 };
 
-/* Skill training system functions */
-bool is_physical_skill(int skill_num);
-bool is_mental_skill(int skill_num);
-int get_physical_meter_gain(int skill_level);
-int get_mental_meter_gain(int skill_level);
-void update_skill_meters(CHAR_DATA *ch, int skill_num, int old_level, int new_level);
-
 /* the races */
 typedef enum
 {
@@ -982,6 +974,36 @@ typedef enum
 #define CLASS_VAMPIRE      7
 #define CLASS_ARCOSIAN	   8
 
+
+/*
+ * Languages -- Altrag
+ */
+#define LANG_COMMON      BV00 /* Human base language */
+#define LANG_ELVEN       BV01 /* Elven base language */
+#define LANG_DWARVEN     BV02 /* Dwarven base language */
+#define LANG_PIXIE       BV03 /* Pixie/Fairy base language */
+#define LANG_OGRE        BV04 /* Ogre base language */
+#define LANG_ORCISH      BV05 /* Orc base language */
+#define LANG_TROLLISH    BV06 /* Troll base language */
+#define LANG_RODENT      BV07 /* Small mammals */
+#define LANG_INSECTOID   BV08 /* Insects */
+#define LANG_MAMMAL      BV09 /* Larger mammals */
+#define LANG_REPTILE     BV10 /* Small reptiles */
+#define LANG_DRAGON      BV11 /* Large reptiles, Dragons */
+#define LANG_SPIRITUAL   BV12 /* Necromancers or undeads/spectres */
+#define LANG_MAGICAL     BV13 /* Spells maybe?  Magical creatures */
+#define LANG_GOBLIN      BV14 /* Goblin base language */
+#define LANG_GOD         BV15 /* Clerics possibly?  God creatures */
+#define LANG_ANCIENT     BV16 /* Prelude to a glyph read skill? */
+#define LANG_HALFLING    BV17 /* Halfling base language */
+#define LANG_CLAN	       BV18 /* Clan language */
+#define LANG_GITH	       BV19 /* Gith Language */
+#define LANG_GNOME       BV20
+#define LANG_UNKNOWN        0 /* Anything that doesnt fit a category */
+#define VALID_LANGS    ( LANG_COMMON | LANG_ELVEN | LANG_DWARVEN | LANG_PIXIE  \
+		       | LANG_OGRE | LANG_ORCISH | LANG_TROLLISH | LANG_GOBLIN \
+		       | LANG_HALFLING | LANG_GITH | LANG_GNOME )
+/* 19 Languages */
 
 /* Android component system definitions */
 typedef enum {
@@ -2565,8 +2587,6 @@ struct pc_data
    short month;
    short year;
    int timezone;
-	short physical_skill_meter;  					/* Progress toward next HP gain (0-99) */
-   short mental_skill_meter;    					/* Progress toward next mana gain (0-99) */
    const char* og_hair;         					/* Original hair color before transformation */
    const char* og_eyes;         					/* Original eye color before transformation */
    const char* og_skin;         					/* Original skin color before transformation */
@@ -3195,19 +3215,13 @@ extern short gsn_tumble;
 
 /* Language gsns. -- Altrag */
 extern short gsn_common;
-extern short gsn_machine;
+extern short gsn_gibberish;
 extern short gsn_elder;
-extern short gsn_spiritual;
+extern short gsn_spirit;
 extern short gsn_hollow;
 extern short gsn_lycan;
 extern short gsn_echospeak;
-extern short gsn_pixie;
-extern short gsn_ogre;
-extern short gsn_orcish;
-extern short gsn_trollese;
-extern short gsn_goblin;
-extern short gsn_arcosian;
-
+extern short gsn_critter;
 
 
 
@@ -3622,8 +3636,7 @@ do								\
                                 : "someone" )
 
 #define log_string(txt)		( log_string_plus( (txt), LOG_NORMAL, LEVEL_LOG ) )
-#define dam_message(ch, victim, dam, dt) ( enhanced_dam_message((ch), (victim), (dam), (dt), NULL) )
-void enhanced_dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt, OBJ_DATA *obj);
+#define dam_message(ch, victim, dam, dt)	( new_dam_message((ch), (victim), (dam), (dt), NULL) )
 
 /*
  *  Defines for the command flags. --Shaddai
@@ -3724,6 +3737,9 @@ extern const char *const ex_pwater[];
 extern const char *const ex_pair[];
 extern const char *const ex_pearth[];
 extern const char *const ex_pfire[];
+
+extern int const lang_array[];
+extern const char *const lang_names[];
 
 extern const char *const temp_settings[]; /* FB */
 extern const char *const precip_settings[];
@@ -4130,8 +4146,7 @@ DECLARE_DO_FUN( do_password );
 DECLARE_DO_FUN( do_pcrename );
 DECLARE_DO_FUN( do_peace );
 DECLARE_DO_FUN( do_pick );
-DECLARE_DO_FUN( do_plconfig );
-DECLARE_DO_FUN( do_plrank );
+DECLARE_DO_FUN( do_pl );
 DECLARE_DO_FUN( do_plist );
 DECLARE_DO_FUN( do_poison_weapon );
 DECLARE_DO_FUN( do_pose );
@@ -4491,7 +4506,6 @@ DECLARE_SPELL_FUN( spell_olympus );
 DECLARE_SPELL_FUN( spell_ragnarok );
 DECLARE_SPELL_FUN( spell_excalibur );
 DECLARE_DO_FUN( do_ainstall );
-DECLARE_DO_FUN( do_skillmeter);
 
 /* Android system function declarations */
 void check_android_components( CHAR_DATA *ch, CHAR_DATA *victim );
@@ -4632,29 +4646,6 @@ void add_base_power_level( CHAR_DATA *ch, long long amount );
 void set_logon_powerlevel( CHAR_DATA *ch );
 char *num_punct_ll( long long foo );
 char *format_power_level( long long power );
-struct pl_scaling_config {
-    /* Power level scaling thresholds */
-    long long tier1_threshold;      /* Light penalty threshold */
-    long long tier2_threshold;      /* Medium penalty threshold */
-    long long tier3_threshold;      /* Heavy penalty threshold */
-    
-    /* Penalty multipliers (percentage of normal gain) */
-    int tier1_multiplier;           /* Light penalty: 85% */
-    int tier2_multiplier;           /* Medium penalty: 67% */
-    int tier3_multiplier;           /* Heavy penalty: 33% */
-    
-    /* Gain limits */
-    int max_gain_divisor;           /* Max gain = current_pl / this */
-    long long absolute_minimum;     /* Cannot go below this PL */
-    
-    /* Combat gain rates */
-    int equal_enemy_divisor;        /* damage / this for equal enemies */
-    int half_enemy_divisor;         /* damage / this for half-strength */
-    int weak_enemy_divisor;         /* damage / this for weak enemies */
-    int very_weak_divisor;          /* damage / this for very weak */
-    int anti_farming_ratio;         /* Enemy must be 1/this of player PL */
-};
-extern struct pl_scaling_config pl_scaling;
 
 /* act_move.c */
 void clear_vrooms( void );
@@ -4724,6 +4715,8 @@ int get_wflag( const char *flag );
 int get_risflag( const char *flag );
 int get_attackflag( const char *flag );
 int get_defenseflag( const char *flag );
+int get_langnum( const char *flag );
+int get_langflag( const char *flag );
 int get_exflag( const char *flag );
 int get_rflag( const char *flag );
 int get_secflag( const char *flag );
@@ -4893,6 +4886,7 @@ bool check_illegal_pk( CHAR_DATA * ch, CHAR_DATA * victim );
 OBJ_DATA *raw_kill( CHAR_DATA * ch, CHAR_DATA * victim );
 bool in_arena( CHAR_DATA * ch );
 bool can_astral( CHAR_DATA * ch, CHAR_DATA * victim );
+void update_level_from_pl( CHAR_DATA *ch );
 void group_gain( CHAR_DATA *ch, CHAR_DATA *victim );
 int get_pl_combat_bonus( CHAR_DATA *ch, CHAR_DATA *victim );
 
@@ -5236,7 +5230,7 @@ void hunt_victim( CHAR_DATA * ch );
 
 /* update.c */
 void advance_level( CHAR_DATA * ch );
-void gain_pl( CHAR_DATA * ch, long long gain );
+void gain_exp( CHAR_DATA * ch, int gain );
 void gain_condition( CHAR_DATA * ch, int iCond, int value );
 void check_alignment( CHAR_DATA * ch );
 void update_handler( void );

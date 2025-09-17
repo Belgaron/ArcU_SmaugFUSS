@@ -395,13 +395,11 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
    fprintf( fp, "Mana       %d %d\n", ch->mana, ch->max_mana );
    fprintf( fp, "Focus      %d %d\n", ch->focus, ch->max_focus );
    fprintf( fp, "Gold         %d\n", ch->gold );
-   fprintf( fp, "Power Level   %lld\n", ch->power_level.get_base() );
+   fprintf( fp, "Exp          %lld\n", ch->exp );
    fprintf( fp, "BasePowerLevel   %lld\n", ch->power_level.get_base() );
    fprintf( fp, "LogonPowerLevel  %lld\n", ch->power_level.get_logon() );
    fprintf( fp, "Height          %d\n", ch->height );
    fprintf( fp, "Weight          %d\n", ch->weight );
-	fprintf(fp, "PhysicalMeter    %d\n", ch->pcdata->physical_skill_meter);
-	fprintf(fp, "MentalMeter      %d\n", ch->pcdata->mental_skill_meter);
    if( !xIS_EMPTY( ch->act ) )
       fprintf( fp, "Act          %s\n", print_bitvector( &ch->act ) );
    if( !xIS_EMPTY( ch->affected_by ) )
@@ -1552,7 +1550,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                break;
             }
             KEY( "MDeaths", ch->pcdata->mdeaths, fread_number( fp ) );
-				KEY("MentalMeter", ch->pcdata->mental_skill_meter, fread_number(fp));
             KEY( "Mentalstate", ch->mental_state, fread_number( fp ) );
             KEY( "MGlory", ch->pcdata->quest_accum, fread_number( fp ) );
             KEY( "Minsnoop", ch->pcdata->min_snoop, fread_number( fp ) );
@@ -1615,68 +1612,59 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
             KEY( "Pagerlen", ch->pcdata->pagerlen, fread_number( fp ) );
             KEY( "Password", ch->pcdata->pwd, fread_string_nohash( fp ) );
             KEY( "PDeaths", ch->pcdata->pdeaths, fread_number( fp ) );
-				KEY("PhysicalMeter", ch->pcdata->physical_skill_meter, fread_number(fp));
             KEY( "PKills", ch->pcdata->pkills, fread_number( fp ) );
-				KEY( "Played", ch->played, fread_number( fp ) );
-				if( !str_cmp( word, "PowerLevel" ) )
-				{
-					long long pl = fread_number_ll( fp );
-					ch->power_level.set_base( pl );
-					ch->exp = (int)UMIN( pl, INT_MAX );  // Sync for legacy code
-					fMatch = TRUE;
-					break;
-				}
-				KEY( "Powerup", ch->powerup, fread_number( fp ) );
-					/*
-					*  new positions are stored in the file from 100 up
-					*  old positions are from 0 up
-					*  if reading an old position, some translation is necessary
-					*/
-					if( !strcmp( word, "Position" ) )
-					{
-						ch->position = fread_number( fp );
-						if( ch->position < 100 )
-						{
-							switch ( ch->position )
-							{
-								default:;
-								case 0:;
-								case 1:;
-								case 2:;
-								case 3:;
-								case 4:
-									break;
-								case 5:
-									ch->position = 6;
-									break;
-								case 6:
-									ch->position = 8;
-									break;
-								case 7:
-									ch->position = 9;
-									break;
-								case 8:
-									ch->position = 12;
-									break;
-								case 9:
-									ch->position = 13;
-									break;
-								case 10:
-									ch->position = 14;
-									break;
-								case 11:
-									ch->position = 15;
-									break;
-							}
-							fMatch = TRUE;
-						}
-						else
-						{
-							ch->position -= 100;
-							fMatch = TRUE;
-						}
-						break;
-					}
+			KEY( "Played", ch->played, fread_number( fp ) );
+			KEY( "Powerup", ch->powerup, fread_number( fp ) );
+            /*
+             *  new positions are stored in the file from 100 up
+             *  old positions are from 0 up
+             *  if reading an old position, some translation is necessary
+             */
+            if( !strcmp( word, "Position" ) )
+            {
+               ch->position = fread_number( fp );
+               if( ch->position < 100 )
+               {
+                  switch ( ch->position )
+                  {
+                     default:;
+                     case 0:;
+                     case 1:;
+                     case 2:;
+                     case 3:;
+                     case 4:
+                        break;
+                     case 5:
+                        ch->position = 6;
+                        break;
+                     case 6:
+                        ch->position = 8;
+                        break;
+                     case 7:
+                        ch->position = 9;
+                        break;
+                     case 8:
+                        ch->position = 12;
+                        break;
+                     case 9:
+                        ch->position = 13;
+                        break;
+                     case 10:
+                        ch->position = 14;
+                        break;
+                     case 11:
+                        ch->position = 15;
+                        break;
+                  }
+                  fMatch = TRUE;
+               }
+               else
+               {
+                  ch->position -= 100;
+                  fMatch = TRUE;
+               }
+               break;
+            }
             KEY( "Practice", ch->practice, fread_number( fp ) );
             KEY( "Prompt", ch->pcdata->prompt, fread_string( fp ) );
             if( !strcmp( word, "PTimer" ) )
@@ -1897,15 +1885,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                return;
             }
             KEY( "Exp", ch->exp, fread_number( fp ) );
-				// Backwards compatibility for old save files
-				if( !str_cmp( word, "Exp" ) )
-				{
-					int exp_value = fread_number( fp );
-					ch->power_level.set_base( (long long)exp_value );
-					ch->exp = exp_value;
-					fMatch = TRUE;
-					break;
-				}
             break;
 
          case 'T':

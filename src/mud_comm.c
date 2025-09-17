@@ -3267,7 +3267,7 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
           * 1/2 way back to previous level.
           */
          if( victim->exp > exp_level( victim, victim->level ) )
-            gain_pl( victim, ( exp_level( victim, victim->level ) - victim->exp ) / 2 );
+            gain_exp( victim, ( exp_level( victim, victim->level ) - victim->exp ) / 2 );
 
          /*
           * New penalty... go back to the beginning of current level.

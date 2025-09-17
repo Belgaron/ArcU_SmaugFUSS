@@ -32,8 +32,8 @@ Stats3     4 10 200
 Stats4     0 0 0 0 0
 Attribs    13 13 13 13 13 13 13
 Saves      0 0 0 0 0
-Speaks     common orcish trollese insectoid spiritual magical clan hollow~
-Speaking   common elder orcish trollese insectoid spiritual magical clan hollow~
+Speaks     common elvish orcish trollese insectoid spiritual magical clan gnomish~
+Speaking   common elvish orcish trollese insectoid spiritual magical clan gnomish~
 Immune     sleep charm nonmagic magic paralysis~
 Attacks    claws~
 Defenses   parry dodge~
@@ -256,8 +256,8 @@ Stats3     4 10 14
 Stats4     0 0 0 0 0
 Attribs    25 20 20 18 17 13 25
 Saves      0 0 0 0 0
-Speaks     common spiritual~
-Speaking   common spiritual~
+Speaks     common halfling~
+Speaking   common halfling~
 Resist     pierce slash~
 Immune     fire cold electricity sleep charm paralysis~
 Suscept    blunt~
@@ -608,7 +608,7 @@ Stats4     0 0 5 60 60
 Attribs    25 25 25 25 25 25 25
 Saves      -30 -30 -30 -30 -30
 Speaks     common elder~
-Speaking   elder hollow~
+Speaking   elvish dwarven~
 Immune     sleep charm paralysis~
 Defenses   parry dodge~
 #MUDPROG

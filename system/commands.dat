@@ -601,14 +601,6 @@ Log         0
 End
 
 #COMMAND
-Name        comp.install~
-Code        do_ainstall
-Position    100
-Level       65
-Log         0
-End
-
-#COMMAND
 Name        down~
 Code        do_down
 Position    112
@@ -1389,6 +1381,14 @@ End
 Name        lock~
 Code        do_lock
 Position    106
+Level       0
+Log         0
+End
+
+#COMMAND
+Name        level~
+Code        do_level
+Position    100
 Level       0
 Log         0
 End
@@ -2656,19 +2656,10 @@ End
 
 #COMMAND
 Name        pl~
-Code        do_plconfig
+Code        do_pl
 Position    100
 Level       51
 Log         0
-End
-
-#COMMAND
-Name        plrank~
-Code        do_plrank
-Position    100
-Level       56
-Log         0
-Flags       8
 End
 
 #COMMAND

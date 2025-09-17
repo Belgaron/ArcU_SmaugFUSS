@@ -88,16 +88,6 @@ Minlevel     0
 End
 
 #SKILL
-Name         aegis~
-Type         Skill
-Info         0
-Flags        0
-Code         spell_aegis
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
 Name         aggressive style~
 Type         Skill
 Info         0
@@ -176,6 +166,615 @@ Minlevel     0
 End
 
 #SKILL
+Name         energy blast~
+Type         Spell
+Info         532
+Flags        256
+Target       1
+Mana         20
+Rounds       1
+Code         (null)
+Dammsg       a blast of energy~
+Hitchar      You blast $N with crackling energy!~
+Hitvict      $n blasts you with crackling energy!~
+Hitroom      $n blasts $N with crackling energy!~
+Difficulty   2
+Minlevel     0
+End
+
+#SKILL
+Name         maces~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         staves~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         spears~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         unarmed~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         polearms~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         bows~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         xbows~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         firearms~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         long blades~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         short blades~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         flexible arms~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         talonous arms~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         bludgeons~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         missle weapons~
+Type         Weapon
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         detrap~
+Type         Skill
+Info         0
+Flags        0
+Minpos       108
+Rounds       24
+Code         do_detrap
+Dammsg       ~
+Wearoff      !Detrap!~
+Minlevel     16
+End
+
+#SKILL
+Name         backstab~
+Type         Skill
+Info         0
+Flags        0
+Minpos       112
+Rounds       12
+Code         do_backstab
+Dammsg       backstab~
+Wearoff      !Backstab!~
+Minlevel     1
+End
+
+#SKILL
+Name         circle~
+Type         Skill
+Info         0
+Flags        0
+Minpos       107
+Rounds       8
+Code         do_circle
+Dammsg       circle~
+Wearoff      !Circle!~
+Minlevel     25
+End
+
+#SKILL
+Name         tumble~
+Type         Skill
+Info         0
+Flags        0
+Target       2
+Minpos       107
+Code         spell_null
+Dammsg       ~
+Wearoff      !Tumble!~
+Minlevel     46
+End
+
+#SKILL
+Name         aegis~
+Type         unknown
+Info         0
+Flags        0
+Code         spell_aegis
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         titan~
+Type         unknown
+Info         0
+Flags        0
+Code         spell_titan
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         valkyrie~
+Type         unknown
+Info         0
+Flags        0
+Code         spell_valkyrie
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         olympus~
+Type         unknown
+Info         0
+Flags        0
+Code         spell_olympus
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         ragnarok~
+Type         unknown
+Info         0
+Flags        0
+Code         spell_ragnarok
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         excalibur~
+Type         unknown
+Info         0
+Flags        0
+Code         spell_excalibur
+Dammsg       ~
+Minlevel     0
+End
+
+#SKILL
+Name         parry~
+Type         Skill
+Info         0
+Flags        0
+Minpos       107
+Code         spell_null
+Dammsg       ~
+Wearoff      !Parry!~
+Minlevel     1
+End
+
+#SKILL
+Name         rescue~
+Type         Skill
+Info         0
+Flags        0
+Minpos       105
+Rounds       12
+Code         do_rescue
+Dammsg       ~
+Wearoff      !Rescue!~
+Minlevel     4
+End
+
+#SKILL
+Name         dual wield~
+Type         Skill
+Info         0
+Flags        0
+Minpos       107
+Code         spell_null
+Dammsg       ~
+Wearoff      !Dual Wield!~
+Minlevel     10
+End
+
+#SKILL
+Name         punch~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       107
+Rounds       8
+Code         do_punch
+Dammsg       punch~
+Minlevel     25
+End
+
+#SKILL
+Name         bash~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       105
+Rounds       26
+Code         do_bash
+Dammsg       bash~
+Wearoff      !Bash!~
+Minlevel     30
+End
+
+#SKILL
+Name         stun~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       107
+Rounds       8
+Code         do_stun
+Dammsg       stun~
+Wearoff      You regain consciousness.~
+Minlevel     48
+End
+
+#SKILL
+Name         doorbash~
+Type         Skill
+Info         0
+Flags        0
+Minpos       112
+Rounds       24
+Code         do_bashdoor
+Dammsg       bashdoor~
+Wearoff      !Bash Door!~
+Minlevel     8
+End
+
+#SKILL
+Name         grip~
+Type         Skill
+Info         0
+Flags        0
+Minpos       105
+Code         spell_null
+Dammsg       ~
+Wearoff      !Grip!~
+Minlevel     25
+End
+
+#SKILL
+Name         berserk~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       111
+Rounds       4
+Code         do_berserk
+Dammsg       ~
+Wearoff      You regain your composure...~
+Teachers     1~
+Minlevel     51
+End
+
+#SKILL
+Name         hitall~
+Type         Skill
+Info         0
+Flags        65536
+Minpos       112
+Rounds       12
+Code         do_hitall
+Dammsg       hit~
+Teachers     25199~
+Minlevel     50
+End
+
+#SKILL
+Name         feed~
+Type         Skill
+Info         0
+Flags        0
+Minpos       105
+Rounds       10
+Code         do_feed
+Dammsg       bite~
+Wearoff      !Feed!~
+Minlevel     3
+End
+
+#SKILL
+Name         bloodlet~
+Type         Skill
+Info         0
+Flags        0
+Minpos       105
+Rounds       12
+Code         do_bloodlet
+Dammsg       ~
+Minlevel     11
+End
+
+#SKILL
+Name         bite~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       105
+Rounds       8
+Code         do_bite
+Dammsg       bite~
+Wearoff      !Bite!~
+Minlevel     11
+End
+
+#SKILL
+Name         claw~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       105
+Rounds       8
+Code         spell_null
+Dammsg       slash~
+Minlevel     51
+End
+
+#SKILL
+Name         sting~
+Type         Skill
+Info         0
+Flags        128
+Target       1
+Minpos       109
+Rounds       8
+Code         spell_null
+Dammsg       sting~
+Minlevel     51
+End
+
+#SKILL
+Name         tail~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       109
+Mana         95
+Rounds       8
+Code         spell_null
+Dammsg       tail~
+Wearoff      !Tail!~
+Minlevel     51
+End
+
+#SKILL
+Name         scribe~
+Type         Skill
+Info         0
+Flags        0
+Target       4
+Minpos       112
+Rounds       8
+Code         do_scribe
+Dammsg       ~
+Minlevel     30
+End
+
+#SKILL
+Name         brew~
+Type         Skill
+Info         0
+Flags        0
+Target       4
+Minpos       112
+Mana         95
+Rounds       8
+Code         do_brew
+Dammsg       ~
+Wearoff      !Brew!~
+Minlevel     25
+End
+
+#SKILL
+Name         climb~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       112
+Rounds       10
+Code         do_climb
+Dammsg       climb~
+Wearoff      !climb!~
+Minlevel     1
+End
+
+#SKILL
+Name         cook~
+Type         Skill
+Info         0
+Flags        0
+Minpos       110
+Rounds       14
+Code         do_cook
+Dammsg       ~
+Misschar     You aren't a very good cook yet.~
+Minlevel     1
+End
+
+#SKILL
+Name         scan~
+Type         Skill
+Info         0
+Flags        0
+Minpos       112
+Rounds       12
+Code         do_scan
+Dammsg       ~
+Wearoff      !Scan!~
+Minlevel     3
+End
+
+#SKILL
+Name         slice~
+Type         Skill
+Info         392
+Flags        0
+Target       1
+Minpos       112
+Rounds       12
+Code         do_slice
+Dammsg       ~
+Minlevel     51
+End
+
+#SKILL
+Name         fireball~
+Type         Spell
+Info         1
+Flags        0
+Target       1
+Minpos       109
+Slot         26
+Mana         15
+Rounds       12
+Code         spell_fireball
+Dammsg       fireball~
+Wearoff      !Fireball!~
+Minlevel     13
+End
+
+#SKILL
+Name         chill touch~
+Type         Spell
+Info         2
+Flags        0
+Target       1
+Minpos       105
+Slot         8
+Mana         15
+Rounds       12
+Code         spell_chill_touch
+Dammsg       chilling touch~
+Wearoff      You feel less cold.~
+Minlevel     3
+End
+
+#SKILL
+Name         lightning bolt~
+Type         Spell
+Info         3
+Flags        0
+Target       1
+Minpos       110
+Slot         30
+Mana         15
+Rounds       12
+Code         spell_lightning_bolt
+Dammsg       lightning bolt~
+Wearoff      !Lightning Bolt!~
+Minlevel     9
+End
+
+#SKILL
 Name         aqua breath~
 Type         Spell
 Info         0
@@ -192,77 +791,7 @@ Hitchar      $N's lungs take on the ability to breathe water...~
 Hitvict      Your lungs take on the ability to breathe water...~
 Hitroom      $N's lungs take on the ability to breathe water...~
 Affect       'l*23' 26 'aqua breath' 31
-Minlevel     0
-End
-
-#SKILL
-Name         backstab~
-Type         Skill
-Info         0
-Flags        0
-Minpos       112
-Rounds       12
-Code         do_backstab
-Dammsg       backstab~
-Wearoff      !Backstab!~
-Minlevel     0
-End
-
-#SKILL
-Name         bash~
-Type         Skill
-Info         0
-Flags        0
-Target       1
-Minpos       105
-Rounds       26
-Code         do_bash
-Dammsg       bash~
-Wearoff      !Bash!~
-Minlevel     0
-End
-
-#SKILL
-Name         berserk~
-Type         Skill
-Info         0
-Flags        0
-Target       1
-Minpos       111
-Rounds       4
-Code         do_berserk
-Dammsg       ~
-Wearoff      You regain your composure...~
-Teachers     1~
-Minlevel     0
-End
-
-#SKILL
-Name         berserk style~
-Type         Skill
-Info         0
-Flags        0
-Minpos       110
-Rounds       4
-Code         spell_null
-Dammsg       ~
-Wearoff      !berserk style!~
-Teachers     10340 3004~
-Minlevel     0
-End
-
-#SKILL
-Name         bite~
-Type         Skill
-Info         0
-Flags        0
-Target       1
-Minpos       105
-Rounds       8
-Code         do_bite
-Dammsg       bite~
-Wearoff      !Bite!~
-Minlevel     0
+Minlevel     14
 End
 
 #SKILL
@@ -278,66 +807,7 @@ Rounds       12
 Code         spell_blindness
 Dammsg       ~
 Wearoff      You can see again.~
-Minlevel     0
-End
-
-#SKILL
-Name         bloodlet~
-Type         Skill
-Info         0
-Flags        0
-Minpos       105
-Rounds       12
-Code         do_bloodlet
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         bludgeons~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         bows~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         brew~
-Type         Skill
-Info         0
-Flags        0
-Target       4
-Minpos       112
-Mana         95
-Rounds       8
-Code         do_brew
-Dammsg       ~
-Wearoff      !Brew!~
-Minlevel     0
-End
-
-#SKILL
-Name         broach~
-Type         Skill
-Info         0
-Flags        0
-Minpos       112
-Rounds       24
-Code         do_broach
-Dammsg       ~
-Minlevel     0
+Minlevel     5
 End
 
 #SKILL
@@ -353,99 +823,7 @@ Rounds       12
 Code         spell_charm_person
 Dammsg       ~
 Wearoff      You feel more self-confident.~
-Minlevel     0
-End
-
-#SKILL
-Name         chill touch~
-Type         Spell
-Info         2
-Flags        0
-Target       1
-Minpos       105
-Slot         8
-Mana         15
-Rounds       12
-Code         spell_chill_touch
-Dammsg       chilling touch~
-Wearoff      You feel less cold.~
-Minlevel     0
-End
-
-#SKILL
-Name         circle~
-Type         Skill
-Info         0
-Flags        0
-Minpos       107
-Rounds       8
-Code         do_circle
-Dammsg       circle~
-Wearoff      !Circle!~
-Minlevel     0
-End
-
-#SKILL
-Name         claw~
-Type         Skill
-Info         0
-Flags        0
-Target       1
-Minpos       105
-Rounds       8
-Code         spell_null
-Dammsg       slash~
-Minlevel     0
-End
-
-#SKILL
-Name         cleave~
-Type         Skill
-Info         0
-Flags        0
-Minpos       106
-Rounds       18
-Guild        99
-Code         do_cleave
-Dammsg       cleave~
-Minlevel     0
-End
-
-#SKILL
-Name         climb~
-Type         Skill
-Info         0
-Flags        0
-Target       1
-Minpos       112
-Rounds       10
-Code         do_climb
-Dammsg       climb~
-Wearoff      !climb!~
-Minlevel     0
-End
-
-#SKILL
-Name         common~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         cook~
-Type         Skill
-Info         0
-Flags        0
-Minpos       110
-Rounds       14
-Code         do_cook
-Dammsg       ~
-Misschar     You aren't a very good cook yet.~
-Minlevel     0
+Minlevel     14
 End
 
 #SKILL
@@ -461,339 +839,7 @@ Rounds       12
 Code         spell_curse
 Dammsg       curse~
 Wearoff      The curse wears off.~
-Minlevel     0
-End
-
-#SKILL
-Name         defensive style~
-Type         Skill
-Info         0
-Flags        0
-Rounds       4
-Code         spell_null
-Dammsg       ~
-Wearoff      !defensive style!~
-Teachers     10340 3004~
-Minlevel     0
-End
-
-#SKILL
-Name         detrap~
-Type         Skill
-Info         0
-Flags        0
-Minpos       108
-Rounds       24
-Code         do_detrap
-Dammsg       ~
-Wearoff      !Detrap!~
-Minlevel     0
-End
-
-#SKILL
-Name         dig~
-Type         Skill
-Info         0
-Flags        0
-Minpos       112
-Rounds       20
-Code         do_dig
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         disarm~
-Type         Skill
-Info         0
-Flags        0
-Minpos       107
-Rounds       24
-Code         do_disarm
-Dammsg       ~
-Wearoff      !Disarm!~
-Minlevel     0
-End
-
-#SKILL
-Name         dodge~
-Type         Skill
-Info         0
-Flags        0
-Minpos       107
-Code         spell_null
-Dammsg       ~
-Wearoff      !Dodge!~
-Minlevel     0
-End
-
-#SKILL
-Name         doorbash~
-Type         Skill
-Info         0
-Flags        0
-Minpos       112
-Rounds       24
-Code         do_bashdoor
-Dammsg       bashdoor~
-Wearoff      !Bash Door!~
-Minlevel     0
-End
-
-#SKILL
-Name         dual wield~
-Type         Skill
-Info         0
-Flags        0
-Minpos       107
-Code         spell_null
-Dammsg       ~
-Wearoff      !Dual Wield!~
-Minlevel     0
-End
-
-#SKILL
-Name         echospeak~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         arcosian~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         elder~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         energy blast~
-Type         Spell
-Info         532
-Flags        256
-Target       1
-Mana         20
-Rounds       1
-Code         spell_null
-Dammsg       a blast of energy~
-Hitchar      You blast $N with crackling energy!~
-Hitvict      $n blasts you with crackling energy!~
-Hitroom      $n blasts $N with crackling energy!~
-Difficulty   2
-Minlevel     0
-End
-
-#SKILL
-Name         enhanced damage~
-Type         Skill
-Info         0
-Flags        0
-Minpos       105
-Code         spell_null
-Dammsg       ~
-Wearoff      !Enhanced Damage!~
-Minlevel     0
-End
-
-#SKILL
-Name         evasive style~
-Type         Skill
-Info         0
-Flags        0
-Rounds       4
-Code         spell_null
-Dammsg       ~
-Wearoff      !evasive style!~
-Teachers     10340 3004~
-Minlevel     0
-End
-
-#SKILL
-Name         excalibur~
-Type         unknown
-Info         0
-Flags        0
-Code         spell_excalibur
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         feed~
-Type         Skill
-Info         0
-Flags        0
-Minpos       105
-Rounds       10
-Code         do_feed
-Dammsg       bite~
-Wearoff      !Feed!~
-Minlevel     0
-End
-
-#SKILL
-Name         fifth attack~
-Type         Skill
-Info         0
-Flags        0
-Minpos       105
-Code         spell_null
-Dammsg       ~
-Wearoff      !Fifth Attack!~
-Minlevel     0
-End
-
-#SKILL
-Name         firearms~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         fireball~
-Type         Spell
-Info         1
-Flags        0
-Target       1
-Minpos       109
-Slot         26
-Mana         15
-Rounds       12
-Code         spell_fireball
-Dammsg       fireball~
-Wearoff      !Fireball!~
-Minlevel     0
-End
-
-#SKILL
-Name         flexible arms~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         fourth attack~
-Type         Skill
-Info         0
-Flags        0
-Minpos       105
-Code         spell_null
-Dammsg       ~
-Wearoff      !Fourth Attack!~
-Minlevel     0
-End
-
-#SKILL
-Name         machine~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         gouge~
-Type         Skill
-Info         0
-Flags        0
-Minpos       105
-Rounds       10
-Code         do_gouge
-Dammsg       gouge~
-Wearoff      !Gouge!~
-Minlevel     0
-End
-
-#SKILL
-Name         grapple~
-Type         Skill
-Info         0
-Flags        0
-Minpos       109
-Rounds       36
-Guild        99
-Code         do_grapple
-Dammsg       !grapple!~
-Wearoff      You stop grappling.~
-Minlevel     0
-End
-
-#SKILL
-Name         grip~
-Type         Skill
-Info         0
-Flags        0
-Minpos       105
-Code         spell_null
-Dammsg       ~
-Wearoff      !Grip!~
-Minlevel     0
-End
-
-#SKILL
-Name         hide~
-Type         Skill
-Info         0
-Flags        0
-Target       3
-Minpos       112
-Rounds       12
-Code         do_hide
-Dammsg       ~
-Wearoff      You are no longer hidden.~
-Hitvict      You attempt to hide.~
-Misschar     You attempt to hide.~
-Affect       'l*23' 26 'hide' 16
-Minlevel     0
-End
-
-#SKILL
-Name         hitall~
-Type         Skill
-Info         0
-Flags        65536
-Minpos       112
-Rounds       12
-Code         do_hitall
-Dammsg       hit~
-Teachers     25199~
-Minlevel     0
-End
-
-#SKILL
-Name         hollow~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
+Minlevel     12
 End
 
 #SKILL
@@ -812,66 +858,7 @@ Hitchar      $N fades from existence.~
 Hitvict      You fade from existence.~
 Hitroom      $N fades from existence.~
 Affect       'l*11' 26 'invis' 1
-Minlevel     0
-End
-
-#SKILL
-Name         kick~
-Type         Skill
-Info         0
-Flags        0
-Target       1
-Minpos       105
-Rounds       8
-Code         do_kick
-Dammsg       kick~
-Minlevel     0
-End
-
-#SKILL
-Name         lightning bolt~
-Type         Spell
-Info         3
-Flags        0
-Target       1
-Minpos       110
-Slot         30
-Mana         15
-Rounds       12
-Code         spell_lightning_bolt
-Dammsg       lightning bolt~
-Wearoff      !Lightning Bolt!~
-Minlevel     0
-End
-
-#SKILL
-Name         long blades~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         lycan~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         maces~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
+Minlevel     4
 End
 
 #SKILL
@@ -890,96 +877,7 @@ Wearoff      You are no longer invisible.~
 Hitvict      You fade from existence.~
 Hitroom      $N fades from existence.~
 Affect       'l*11' 26 'mass invis' 1
-Minlevel     0
-End
-
-#SKILL
-Name         meditate~
-Type         Skill
-Info         0
-Flags        530432
-Target       3
-Minpos       106
-Rounds       35
-Code         do_meditate
-Dammsg       ~
-Hitvict      You meditate peacefully, collecting mana from the cosmos.~
-Missvict     You spend several minutes in deep concentration, but fail to collect any mana.~
-Minlevel     0
-End
-
-#SKILL
-Name         mistwalk~
-Type         Skill
-Info         0
-Flags        0
-Minpos       112
-Mana         50
-Rounds       12
-Code         do_mistwalk
-Dammsg       ~
-Wearoff      !Mist Walk!~
-Minlevel     0
-End
-
-#SKILL
-Name         mount~
-Type         Skill
-Info         0
-Flags        0
-Minpos       112
-Rounds       10
-Code         do_mount
-Dammsg       ~
-Wearoff      !Search!~
-Minlevel     0
-End
-
-#SKILL
-Name         olympus~
-Type         unknown
-Info         0
-Flags        0
-Code         spell_olympus
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         parry~
-Type         Skill
-Info         0
-Flags        0
-Minpos       107
-Code         spell_null
-Dammsg       ~
-Wearoff      !Parry!~
-Minlevel     0
-End
-
-#SKILL
-Name         peek~
-Type         Skill
-Info         0
-Flags        0
-Minpos       112
-Code         spell_null
-Dammsg       ~
-Wearoff      !Peek!~
-Minlevel     0
-End
-
-#SKILL
-Name         pick lock~
-Type         Skill
-Info         0
-Flags        0
-Minpos       112
-Rounds       12
-Code         do_pick
-Dammsg       ~
-Wearoff      !Pick!~
-Minlevel     0
+Minlevel     15
 End
 
 #SKILL
@@ -995,31 +893,22 @@ Rounds       20
 Code         spell_poison
 Dammsg       poison~
 Wearoff      You feel less sick.~
-Minlevel     0
+Minlevel     6
 End
 
 #SKILL
-Name         poison weapon~
-Type         Skill
+Name         sleep~
+Type         Spell
 Info         0
-Flags        0
-Target       4
+Flags        131072
 Minpos       112
+Slot         38
+Mana         15
 Rounds       12
-Code         do_poison_weapon
-Dammsg       poisonous concoction~
-Wearoff      !Poison Weapon!~
-Minlevel     0
-End
-
-#SKILL
-Name         polearms~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
+Code         spell_sleep
 Dammsg       ~
-Minlevel     0
+Wearoff      You feel less tired.~
+Minlevel     12
 End
 
 #SKILL
@@ -1035,7 +924,100 @@ Code         spell_possess
 Dammsg       possess~
 Wearoff      You return to your body.~
 Components   v+13~
-Minlevel     0
+Minlevel     35
+End
+
+#SKILL
+Name         gibberish~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         elder~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         common~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         spirit~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         hollow~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         lycan~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         echospeak~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         critter~
+Type         Tongue
+Info         0
+Flags        0
+Code         spell_null
+Dammsg       ~
+Minlevel     1
+End
+
+#SKILL
+Name         cleave~
+Type         Skill
+Info         0
+Flags        0
+Minpos       106
+Rounds       18
+Guild        99
+Code         do_cleave
+Dammsg       cleave~
+Minlevel     50
 End
 
 #SKILL
@@ -1049,69 +1031,89 @@ Rounds       12
 Guild        99
 Code         do_pounce
 Dammsg       pounce~
-Minlevel     0
+Minlevel     5
 End
 
 #SKILL
-Name         punch~
+Name         grapple~
 Type         Skill
 Info         0
 Flags        0
-Target       1
-Minpos       107
-Rounds       8
-Code         do_punch
-Dammsg       punch~
-Minlevel     0
+Minpos       109
+Rounds       36
+Guild        99
+Code         do_grapple
+Dammsg       !grapple!~
+Wearoff      You stop grappling.~
+Minlevel     50
 End
 
 #SKILL
-Name         ragnarok~
-Type         unknown
-Info         0
-Flags        0
-Code         spell_ragnarok
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         rescue~
-Type         Skill
-Info         0
-Flags        0
-Minpos       105
-Rounds       12
-Code         do_rescue
-Dammsg       ~
-Wearoff      !Rescue!~
-Minlevel     0
-End
-
-#SKILL
-Name         scan~
+Name         broach~
 Type         Skill
 Info         0
 Flags        0
 Minpos       112
-Rounds       12
-Code         do_scan
+Rounds       24
+Code         do_broach
 Dammsg       ~
-Wearoff      !Scan!~
-Minlevel     0
+Minlevel     41
 End
 
 #SKILL
-Name         scribe~
+Name         mistwalk~
 Type         Skill
 Info         0
 Flags        0
-Target       4
 Minpos       112
-Rounds       8
-Code         do_scribe
+Mana         50
+Rounds       12
+Code         do_mistwalk
 Dammsg       ~
-Minlevel     0
+Wearoff      !Mist Walk!~
+Minlevel     31
+End
+
+#SKILL
+Name         track~
+Type         Skill
+Info         0
+Flags        0
+Minpos       112
+Rounds       14
+Code         do_track
+Dammsg       ~
+Minlevel     6
+End
+
+#SKILL
+Name         meditate~
+Type         Skill
+Info         0
+Flags        530432
+Target       3
+Minpos       106
+Rounds       35
+Code         do_meditate
+Dammsg       ~
+Hitvict      You meditate peacefully, collecting mana from the cosmos.~
+Missvict     You spend several minutes in deep concentration, but fail to collect any mana.~
+Minlevel     12
+End
+
+#SKILL
+Name         trance~
+Type         Skill
+Info         0
+Flags        530432
+Target       3
+Minpos       106
+Rounds       45
+Code         do_trance
+Dammsg       ~
+Hitvict      You enter a peaceful trance, collecting mana from the cosmos.~
+Missvict     You spend several minutes in a deep trance, but fail to collect any mana.~
+Minlevel     15
 End
 
 #SKILL
@@ -1123,56 +1125,86 @@ Minpos       112
 Rounds       20
 Code         do_search
 Dammsg       ~
-Minlevel     0
+Minlevel     3
 End
 
 #SKILL
-Name         second attack~
+Name         dig~
 Type         Skill
 Info         0
 Flags        0
-Minpos       105
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         short blades~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         sleep~
-Type         Spell
-Info         0
-Flags        131072
 Minpos       112
-Slot         38
-Mana         15
-Rounds       12
-Code         spell_sleep
+Rounds       20
+Code         do_dig
 Dammsg       ~
-Wearoff      You feel less tired.~
-Minlevel     0
+Minlevel     2
 End
 
 #SKILL
-Name         slice~
+Name         mount~
 Type         Skill
-Info         392
+Info         0
 Flags        0
-Target       1
+Minpos       112
+Rounds       10
+Code         do_mount
+Dammsg       ~
+Wearoff      !Search!~
+Minlevel     2
+End
+
+#SKILL
+Name         dodge~
+Type         Skill
+Info         0
+Flags        0
+Minpos       107
+Code         spell_null
+Dammsg       ~
+Wearoff      !Dodge!~
+Minlevel     200
+End
+
+#SKILL
+Name         hide~
+Type         Skill
+Info         0
+Flags        0
+Target       3
 Minpos       112
 Rounds       12
-Code         do_slice
+Code         do_hide
 Dammsg       ~
-Minlevel     0
+Wearoff      You are no longer hidden.~
+Hitvict      You attempt to hide.~
+Misschar     You attempt to hide.~
+Affect       'l*23' 26 'hide' 16
+Minlevel     1
+End
+
+#SKILL
+Name         peek~
+Type         Skill
+Info         0
+Flags        0
+Minpos       112
+Code         spell_null
+Dammsg       ~
+Wearoff      !Peek!~
+Minlevel     1
+End
+
+#SKILL
+Name         pick lock~
+Type         Skill
+Info         0
+Flags        0
+Minpos       112
+Rounds       12
+Code         do_pick
+Dammsg       ~
+Wearoff      !Pick!~
+Minlevel     1
 End
 
 #SKILL
@@ -1188,99 +1220,7 @@ Dammsg       ~
 Hitvict      You attempt to move silently.~
 Misschar     You attempt to move silently.~
 Affect       'l*23' 26 'sneak' 15
-Minlevel     0
-End
-
-#SKILL
-Name         spears~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         spiritual~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         pixie~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         ogre~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         orcish~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         trollese~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         goblin~
-Type         Tongue
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         standard style~
-Type         Skill
-Info         0
-Flags        0
-Rounds       4
-Code         spell_null
-Dammsg       ~
-Teachers     10340 3004~
-Minlevel     0
-End
-
-#SKILL
-Name         staves~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
+Minlevel     1
 End
 
 #SKILL
@@ -1292,59 +1232,135 @@ Minpos       112
 Rounds       24
 Code         do_steal
 Dammsg       ~
-Minlevel     0
+Minlevel     1
 End
 
 #SKILL
-Name         sting~
-Type         Skill
-Info         0
-Flags        128
-Target       1
-Minpos       109
-Rounds       8
-Code         spell_null
-Dammsg       sting~
-Minlevel     0
-End
-
-#SKILL
-Name         stun~
+Name         gouge~
 Type         Skill
 Info         0
 Flags        0
-Target       1
+Minpos       105
+Rounds       10
+Code         do_gouge
+Dammsg       gouge~
+Wearoff      !Gouge!~
+Minlevel     20
+End
+
+#SKILL
+Name         poison weapon~
+Type         Skill
+Info         0
+Flags        0
+Target       4
+Minpos       112
+Rounds       12
+Code         do_poison_weapon
+Dammsg       poisonous concoction~
+Wearoff      !Poison Weapon!~
+Minlevel     27
+End
+
+#SKILL
+Name         disarm~
+Type         Skill
+Info         0
+Flags        0
 Minpos       107
-Rounds       8
-Code         do_stun
-Dammsg       stun~
-Wearoff      You regain consciousness.~
-Minlevel     0
+Rounds       24
+Code         do_disarm
+Dammsg       ~
+Wearoff      !Disarm!~
+Minlevel     10
 End
 
 #SKILL
-Name         tail~
+Name         enhanced damage~
 Type         Skill
 Info         0
 Flags        0
-Target       1
-Minpos       109
-Mana         95
-Rounds       8
-Code         spell_null
-Dammsg       tail~
-Wearoff      !Tail!~
-Minlevel     0
-End
-
-#SKILL
-Name         talonous arms~
-Type         Weapon
-Info         0
-Flags        0
+Minpos       105
 Code         spell_null
 Dammsg       ~
-Minlevel     0
+Wearoff      !Enhanced Damage!~
+Minlevel     1
+End
+
+#SKILL
+Name         kick~
+Type         Skill
+Info         0
+Flags        0
+Target       1
+Minpos       105
+Rounds       8
+Code         do_kick
+Dammsg       kick~
+Minlevel     1
+End
+
+#SKILL
+Name         evasive style~
+Type         Skill
+Info         0
+Flags        0
+Rounds       4
+Code         spell_null
+Dammsg       ~
+Wearoff      !evasive style!~
+Teachers     10340 3004~
+Minlevel     1
+End
+
+#SKILL
+Name         standard style~
+Type         Skill
+Info         0
+Flags        0
+Rounds       4
+Code         spell_null
+Dammsg       ~
+Teachers     10340 3004~
+Minlevel     1
+End
+
+#SKILL
+Name         berserk style~
+Type         Skill
+Info         0
+Flags        0
+Minpos       110
+Rounds       4
+Code         spell_null
+Dammsg       ~
+Wearoff      !berserk style!~
+Teachers     10340 3004~
+Minlevel     10
+End
+
+#SKILL
+Name         defensive style~
+Type         Skill
+Info         0
+Flags        0
+Rounds       4
+Code         spell_null
+Dammsg       ~
+Wearoff      !defensive style!~
+Teachers     10340 3004~
+Minlevel     1
+End
+
+#SKILL
+Name         second attack~
+Type         Skill
+Info         0
+Flags        0
+Minpos       105
+Code         spell_null
+Dammsg       ~
+Minlevel     5
 End
 
 #SKILL
@@ -1355,99 +1371,31 @@ Flags        0
 Minpos       105
 Code         spell_null
 Dammsg       ~
-Minlevel     0
+Minlevel     20
 End
 
 #SKILL
-Name         titan~
-Type         unknown
-Info         0
-Flags        0
-Code         spell_titan
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         track~
+Name         fourth attack~
 Type         Skill
 Info         0
 Flags        0
-Minpos       112
-Rounds       14
-Code         do_track
+Minpos       105
+Code         spell_null
 Dammsg       ~
-Minlevel     0
+Wearoff      !Fourth Attack!~
+Minlevel     32
 End
 
 #SKILL
-Name         trance~
-Type         Skill
-Info         0
-Flags        530432
-Target       3
-Minpos       106
-Rounds       45
-Code         do_trance
-Dammsg       ~
-Hitvict      You enter a peaceful trance, collecting mana from the cosmos.~
-Missvict     You spend several minutes in a deep trance, but fail to collect any mana.~
-Minlevel     0
-End
-
-#SKILL
-Name         tumble~
+Name         fifth attack~
 Type         Skill
 Info         0
 Flags        0
-Target       2
-Minpos       107
+Minpos       105
 Code         spell_null
 Dammsg       ~
-Wearoff      !Tumble!~
-Minlevel     0
-End
-
-#SKILL
-Name         unarmed~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-
-
-#SKILL
-Name         missle weapons~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         valkyrie~
-Type         unknown
-Info         0
-Flags        0
-Code         spell_valkyrie
-Dammsg       ~
-Minlevel     0
-End
-
-#SKILL
-Name         xbows~
-Type         Weapon
-Info         0
-Flags        0
-Code         spell_null
-Dammsg       ~
-Minlevel     0
+Wearoff      !Fifth Attack!~
+Minlevel     42
 End
 
 #END

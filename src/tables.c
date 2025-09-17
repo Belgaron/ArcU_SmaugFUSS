@@ -495,6 +495,7 @@ bool load_race_file( const char *fname )
 
          case 'C':
             KEY( "Con_Plus", race->con_plus, fread_number( fp ) );
+            KEY( "spr_plus", race->spr_plus, fread_number( fp ) );
             KEY( "Classes", race->class_restriction, fread_number( fp ) );
             break;
 
@@ -557,7 +558,6 @@ bool load_race_file( const char *fname )
             break;
 
          case 'S':
-				KEY( "Spr_Plus", race->spr_plus, fread_number( fp ) );
             KEY( "Str_Plus", race->str_plus, fread_number( fp ) );
             KEY( "Suscept", race->suscept, fread_number( fp ) );
             if( !str_cmp( word, "Skill" ) )

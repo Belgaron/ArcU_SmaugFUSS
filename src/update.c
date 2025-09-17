@@ -58,45 +58,36 @@ const char *corpse_descs[] = {
    "The corpse of %s lies here."
 };
 
-struct pl_scaling_config pl_scaling = {
-    /* Default DBSC values - modify as needed */
-    .tier1_threshold = 10000000LL,      /* 10 million */
-    .tier2_threshold = 100000000LL,     /* 100 million */
-    .tier3_threshold = 1000000000LL,    /* 1 billion */
-    .tier1_multiplier = 85,             /* 15% penalty */
-    .tier2_multiplier = 67,             /* 33% penalty */
-    .tier3_multiplier = 33,             /* 67% penalty */
-    .max_gain_divisor = 4,              /* 1/4 max */
-    .absolute_minimum = 1,              /* Minimum 1 PL */
-    .equal_enemy_divisor = 10,          /* dam/10 */
-    .half_enemy_divisor = 20,           /* dam/20 */
-    .weak_enemy_divisor = 50,           /* dam/50 */
-    .very_weak_divisor = 100,           /* dam/100 */
-    .anti_farming_ratio = 10            /* 1/10 threshold */
-};
-
 /*
- * Advancement stuff - Now only for immortals (level 51+)
- * Mortals progress via power level only
+ * Advancement stuff.
  */
 void advance_level( CHAR_DATA * ch )
 {
    char buf[MAX_STRING_LENGTH];
    int add_hp, add_mana, add_move, add_prac;
 
-   /* Only advance immortals - mortals don't have "levels" anymore */
-   if( !ch || IS_NPC(ch) || ch->level < LEVEL_IMMORTAL )
-      return;
-
-   /* Set immortal title */
    snprintf( buf, MAX_STRING_LENGTH, "the %s", title_table[ch->Class][ch->level][ch->sex == SEX_FEMALE ? 1 : 0] );
    set_title( ch, buf );
 
-   /* Immortals get fixed progression, not level-based calculations */
-   add_hp = 100;   /* Immortals get fixed HP gain */
-   add_mana = 100; /* Immortals get fixed mana gain */
-   add_move = 100; /* Immortals get fixed move gain */
-   add_prac = 5;   /* Immortals get fixed practice gain */
+   add_hp = con_app[get_curr_con( ch )].hitp + number_range( class_table[ch->Class]->hp_min, class_table[ch->Class]->hp_max );
+   add_mana = class_table[ch->Class]->fMana ? number_range( 2, ( 2 * get_curr_int( ch ) + get_curr_wis( ch ) ) / 8 ) : 0;
+   add_move = number_range( 5, ( get_curr_con( ch ) + get_curr_dex( ch ) ) / 4 );
+   add_prac = wis_app[get_curr_wis( ch )].practice;
+
+   add_hp = UMAX( 1, add_hp );
+   add_mana = UMAX( 0, add_mana );
+   add_move = UMAX( 10, add_move );
+
+   /*
+    * bonus for deadlies 
+    */
+   if( IS_PKILL( ch ) )
+   {
+      add_mana = ( int )( add_mana + add_mana * .3 );
+      add_move = ( int )( add_move + add_move * .3 );
+      add_hp += 1;   /* bitch at blod if you don't like this :) */
+      send_to_char( "Gravoc's Pandect steels your sinews.\r\n", ch );
+   }
 
    ch->max_hit += add_hp;
    ch->max_mana += add_mana;
@@ -106,7 +97,6 @@ void advance_level( CHAR_DATA * ch )
    if( !IS_NPC( ch ) )
       xREMOVE_BIT( ch->act, PLR_BOUGHT_PET );
 
-   /* Special immortal level notifications */
    if( ch->level == LEVEL_AVATAR )
    {
       DESCRIPTOR_DATA *d;
@@ -115,103 +105,92 @@ void advance_level( CHAR_DATA * ch )
          if( d->connected == CON_PLAYING && d->character != ch )
          {
             set_char_color( AT_IMMORT, d->character );
-            ch_printf( d->character, "%s has become an immortal!\r\n", ch->name );
+            ch_printf( d->character, "%s has attained the rank of Avatar!\r\n", ch->name );
          }
       set_char_color( AT_WHITE, ch );
       do_help( ch, "M_ADVHERO_" );
    }
 
-   /* Show immortal advancement gains */
-   snprintf( buf, MAX_STRING_LENGTH,
-             "Your immortal powers grow: %d/%d hp, %d/%d mana, %d/%d mv %d/%d prac.\r\n",
-             add_hp, ch->max_hit, add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice );
-   set_char_color( AT_WHITE, ch );
-   send_to_char( buf, ch );
+   if( ch->level < LEVEL_IMMORTAL )
+   {
+      if( IS_VAMPIRE( ch ) )
+         snprintf( buf, MAX_STRING_LENGTH,
+                   "Your gain is: %d/%d hp, %d/%d bp, %d/%d mv %d/%d prac.\r\n",
+                   add_hp, ch->max_hit, 1, ch->level + 10, add_move, ch->max_move, add_prac, ch->practice );
+      else
+         snprintf( buf, MAX_STRING_LENGTH,
+                   "Your gain is: %d/%d hp, %d/%d mana, %d/%d mv %d/%d prac.\r\n",
+                   add_hp, ch->max_hit, add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice );
+      set_char_color( AT_WHITE, ch );
+      send_to_char( buf, ch );
+   }
 }
 
-void gain_pl( CHAR_DATA *ch, long long gain )
+void gain_exp( CHAR_DATA * ch, int gain )
 {
-    long long current_pl, original_gain;
-    int race_mult, system_mod;
-    
-    /* Fast early exits */
-    if( IS_NPC( ch ) || gain == 0 )
-        return;
-        
-    current_pl = get_power_level( ch );
-    original_gain = gain;
-    
-    if( gain > 0 )
-    {
-        /* Apply race multiplier efficiently */
-        if( ch->race >= 0 && ch->race < MAX_RACE && race_table[ch->race] ) {
-            race_mult = race_table[ch->race]->exp_multiplier;
-            if( race_mult > 0 && race_mult != 100 ) {
-                gain = (gain * race_mult) / 100;
-            }
-        }
-        
-        /* Apply system modifier efficiently */
-        system_mod = IS_PKILL( ch ) ? sysdata.deadly_exp_mod : sysdata.peaceful_exp_mod;
-        if( system_mod > 0 && system_mod != 100 ) {
-            gain = (gain * system_mod) / 100;
-        }
-        
-        /* Protect against invalid configuration zeroing gains */
-        if( gain <= 0 && original_gain > 0 ) {
-            gain = 1;
-        }
-        
-        /* Apply scaling penalties based on current power level */
-        if( current_pl >= pl_scaling.tier3_threshold ) {
-            gain = UMAX( 1, (gain * pl_scaling.tier3_multiplier) / 100 );
-        }
-        else if( current_pl >= pl_scaling.tier2_threshold ) {
-            gain = UMAX( 1, (gain * pl_scaling.tier2_multiplier) / 100 );
-        }
-        else if( current_pl >= pl_scaling.tier1_threshold ) {
-            gain = UMAX( 1, (gain * pl_scaling.tier1_multiplier) / 100 );
-        }
-        
-        /* Cap excessive gains */
-        long long max_gain = current_pl / pl_scaling.max_gain_divisor;
-        if( gain > max_gain ) {
-            gain = UMAX( max_gain, 1 );
-        }
-    }
-    else /* Negative gain - power level loss */
-    {
-        if( current_pl + gain < pl_scaling.absolute_minimum ) {
-            gain = pl_scaling.absolute_minimum - current_pl;
-            send_to_char( "Your power level cannot drop below the minimum.\r\n", ch );
-        }
-    }
-    
-    /* Apply the change if non-zero */
-    if( gain != 0 )
-    {
-        add_base_power_level( ch, gain );
-        
-        /* Player feedback */
-        if( gain > 0 )
-            ch_printf( ch, "&GYou gain &Y%s &Gpower level!\r\n", num_punct_ll( gain ) );
-        else
-            ch_printf( ch, "&RYou lose &Y%s &Rpower level!\r\n", num_punct_ll( -gain ) );
-            
-        save_char_obj( ch );
-        
-        /* Trigger any special events for gains */
-        if( gain > 0 && !IS_NPC(ch) ) {
-            /* Android schematic checks - only if macros exist */
-            #ifdef IS_ANDROID
-            if( IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) ) {
-                /* Call android_check_schematics if function exists */
-                extern void android_check_schematics( CHAR_DATA * );
-                check_android_schematics( ch );
-            }
-            #endif
-        }
-    }
+   long long pl_gain;
+   long long current_pl;
+   
+   if( IS_NPC( ch ) )
+      return;
+      
+   /* Convert experience to power level gain */
+   pl_gain = gain;
+   current_pl = get_power_level( ch );
+   
+   /* DBSC-style PL gain modifiers */
+   if( pl_gain > 0 )
+   {
+      /* Race experience multipliers - apply FIRST */
+      pl_gain = (long long)(pl_gain * (race_table[ch->race]->exp_multiplier / 100.0));
+      
+      /* System modifiers - apply SECOND */
+      if( IS_PKILL( ch ) )
+         pl_gain = (pl_gain * sysdata.deadly_exp_mod) / 100;
+      else
+         pl_gain = (pl_gain * sysdata.peaceful_exp_mod) / 100;
+      
+      /* DBSC-style power level scaling - apply LAST */
+      if( current_pl > 1000000000LL )      /* 1 billion+ PL */
+         pl_gain = pl_gain / 3;            /* 66% reduction */
+      else if( current_pl > 100000000LL )  /* 100 million+ PL */
+         pl_gain = pl_gain * 2 / 3;        /* 33% reduction */
+      else if( current_pl > 10000000LL )   /* 10 million+ PL */
+         pl_gain = pl_gain * 85 / 100;     /* 15% reduction */
+      /* Normal gains below 10 million PL */
+      
+      /* Cap massive gains to prevent instant super-leveling */
+      if( pl_gain > current_pl / 4 )
+         pl_gain = current_pl / 4;
+   }
+   else if( pl_gain < 0 ) /* Power level loss */
+   {
+      /* DBSC-style death penalty - but allow going below 100 for newbie area */
+      if( current_pl + pl_gain < 1 )  /* Changed from 100 to 1 */
+      {
+         pl_gain = 1 - current_pl;    /* Can go down to 1 PL */
+         send_to_char( "Your power level cannot drop below 1.\r\n", ch );
+      }
+   }
+   
+   /* Apply the power level change */
+   add_base_power_level( ch, pl_gain );
+   
+   /* Update traditional exp field for compatibility */
+   ch->exp = ch->power_level.get_base();
+   
+   if( pl_gain > 0 )
+      ch_printf( ch, "&GYou gain &Y%s &Gpower level!\r\n", num_punct_ll( pl_gain ) );
+   else if( pl_gain < 0 )
+      ch_printf( ch, "&RYou lose &Y%s &Rpower level!\r\n", num_punct_ll( -pl_gain ) );
+      
+   save_char_obj( ch );
+	
+	/* Check for new android schematics when PL increases */
+   if( pl_gain > 0 && !IS_NPC(ch) && IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) )
+   {
+      check_android_schematics( ch );
+   }
 }
 
 /*
