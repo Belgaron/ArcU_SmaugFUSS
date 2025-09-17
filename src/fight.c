@@ -1893,6 +1893,7 @@ ch_ret projectile_hit( CHAR_DATA * ch, CHAR_DATA * victim, OBJ_DATA * wield, OBJ
    if( dam )
    {
       int x, res, imm, sus, mod;
+      damage_effect_type effect;
 
       if( plusris )
          plusris = RIS_PLUS1 << UMIN( plusris, 7 );
