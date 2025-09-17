@@ -3335,16 +3335,31 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
               send_to_char( "&RYour mind cannot focus during combat!&x\r\n", ch );
               discovery_chance = 0;  /* No discovery chance while fighting */
           }
-          else if( ch->in_room->first_person != ch && ch->in_room->first_person->next_in_room )
-          {
-              /* Other people in room reduce concentration */
-              discovery_chance /= 3;  /* Much lower chance if not alone */
-              send_to_char( "&YThe presence of others disrupts your deep meditation.&x\r\n", ch );
-          }
           else
           {
-              /* Perfect meditation environment */
-              send_to_char( "&CYou find perfect stillness and focus in your solitude.&x\r\n", ch );
+              bool has_companion = FALSE;
+              CHAR_DATA *rch;
+
+              for( rch = ch->in_room ? ch->in_room->first_person : NULL; rch; rch = rch->next_in_room )
+              {
+                  if( rch != ch )
+                  {
+                     has_companion = TRUE;
+                     break;
+                  }
+              }
+
+              if( has_companion )
+              {
+                  /* Other people in room reduce concentration */
+                  discovery_chance /= 3;  /* Much lower chance if not alone */
+                  send_to_char( "&YThe presence of others disrupts your deep meditation.&x\r\n", ch );
+              }
+              else
+              {
+                  /* Perfect meditation environment */
+                  send_to_char( "&CYou find perfect stillness and focus in your solitude.&x\r\n", ch );
+              }
           }
           
           /* Check for transformation discovery */
