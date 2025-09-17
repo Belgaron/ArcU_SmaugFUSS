@@ -347,17 +347,17 @@ void do_score( CHAR_DATA* ch, const char* argument )
    
    //pager_printf( ch, "Glory: %4.4d(%4.4d) \r\n", ch->pcdata->quest_curr, ch->pcdata->quest_accum );
 
-   pager_printf( ch, "&cBASE POWERLEVEL: 13%s&c                          AutoSac (&W%c&c)  AutoExit(&W%c&c)\r\n&D",
+   pager_printf( ch, "&cBASE POWERLEVEL: %-17s&c                          AutoSac (&W%c&c)  AutoExit(&W%c&c)\r\n&D",
                  num_punct_ll( ch->power_level.get_base() ), xIS_SET( ch->act, PLR_AUTOSAC ) ? 'X' : ' ', xIS_SET( ch->act, PLR_AUTOEXIT ) ? 'X' : ' ' );
 
    if( IS_VAMPIRE( ch ) )
-      pager_printf( ch, "&cBASE POWERLEVEL: 13%s&c       &RBlood: %-5d &Cof &R%5d&c  AutoLoot(&W%c&c)  Pager(&W%c&c)\r\n&D",
+      pager_printf( ch, "&cBASE POWERLEVEL: %-17s&c       &RBlood: %-5d &Cof &R%5d&c  AutoLoot(&W%c&c)  Pager(&W%c&c)\r\n&D",
                     num_punct_ll( ch->power_level.get_base() ), ch->pcdata->condition[COND_BLOODTHIRST], 10 + ch->level, xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ', IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? 'X' : ' ');
    else
-      pager_printf( ch, "&cCURR POWERLEVEL: 13%s                           AutoLoot(&W%c&c)  Pager: (&W%c&c)\r\n",
+      pager_printf( ch, "&cCURR POWERLEVEL: %-17s                           AutoLoot(&W%c&c)  Pager: (&W%c&c)\r\n",
                     num_punct_ll( get_power_level( ch ) ), xIS_SET( ch->act, PLR_AUTOLOOT ) ? 'X' : ' ', IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? 'X' : ' ');
-	
-   pager_printf( ch, "&gPL GAINED SINCE LOGON: 13%s\r\n&c", num_punct_ll( ch->power_level.get_base() - ch->power_level.get_logon() ) );	
+
+   pager_printf( ch, "&gPL GAINED SINCE LOGON: %-17s\r\n&c", num_punct_ll( ch->power_level.get_base() - ch->power_level.get_logon() ) );
 
    pager_printf_color( ch, "                                             &cMKills:  [&R%-5.5d&c] Mdeaths: [&R%-5.5d&c]    &D\r\n",
                   ch->pcdata->mkills, ch->pcdata->mdeaths );
