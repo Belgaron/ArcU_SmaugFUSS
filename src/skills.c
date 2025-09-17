@@ -3217,7 +3217,7 @@ void do_rescue( CHAR_DATA* ch, const char* argument )
 
 void do_meditate( CHAR_DATA * ch, const char *argument )
 {
-   char *arg;
+   char *arg = NULL;
    int percent;
    int managain = ( IS_ELDARI(ch) ? 0 : 22 ); //was druid... potential change
 
@@ -3263,14 +3263,18 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
             bug( "%s: alloc_ptr NULL or not numeric", __func__ );
             return;
          }
-         arg = strdup( ch->alloc_ptr );
-         DISPOSE( ch->alloc_ptr );
+         arg = ch->alloc_ptr;
+         ch->alloc_ptr = NULL;
          break;
 
       case SUB_TIMER_DO_ABORT:
          ch->substate = SUB_NONE;
          send_to_char_color( "&BYou stop meditating.\r\n", ch );
-         DISPOSE( ch->alloc_ptr );
+         if( ch->alloc_ptr )
+         {
+            DISPOSE( ch->alloc_ptr );
+            ch->alloc_ptr = NULL;
+         }
          return;
    }
 
@@ -3404,18 +3408,22 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
       TIMER *timer;
       timer = get_timerptr( ch, TIMER_DO_FUN );
       timer->count += UMAX( 2, ( skill_table[gsn_meditate]->beats / 8 ) );
-      ch->alloc_ptr = strdup( arg );
+      ch->alloc_ptr = arg;
+      arg = NULL;
    }
    else
    {
       send_to_char_color( "&BYou complete your meditations.\r\n", ch );
       ch->substate = SUB_NONE;
    }
+
+   if( arg )
+      DISPOSE( arg );
 }
 
 void do_trance( CHAR_DATA * ch, const char *argument )
 {
-   char *arg;
+   char *arg = NULL;
    int percent;
    int managain = ( IS_ELDARI(ch) ? 0 : 50 ); // was druid... potential change
 
@@ -3439,14 +3447,18 @@ void do_trance( CHAR_DATA * ch, const char *argument )
             bug( "%s: alloc_ptr NULL or not numeric", __func__ );
             return;
          }
-         arg = strdup( ch->alloc_ptr );
-         DISPOSE( ch->alloc_ptr );
+         arg = ch->alloc_ptr;
+         ch->alloc_ptr = NULL;
          break;
 
       case SUB_TIMER_DO_ABORT:
          ch->substate = SUB_NONE;
          send_to_char_color( "&BYou come out of your trance.\r\n", ch );
-         DISPOSE( ch->alloc_ptr );
+         if( ch->alloc_ptr )
+         {
+            DISPOSE( ch->alloc_ptr );
+            ch->alloc_ptr = NULL;
+         }
          return;
    }
 
@@ -3510,13 +3522,17 @@ void do_trance( CHAR_DATA * ch, const char *argument )
       TIMER *timer;
       timer = get_timerptr( ch, TIMER_DO_FUN );
       timer->count += UMAX( 2, ( skill_table[gsn_trance]->beats / 8 ) );
-      ch->alloc_ptr = strdup( arg );
+      ch->alloc_ptr = arg;
+      arg = NULL;
    }
    else
    {
       send_to_char_color( "&BYou complete your trance.\r\n", ch );
       ch->substate = SUB_NONE;
    }
+
+   if( arg )
+      DISPOSE( arg );
 }
 
 void do_kick( CHAR_DATA* ch, const char* argument )
