@@ -4916,15 +4916,13 @@ void do_afk( CHAR_DATA* ch, const char* argument )
 
 void do_slist( CHAR_DATA* ch, const char* argument )
 {
-   int sn, i, lFound;
+   int sn, skills_shown = 0;
    char skn[128];
    char output_buf[512];
-   char arg1[64];
-   char arg2[64];
    char temp_line[256];
-   int lowlev, hilev;
    short lasttype = SKILL_SPELL;
-   int skills_shown = 0;
+   bool show_all = FALSE;
+   char arg[64];
 
    if( IS_NPC( ch ) )
       return;
@@ -4935,26 +4933,11 @@ void do_slist( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   argument = one_argument( argument, arg1 );
-   argument = one_argument( argument, arg2 );
-
-   lowlev = 1;
-   hilev = LEVEL_AVATAR;
-
-   if( arg1[0] != '\0' )
-      lowlev = atoi( arg1 );
-
-   if( ( lowlev < 1 ) || ( lowlev > LEVEL_IMMORTAL ) )
-      lowlev = 1;
-
-   if( arg2[0] != '\0' )
-      hilev = atoi( arg2 );
-
-   if( ( hilev < 0 ) || ( hilev >= LEVEL_IMMORTAL ) )
-      hilev = LEVEL_HERO;
-
-   if( lowlev > hilev )
-      lowlev = hilev;
+   argument = one_argument( argument, arg );
+   
+   // Check if player wants to see all skills (including those they can't learn yet)
+   if( arg[0] != '\0' && !str_cmp( arg, "all" ) )
+      show_all = TRUE;
 
    send_to_char( "SPELL & SKILL LIST\r\n", ch );
    send_to_char( "------------------\r\n", ch );
@@ -4966,80 +4949,71 @@ void do_slist( CHAR_DATA* ch, const char* argument )
    }
 
    output_buf[0] = '\0';
+   long long char_pl = get_power_level( ch );
 
-   for( i = lowlev; i <= hilev && skills_shown < 1000; i++ )
+   // Single loop through all skills - no level iteration needed
+   for( sn = 0; sn < num_skills && sn < MAX_SKILL && skills_shown < 1000; ++sn )
    {
-      lFound = 0;
-      snprintf( skn, sizeof(skn), "%s", "Spell" );
-      
-      for( sn = 0; sn < num_skills && sn < MAX_SKILL; ++sn )
+      const SKILLTYPE *skill;
+
+      skill = skill_table[sn];
+
+      if( !skill || !skill->name || skill->name[0] == '\0' )
+         continue;
+
+      // Handle skill type grouping
+      if( skill->type != lasttype )
       {
-         const SKILLTYPE *skill;
-         int normalSn;
-
-         skill = skill_table[sn];
-         normalSn = sn;
-
-         if( !skill || !skill->name || skill->name[0] == '\0' )
-            continue;
-
-         if( skill->type != lasttype )
-         {
-            lasttype = skill->type;
-            if( lasttype >= 0 && lasttype < 8 )
-               strlcpy( skn, skill_tname[lasttype], sizeof(skn) );
-            else
-               strlcpy( skn, "Unknown", sizeof(skn) );
-         }
-
-         if( normalSn < 0 || normalSn >= MAX_SKILL )
-            continue;
-
-         if( ch->pcdata->learned[normalSn] <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
-            continue;
-
-         long long char_pl = get_power_level( ch );
-         long long min_pl = ( skill->min_power_level >= 0 ) ? skill->min_power_level : 0;
+         lasttype = skill->type;
+         if( lasttype >= 0 && lasttype < 8 )
+            strlcpy( skn, skill_tname[lasttype], sizeof(skn) );
+         else
+            strlcpy( skn, "Unknown", sizeof(skn) );
+            
+         // Add section header
+         snprintf( temp_line, sizeof(temp_line), "\r\n%s:\r\n", skn );
          
-         if( char_pl >= min_pl )
+         if( strlen(output_buf) + strlen(temp_line) > 400 )
          {
-            if( !lFound )
-            {
-               lFound = 1;
-               snprintf( temp_line, sizeof(temp_line), "\r\nLevel %d\r\n", i );
-               
-               if( strlen(output_buf) + strlen(temp_line) > 400 )
-               {
-                  send_to_char( output_buf, ch );
-                  output_buf[0] = '\0';
-               }
-               strlcat( output_buf, temp_line, sizeof(output_buf) );
-            }
-
-            snprintf( temp_line, sizeof(temp_line), "%-7.7s: %-20.20s %3d%%\r\n", 
-                     skn, 
-                     skill->name, 
-                     ch->pcdata->learned[normalSn] );
-            
-            if( strlen(output_buf) + strlen(temp_line) > 400 )
-            {
-               send_to_char( output_buf, ch );
-               output_buf[0] = '\0';
-            }
-            
-            strlcat( output_buf, temp_line, sizeof(output_buf) );
-            skills_shown++;
-            
-            if( skills_shown >= 1000 )
-            {
-               strlcat( output_buf, "... (showing first 1000 skills - use level ranges for more)\r\n", sizeof(output_buf) );
-               break;
-            }
+            send_to_char( output_buf, ch );
+            output_buf[0] = '\0';
          }
+         strlcat( output_buf, temp_line, sizeof(output_buf) );
+      }
+
+      // Skip secret skills if not learned
+      if( ch->pcdata->learned[sn] <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
+         continue;
+
+      // Check power level requirement
+      long long min_pl = ( skill->min_power_level >= 0 ) ? skill->min_power_level : 0;
+      
+      // Skip if player doesn't meet requirement (unless showing all)
+      if( !show_all && char_pl < min_pl )
+         continue;
+
+      // Format the skill line
+      char status[32] = "";
+      if( char_pl < min_pl )
+         snprintf( status, sizeof(status), " (Need %s)", format_power_level(min_pl) );
+      else if( ch->pcdata->learned[sn] >= get_skill_adept( ch, sn ) )
+         strlcpy( status, " (Mastered)", sizeof(status) );
+      else if( SPELL_FLAG( skill, SF_SECRETSKILL ) )
+         strlcpy( status, " (Secret)", sizeof(status) );
+
+      snprintf( temp_line, sizeof(temp_line), "  %-20.20s %3d%%%s\r\n", 
+               skill->name, 
+               ch->pcdata->learned[sn],
+               status );
+      
+      if( strlen(output_buf) + strlen(temp_line) > 400 )
+      {
+         send_to_char( output_buf, ch );
+         output_buf[0] = '\0';
       }
       
-      if( skills_shown >= 1000 )
-         break;
+      strlcat( output_buf, temp_line, sizeof(output_buf) );
+      skills_shown++;
    }
    
    if( output_buf[0] != '\0' )
@@ -5049,15 +5023,15 @@ void do_slist( CHAR_DATA* ch, const char* argument )
    
    if( skills_shown == 0 )
    {
-      send_to_char( "No skills available at your level range.\r\n", ch );
+      send_to_char( "No skills available.\r\n", ch );
    }
    else
    {
       snprintf( temp_line, sizeof(temp_line), "\r\nTotal skills shown: %d\r\n", skills_shown );
       send_to_char( temp_line, ch );
-      if( skills_shown >= 1000 )
+      if( !show_all )
       {
-         send_to_char( "Use 'slist <low> <high>' for specific ranges (e.g., 'slist 1 10').\r\n", ch );
+         send_to_char( "Use 'slist all' to see skills you can't learn yet.\r\n", ch );
       }
    }
 }

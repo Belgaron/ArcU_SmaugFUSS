@@ -36,7 +36,7 @@ Description 'Divine protection algorithms course through this android's enhanced
 Hit             	1000~
 Hitroll         	50~
 Longdesc        	This android radiates with divine protection, their form enhanced by celestial energy.
-~
+~
 Mana            	500~
 MorphOther      	$n's form shimmers as divine energy envelops their android frame!~
 MorphSelf       	&WYou feel divine power surge through your systems!&x~
@@ -46,7 +46,7 @@ UnmorphSelf     	Your divine protection fades as you return to normal.~
 Class           	Android~
 Race        	Android~
 Timer		-1
-Used       	33
+Used       	34
 Pkill		1
 Armor        	-20
 Charisma        	2

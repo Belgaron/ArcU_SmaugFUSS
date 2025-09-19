@@ -3154,7 +3154,7 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          dam = ris_damage( victim, dam, RIS_ELECTRICITY );
       else if( IS_ENERGY( dt ) )
          dam = ris_damage( victim, dam, RIS_ENERGY );
-	  else if( dt == gsn_poison )
+      else if( dt == gsn_poison )
          dam = ris_damage( victim, dam, RIS_POISON );
       else if( dt == ( TYPE_HIT + 7 ) || dt == ( TYPE_HIT + 8 ) )
          dam = ris_damage( victim, dam, RIS_BLUNT );
@@ -3162,7 +3162,7 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          dam = ris_damage( victim, dam, RIS_PIERCE );
       else if( dt == ( TYPE_HIT + 1 ) || dt == ( TYPE_HIT + 3 ) )
          dam = ris_damage( victim, dam, RIS_SLASH );
-	  if( dam < 0 )
+      if( dam < 0 )
          dam = 0;
    }
 
@@ -3210,11 +3210,14 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
     * Inform the victim of his new state.
     */
    victim->hit -= dam;
-   if( !IS_NPC( victim ) && victim->level >= LEVEL_IMMORTAL && victim->hit < 1 )
+   
+   /* Immortal protection - FIXED: Use IS_IMMORTAL instead of level checks */
+   if( !IS_NPC( victim ) && IS_IMMORTAL( victim ) && victim->hit < 1 )
       victim->hit = 1;
 
-   if( !npcvict && get_trust( victim ) >= LEVEL_IMMORTAL && get_trust( ch ) >= LEVEL_IMMORTAL && victim->hit < 1 )
+   if( !npcvict && IS_IMMORTAL( victim ) && IS_IMMORTAL( ch ) && victim->hit < 1 )
       victim->hit = 1;
+      
    update_pos( victim );
 
    switch ( victim->position )
@@ -3257,23 +3260,24 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
    {
       if( !npcvict )
       {
-         snprintf( log_buf, MAX_STRING_LENGTH, "%s (%d) killed by %s at %d",
-                   victim->name, victim->level, ( IS_NPC( ch ) ? ch->short_descr : ch->name ), victim->in_room->vnum );
+         /* FIXED: Show PL instead of level in death log */
+         snprintf( log_buf, MAX_STRING_LENGTH, "%s (PL: %s) killed by %s at %d",
+                   victim->name, format_power_level(get_power_level(victim)), 
+                   ( IS_NPC( ch ) ? ch->short_descr : ch->name ), victim->in_room->vnum );
          log_string( log_buf );
          to_channel( log_buf, CHANNEL_DEATH, "Death", LEVEL_IMMORTAL );
 
          /*
-          * Dying penalty:
-          * 1/2 way back to previous level.
+          * Death penalty: Lose 10% of current power level
           */
-         if( victim->exp > exp_level( victim, victim->level ) )
-            gain_exp( victim, ( exp_level( victim, victim->level ) - victim->exp ) / 2 );
-
-         /*
-          * New penalty... go back to the beginning of current level.
-          victim->exp = exp_level( victim, victim->level );
-          */
+         long long current_pl = get_power_level( victim );
+         if( current_pl > 100 )  /* Don't penalize very weak characters */
+         {
+            long long death_penalty = current_pl / 10;  /* Lose 10% of current PL */
+            gain_pl( victim, -death_penalty, true );    /* Show the loss message */
+         }
       }
+      
       set_cur_char( victim );
       raw_kill( ch, victim );
       victim = NULL;

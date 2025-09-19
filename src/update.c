@@ -126,68 +126,73 @@ void advance_level( CHAR_DATA * ch )
    }
 }
 
-void gain_exp( CHAR_DATA * ch, int gain )
+void gain_pl( CHAR_DATA *ch, long long gain, bool show_message )
 {
-   long long pl_gain;
    long long current_pl;
    
-   if( IS_NPC( ch ) )
+   if( IS_NPC( ch ) || !ch->pcdata )
       return;
       
-   /* Convert experience to power level gain */
-   pl_gain = gain;
    current_pl = get_power_level( ch );
    
    /* DBSC-style PL gain modifiers */
-   if( pl_gain > 0 )
+   if( gain > 0 )
    {
       /* Race experience multipliers - apply FIRST */
-      pl_gain = (long long)(pl_gain * (race_table[ch->race]->exp_multiplier / 100.0));
+      gain = (long long)(gain * (race_table[ch->race]->exp_multiplier / 100.0));
       
       /* System modifiers - apply SECOND */
       if( IS_PKILL( ch ) )
-         pl_gain = (pl_gain * sysdata.deadly_exp_mod) / 100;
+         gain = (gain * sysdata.deadly_exp_mod) / 100;
       else
-         pl_gain = (pl_gain * sysdata.peaceful_exp_mod) / 100;
+         gain = (gain * sysdata.peaceful_exp_mod) / 100;
       
       /* DBSC-style power level scaling - apply LAST */
+		if( current_pl > 100000000000LL )    /* 1 trillion+ PL */
+         gain = gain * 15 / 100;           /* 85% reduction */
+		if( current_pl > 100000000000LL )    /* 100 billion+ PL */
+         gain = gain / 4;                  /* 75% reduction */
       if( current_pl > 1000000000LL )      /* 1 billion+ PL */
-         pl_gain = pl_gain / 3;            /* 66% reduction */
+         gain = gain / 3;                  /* 66% reduction */
       else if( current_pl > 100000000LL )  /* 100 million+ PL */
-         pl_gain = pl_gain * 2 / 3;        /* 33% reduction */
+         gain = gain * 2 / 3;              /* 33% reduction */
       else if( current_pl > 10000000LL )   /* 10 million+ PL */
-         pl_gain = pl_gain * 85 / 100;     /* 15% reduction */
+         gain = gain * 85 / 100;           /* 15% reduction */
       /* Normal gains below 10 million PL */
       
       /* Cap massive gains to prevent instant super-leveling */
-      if( pl_gain > current_pl / 4 )
-         pl_gain = current_pl / 4;
+      if( gain > current_pl / 4 )
+         gain = current_pl / 4;
    }
-   else if( pl_gain < 0 ) /* Power level loss */
+   else if( gain < 0 ) /* Power level loss */
    {
       /* DBSC-style death penalty - but allow going below 100 for newbie area */
-      if( current_pl + pl_gain < 1 )  /* Changed from 100 to 1 */
+      if( current_pl + gain < 1 )
       {
-         pl_gain = 1 - current_pl;    /* Can go down to 1 PL */
+         gain = 1 - current_pl;    /* Can go down to 1 PL */
          send_to_char( "Your power level cannot drop below 1.\r\n", ch );
       }
    }
    
    /* Apply the power level change */
-   add_base_power_level( ch, pl_gain );
+   add_base_power_level( ch, gain );
    
    /* Update traditional exp field for compatibility */
    ch->exp = ch->power_level.get_base();
    
-   if( pl_gain > 0 )
-      ch_printf( ch, "&GYou gain &Y%s &Gpower level!\r\n", num_punct_ll( pl_gain ) );
-   else if( pl_gain < 0 )
-      ch_printf( ch, "&RYou lose &Y%s &Rpower level!\r\n", num_punct_ll( -pl_gain ) );
+   /* Show messages only when requested (non-combat gains) */
+   if( show_message && gain != 0 )
+   {
+      if( gain > 0 )
+         ch_printf( ch, "&GYou gain &Y%s &Gpower level!\r\n", num_punct_ll( gain ) );
+      else
+         ch_printf( ch, "&RYou lose &Y%s &Rpower level!\r\n", num_punct_ll( -gain ) );
+   }
       
    save_char_obj( ch );
-	
-	/* Check for new android schematics when PL increases */
-   if( pl_gain > 0 && !IS_NPC(ch) && IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) )
+   
+   /* Check for new android schematics when PL increases */
+   if( gain > 0 && IS_ANDROID(ch) && !IS_BIO_ANDROID(ch) )
    {
       check_android_schematics( ch );
    }
@@ -247,12 +252,12 @@ int hit_gain( CHAR_DATA * ch )
          }
       }
 
-      if( ch->pcdata->condition[COND_FULL] == 0 )
+      /*if( ch->pcdata->condition[COND_FULL] == 0 )
          gain /= 2;
 
       if( ch->pcdata->condition[COND_THIRST] == 0 )
          gain /= 2;
-
+		*/
    }
 
    if( IS_AFFECTED( ch, AFF_POISON ) )
@@ -285,11 +290,11 @@ int mana_gain( CHAR_DATA * ch )
             break;
       }
 
-      if( ch->pcdata->condition[COND_FULL] == 0 )
-         gain /= 2;
+      //if( ch->pcdata->condition[COND_FULL] == 0 )
+       //  gain /= 2;
 
-      if( ch->pcdata->condition[COND_THIRST] == 0 )
-         gain /= 2;
+      //if( ch->pcdata->condition[COND_THIRST] == 0 )
+       //  gain /= 2;
 
    }
 
@@ -350,11 +355,11 @@ int move_gain( CHAR_DATA * ch )
          }
       }
 
-      if( ch->pcdata->condition[COND_FULL] == 0 )
-         gain /= 2;
+      //if( ch->pcdata->condition[COND_FULL] == 0 )
+      //   gain /= 2;
 
-      if( ch->pcdata->condition[COND_THIRST] == 0 )
-         gain /= 2;
+      //if( ch->pcdata->condition[COND_THIRST] == 0 )
+      //   gain /= 2;
    }
 
    if( IS_AFFECTED( ch, AFF_POISON ) )
@@ -381,7 +386,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
    {
       switch ( iCond )
       {
-         case COND_FULL:
+         /*case COND_FULL:
             if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
             {
                set_char_color( AT_HUNGRY, ch );
@@ -403,6 +408,7 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
                retcode = damage( ch, ch, 2, TYPE_UNDEFINED );
             }
             break;
+			*/
 
          case COND_BLOODTHIRST:
             if( ch->level < LEVEL_AVATAR )
@@ -669,6 +675,19 @@ void mobile_update( void )
       if( ch->position != POS_STANDING )
          continue;
 
+      /*
+       * COHESIVE FIX: Call AI for non-combat behaviors only
+       * AI handles: healing, buffing, equipment management, spell casting
+       * Combat initiation is handled by aggr_update() exclusively to prevent duplicates
+       */
+      // ai( ch );  there never was AI to begin with.
+      
+      /* Check if mob died or changed state during AI processing */
+      if( char_died( ch ) )
+         continue;
+      if( ch->position < POS_STANDING )
+         continue;
+
       if( xIS_SET( ch->act, ACT_MOUNTED ) )
       {
          if( xIS_SET( ch->act, ACT_AGGRESSIVE ) || xIS_SET( ch->act, ACT_META_AGGR ) )
@@ -830,13 +849,13 @@ void char_calendar_update( void )
 
          /*
           * Newbies won't starve now - Samson 10-2-98 
-          */
+          *
          if( ch->in_room && ch->level > 3 )
             gain_condition( ch, COND_FULL, -1 + race_table[ch->race]->hunger_mod );
 
-         /*
+          *
           * Newbies won't dehydrate now - Samson 10-2-98 
-          */
+          *
          if( ch->in_room && ch->level > 3 )
          {
             int sector;
@@ -857,7 +876,7 @@ void char_calendar_update( void )
                      gain_condition( ch, COND_THIRST, -1 + race_table[ch->race]->thirst_mod );
                   break;
             }
-         }
+         } */
       }
    }
    trworld_dispose( &lc );
@@ -1674,6 +1693,46 @@ void char_check( void )
 }
 
 /*
+ * Track recent mob attacks to prevent spam attacking
+ */
+bool mob_recently_attacked(CHAR_DATA *mob)
+{
+    static struct {
+        int vnum;
+        time_t last_attack;
+    } attack_tracker[500];
+    static int tracker_size = 0;
+    
+    int i;
+    
+    if (!IS_NPC(mob) || !mob->pIndexData)
+        return FALSE;
+    
+    time_t now = time(NULL);
+    
+    /* Check if this mob type has attacked recently (within 2 seconds) */
+    for (i = 0; i < tracker_size; i++) {
+        if (attack_tracker[i].vnum == mob->pIndexData->vnum) {
+            if (now - attack_tracker[i].last_attack < 2) {
+                return TRUE;  /* Recently attacked */
+            }
+            /* Update timestamp */
+            attack_tracker[i].last_attack = now;
+            return FALSE;
+        }
+    }
+    
+    /* New mob type, add to tracker */
+    if (tracker_size < 500) {
+        attack_tracker[tracker_size].vnum = mob->pIndexData->vnum;
+        attack_tracker[tracker_size].last_attack = now;
+        tracker_size++;
+    }
+    
+    return FALSE;
+}
+
+/*
  * Aggress.
  *
  * for each descriptor
@@ -1750,9 +1809,13 @@ void aggr_update( void )
             continue;
          }
 
-         if( ( !xIS_SET( ch->act, ACT_AGGRESSIVE )
+           if( ( !xIS_SET( ch->act, ACT_AGGRESSIVE )
                && !xIS_SET( ch->act, ACT_META_AGGR ) )
              || xIS_SET( ch->act, ACT_MOUNTED ) || xIS_SET( ch->in_room->room_flags, ROOM_SAFE ) )
+            continue;
+
+         /* Prevent duplicate attacks - check if mob recently attacked */
+         if( mob_recently_attacked( ch ) )
             continue;
 
          /*

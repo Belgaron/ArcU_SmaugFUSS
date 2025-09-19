@@ -2166,16 +2166,16 @@ typedef enum
 #define PCFLAG_GROUPWHO       BV11
 #define PCFLAG_DIAGNOSE       BV12
 #define PCFLAG_HIGHGAG        BV13
-#define PCFLAG_WATCH          BV14 /* see function "do_watch" */
-#define PCFLAG_HELPSTART      BV15 /* Force new players to help start */
-#define PCFLAG_DND            BV16 /* Do Not Disturb flag, prevents unwanted transfers of imms by lower level imms etc. */
-#define PCFLAG_IDLE           BV17 /* Player is Linkdead */
+#define PCFLAG_WATCH          BV14 // see function "do_watch" 
+#define PCFLAG_HELPSTART      BV15 // Force new players to help start 
+#define PCFLAG_DND            BV16 // Do Not Disturb flag, prevents unwanted transfers of imms by lower level imms etc. 
+#define PCFLAG_IDLE           BV17 // Player is Linkdead 
 #define PCFLAG_HINTS          BV18
-#define PCFLAG_BECKON         BV19 /* Cannot be beckoned/beeped - Set by player in do_config */
-#define PCFLAG_NOBECKON       BV20 /* Cannot beckon/beep */
-#define PCFLAG_NODESC         BV21 /* Cannot set a description */
-#define PCFLAG_NOBIO          BV22 /* Cannot set a bio */
-#define PCFLAG_NOHOMEPAGE     BV23 /* Cannot set a homepage */
+#define PCFLAG_BECKON         BV19 // Cannot be beckoned/beeped - Set by player in do_config 
+#define PCFLAG_NOBECKON       BV20 // Cannot beckon/beep 
+#define PCFLAG_NODESC         BV21 // Cannot set a description 
+#define PCFLAG_NOBIO          BV22 // Cannot set a bio 
+#define PCFLAG_NOHOMEPAGE     BV23 // Cannot set a homepage 
 
 
 typedef enum
@@ -2587,15 +2587,19 @@ struct pc_data
    short month;
    short year;
    int timezone;
+	bool dual_flip;          						/* Dual wield flip state */
    const char* og_hair;         					/* Original hair color before transformation */
    const char* og_eyes;         					/* Original eye color before transformation */
    const char* og_skin;         					/* Original skin color before transformation */
 	int absorption_debt;         					/* PL debt for bio-androids to collect on absorption */
 	short absorbed_count;        					/* Bio-android absorption tracking */
 	short evolution_stage;       					/* Bio-android evolution level */
-	short android_components[6];    /* Components: nano, quantum, plasma, neural, fusion, ethereal */
-   short android_schematics;       /* Bitmask: bits 0-5 for unlocked schematics */
-   short android_installed;        /* Bitmask: bits 0-5 for installed transformations */
+	short android_components[6];    				/* Components: nano, quantum, plasma, neural, fusion, ethereal */
+   short android_schematics;       				/* Bitmask: bits 0-5 for unlocked schematics */
+   short android_installed;        				/* Bitmask: bits 0-5 for installed transformations */
+	OBJ_DATA *last_weapon;        				/* Last weapon for proficiency caching */
+   int cached_prof_bonus;  						/* Cached weapon proficiency bonus */
+   int cached_prof_gsn;    						/* Cached weapon proficiency gsn */
 };
 
 /*
@@ -4513,6 +4517,12 @@ void give_android_component( CHAR_DATA *android );
 void check_android_schematics( CHAR_DATA *ch );
 int android_component_drop_chance( CHAR_DATA *android, CHAR_DATA *victim );
 
+/* mobile_ai1_1.c - AI system function declarations  
+void ai( CHAR_DATA *mob );
+bool ai_wizard( CHAR_DATA *mob );
+bool ai_priest( CHAR_DATA *mob );
+bool mob_recently_attacked( CHAR_DATA *mob ); */
+
 /*
  * Data files used by the server.
  *
@@ -5230,7 +5240,6 @@ void hunt_victim( CHAR_DATA * ch );
 
 /* update.c */
 void advance_level( CHAR_DATA * ch );
-void gain_exp( CHAR_DATA * ch, int gain );
 void gain_condition( CHAR_DATA * ch, int iCond, int value );
 void check_alignment( CHAR_DATA * ch );
 void update_handler( void );
@@ -5238,6 +5247,7 @@ void reboot_check( time_t reset );
 void auction_update( void );
 void remove_portal( OBJ_DATA * portal );
 void weather_update( void );
+void gain_pl( CHAR_DATA *ch, long long gain, bool show_message );
 
 
 /* variables.c */

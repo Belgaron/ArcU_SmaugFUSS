@@ -1684,6 +1684,21 @@ void write_to_buffer( DESCRIPTOR_DATA * d, const char *txt, size_t length )
       d->outbuf[1] = '\n';
       d->outtop = 2;
    }
+   /*
+    * Add spacing after prompts even for commands if character has spacing enabled
+    */
+   else if( d->outtop == 0 && d->fcommand && d->character )
+   {
+      CHAR_DATA *ch = d->original ? d->original : d->character;
+      
+      /* Add blank line if player has blank spacing enabled */
+      if( !IS_NPC( ch ) && xIS_SET( ch->act, PLR_BLANK ) )
+      {
+         d->outbuf[0] = '\r';
+         d->outbuf[1] = '\n';
+         d->outtop = 2;
+      }
+   }
 
    /*
     * Expand the buffer as needed.
@@ -3580,16 +3595,26 @@ char *default_fprompt( CHAR_DATA * ch )
 {
    static char buf[60];
 
-   strlcpy( buf, "&w<&Y%hhp ", 60 );
+   strlcpy( buf, "&gHP&w(&G%h&w)&D ", 60 );
    if( IS_VAMPIRE( ch ) )
-      strlcat( buf, "&R%bbp", 60 );
+	{
+      strlcat( buf, "&rBLOOD&w(&R%b&w)&D ", 60 );
+	}
    else
-      strlcat( buf, "&C%mm", 60 );
-   strlcat( buf, " &G%vmv&w> ", 60 );
+	{
+      strlcat( buf, "&cMP&w(&C%m&w)&D ", 60 );
+	}
+   strlcat( buf, " &OPL&w(&Y%j&w)&D", 60 );
    if( !IS_NPC(ch) )
-      strlcat( buf, " &M%ff", 60 );
+	{
+      strlcat( buf, " &P%ff&D", 60 );  // This should work now
+	}
+   strcat( buf, "\n\r&w<&r%n &r&w(&W%c&w) &cFOC&w(&W%f&w)>&D " );
+   //strlcat( buf, "&rT-HP&w(&W%c&w)&D ", 60 );
+	//strlcat( buf, "&cFOC&w(&W%f&w) ", 60 );
+	
    if( IS_NPC( ch ) || IS_IMMORTAL( ch ) )
-      strlcat( buf, "%i%R", 60 );
+      strlcat( buf, " %i%R", 60 );
    return buf;
 }
 
@@ -3597,14 +3622,14 @@ char *default_prompt( CHAR_DATA * ch )
 {
    static char buf[60];
 
-   strlcpy( buf, "&w<&Y%hhp ", 60 );
+   strlcpy( buf, "&gHP&w(&G%h&w)&D ", 60 );
    if( IS_VAMPIRE( ch ) )
-      strlcat( buf, "&R%bbp", 60 );
+      strlcat( buf, "&rBLOOD&w(&R%b&w)&D", 60 );
    else
-      strlcat( buf, "&C%mm", 60 );
-   strlcat( buf, " &G%vmv&w> ", 60 );
+      strlcat( buf, "&cMP&w(&C%m&w)&D", 60 );
+   strlcat( buf, " &OPL&w(&Y%j&w)&D ", 60 );
    if( IS_NPC( ch ) || IS_IMMORTAL( ch ) )
-      strlcat( buf, "%i%R", 60 );
+      strlcat( buf, "&w%i%R&D", 60 );
    return buf;
 }
 
@@ -3719,6 +3744,54 @@ void display_prompt( DESCRIPTOR_DATA * d )
                             IS_AFFECTED( ch, AFF_HIDE ) ? "H" : "", IS_AFFECTED( ch, AFF_SNEAK ) ? "S" : "" );
                   break;
 
+               case 'b':
+                  if( IS_VAMPIRE( ch ) )
+                     pstat = ch->pcdata->condition[COND_BLOODTHIRST];
+                  else
+                     pstat = 0;
+                  break;
+
+               case 'B':
+                  if( IS_VAMPIRE( ch ) )
+                     pstat = ch->level + 10;
+                  else
+                     pstat = 0;
+                  break;
+
+               case 'c':
+                  if( !ch->fighting || ( victim = ch->fighting->who ) == NULL )
+                     strlcpy( pbuf, "N/A", MAX_STRING_LENGTH );
+                  else
+                  {
+                     if( victim->max_hit > 0 )
+                        percent = ( 100 * victim->hit ) / victim->max_hit;
+                     else
+                        percent = -1;
+                     if( percent >= 100 )
+                        strlcpy( pbuf, "perfect health", MAX_STRING_LENGTH );
+                     else if( percent >= 90 )
+                        strlcpy( pbuf, "slightly scratched", MAX_STRING_LENGTH );
+                     else if( percent >= 80 )
+                        strlcpy( pbuf, "few bruises", MAX_STRING_LENGTH );
+                     else if( percent >= 70 )
+                        strlcpy( pbuf, "some cuts", MAX_STRING_LENGTH );
+                     else if( percent >= 60 )
+                        strlcpy( pbuf, "several wounds", MAX_STRING_LENGTH );
+                     else if( percent >= 50 )
+                        strlcpy( pbuf, "nasty wounds", MAX_STRING_LENGTH );
+                     else if( percent >= 40 )
+                        strlcpy( pbuf, "bleeding freely", MAX_STRING_LENGTH );
+                     else if( percent >= 30 )
+                        strlcpy( pbuf, "covered in blood", MAX_STRING_LENGTH );
+                     else if( percent >= 20 )
+                        strlcpy( pbuf, "leaking guts", MAX_STRING_LENGTH );
+                     else if( percent >= 10 )
+                        strlcpy( pbuf, "almost dead", MAX_STRING_LENGTH );
+                     else
+                        strlcpy( pbuf, "DYING", MAX_STRING_LENGTH );
+                  }
+                  break;
+
                case 'C':  /* Tank */
                   if( !ch->fighting || ( victim = ch->fighting->who ) == NULL )
                      strlcpy( pbuf, "N/A", MAX_STRING_LENGTH );
@@ -3755,56 +3828,82 @@ void display_prompt( DESCRIPTOR_DATA * d )
                   }
                   break;
 
-               case 'c':
-                  if( !ch->fighting || ( victim = ch->fighting->who ) == NULL )
-                     strlcpy( pbuf, "N/A", MAX_STRING_LENGTH );
+               case 'D': /*display DND status*/
+                  if( IS_IMMORTAL(ch) )
+                  {
+                     if( IS_SET( ch->pcdata->flags, PCFLAG_DND ) )
+                        strlcpy( pbuf, "DND", MAX_STRING_LENGTH );
+                  }
+                  break;
+
+               case 'f':  /* Focus */
+                  if( *(prompt+1) == 'f' )  /* Handle %ff for morph tag */
+                  {
+                     prompt++;  /* Skip the second 'f' */
+                     const char *morph_tag = get_morph_prompt_tag( ch );
+                     if( morph_tag[0] != '\0' )
+                        strlcpy( pbuf, morph_tag, MAX_STRING_LENGTH );
+                     else
+                        strlcpy( pbuf, "", MAX_STRING_LENGTH );
+                  }
                   else
                   {
-                     if( victim->max_hit > 0 )
-                        percent = ( 100 * victim->hit ) / victim->max_hit;
+                     /* Single %f for focus */
+                     if( IS_NPC( ch ) )
+                        pstat = 0;
                      else
-                        percent = -1;
-                     if( percent >= 100 )
-                        strlcpy( pbuf, "perfect health", MAX_STRING_LENGTH );
-                     else if( percent >= 90 )
-                        strlcpy( pbuf, "slightly scratched", MAX_STRING_LENGTH );
-                     else if( percent >= 80 )
-                        strlcpy( pbuf, "few bruises", MAX_STRING_LENGTH );
-                     else if( percent >= 70 )
-                        strlcpy( pbuf, "some cuts", MAX_STRING_LENGTH );
-                     else if( percent >= 60 )
-                        strlcpy( pbuf, "several wounds", MAX_STRING_LENGTH );
-                     else if( percent >= 50 )
-                        strlcpy( pbuf, "nasty wounds", MAX_STRING_LENGTH );
-                     else if( percent >= 40 )
-                        strlcpy( pbuf, "bleeding freely", MAX_STRING_LENGTH );
-                     else if( percent >= 30 )
-                        strlcpy( pbuf, "covered in blood", MAX_STRING_LENGTH );
-                     else if( percent >= 20 )
-                        strlcpy( pbuf, "leaking guts", MAX_STRING_LENGTH );
-                     else if( percent >= 10 )
-                        strlcpy( pbuf, "almost dead", MAX_STRING_LENGTH );
-                     else
-                        strlcpy( pbuf, "DYING", MAX_STRING_LENGTH );
+                        pstat = ch->focus;
                   }
-						{
-							const char *morph_tag = get_morph_prompt_tag( ch );
-							if( morph_tag[0] != '\0' )
-							{
-								strlcat( pbuf, morph_tag, MAX_STRING_LENGTH );
-							}
-						}
+                  break;
+
+               case 'F':
+                  if( IS_IMMORTAL( och ) )
+                     snprintf( pbuf, MAX_STRING_LENGTH, "%s", ext_flag_string( &ch->in_room->room_flags, r_flags ) );
+                  break;
+
+               case 'g':
+                  pstat = ch->gold;
+                  break;
+
+               case 'h':  /* Current hit points */
+                  pstat = ch->hit;
                   break;
 
                case 'H':
                   pstat = ch->max_hit;
                   break;
-				  
-			   case 'h':  /* Current hit points */
-                  pstat = ch->hit;
+
+               case 'i':
+                  if( ( !IS_NPC( ch ) && xIS_SET( ch->act, PLR_WIZINVIS ) ) ||
+                      ( IS_NPC( ch ) && xIS_SET( ch->act, ACT_MOBINVIS ) ) )
+                     snprintf( pbuf, MAX_STRING_LENGTH, "(Invis %d) ",
+                               ( IS_NPC( ch ) ? ch->mobinvis : ch->pcdata->wizinvis ) );
+                  else if( IS_AFFECTED( ch, AFF_INVISIBLE ) )
+                     strlcpy( pbuf, "(Invis) ", MAX_STRING_LENGTH );
                   break;
-				  
-			   case 'L':  /* Logon Power Level */
+
+               case 'I':
+                  pstat = ( IS_NPC( ch ) ? ( xIS_SET( ch->act, ACT_MOBINVIS ) ? ch->mobinvis : 0 )
+                            : ( xIS_SET( ch->act, PLR_WIZINVIS ) ? ch->pcdata->wizinvis : 0 ) );
+                  break;
+
+               case 'j':  /* Formatted Power Level with abbreviations */
+                  {
+                     long long power = get_power_level(ch);
+                     if( power >= 1000000000000LL )  /* 1 trillion+ */
+                        snprintf( pbuf, MAX_STRING_LENGTH, "%.1fT", (double)power / 1000000000000.0 );
+                     else if( power >= 1000000000LL )  /* 1 billion+ */
+                        snprintf( pbuf, MAX_STRING_LENGTH, "%.1fB", (double)power / 1000000000.0 );
+                     else if( power >= 1000000LL )  /* 1 million+ */
+                        snprintf( pbuf, MAX_STRING_LENGTH, "%.1fM", (double)power / 1000000.0 );
+                     else if( power >= 1000LL )  /* 1 thousand+ */
+                        snprintf( pbuf, MAX_STRING_LENGTH, "%.1fK", (double)power / 1000.0 );
+                     else
+                        snprintf( pbuf, MAX_STRING_LENGTH, "%lld", power );
+                  }
+                  break;
+
+               case 'L':  /* Logon Power Level */
                   if (!IS_NPC(ch))
                      pstat = ch->power_level.get_logon();
                   else
@@ -3825,6 +3924,15 @@ void display_prompt( DESCRIPTOR_DATA * d )
                      pstat = ch->max_mana;
                   break;
 
+               case 'n':  /* Target name */
+                  if( !ch->fighting || ( victim = ch->fighting->who ) == NULL )
+                     strlcpy( pbuf, "None", MAX_STRING_LENGTH );
+                  else if( IS_NPC( victim ) )
+                     strlcpy( pbuf, victim->short_descr, MAX_STRING_LENGTH );
+                  else
+                     strlcpy( pbuf, victim->name, MAX_STRING_LENGTH );
+                  break;
+
                case 'N':  /* Tank */
                   if( !ch->fighting || ( victim = ch->fighting->who ) == NULL )
                      strlcpy( pbuf, "N/A", MAX_STRING_LENGTH );
@@ -3842,30 +3950,47 @@ void display_prompt( DESCRIPTOR_DATA * d )
                   }
                   break;
 
-               case 'n':
-                  if( !ch->fighting || ( victim = ch->fighting->who ) == NULL )
-                     strlcpy( pbuf, "N/A", MAX_STRING_LENGTH );
-                  else
-                  {
-                     if( ch == victim )
-                        strlcpy( pbuf, "You", MAX_STRING_LENGTH );
-                     else if( IS_NPC( victim ) )
-                        strlcpy( pbuf, victim->short_descr, MAX_STRING_LENGTH );
-                     else
-                        strlcpy( pbuf, victim->name, MAX_STRING_LENGTH );
-                     pbuf[0] = UPPER( pbuf[0] );
-                  }
+               case 'o':  /* display name of object on auction */
+                  if( auction->item )
+                     strlcpy( pbuf, auction->item->name, MAX_STRING_LENGTH );
                   break;
-				  
-			   case 'P':  /* Base Power Level */
+
+               case 'p':  /* Current Power Level */
+                  pstat = get_power_level(ch);
+                  break;
+
+               case 'P':  /* Base Power Level */
                   if (!IS_NPC(ch))
                      pstat = ch->power_level.get_base();
                   else
                      pstat = 0;
                   break;
-			   
-			   case 'p':  /* Current Power Level */
-                  pstat = get_power_level(ch);
+
+               case 'r':
+                  if( IS_IMMORTAL( och ) )
+                     pstat = ch->in_room->vnum;
+                  break;
+   
+               case 'R':
+                  if( xIS_SET( och->act, PLR_ROOMVNUM ) )
+                     snprintf( pbuf, MAX_STRING_LENGTH, "<#%d> ", ch->in_room->vnum );
+                  break;
+
+               case 'S':
+                  if( ch->style == STYLE_BERSERK )
+                     strlcpy( pbuf, "B", MAX_STRING_LENGTH );
+                  else if( ch->style == STYLE_AGGRESSIVE )
+                     strlcpy( pbuf, "A", MAX_STRING_LENGTH );
+                  else if( ch->style == STYLE_DEFENSIVE )
+                     strlcpy( pbuf, "D", MAX_STRING_LENGTH );
+                  else if( ch->style == STYLE_EVASIVE )
+                     strlcpy( pbuf, "E", MAX_STRING_LENGTH );
+                  else
+                     strlcpy( pbuf, "S", MAX_STRING_LENGTH );
+                  break;
+
+               case 't':  /* Practice points */
+                  pstat = ch->practice;
                   break;
 
                case 'T':
@@ -3879,24 +4004,6 @@ void display_prompt( DESCRIPTOR_DATA * d )
                      strlcpy( pbuf, "dusk", MAX_STRING_LENGTH );
                   else
                      strlcpy( pbuf, "night", MAX_STRING_LENGTH );
-                  break;
-				  
-			   case 't':  /* Practice points */
-                  pstat = ch->practice;
-                  break;
-
-               case 'b':
-                  if( IS_VAMPIRE( ch ) )
-                     pstat = ch->pcdata->condition[COND_BLOODTHIRST];
-                  else
-                     pstat = 0;
-                  break;
-
-               case 'B':
-                  if( IS_VAMPIRE( ch ) )
-                     pstat = ch->level + 10;
-                  else
-                     pstat = 0;
                   break;
 
                case 'u':
@@ -3915,38 +4022,12 @@ void display_prompt( DESCRIPTOR_DATA * d )
                   pstat = ch->max_move;
                   break;
 
-               case 'g':
-                  pstat = ch->gold;
+               case 'w':
+                  pstat = ch->carry_weight;
                   break;
 
-               case 'r':
-                  if( IS_IMMORTAL( och ) )
-                     pstat = ch->in_room->vnum;
-                  break;
-
-               case 'F':
-                  if( IS_IMMORTAL( och ) )
-                     snprintf( pbuf, MAX_STRING_LENGTH, "%s", ext_flag_string( &ch->in_room->room_flags, r_flags ) );
-                  break;
-				  
-			   case 'f':
-				  if( IS_NPC(ch) )
-				 	 *pbuf = '\0';
-				  else
-				 	 pstat = ch->focus;
-				  break;
-   
-               case 'R':
-                  if( xIS_SET( och->act, PLR_ROOMVNUM ) )
-                     snprintf( pbuf, MAX_STRING_LENGTH, "<#%d> ", ch->in_room->vnum );
-                  break;
-
-               case 'D': /*display DND status*/
-                  if( IS_IMMORTAL(ch) )
-                  {
-                     if( IS_SET( ch->pcdata->flags, PCFLAG_DND ) )
-                        strlcpy( pbuf, "DND", MAX_STRING_LENGTH );
-                  }
+               case 'W':
+                  pstat = can_carry_w(ch);
                   break;
 
                case 'x':  /* Experience (synced with power level) */
@@ -3963,46 +4044,6 @@ void display_prompt( DESCRIPTOR_DATA * d )
                   } else {
                      pstat = 0;
                   }
-                  break;
-
-               case 'w':
-                  pstat = ch->carry_weight;
-                  break;
-
-               case 'W':
-                  pstat = can_carry_w(ch);
-                  break;
-
-               case 'o':  /* display name of object on auction */
-                  if( auction->item )
-                     strlcpy( pbuf, auction->item->name, MAX_STRING_LENGTH );
-                  break;
-
-               case 'S':
-                  if( ch->style == STYLE_BERSERK )
-                     strlcpy( pbuf, "B", MAX_STRING_LENGTH );
-                  else if( ch->style == STYLE_AGGRESSIVE )
-                     strlcpy( pbuf, "A", MAX_STRING_LENGTH );
-                  else if( ch->style == STYLE_DEFENSIVE )
-                     strlcpy( pbuf, "D", MAX_STRING_LENGTH );
-                  else if( ch->style == STYLE_EVASIVE )
-                     strlcpy( pbuf, "E", MAX_STRING_LENGTH );
-                  else
-                     strlcpy( pbuf, "S", MAX_STRING_LENGTH );
-                  break;
-
-               case 'i':
-                  if( ( !IS_NPC( ch ) && xIS_SET( ch->act, PLR_WIZINVIS ) ) ||
-                      ( IS_NPC( ch ) && xIS_SET( ch->act, ACT_MOBINVIS ) ) )
-                     snprintf( pbuf, MAX_STRING_LENGTH, "(Invis %d) ",
-                               ( IS_NPC( ch ) ? ch->mobinvis : ch->pcdata->wizinvis ) );
-                  else if( IS_AFFECTED( ch, AFF_INVISIBLE ) )
-                     strlcpy( pbuf, "(Invis) ", MAX_STRING_LENGTH );
-                  break;
-
-               case 'I':
-                  pstat = ( IS_NPC( ch ) ? ( xIS_SET( ch->act, ACT_MOBINVIS ) ? ch->mobinvis : 0 )
-                            : ( xIS_SET( ch->act, PLR_WIZINVIS ) ? ch->pcdata->wizinvis : 0 ) );
                   break;
             }
             if( pstat != 0x80000000 )

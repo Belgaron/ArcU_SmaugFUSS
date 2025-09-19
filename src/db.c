@@ -3037,6 +3037,13 @@ void clear_char( CHAR_DATA * ch )
 		ch->pcdata->android_schematics = 0;
 		ch->pcdata->android_installed = 0;
 	}
+	 if( ch->pcdata )
+   {
+      ch->pcdata->dual_flip = FALSE;
+      ch->pcdata->last_weapon = NULL;
+      ch->pcdata->cached_prof_bonus = 0;
+      ch->pcdata->cached_prof_gsn = -1;
+   }
 }
 
 /*
