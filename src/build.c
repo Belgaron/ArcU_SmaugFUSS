@@ -3646,6 +3646,17 @@ void do_oset( CHAR_DATA* ch, const char* argument )
       return;
    }
 
+   if( !str_cmp( arg2, "armor_penalty" ) )
+   {
+      if( !can_omodify( ch, obj ) )
+         return;
+      obj->armor_penalty = value;
+      if( IS_OBJ_STAT( obj, ITEM_PROTOTYPE ) )
+         obj->pIndexData->armor_penalty = value;
+      send_to_char( "Ok.\r\n", ch );
+      return;
+   }
+
    if( !str_cmp( arg2, "rent" ) )
    {
       if( !can_omodify( ch, obj ) )

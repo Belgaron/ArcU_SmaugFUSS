@@ -326,6 +326,42 @@ static const char *miss_atmospheres[] = {
     "as the opportunity slips away", "in a stroke of bad luck", "as skill fails", NULL
 };
 
+void enhanced_dam_message_ex( CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt,
+                              OBJ_DATA *obj, long long pl_gained,
+                              hit_band_t band, avoid_t avoid_reason )
+{
+   if( band == HIT_AVOIDED )
+   {
+      switch ( avoid_reason )
+      {
+         case AVOID_DODGE:
+            act( AT_HIT, "You &Yslip aside&D as the attack whistles past.", victim, NULL, ch, TO_CHAR );
+            act( AT_HITME, "$N &Yslips aside&D; your strike finds only air.", ch, NULL, victim, TO_CHAR );
+            act( AT_ACTION, "$N &Yslips aside&D; $n's strike finds only air.", ch, NULL, victim, TO_NOTVICT );
+            return;
+         case AVOID_PARRY:
+            act( AT_HIT, "You &Yparry&D, steel-on-steel as the line turns.", victim, NULL, ch, TO_CHAR );
+            act( AT_HITME, "$N &Yparries&D, turning your line.", ch, NULL, victim, TO_CHAR );
+            act( AT_ACTION, "$N &Yparries&D, turning $n's line.", ch, NULL, victim, TO_NOTVICT );
+            return;
+         case AVOID_DEFLECT:
+            act( AT_HIT, "You &Ydeflect&D the shot at a sharp angle.", victim, NULL, ch, TO_CHAR );
+            act( AT_HITME, "$N &Ydeflects&D your shot at a sharp angle.", ch, NULL, victim, TO_CHAR );
+            act( AT_ACTION, "$N &Ydeflects&D the shot at a sharp angle.", ch, NULL, victim, TO_NOTVICT );
+            return;
+         case AVOID_BLOCK:
+            act( AT_HIT, "You &Ybrace&D behind your guard; the impact dies out.", victim, NULL, ch, TO_CHAR );
+            act( AT_HITME, "$N &Ybraces&D; the impact dies on their guard.", ch, NULL, victim, TO_CHAR );
+            act( AT_ACTION, "$N &Ybraces&D; the impact dies on their guard.", ch, NULL, victim, TO_NOTVICT );
+            return;
+         default:
+            break;
+      }
+   }
+
+   enhanced_dam_message( ch, victim, dam, dt, obj, pl_gained );
+}
+
 /*
  * Get a random element from a string array
  */
@@ -349,7 +385,7 @@ const char *get_random_string(const char **array)
  * Enhanced damage message function - replaces the appropriate section in new_dam_message
  * Add this code to replace the basic message generation in fight.c
  */
-void enhanced_dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt, 
+void enhanced_dam_message(CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt,
                          OBJ_DATA *obj, long long pl_gained)
 {
     char buf1[512], buf2[768], buf3[512]; /* Room, Char, Vict messages */

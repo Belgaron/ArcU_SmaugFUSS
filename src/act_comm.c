@@ -3585,3 +3585,41 @@ void do_racetalk( CHAR_DATA* ch, const char* argument )
    }
    talk_channel( ch, argument, CHANNEL_RACETALK, "racetalk" );
 }
+
+void do_defense( CHAR_DATA *ch, char *argument )
+{
+   char arg[MIL];
+   one_argument( argument, arg );
+
+   if( IS_NPC( ch ) )
+   {
+      send_to_char( "NPCs can't toggle defense.\r\n", ch );
+      return;
+   }
+
+   if( arg[0] == '\0' )
+   {
+      ch_printf( ch, "Active defense: %s\r\n",
+         ch->active_defense == DEF_DODGE ? "dodge" :
+         ch->active_defense == DEF_PARRY ? "parry/deflect" :
+         ch->active_defense == DEF_BLOCK ? "block" : "none" );
+      send_to_char( "Usage: defense <dodge|parry|block|none>\r\n", ch );
+      return;
+   }
+
+   if( !str_cmp( arg, "dodge" ) )
+      ch->active_defense = DEF_DODGE;
+   else if( !str_cmp( arg, "parry" ) || !str_cmp( arg, "deflect" ) )
+      ch->active_defense = DEF_PARRY;
+   else if( !str_cmp( arg, "block" ) )
+      ch->active_defense = DEF_BLOCK;
+   else if( !str_cmp( arg, "none" ) )
+      ch->active_defense = DEF_NONE;
+   else
+   {
+      send_to_char( "Options: dodge, parry, block, none.\r\n", ch );
+      return;
+   }
+
+   send_to_char( "Defense stance updated.\r\n", ch );
+}

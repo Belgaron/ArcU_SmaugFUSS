@@ -707,6 +707,8 @@ void fwrite_obj( CHAR_DATA * ch, OBJ_DATA * obj, FILE * fp, int iNest, short os_
       fprintf( fp, "ExtraFlags   %s\n", print_bitvector( &obj->extra_flags ) );
    if( obj->wear_flags != obj->pIndexData->wear_flags )
       fprintf( fp, "WearFlags    %d\n", obj->wear_flags );
+   if( obj->armor_penalty != 0 )
+      fprintf( fp, "ArmorPenalty %d\n", obj->armor_penalty );
 
    wear_loc = WEAR_NONE;
    for( wear = 0; wear < MAX_WEAR && wear_loc == WEAR_NONE; wear++ )
@@ -2049,6 +2051,7 @@ void fread_obj( CHAR_DATA * ch, FILE * fp, short os_type )
 
          case 'A':
             KEY( "ActionDesc", obj->action_desc, fread_string( fp ) );
+            KEY( "ArmorPenalty", obj->armor_penalty, fread_number( fp ) );
             if( !strcmp( word, "Affect" ) || !strcmp( word, "AffectData" ) )
             {
                AFFECT_DATA *paf;

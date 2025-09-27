@@ -1514,54 +1514,6 @@ typedef enum { DEF_NONE=0, DEF_DODGE, DEF_PARRY, DEF_BLOCK } DEFENSE_MODE;
 typedef enum { HIT_AVOIDED=0, HIT_GLANCING, HIT_SOLID, HIT_CLEAN } hit_band_t;
 typedef enum { AVOID_NONE=0, AVOID_DODGE, AVOID_PARRY, AVOID_DEFLECT, AVOID_BLOCK } avoid_t;
 
-/* Per-character active defense selector */
-struct char_data
-{
-   /* ... existing fields ... */
-   int active_defense;   /* DEFENSE_MODE value */
-   /* (Optional) cache total armor_penalty for dodge */
-   int dodge_armor_penalty_cached;
-   /* (Optional) training flag cache */
-   bool in_training_room;
-   /* ... keep your existing fields ... */
-};
-
-/* Per-object added stat for heavy armor hurting dodge */
-struct obj_data
-{
-   /* ... existing fields ... */
-   int armor_penalty; /* new: default 0. Heavy armor pieces set this > 0 */
-   /* ... */
-};
-
-/* Combat helper prototypes (we implement them in fight.c) */
-int  armor_bonus_for_roll( CHAR_DATA *v );
-int  armor_mitigation_percent( CHAR_DATA *v );
-int  attack_roll( CHAR_DATA *att, int sn, int atk_type );
-int  defense_roll( CHAR_DATA *def, int atk_type );
-hit_band_t classify_band( int MoS );
-int  compute_final_mitigation_percent( CHAR_DATA *victim, int MoS, hit_band_t band, int atk_type );
-
-/* Returns DEF_* for stance-aware text (handles deflect) */
-avoid_t avoid_reason_from_stance( CHAR_DATA *victim, int atk_type );
-
-/* Skill accessors (tenths model) – stubs if you already have them */
-int    get_skill_tenths( CHAR_DATA *ch, int sn );
-double get_skill( CHAR_DATA *ch, int sn );         /* 0.0–100.0 */
-void   add_skill_tenths( CHAR_DATA *ch, int sn, int delta ); /* +/− tenths */
-
-/* Skill gain hook */
-void   skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags );
-
-/* Message adapter (implemented in combat_messages.c) */
-void   enhanced_dam_message_ex( CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt,
-                                OBJ_DATA *wield, long long pl_gained,
-                                hit_band_t band, avoid_t avoid_reason );
-
-/* Command to set active defense */
-void   do_defense( CHAR_DATA *ch, char *argument );
-
-
 /*
  * Resistant Immune Susceptible flags
  */
@@ -1590,7 +1542,7 @@ void   do_defense( CHAR_DATA *ch, char *argument );
 #define RIS_BALLISTIC     BV22
 /* 23 RIS's*/
 
-/* 
+/*
  * Attack types
  */
 typedef enum
@@ -2523,6 +2475,7 @@ struct char_data
    short position;
    short defposition;
    short style;
+   int active_defense;   /* DEFENSE_MODE: none/dodge/parry/block */
    short height;
    short weight;
    short armor;
@@ -2705,6 +2658,7 @@ struct obj_index_data
    int rent;   /* Unused */
    int magic_flags;  /*Need more bitvectors for spells - Scryn */
    int wear_flags;
+   int armor_penalty;    /* Dodge-only penalty from heavy gear (default 0) */
    short count;
    short weight;
    short layers;
@@ -2741,6 +2695,7 @@ struct obj_data
    EXT_BV extra_flags;
    int magic_flags;  /*Need more bitvectors for spells - Scryn */
    int wear_flags;
+   int armor_penalty;    /* Dodge-only penalty from heavy gear (default 0) */
    MPROG_ACT_LIST *mpact;  /* mudprogs */
    int mpactnum;  /* mudprogs */
    short wear_loc;
@@ -4979,6 +4934,21 @@ bool can_astral( CHAR_DATA * ch, CHAR_DATA * victim );
 void update_level_from_pl( CHAR_DATA *ch );
 void group_gain( CHAR_DATA *ch, CHAR_DATA *victim );
 int get_pl_combat_bonus( CHAR_DATA *ch, CHAR_DATA *victim );
+int  armor_bonus_for_roll( CHAR_DATA *v );
+int  armor_mitigation_percent( CHAR_DATA *v );
+int  attack_roll( CHAR_DATA *att, int sn, int atk_type );
+int  defense_roll( CHAR_DATA *def, int atk_type );
+hit_band_t classify_band( int MoS );
+int  compute_final_mitigation_percent( CHAR_DATA *victim, int MoS, hit_band_t band, int atk_type );
+avoid_t avoid_reason_from_stance( CHAR_DATA *victim, int atk_type );
+int    get_skill_tenths( CHAR_DATA *ch, int sn );
+double get_skill( CHAR_DATA *ch, int sn );
+void   add_skill_tenths( CHAR_DATA *ch, int sn, int delta );
+void   skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags );
+void   enhanced_dam_message_ex( CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt,
+                                OBJ_DATA *wield, long long pl_gained,
+                                hit_band_t band, avoid_t avoid_reason );
+void   do_defense( CHAR_DATA *ch, char *argument );
 
 /* makeobjs.c */
 OBJ_DATA *make_corpse( CHAR_DATA * ch, CHAR_DATA * killer );
