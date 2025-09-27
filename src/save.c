@@ -439,11 +439,12 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
 		}
 		
 		/* Save android schematics and installed bitmasks */
-		if( ch->pcdata->android_schematics > 0 )
-			fprintf( fp, "AndroidSchematics %d\n", ch->pcdata->android_schematics );
 		if( ch->pcdata->android_installed > 0 )
 			fprintf( fp, "AndroidInstalled %d\n", ch->pcdata->android_installed );
-	}
+		
+		/* Save transformation cooldown */
+		fprintf( fp, "TransCooldown %d\n", ch->pcdata->trans_hint_cooldown );
+		}
    if( ch->wimpy )
       fprintf( fp, "Wimpy        %d\n", ch->wimpy );
    if( ch->deaf )
@@ -859,6 +860,7 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
 	ch->pcdata->android_installed = 0;
    ch->pcdata->release_date = 0;
    ch->pcdata->helled_by = NULL;
+	ch->pcdata->trans_hint_cooldown = 0;
    ch->saving_poison_death = 0;
    ch->saving_wand = 0;
    ch->saving_para_petri = 0;
@@ -1913,6 +1915,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                }
                break;
             }
+				KEY( "TransCooldown", ch->pcdata->trans_hint_cooldown, fread_number( fp ) );
             KEY( "Trust", ch->trust, fread_number( fp ) );
             KEY( "Timezone", ch->pcdata->timezone, fread_number( fp )); 
             /*

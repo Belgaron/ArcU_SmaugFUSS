@@ -1,0 +1,69 @@
+Thu Sep 18 16:05:52 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Thu Sep 18 16:05:52 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Thu Sep 18 16:05:52 2025 :: Initializing libdl support...
+Thu Sep 18 16:05:52 2025 :: Loading commands...
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: skill_function: Error locating do_murde in symbol table. No such process
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: fread_command: Function do_murde not found for murde
+Thu Sep 18 16:05:52 2025 :: Loading spec_funs...
+Thu Sep 18 16:05:52 2025 :: Loading sysdata configuration...
+Thu Sep 18 16:05:52 2025 :: Loading socials
+Thu Sep 18 16:05:52 2025 :: Loading skill table
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Thu Sep 18 16:05:52 2025 :: Sorting skill table...
+Thu Sep 18 16:05:52 2025 :: Creating skill table sorted by type...
+Thu Sep 18 16:05:52 2025 :: Remapping slots to sns
+Thu Sep 18 16:05:52 2025 :: Loading classes
+Thu Sep 18 16:05:52 2025 :: Loading races
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Sep 18 16:05:52 2025 :: Loading news data
+Thu Sep 18 16:05:52 2025 :: Loading liquids
+Thu Sep 18 16:05:52 2025 :: Loading mixtures
+Thu Sep 18 16:05:52 2025 :: Loading herb table
+Thu Sep 18 16:05:52 2025 :: Loading tongues
+Thu Sep 18 16:05:52 2025 :: Making wizlist
+Thu Sep 18 16:05:52 2025 :: Loading MSSP Data...
+Thu Sep 18 16:05:52 2025 :: Initializing random number generator
+Thu Sep 18 16:05:52 2025 :: Setting time and weather.
+Thu Sep 18 16:05:52 2025 :: Loading holiday chart...
+Thu Sep 18 16:05:52 2025 :: Loading DNS cache...
+Thu Sep 18 16:05:52 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Thu Sep 18 16:05:52 2025 :: Reading in area files...
+(help.are)
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Thu Sep 18 16:05:52 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Thu Sep 18 16:05:52 2025 :: [*****] FILE: housing.are LINE: 23
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Thu Sep 18 16:05:52 2025 :: [*****] FILE: housing.are LINE: 36
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Thu Sep 18 16:05:52 2025 :: [*****] FILE: housing.are LINE: 49
+Thu Sep 18 16:05:52 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Thu Sep 18 16:05:52 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+*** starting '"C:\cygwin64\bin\dumper.exe" -n "C:\cygwin64\home\valhalla\arcu\src\smaug.exe" 43104' for pid 17024, tid 49252
+*** continuing pid 17024

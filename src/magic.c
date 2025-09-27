@@ -3167,7 +3167,7 @@ ch_ret spell_energy_drain( int sn, int level, CHAR_DATA * ch, void *vo )
       dam = ch->hit + 1;
    else
    {
-      gain_exp( victim, 0 - number_range( level / 2, 3 * level / 2 ) );
+      gain_pl( victim, 0 - number_range( level / 2, 3 * level / 2 ), true );
       victim->mana /= 2;
       victim->move /= 2;
       dam = dice( 1, level );
@@ -5582,7 +5582,7 @@ ch_ret spell_attack( int sn, int level, CHAR_DATA * ch, void *vo )
                int xp = ch->fighting ? ch->fighting->xp : victim->fighting->xp;
                int xp_gain = ( int )( xp * dam * 2 ) / victim->max_hit;
 
-               gain_exp( ch, 0 - xp_gain );
+               gain_pl( ch, 0 - xp_gain, true );
             }
             if( skill->first_affect )
                retcode = spell_affectchar( sn, level, ch, victim );
@@ -5682,7 +5682,7 @@ ch_ret spell_area_attack( int sn, int level, CHAR_DATA * ch, void *vo )
                   int xp = ch->fighting ? ch->fighting->xp : vch->fighting->xp;
                   int xp_gain = ( int )( xp * dam * 2 ) / vch->max_hit;
 
-                  gain_exp( ch, 0 - xp_gain );
+                  gain_pl( ch, 0 - xp_gain, true );
                }
                continue;
 
@@ -5836,7 +5836,7 @@ ch_ret spell_affectchar( int sn, int level, CHAR_DATA * ch, void *vo )
                   int xp = ch->fighting ? ch->fighting->xp : victim->fighting->xp;
 
                   xp_gain = ( int )( xp * af.modifier * 2 ) / victim->max_hit;
-                  gain_exp( ch, 0 - xp_gain );
+                  gain_pl( ch, 0 - xp_gain, true );
                }
                if( IS_NPC( victim ) && victim->hit <= 0 )
                   damage( ch, victim, 5, TYPE_UNDEFINED );

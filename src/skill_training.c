@@ -44,7 +44,7 @@ static const char *mental_skills[] = {
     "aegis", "excalibur", "ragnarok", "titan", "valkyrie", "olympus",
     
     /* Mental Focus */
-    "meditate", "focus", "concentration", "willpower", "lore",
+    "meditate", "focus", "concentration", "willpower", "lore", "fishing",
     
     /* Stealth & Mental Skills */
     "sneak", "hide", "steal", "lockpick", "peek",

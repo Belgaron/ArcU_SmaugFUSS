@@ -1508,6 +1508,60 @@ typedef enum
    AFF_CONTAGIOUS, AFF_ACIDMIST, AFF_VENOMSHIELD, AFF_GRAPPLE, MAX_AFFECTED_BY
 } affected_by_types;
 
+/* === Unified MoS combat additions === */
+typedef enum { DEF_NONE=0, DEF_DODGE, DEF_PARRY, DEF_BLOCK } DEFENSE_MODE;
+
+typedef enum { HIT_AVOIDED=0, HIT_GLANCING, HIT_SOLID, HIT_CLEAN } hit_band_t;
+typedef enum { AVOID_NONE=0, AVOID_DODGE, AVOID_PARRY, AVOID_DEFLECT, AVOID_BLOCK } avoid_t;
+
+/* Per-character active defense selector */
+struct char_data
+{
+   /* ... existing fields ... */
+   int active_defense;   /* DEFENSE_MODE value */
+   /* (Optional) cache total armor_penalty for dodge */
+   int dodge_armor_penalty_cached;
+   /* (Optional) training flag cache */
+   bool in_training_room;
+   /* ... keep your existing fields ... */
+};
+
+/* Per-object added stat for heavy armor hurting dodge */
+struct obj_data
+{
+   /* ... existing fields ... */
+   int armor_penalty; /* new: default 0. Heavy armor pieces set this > 0 */
+   /* ... */
+};
+
+/* Combat helper prototypes (we implement them in fight.c) */
+int  armor_bonus_for_roll( CHAR_DATA *v );
+int  armor_mitigation_percent( CHAR_DATA *v );
+int  attack_roll( CHAR_DATA *att, int sn, int atk_type );
+int  defense_roll( CHAR_DATA *def, int atk_type );
+hit_band_t classify_band( int MoS );
+int  compute_final_mitigation_percent( CHAR_DATA *victim, int MoS, hit_band_t band, int atk_type );
+
+/* Returns DEF_* for stance-aware text (handles deflect) */
+avoid_t avoid_reason_from_stance( CHAR_DATA *victim, int atk_type );
+
+/* Skill accessors (tenths model) – stubs if you already have them */
+int    get_skill_tenths( CHAR_DATA *ch, int sn );
+double get_skill( CHAR_DATA *ch, int sn );         /* 0.0–100.0 */
+void   add_skill_tenths( CHAR_DATA *ch, int sn, int delta ); /* +/− tenths */
+
+/* Skill gain hook */
+void   skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags );
+
+/* Message adapter (implemented in combat_messages.c) */
+void   enhanced_dam_message_ex( CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt,
+                                OBJ_DATA *wield, long long pl_gained,
+                                hit_band_t band, avoid_t avoid_reason );
+
+/* Command to set active defense */
+void   do_defense( CHAR_DATA *ch, char *argument );
+
+
 /*
  * Resistant Immune Susceptible flags
  */
@@ -2152,30 +2206,32 @@ typedef enum
 } player_flags;
 
 /* Bits for pc_data->flags. */
-#define PCFLAG_R1             BV00
-#define PCFLAG_DEADLY         BV01
-#define PCFLAG_UNAUTHED       BV02
-#define PCFLAG_NORECALL       BV03
-#define PCFLAG_NOINTRO        BV04
-#define PCFLAG_GAG            BV05
-#define PCFLAG_RETIRED        BV06
-#define PCFLAG_GUEST          BV07
-#define PCFLAG_NOSUMMON       BV08
-#define PCFLAG_PAGERON        BV09
-#define PCFLAG_NOTITLE        BV10
-#define PCFLAG_GROUPWHO       BV11
-#define PCFLAG_DIAGNOSE       BV12
-#define PCFLAG_HIGHGAG        BV13
-#define PCFLAG_WATCH          BV14 /* see function "do_watch" */
-#define PCFLAG_HELPSTART      BV15 /* Force new players to help start */
-#define PCFLAG_DND            BV16 /* Do Not Disturb flag, prevents unwanted transfers of imms by lower level imms etc. */
-#define PCFLAG_IDLE           BV17 /* Player is Linkdead */
-#define PCFLAG_HINTS          BV18
-#define PCFLAG_BECKON         BV19 /* Cannot be beckoned/beeped - Set by player in do_config */
-#define PCFLAG_NOBECKON       BV20 /* Cannot beckon/beep */
-#define PCFLAG_NODESC         BV21 /* Cannot set a description */
-#define PCFLAG_NOBIO          BV22 /* Cannot set a bio */
-#define PCFLAG_NOHOMEPAGE     BV23 /* Cannot set a homepage */
+#define PCFLAG_R1             		BV00
+#define PCFLAG_DEADLY         		BV01
+#define PCFLAG_UNAUTHED       		BV02
+#define PCFLAG_NORECALL       		BV03
+#define PCFLAG_NOINTRO        		BV04
+#define PCFLAG_GAG            		BV05
+#define PCFLAG_RETIRED        		BV06
+#define PCFLAG_GUEST          		BV07
+#define PCFLAG_NOSUMMON       		BV08
+#define PCFLAG_PAGERON        		BV09
+#define PCFLAG_NOTITLE        		BV10
+#define PCFLAG_GROUPWHO       		BV11
+#define PCFLAG_DIAGNOSE       		BV12
+#define PCFLAG_HIGHGAG        		BV13
+#define PCFLAG_WATCH          		BV14 // see function "do_watch" 
+#define PCFLAG_HELPSTART      		BV15 // Force new players to help start 
+#define PCFLAG_DND            		BV16 // Do Not Disturb flag, prevents unwanted transfers of imms by lower level imms etc. 
+#define PCFLAG_IDLE           		BV17 // Player is Linkdead 
+#define PCFLAG_HINTS          		BV18
+#define PCFLAG_BECKON         		BV19 // Cannot be beckoned/beeped - Set by player in do_config 
+#define PCFLAG_NOBECKON       		BV20 // Cannot beckon/beep 
+#define PCFLAG_NODESC         		BV21 // Cannot set a description 
+#define PCFLAG_NOBIO          		BV22 // Cannot set a bio 
+#define PCFLAG_NOHOMEPAGE     		BV23 // Cannot set a homepage 
+#define PCFLAG_ENHANCED_COMBAT    	BV24  // Enable enhanced combat messages 
+#define PCFLAG_BRIEF_COMBAT       	BV25  // Use brief enhanced messages 
 
 
 typedef enum
@@ -2587,15 +2643,20 @@ struct pc_data
    short month;
    short year;
    int timezone;
+	bool dual_flip;          						/* Dual wield flip state */
    const char* og_hair;         					/* Original hair color before transformation */
    const char* og_eyes;         					/* Original eye color before transformation */
    const char* og_skin;         					/* Original skin color before transformation */
 	int absorption_debt;         					/* PL debt for bio-androids to collect on absorption */
 	short absorbed_count;        					/* Bio-android absorption tracking */
 	short evolution_stage;       					/* Bio-android evolution level */
-	short android_components[6];    /* Components: nano, quantum, plasma, neural, fusion, ethereal */
-   short android_schematics;       /* Bitmask: bits 0-5 for unlocked schematics */
-   short android_installed;        /* Bitmask: bits 0-5 for installed transformations */
+	short android_components[6];    				/* Components: nano, quantum, plasma, neural, fusion, ethereal */
+   short android_schematics;       				/* Bitmask: bits 0-5 for unlocked schematics */
+   short android_installed;        				/* Bitmask: bits 0-5 for installed transformations */
+	int trans_hint_cooldown;   					/* pulse timestamp to gate hints */
+	OBJ_DATA *last_weapon;        				/* Last weapon for proficiency caching */
+   int cached_prof_bonus;  						/* Cached weapon proficiency bonus */
+   int cached_prof_gsn;    						/* Cached weapon proficiency gsn */
 };
 
 /*
@@ -3013,6 +3074,12 @@ struct timerset
    struct timeval min_time;
    struct timeval max_time;
 };
+
+/* racial_transform.c */
+void init_racial_transformations(void);
+void try_unlock_racial_transformation(CHAR_DATA *victim, CHAR_DATA *aggressor);
+DECLARE_DO_FUN(do_testtransform);
+
 
 /*
  * Skills include spells as a particular case.
@@ -4497,6 +4564,12 @@ DECLARE_SPELL_FUN( spell_bethsaidean_touch );
 DECLARE_SPELL_FUN( spell_expurgation );
 DECLARE_SPELL_FUN( spell_sacral_divinity );
 DECLARE_SPELL_FUN( spell_ancient );
+DECLARE_SPELL_FUN(spell_ascended_form);
+DECLARE_SPELL_FUN(spell_shikai);
+DECLARE_SPELL_FUN(spell_hollow_rage);
+DECLARE_SPELL_FUN(spell_primal_form);
+DECLARE_SPELL_FUN(spell_blood_awakening);
+DECLARE_SPELL_FUN(spell_true_form);
 
 /* Android transformation system functions */
 DECLARE_SPELL_FUN( spell_aegis );
@@ -4512,6 +4585,19 @@ void check_android_components( CHAR_DATA *ch, CHAR_DATA *victim );
 void give_android_component( CHAR_DATA *android );
 void check_android_schematics( CHAR_DATA *ch );
 int android_component_drop_chance( CHAR_DATA *android, CHAR_DATA *victim );
+
+/* fishing.cpp */
+extern "C" {
+void do_fish(CHAR_DATA *ch, const char *argument);
+void init_fishing_skill(void);
+void do_fishdb(CHAR_DATA *ch, const char *argument);
+}
+
+/* mobile_ai1_1.c - AI system function declarations  
+void ai( CHAR_DATA *mob );
+bool ai_wizard( CHAR_DATA *mob );
+bool ai_priest( CHAR_DATA *mob );
+bool mob_recently_attacked( CHAR_DATA *mob ); */
 
 /*
  * Data files used by the server.
@@ -4772,6 +4858,10 @@ void descriptor_printf( DESCRIPTOR_DATA * d, const char *fmt, ... ) __attribute_
 void buffer_printf( DESCRIPTOR_DATA * d, const char *fmt, ... ) __attribute__ ( ( format( printf, 2, 3 ) ) );
 void act( short AType, const char *format, CHAR_DATA * ch, const void *arg1, const void *arg2, int type );
 const char *myobj( OBJ_DATA * obj );
+
+/* combat_messages.c*/
+void enhanced_dam_message( CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt, OBJ_DATA *obj, long long pl_gained );
+void do_combat_messages( CHAR_DATA *ch, const char *argument );
 
 /* reset.c */
 RD *make_reset( char letter, int extra, int arg1, int arg2, int arg3 );
@@ -5230,7 +5320,6 @@ void hunt_victim( CHAR_DATA * ch );
 
 /* update.c */
 void advance_level( CHAR_DATA * ch );
-void gain_exp( CHAR_DATA * ch, int gain );
 void gain_condition( CHAR_DATA * ch, int iCond, int value );
 void check_alignment( CHAR_DATA * ch );
 void update_handler( void );
@@ -5238,6 +5327,7 @@ void reboot_check( time_t reset );
 void auction_update( void );
 void remove_portal( OBJ_DATA * portal );
 void weather_update( void );
+void gain_pl( CHAR_DATA *ch, long long gain, bool show_message );
 
 
 /* variables.c */

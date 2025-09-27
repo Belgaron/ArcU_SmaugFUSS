@@ -1324,8 +1324,8 @@ void do_drink( CHAR_DATA* ch, const char* argument )
                }
 
                gain_condition( ch, COND_BLOODTHIRST, 1 );
-               gain_condition( ch, COND_FULL, 1 );
-               gain_condition( ch, COND_THIRST, 1 );
+               //gain_condition( ch, COND_FULL, 1 );
+               //gain_condition( ch, COND_THIRST, 1 );
                if( --obj->value[1] <= 0 )
                {
                   if( obj->serial == cur_obj )
@@ -1368,14 +1368,14 @@ void do_drink( CHAR_DATA* ch, const char* argument )
 
          if( !IS_NPC( ch ) && obj->value[2] != 0 )
          {
-            gain_condition( ch, COND_THIRST, liq->mod[COND_THIRST] );
-            gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
+            //gain_condition( ch, COND_THIRST, liq->mod[COND_THIRST] );
+            //gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
             gain_condition( ch, COND_DRUNK, liq->mod[COND_DRUNK] );
             if( IS_VAMPIRE( ch ) )
                gain_condition( ch, COND_BLOODTHIRST, liq->mod[COND_BLOODTHIRST] );
          }
-         else if( !IS_NPC( ch ) && obj->value[2] == 0 )
-            ch->pcdata->condition[COND_THIRST] = MAX_COND_VALUE;
+         //else if( !IS_NPC( ch ) && obj->value[2] == 0 )
+         //   ch->pcdata->condition[COND_THIRST] = MAX_COND_VALUE;
 
          if( !oprog_use_trigger( ch, obj, NULL, NULL ) )
          {
@@ -1397,13 +1397,14 @@ void do_drink( CHAR_DATA* ch, const char* argument )
 
          /*
           * allow water to be drank; but nothing else on a full stomach     -Nopey 
-          */
+          
          if( !IS_NPC( ch ) && ( ch->pcdata->condition[COND_THIRST] == MAX_COND_VALUE
                                 || ch->pcdata->condition[COND_FULL] == MAX_COND_VALUE ) )
          {
             send_to_char( "Your stomach is too full to drink anymore!\r\n", ch );
             return;
          }
+			 */
 
          if( ( liq = get_liq_vnum( obj->value[2] ) ) == NULL )
          {
@@ -1423,8 +1424,9 @@ void do_drink( CHAR_DATA* ch, const char* argument )
           * gain conditions accordingly              -Nopey 
           */
          gain_condition( ch, COND_DRUNK, liq->mod[COND_DRUNK] );
-         gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
+         /*gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
          gain_condition( ch, COND_THIRST, liq->mod[COND_THIRST] );
+			 */
 
          if( IS_VAMPIRE( ch ) )
             gain_condition( ch, COND_BLOODTHIRST, liq->mod[COND_BLOODTHIRST] );
@@ -1459,7 +1461,8 @@ void do_drink( CHAR_DATA* ch, const char* argument )
             else if( ch->pcdata->condition[COND_DRUNK] == MAX_COND_VALUE )
                send_to_char( "You feel like your going to pass out.\r\n", ch );
 
-            if( ch->pcdata->condition[COND_THIRST] > ( MAX_COND_VALUE / 2 )
+            /*
+				if( ch->pcdata->condition[COND_THIRST] > ( MAX_COND_VALUE / 2 )
                 && ch->pcdata->condition[COND_THIRST] < ( MAX_COND_VALUE * .4 ) )
                send_to_char( "Your stomach begins to slosh around.\r\n", ch );
             else if( ch->pcdata->condition[COND_THIRST] >= ( MAX_COND_VALUE * .4 )
@@ -1473,6 +1476,7 @@ void do_drink( CHAR_DATA* ch, const char* argument )
                send_to_char( "You stomach is almost filled to it's brim!\r\n", ch );
             else if( ch->pcdata->condition[COND_THIRST] == MAX_COND_VALUE )
                send_to_char( "Your stomach is full, you can't manage to get anymore down.\r\n", ch );
+				 */
 
             /*
              * Hopefully this is the reason why that crap was happening. =0P 
@@ -1532,8 +1536,8 @@ void do_drink( CHAR_DATA* ch, const char* argument )
          amount = 1;
 
          gain_condition( ch, COND_DRUNK, liq->mod[COND_DRUNK] );
-         gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
-         gain_condition( ch, COND_THIRST, liq->mod[COND_THIRST] );
+         //gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
+         //gain_condition( ch, COND_THIRST, liq->mod[COND_THIRST] );
 
          if( IS_VAMPIRE( ch ) )
             gain_condition( ch, COND_BLOODTHIRST, liq->mod[COND_BLOODTHIRST] );

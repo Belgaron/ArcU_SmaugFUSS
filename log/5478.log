@@ -1,0 +1,138 @@
+Fri Sep 19 01:55:25 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Fri Sep 19 01:55:25 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Fri Sep 19 01:55:25 2025 :: Initializing libdl support...
+Fri Sep 19 01:55:25 2025 :: Loading commands...
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: skill_function: Error locating do_murde in symbol table. No such process
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fread_command: Function do_murde not found for murde
+Fri Sep 19 01:55:25 2025 :: Loading spec_funs...
+Fri Sep 19 01:55:25 2025 :: Loading sysdata configuration...
+Fri Sep 19 01:55:25 2025 :: Loading socials
+Fri Sep 19 01:55:25 2025 :: Loading skill table
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Fri Sep 19 01:55:25 2025 :: Sorting skill table...
+Fri Sep 19 01:55:25 2025 :: Creating skill table sorted by type...
+Fri Sep 19 01:55:25 2025 :: Remapping slots to sns
+Fri Sep 19 01:55:25 2025 :: Loading classes
+Fri Sep 19 01:55:25 2025 :: Loading races
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 19 01:55:25 2025 :: Loading news data
+Fri Sep 19 01:55:25 2025 :: Loading liquids
+Fri Sep 19 01:55:25 2025 :: Loading mixtures
+Fri Sep 19 01:55:25 2025 :: Loading herb table
+Fri Sep 19 01:55:25 2025 :: Loading tongues
+Fri Sep 19 01:55:25 2025 :: Making wizlist
+Fri Sep 19 01:55:25 2025 :: Loading MSSP Data...
+Fri Sep 19 01:55:25 2025 :: Initializing random number generator
+Fri Sep 19 01:55:25 2025 :: Setting time and weather.
+Fri Sep 19 01:55:25 2025 :: Loading holiday chart...
+Fri Sep 19 01:55:25 2025 :: Loading DNS cache...
+Fri Sep 19 01:55:25 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Fri Sep 19 01:55:25 2025 :: Reading in area files...
+(help.are)
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Fri Sep 19 01:55:25 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Fri Sep 19 01:55:25 2025 :: [*****] FILE: housing.are LINE: 23
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Fri Sep 19 01:55:25 2025 :: [*****] FILE: housing.are LINE: 36
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Fri Sep 19 01:55:25 2025 :: [*****] FILE: housing.are LINE: 49
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Fri Sep 19 01:55:25 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Fri Sep 19 01:55:25 2025 :: Fixing exits
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Fri Sep 19 01:55:25 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Fri Sep 19 01:55:25 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Fri Sep 19 01:55:25 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Fri Sep 19 01:55:25 2025 :: Initializing economy
+Fri Sep 19 01:55:25 2025 :: Resetting areas
+Fri Sep 19 01:55:25 2025 :: Loading buildlist
+Fri Sep 19 01:55:25 2025 :: ../gods/Dragus
+Fri Sep 19 01:55:25 2025 :: Loading boards
+Fri Sep 19 01:55:25 2025 :: ../boards/immortal.brd
+Fri Sep 19 01:55:25 2025 :: ../boards/highgod.brd
+Fri Sep 19 01:55:25 2025 :: Loading vault list
+Fri Sep 19 01:55:25 2025 :: $
+Fri Sep 19 01:55:25 2025 ::  Done vaults 
+Fri Sep 19 01:55:25 2025 :: Loading clans
+Fri Sep 19 01:55:25 2025 :: Loading clans...
+Fri Sep 19 01:55:25 2025 :: vampire.gui
+Fri Sep 19 01:55:25 2025 :: Storeroom not found
+Fri Sep 19 01:55:25 2025 :: druid.gui
+Fri Sep 19 01:55:25 2025 :: Storeroom not found
+Fri Sep 19 01:55:25 2025 :: warrior.gui
+Fri Sep 19 01:55:25 2025 :: Storeroom not found
+Fri Sep 19 01:55:25 2025 :: augurer.gui
+Fri Sep 19 01:55:25 2025 :: Storeroom not found
+Fri Sep 19 01:55:25 2025 :: thief.gui
+Fri Sep 19 01:55:25 2025 :: Storeroom not found
+Fri Sep 19 01:55:25 2025 :: cleric.gui
+Fri Sep 19 01:55:25 2025 :: Storeroom not found
+Fri Sep 19 01:55:25 2025 :: mage.gui
+Fri Sep 19 01:55:25 2025 :: Storeroom not found
+Fri Sep 19 01:55:25 2025 :: ranger.gui
+Fri Sep 19 01:55:25 2025 :: Storeroom not found
+Fri Sep 19 01:55:25 2025 :: $
+Fri Sep 19 01:55:25 2025 ::  Done clans 
+Fri Sep 19 01:55:25 2025 :: Loading councils
+Fri Sep 19 01:55:25 2025 :: Loading councils...
+Fri Sep 19 01:55:25 2025 :: $
+Fri Sep 19 01:55:25 2025 ::  Done councils 
+Fri Sep 19 01:55:25 2025 :: Loading deities
+Fri Sep 19 01:55:25 2025 :: Loading deities...
+Fri Sep 19 01:55:25 2025 :: $
+Fri Sep 19 01:55:25 2025 ::  Done deities 
+Fri Sep 19 01:55:25 2025 :: Loading watches
+Fri Sep 19 01:55:25 2025 :: Loading bans
+Fri Sep 19 01:55:25 2025 :: Done.
+Fri Sep 19 01:55:25 2025 :: Loading reserved names
+Fri Sep 19 01:55:25 2025 :: Loading corpses
+Fri Sep 19 01:55:25 2025 :: Loading Immortal Hosts
+Fri Sep 19 01:55:25 2025 :: Done.
+Fri Sep 19 01:55:25 2025 :: Loading Projects
+Fri Sep 19 01:55:25 2025 :: Loading Morphs
+Fri Sep 19 01:55:25 2025 :: Done.
+Fri Sep 19 01:55:25 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Fri Sep 19 01:55:25 2025 :: Loading login messages
+Fri Sep 19 01:55:25 2025 :: Initializing socket
+Fri Sep 19 01:55:25 2025 :: (Name Not Set) ready on port 9001.
+Fri Sep 19 01:55:34 2025 :: Preloading player data for: Dragus (2K)
+Fri Sep 19 01:55:34 2025 :: [*****] BUG: fread_char: no match: 5000
+Fri Sep 19 01:55:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Fri Sep 19 01:55:34 2025 :: [*****] BUG: fread_char: no match: 3
+Fri Sep 19 01:55:34 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Fri Sep 19 01:55:42 2025 :: Loading player data for: Dragus (2K)
+Fri Sep 19 01:55:42 2025 :: [*****] BUG: fread_char: no match: 5000
+Fri Sep 19 01:55:42 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Fri Sep 19 01:55:42 2025 :: [*****] BUG: fread_char: no match: 3
+Fri Sep 19 01:55:42 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Fri Sep 19 01:55:42 2025 :: Dragus (127.0.0.1) has connected.
+Fri Sep 19 01:56:06 2025 :: Log Dragus: minvoke 298

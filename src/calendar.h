@@ -39,10 +39,10 @@
 #define SEASON_WINTER   3
 #define SEASON_MAX      4
 
-/* Hunger/Thirst modifiers */
+/* Hunger/Thirst modifiers /
 #define WINTER_HUNGER 1
 #define SUMMER_THIRST 1
-#define SUMMER_THIRST_DESERT 2
+#define SUMMER_THIRST_DESERT 2 */
 
 /* Holiday chart */
 #define HOLIDAY_FILE "holidays.dat"

@@ -7097,6 +7097,14 @@ void do_cset( CHAR_DATA* ch, const char* argument )
       save_sysdata( sysdata );
       return;
    }
+	
+	if( !str_cmp( arg, "pulse-violence" ) )
+	{
+		sysdata.pulseviolence = value;
+		ch_printf( ch, "Pulse violence set to %d.\r\n", value );
+		save_sysdata( sysdata );
+		return;
+	}
 
    level = ( short )atoi( argument );
 

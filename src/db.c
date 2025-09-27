@@ -425,7 +425,9 @@ void boot_db( bool fCopyOver )
    remap_slot_numbers(  ); /* must be after the sort */
    
    num_sorted_skills = num_skills;
-   
+	init_racial_transformations();
+	init_fishing_skill();
+	
    log_string( "Loading classes" );
    load_classes(  );
 
@@ -3037,6 +3039,13 @@ void clear_char( CHAR_DATA * ch )
 		ch->pcdata->android_schematics = 0;
 		ch->pcdata->android_installed = 0;
 	}
+	 if( ch->pcdata )
+   {
+      ch->pcdata->dual_flip = FALSE;
+      ch->pcdata->last_weapon = NULL;
+      ch->pcdata->cached_prof_bonus = 0;
+      ch->pcdata->cached_prof_gsn = -1;
+   }
 }
 
 /*

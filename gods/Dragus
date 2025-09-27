@@ -1,2 +1,5 @@
 Level        65
-Pcflags      32768
+Pcflags      16809984
+RoomRange    55000 59999
+ObjRange     55000 59999
+MobRange     55000 59999

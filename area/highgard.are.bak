@@ -9,7 +9,6 @@ Ranges       0 65 0 65
 Economy      0 51203450
 ResetMsg     A dim pulse of light filters through the swirling mists.~
 ResetFreq    60
-Flags        ~
 #ENDAREADATA
 
 #MOBILE
@@ -287,6 +286,26 @@ endif
 ~
 #ENDPROG
 
+#ENDMOBILE
+
+#MOBILE
+Vnum       298
+Keywords   TESTER~
+Short      a TEST dummy~
+Long       Some god abandoned a newly created TESTER here.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Neuter~
+Actflags   npc prototype~
+Stats1     0 1 0 0 0 0
+Stats2     5 10 20
+Stats3     0 0 0
+Stats4     0 0 1 0 0
+Attribs    13 13 13 13 13 13 13
+Saves      0 0 0 0 0
 #ENDMOBILE
 
 #MOBILE

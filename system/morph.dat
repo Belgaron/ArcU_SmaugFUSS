@@ -36,7 +36,7 @@ Description 'Divine protection algorithms course through this android's enhanced
 Hit             	1000~
 Hitroll         	50~
 Longdesc        	This android radiates with divine protection, their form enhanced by celestial energy.
-~
+~
 Mana            	500~
 MorphOther      	$n's form shimmers as divine energy envelops their android frame!~
 MorphSelf       	&WYou feel divine power surge through your systems!&x~
@@ -46,7 +46,7 @@ UnmorphSelf     	Your divine protection fades as you return to normal.~
 Class           	Android~
 Race        	Android~
 Timer		-1
-Used       	33
+Used       	34
 Pkill		1
 Armor        	-20
 Charisma        	2
@@ -90,6 +90,31 @@ End
 Morph           	android_excalibur
 Vnum 1006
 ShortDesc       	android_excalibur~
+Timer		-1
+End
+
+Morph           	shikai
+Vnum 1007
+Damroll 13~
+Hit             	250~
+Hitroll         	10~
+Mana            	2~
+ShortDesc       	shikai~
+Race        	Human Android Bio-Android Hollowborn Lycan Vampire~
+Timer		-1
+Charisma        	10
+Dexterity       	3
+Strength        	5
+MinPL           3500000
+FocusCost       100
+AuraVisible     1
+PromptTag       [Shikai]~
+PLMultiplier    900
+End
+
+Morph           	bankai
+Vnum 1008
+ShortDesc       	bankai~
 Timer		-1
 End
 

@@ -1,0 +1,173 @@
+#FUSSAREA
+#AREADATA
+Version      1
+Name         {PROTO} Dragus's area in progress~
+Author       Dragus~
+WeatherX     0
+WeatherY     0
+Ranges       0 0 0 0
+Flags        prototype~
+#ENDAREADATA
+
+#MOBILE
+Vnum       55000
+Keywords   first mob~
+Short      a newly created first mob~
+Long       Some god abandoned a newly created first mob here.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Neuter~
+Actflags   npc prototype~
+Stats1     0 1 0 0 0 0
+Stats2     0 0 0
+Stats3     0 0 0
+Stats4     0 0 1 0 0
+Attribs    13 13 13 13 13 13 13
+Saves      0 0 0 0 0
+#ENDMOBILE
+
+#MOBILE
+Vnum       59999
+Keywords   last mob~
+Short      a newly created last mob~
+Long       Some god abandoned a newly created last mob here.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Neuter~
+Actflags   npc prototype~
+Stats1     0 1 0 0 0 0
+Stats2     0 0 0
+Stats3     0 0 0
+Stats4     0 0 1 0 0
+Attribs    13 13 13 13 13 13 13
+Saves      0 0 0 0 0
+#ENDMOBILE
+
+#OBJECT
+Vnum     55000
+Keywords first obj~
+Type     trash~
+Short    a newly created first obj~
+Long     Some god dropped a newly created first obj here.~
+Flags    prototype~
+Values   0 0 0 0 0 0
+Stats    1 0 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55001
+Keywords fishing pole rod~
+Type     weapon~
+Short    a simple fishing pole~
+Long     A simple wooden fishing pole lies here, ready for casting.~
+Flags    prototype~
+WFlags   take wield hold~
+Values   0 0 0 0 0 0
+Stats    3 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55002
+Keywords fishing pole rod quality bamboo~
+Type     weapon~
+Short    a quality bamboo fishing pole~
+Long     A well-crafted bamboo fishing pole lies here, its line glistening.~
+Flags    prototype~
+WFlags   take wield hold~
+Values   0 0 0 0 0 0
+Stats    2 250 25 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55003
+Keywords fishing pole rod master enchanted~
+Type     weapon~
+Short    a master's enchanted fishing pole~
+Long     An exquisitely crafted fishing pole radiates with a faint magical aura.~
+Flags    magic prototype~
+WFlags   take wield hold~
+Values   0 0 0 0 0 0
+Stats    1 1000 100 0 0
+Affect       -1 -1 2 31 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55010
+Keywords bass fish large~
+Type     food~
+Short    a large bass~
+Long     A large bass lies here, its scales glistening.~
+Flags    prototype~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55011
+Keywords trout fish speckled~
+Type     food~
+Short    a speckled trout~
+Long     A beautiful speckled trout lies here, still fresh from the water.~
+Flags    prototype~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55012
+Keywords boot old leather waterlogged~
+Type     trash~
+Short    an old leather boot~
+Long     Somone's old waterlogged boot lies here, smelling terrible.~
+Flags    prototype~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55013
+Keywords grouper fish massive~
+Type     food~
+Short    long A massive grouper lies here, its size impressive even out of water.~
+Long     Some god dropped a newly created grouper fish massive here.~
+Flags    prototype~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    15 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     59999
+Keywords last obj~
+Type     trash~
+Short    a newly created last obj~
+Long     Some god dropped a newly created last obj here.~
+Flags    prototype~
+Values   0 0 0 0 0 0
+Stats    1 0 0 0 0
+#ENDOBJECT
+
+#ROOM
+Vnum     55000
+Name     Floating in a void~
+Sector   city~
+Flags    prototype~
+#ENDROOM
+
+#ROOM
+Vnum     59999
+Name     Floating in a void~
+Sector   city~
+Flags    prototype~
+#ENDROOM
+
+#ENDAREA

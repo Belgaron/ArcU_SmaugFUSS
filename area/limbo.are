@@ -1717,6 +1717,26 @@ Stats    5000 5000 500 0 0
 #ENDOBJECT
 
 #OBJECT
+Vnum     76
+Keywords fishing pole rod~
+Type     furniture~
+Short    a fishing pole~
+Long     A fishing pole is here, a couple minutes on the lake would be nice.~
+Values   0 0 0 0 0 0
+Stats    5000 5000 500 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     77
+Keywords bass fish large~
+Type     furniture~
+Short    a large bass fish~
+Long     A larg bass fish is here, smelling up the place.~
+Values   0 0 0 0 0 0
+Stats    5000 5000 500 0 0
+#ENDOBJECT
+
+#OBJECT
 Vnum     79
 Keywords husk shell~
 Type     trash~

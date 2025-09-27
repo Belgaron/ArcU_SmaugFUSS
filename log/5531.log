@@ -1,0 +1,301 @@
+Fri Sep 26 22:19:55 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Fri Sep 26 22:19:55 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Fri Sep 26 22:19:55 2025 :: Initializing libdl support...
+Fri Sep 26 22:19:55 2025 :: Loading commands...
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: skill_function: Error locating do_murde in symbol table. No such process
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fread_command: Function do_murde not found for murde
+Fri Sep 26 22:19:55 2025 :: Loading spec_funs...
+Fri Sep 26 22:19:55 2025 :: Loading sysdata configuration...
+Fri Sep 26 22:19:55 2025 :: Loading socials
+Fri Sep 26 22:19:55 2025 :: Loading skill table
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Fri Sep 26 22:19:55 2025 :: Sorting skill table...
+Fri Sep 26 22:19:55 2025 :: Creating skill table sorted by type...
+Fri Sep 26 22:19:55 2025 :: Remapping slots to sns
+Fri Sep 26 22:19:55 2025 :: WARNING: Racial transformation skill 'ascended form' not found
+Fri Sep 26 22:19:55 2025 :: Initialized racial transformation: shikai
+Fri Sep 26 22:19:55 2025 :: WARNING: Racial transformation skill 'hollow rage' not found
+Fri Sep 26 22:19:55 2025 :: WARNING: Racial transformation skill 'primal form' not found
+Fri Sep 26 22:19:55 2025 :: WARNING: Racial transformation skill 'blood awakening' not found
+Fri Sep 26 22:19:55 2025 :: WARNING: Racial transformation skill 'true form' not found
+Fri Sep 26 22:19:55 2025 :: Racial transformation system initialized
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: init_fishing_skill: fishing skill not found in skill table
+Fri Sep 26 22:19:55 2025 :: Loading classes
+Fri Sep 26 22:19:55 2025 :: Loading races
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Sep 26 22:19:55 2025 :: Loading news data
+Fri Sep 26 22:19:55 2025 :: Loading liquids
+Fri Sep 26 22:19:55 2025 :: Loading mixtures
+Fri Sep 26 22:19:55 2025 :: Loading herb table
+Fri Sep 26 22:19:55 2025 :: Loading tongues
+Fri Sep 26 22:19:55 2025 :: Making wizlist
+Fri Sep 26 22:19:55 2025 :: Loading MSSP Data...
+Fri Sep 26 22:19:55 2025 :: Initializing random number generator
+Fri Sep 26 22:19:55 2025 :: Setting time and weather.
+Fri Sep 26 22:19:55 2025 :: Loading holiday chart...
+Fri Sep 26 22:19:55 2025 :: Loading DNS cache...
+Fri Sep 26 22:19:55 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Fri Sep 26 22:19:55 2025 :: Reading in area files...
+(help.are)
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Fri Sep 26 22:19:55 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Fri Sep 26 22:19:55 2025 :: [*****] FILE: housing.are LINE: 23
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Fri Sep 26 22:19:55 2025 :: [*****] FILE: housing.are LINE: 36
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Fri Sep 26 22:19:55 2025 :: [*****] FILE: housing.are LINE: 49
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Fri Sep 26 22:19:55 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Fri Sep 26 22:19:55 2025 :: Fixing exits
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Fri Sep 26 22:19:55 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Fri Sep 26 22:19:55 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Fri Sep 26 22:19:55 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Fri Sep 26 22:19:55 2025 :: Initializing economy
+Fri Sep 26 22:19:55 2025 :: Resetting areas
+Fri Sep 26 22:19:55 2025 :: Loading buildlist
+Fri Sep 26 22:19:55 2025 :: ../gods/Dragus
+Fri Sep 26 22:19:55 2025 :: Loading boards
+Fri Sep 26 22:19:55 2025 :: ../boards/immortal.brd
+Fri Sep 26 22:19:55 2025 :: ../boards/highgod.brd
+Fri Sep 26 22:19:55 2025 :: Loading vault list
+Fri Sep 26 22:19:55 2025 :: $
+Fri Sep 26 22:19:55 2025 ::  Done vaults 
+Fri Sep 26 22:19:55 2025 :: Loading clans
+Fri Sep 26 22:19:55 2025 :: Loading clans...
+Fri Sep 26 22:19:55 2025 :: vampire.gui
+Fri Sep 26 22:19:55 2025 :: Storeroom not found
+Fri Sep 26 22:19:55 2025 :: druid.gui
+Fri Sep 26 22:19:55 2025 :: Storeroom not found
+Fri Sep 26 22:19:55 2025 :: warrior.gui
+Fri Sep 26 22:19:55 2025 :: Storeroom not found
+Fri Sep 26 22:19:55 2025 :: augurer.gui
+Fri Sep 26 22:19:55 2025 :: Storeroom not found
+Fri Sep 26 22:19:55 2025 :: thief.gui
+Fri Sep 26 22:19:55 2025 :: Storeroom not found
+Fri Sep 26 22:19:55 2025 :: cleric.gui
+Fri Sep 26 22:19:55 2025 :: Storeroom not found
+Fri Sep 26 22:19:55 2025 :: mage.gui
+Fri Sep 26 22:19:55 2025 :: Storeroom not found
+Fri Sep 26 22:19:55 2025 :: ranger.gui
+Fri Sep 26 22:19:55 2025 :: Storeroom not found
+Fri Sep 26 22:19:55 2025 :: $
+Fri Sep 26 22:19:55 2025 ::  Done clans 
+Fri Sep 26 22:19:55 2025 :: Loading councils
+Fri Sep 26 22:19:55 2025 :: Loading councils...
+Fri Sep 26 22:19:55 2025 :: $
+Fri Sep 26 22:19:55 2025 ::  Done councils 
+Fri Sep 26 22:19:55 2025 :: Loading deities
+Fri Sep 26 22:19:55 2025 :: Loading deities...
+Fri Sep 26 22:19:55 2025 :: $
+Fri Sep 26 22:19:55 2025 ::  Done deities 
+Fri Sep 26 22:19:55 2025 :: Loading watches
+Fri Sep 26 22:19:55 2025 :: Loading bans
+Fri Sep 26 22:19:55 2025 :: Done.
+Fri Sep 26 22:19:55 2025 :: Loading reserved names
+Fri Sep 26 22:19:55 2025 :: Loading corpses
+Fri Sep 26 22:19:55 2025 :: Loading Immortal Hosts
+Fri Sep 26 22:19:55 2025 :: Done.
+Fri Sep 26 22:19:55 2025 :: Loading Projects
+Fri Sep 26 22:19:55 2025 :: Loading Morphs
+Fri Sep 26 22:19:55 2025 :: Done.
+Fri Sep 26 22:19:55 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Fri Sep 26 22:19:55 2025 :: Loading login messages
+Fri Sep 26 22:19:55 2025 :: Initializing socket
+Fri Sep 26 22:19:55 2025 :: (Name Not Set) ready on port 9001.
+Fri Sep 26 22:19:58 2025 :: Preloading player data for: Dragus (2K)
+Fri Sep 26 22:19:58 2025 :: [*****] BUG: fread_char: no match: 5000
+Fri Sep 26 22:19:58 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Fri Sep 26 22:19:58 2025 :: [*****] BUG: fread_char: no match: 3
+Fri Sep 26 22:19:58 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Fri Sep 26 22:20:00 2025 :: Loading player data for: Dragus (2K)
+Fri Sep 26 22:20:00 2025 :: [*****] BUG: fread_char: no match: 5000
+Fri Sep 26 22:20:00 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Fri Sep 26 22:20:00 2025 :: [*****] BUG: fread_char: no match: 3
+Fri Sep 26 22:20:00 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Fri Sep 26 22:20:00 2025 :: Dragus (127.0.0.1) has connected.
+Fri Sep 26 22:20:53 2025 :: Log Dragus: sset 
+Fri Sep 26 22:21:03 2025 :: Log Dragus: sset create skill fishing
+Fri Sep 26 22:21:11 2025 :: Log Dragus: sset fishing type skill
+Fri Sep 26 22:21:24 2025 :: Log Dragus: sset fishing code do_fish
+Fri Sep 26 22:21:35 2025 :: Log Dragus: sset fishing dammsg fishing attempt
+Fri Sep 26 22:21:50 2025 :: Log Dragus: sset fishing wearoff You feel like you could fish again.
+Fri Sep 26 22:21:50 2025 :: Log Dragus: sset fishing target ignore
+Fri Sep 26 22:21:50 2025 :: Log Dragus: sset fishing minpos sitting
+Fri Sep 26 22:21:51 2025 :: Log Dragus: sset fishing beats 12
+Fri Sep 26 22:21:51 2025 :: Log Dragus: sset fishing mana 0
+Fri Sep 26 22:22:52 2025 :: Log Dragus: cedit
+Fri Sep 26 22:23:31 2025 :: Log Dragus: cedit fish create
+Fri Sep 26 22:23:40 2025 :: Log Dragus: cedit fish code do_fish
+Fri Sep 26 22:24:51 2025 :: Log Dragus: sset
+Fri Sep 26 22:24:56 2025 :: Log Dragus: sset save skill table
+Fri Sep 26 22:25:04 2025 :: Log Dragus: ocreate
+Fri Sep 26 22:28:17 2025 :: Log Dragus: ocreate
+Fri Sep 26 22:34:14 2025 :: Log Dragus: aset
+Fri Sep 26 22:43:35 2025 :: Log Dragus: vassign dragus 55000 59999
+Fri Sep 26 22:43:35 2025 :: Creating area entry for Dragus
+Fri Sep 26 22:48:49 2025 :: Log Dragus: ocreate 50001 fishing pole
+Fri Sep 26 22:50:53 2025 :: Log Dragus: oset 50001 short a simple fishing pole
+Fri Sep 26 22:52:46 2025 :: Log Dragus: oset 50001 long A simple wooden fishing pole lies here, ready for casting.
+Fri Sep 26 22:52:56 2025 :: Log Dragus: oset 50001 type weapon
+Fri Sep 26 22:53:07 2025 :: Log Dragus: oset 50001 extra take
+Fri Sep 26 22:53:35 2025 :: Log Dragus: oset 50001 wear take hold wield
+Fri Sep 26 22:53:51 2025 :: Log Dragus: oset 50001 weight 3
+Fri Sep 26 22:53:59 2025 :: Log Dragus: oset 50001 cost 100
+Fri Sep 26 22:54:33 2025 :: Log Dragus: ocreate 50002
+Fri Sep 26 22:55:34 2025 :: Log Dragus: ocreate 50002 bamboo fishing pole
+Fri Sep 26 22:55:59 2025 :: Log Dragus: oset 50002 name fishing pole rod quality bamboo
+Fri Sep 26 22:56:12 2025 :: Log Dragus: oset 50002 short a quality bamboo fishing pole
+Fri Sep 26 22:56:33 2025 :: Log Dragus: oset 50002 long A well-crafted bamboo fishing pole lies here, its line glistening.
+Fri Sep 26 22:56:38 2025 :: Log Dragus: oset 50002 type weapon
+Fri Sep 26 22:56:49 2025 :: Log Dragus: oset 50002 wear take hold wield
+Fri Sep 26 22:57:01 2025 :: Log Dragus: oset 50002 weight 2
+Fri Sep 26 22:57:13 2025 :: Log Dragus: oset 50002 cost 250
+Fri Sep 26 22:57:52 2025 :: Log Dragus: ocreate 50003 master's enchanted fishing pole
+Fri Sep 26 22:58:05 2025 :: Log Dragus: oset 50003 name fishing pole rod master enchanted
+Fri Sep 26 22:58:26 2025 :: Log Dragus: oset 50003 short a master's enchanted fishing pole
+Fri Sep 26 22:58:52 2025 :: Log Dragus: oset 50003 long An exquisitely crafted fishing pole radiates with a faint magical aura.
+Fri Sep 26 22:59:00 2025 :: Log Dragus: oset 50003 type weapon
+Fri Sep 26 22:59:08 2025 :: Log Dragus: oset 50003 wear take hold wield
+Fri Sep 26 22:59:17 2025 :: Log Dragus: oset 50003 weight 1
+Fri Sep 26 22:59:28 2025 :: Log Dragus: oset 50003 cost 1000
+Fri Sep 26 22:59:34 2025 :: Log Dragus: oset 50003 flags magic
+Fri Sep 26 22:59:45 2025 :: Log Dragus: oset 50003 affect luck 2 -1
+Fri Sep 26 23:01:31 2025 :: Log Dragus: ocreate 500010 large bass
+Fri Sep 26 23:01:42 2025 :: Log Dragus: ocreate 50010 large bass
+Fri Sep 26 23:02:14 2025 :: Log Dragus: oset 50010 name bass fish large
+Fri Sep 26 23:02:28 2025 :: Log Dragus: oset 50010 short a large bass
+Fri Sep 26 23:02:40 2025 :: Log Dragus: oset 50010 long A large bass lies here, its scales glistening.
+Fri Sep 26 23:02:46 2025 :: Log Dragus: oset 50010 type food
+Fri Sep 26 23:02:52 2025 :: Log Dragus: oset 50010 wear take
+Fri Sep 26 23:03:03 2025 :: Log Dragus: oset 50010 weight 5
+Fri Sep 26 23:03:14 2025 :: Log Dragus: oset 50010 cost 20
+Fri Sep 26 23:03:43 2025 :: Log Dragus: ocreate 50011 speckled trout
+Fri Sep 26 23:04:32 2025 :: Log Dragus: oset 50011 name trout fish speckled
+Fri Sep 26 23:04:52 2025 :: Log Dragus: oset 50011 short a speckled trout
+Fri Sep 26 23:05:15 2025 :: Log Dragus: oset 50011 long A beautiful speckled trout lies here, still fresh from the water.
+Fri Sep 26 23:05:28 2025 :: Log Dragus: oset 50011 type food
+Fri Sep 26 23:05:33 2025 :: Log Dragus: oset 50011 wear take
+Fri Sep 26 23:05:39 2025 :: Log Dragus: oset 50011 weight 3
+Fri Sep 26 23:05:46 2025 :: Log Dragus: oset 50011 cost 40
+Fri Sep 26 23:06:15 2025 :: Log Dragus: ocreate 50012 boot old leather waterlogged
+Fri Sep 26 23:06:38 2025 :: Log Dragus: oset 50012 short an old leather boot
+Fri Sep 26 23:06:51 2025 :: Log Dragus: oset 50012 long Somone's old waterlogged boot lies here, smelling terrible.
+Fri Sep 26 23:06:59 2025 :: Log Dragus: oset 50012 type trash
+Fri Sep 26 23:07:04 2025 :: Log Dragus: oset 50012 wear take
+Fri Sep 26 23:07:09 2025 :: Log Dragus: oset 50012 weight 2
+Fri Sep 26 23:07:14 2025 :: Log Dragus: oset 50012 cost 1
+Fri Sep 26 23:07:40 2025 :: Log Dragus: ocreate 50013
+Fri Sep 26 23:07:54 2025 :: Log Dragus: ocreate 50013 grouper fish massive
+Fri Sep 26 23:08:09 2025 :: Log Dragus: oset 50013 short a massive grouper
+Fri Sep 26 23:08:31 2025 :: Log Dragus: oset 50013 short long A massive grouper lies here, its size impressive even out of water.
+Fri Sep 26 23:08:44 2025 :: Log Dragus: oset 50013 type food
+Fri Sep 26 23:08:47 2025 :: Log Dragus: oset 50013 wear take
+Fri Sep 26 23:09:09 2025 :: Log Dragus: oset 50013 weight 15
+Fri Sep 26 23:09:14 2025 :: Log Dragus: oset 50013 cost 100
+Fri Sep 26 23:10:08 2025 :: Log Dragus: savearea
+Fri Sep 26 23:19:32 2025 :: Log Dragus: oset 50001 vnum
+Fri Sep 26 23:24:17 2025 :: Log Dragus: ocreate 55001 50001
+Fri Sep 26 23:25:26 2025 :: Log Dragus: oset 55001 name fishing pole rod
+Fri Sep 26 23:26:48 2025 :: Log Dragus: oset
+Fri Sep 26 23:28:35 2025 :: Log Dragus: ocreate 55002 50002
+Fri Sep 26 23:29:00 2025 :: Log Dragus: oset 55002 name fishing pole rod quality bamboo
+Fri Sep 26 23:30:43 2025 :: Log Dragus: ocreate 55003 50003 fishing pole rod master enchanted
+Fri Sep 26 23:31:15 2025 :: Log Dragus: ocreate 55010 50010 bass fish large
+Fri Sep 26 23:31:36 2025 :: Log Dragus: ocreate 55011 50011 trout fish speckled
+Fri Sep 26 23:31:53 2025 :: Log Dragus: ocreate 55012 50012 boot old leather waterlogged
+Fri Sep 26 23:32:10 2025 :: Log Dragus: ocreate 55013 50013 grouper fish massive
+Fri Sep 26 23:34:14 2025 :: Log Dragus: odelete
+Fri Sep 26 23:34:22 2025 :: Log Dragus: odelete 50001
+Fri Sep 26 23:34:25 2025 :: Log Dragus: odelete 50002
+Fri Sep 26 23:34:27 2025 :: Log Dragus: odelete 50003
+Fri Sep 26 23:34:32 2025 :: Log Dragus: odelete 50010
+Fri Sep 26 23:34:35 2025 :: Log Dragus: odelete 50011
+Fri Sep 26 23:34:37 2025 :: Log Dragus: odelete 50012
+Fri Sep 26 23:34:40 2025 :: Log Dragus: odelete 50013
+Fri Sep 26 23:35:33 2025 :: Log Dragus: savearea
+Sat Sep 27 01:45:50 2025 :: Closing link to Dragus. (INRoom 209)
+Sat Sep 27 11:05:50 2025 :: Preloading player data for: Dragus (2K)
+Sat Sep 27 11:05:50 2025 :: [*****] BUG: fread_char: no match: 5000
+Sat Sep 27 11:05:50 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Sat Sep 27 11:05:50 2025 :: [*****] BUG: fread_char: no match: 3
+Sat Sep 27 11:05:50 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Sat Sep 27 11:05:50 2025 :: Updating area entry for Dragus
+Sat Sep 27 11:05:52 2025 :: Dragus (127.0.0.1) reconnected.
+Sat Sep 27 11:12:52 2025 :: Log Dragus: odelete 77
+Sat Sep 27 11:13:06 2025 :: Log Dragus: odelete 76
+Sat Sep 27 12:30:46 2025 :: Log Dragus: minvoke 298
+Sat Sep 27 12:31:18 2025 :: Dragus has negative carry_number or carry_weight!
+Sat Sep 27 12:31:18 2025 :: Dragus has negative carry_number or carry_weight!
+Sat Sep 27 12:31:53 2025 :: Log Dragus: mset weight 0
+Sat Sep 27 12:31:59 2025 :: Log Dragus: mset dragus weight 0
+Sat Sep 27 12:33:40 2025 :: Log Dragus: cset
+Sat Sep 27 12:36:02 2025 :: Log Dragus: cset pulse-violence 24
+Sat Sep 27 12:40:23 2025 :: Log Dragus: savearea
+Sat Sep 27 12:40:28 2025 :: Log Dragus: shutdown mud now
+Sat Sep 27 12:40:28 2025 :: Normal termination of game.
+Sat Sep 27 12:40:28 2025 :: Cleaning up Memory.
+Len:   9 Lnks:    1 Str: 127.0.0.1
+Total strings in hash 9: 1
+Project Data.
+Reserved Names.
+Ban Data.
+Morph Data.
+Commands.
+Deities.
+Clans.
+Councils.
+Socials.
+Watches.
+Helps.
+Languages.
+Boards.
+Whacking supermob.
+Objects.
+Characters.
+Descriptors.
+Liquid Table.
+Races.
+Classes.
+Teleport Data.
+Area Data Tables.
+Planes.
+Auction.
+MSSP Info.
+System data.
+Title table.
+Skills and Herbs.
+Mudprog act lists.
+Specfun lists.
+Globals.
+Checking string hash for leftovers.
+Cleanup complete, exiting.

@@ -112,37 +112,33 @@
  *  Sleeping?   -> Hungry?  -> Thirsty?     -> Tired?
  *              -> Enemies? -> Attack?      -> race_ai
  *              -> class_ai
+ 
+ * Main AI Controller - HANDLES NON-COMBAT BEHAVIOR ONLY
+ * Combat initiation is handled by aggr_update() to prevent duplicates
  *
  */
 void ai(CHAR_DATA * mob)
 {
-    int _mob_hp             = 100 * (mob->hit) / (mob->max_hit + 1);
-    bool can_heal_self      = TRUE; /* Expand me */
-    CHAR_DATA * vch;
-    CHAR_DATA * vch_next;
+    int _mob_hp = 100 * (mob->hit) / (mob->max_hit + 1);
+    bool can_heal_self = TRUE; /* Expand me */
     
     /*
      * ACTION_ Sleeping?
      */
     switch (mob->position)
-    {   default:
-        /* STANDING: Do nothing */
+    {   
+        default:
         case POS_STANDING:
             break;
-        /* SLEEPING: Check HP (75%) Day/Night, AFF_SLEEP */
         case POS_SLEEPING:
         case POS_RESTING:
         case POS_SITTING:
-            /* AFF_SLEEP: Continue */
             if (IS_AFFECTED(mob, AFF_SLEEP))
                 break;
-            /* Hurt? Continue.. */
             if (_mob_hp <= 75 && !can_heal_self)
                 break;
             break;
     }
-    
-    
     
     /*
      * ACTION_ Wear equipment
@@ -150,7 +146,7 @@ void ai(CHAR_DATA * mob)
     do_wear(mob, "all");
     
     /*
-     * ACTION_ Class AI
+     * ACTION_ Class AI (healing, buffing, combat tactics)
      */
     if (ai_wizard(mob))
         return;
@@ -158,78 +154,13 @@ void ai(CHAR_DATA * mob)
         return;
 
     /*
-     * ACTION_ Enemy here?
+     * ACTION_ COMBAT INITIATION DISABLED
+     * This is now handled exclusively by aggr_update() to prevent
+     * duplicate attacks. The AI system focuses on:
+     * - Self-maintenance (healing, buffing)
+     * - Combat tactics (when already fighting)
+     * - Non-combat behaviors
      */
-    /* We don't want this called if the area is not empty
-     * This does effectivly remove the possibility
-     * of AI/AI combat in the background.
-     *
-     * I Placed most of the checks BEFORE we cycle through
-     * the room list to hopefuly reduce CPU load.
-     */
-    /* Empty area check */
-    if (mob->in_room->area->empty)
-        return;
-    /* Calm Check */
-    if (IS_AFFECTED (mob, AFF_CALM))
-        return;
-    /* Safe room Check */
-    if (IS_SET (mob->in_room->room_flags, ROOM_SAFE))
-        return;
-    /* Aggressive Check */
-    if (!IS_SET (mob->act, ACT_AGGRESSIVE))
-        return;
-    /* Awake Check */
-    if (!IS_AWAKE(mob))
-        return;
-    /* Fighting Check */
-    if (mob->fighting != NULL)
-        return;
-    
-    /* Not empty, ok, search for a victim */
-    for (vch = mob->in_room->people; vch != NULL; vch = vch_next)
-    {
-        vch_next = vch->next_in_room;
-        
-        /* Make sure its a PC, and can see the victim */
-        if (IS_NPC (vch))
-            continue;
-        
-        /* Wizinvis immortals immune to aggri mobs */
-        if (vch->invis_level >= 106)
-        {
-#if AI_DEBUG
-            do_function(mob, &do_say, "Can't attack imms!");
-#endif
-            return;
-        }
-        
-        /* Ok, lets attack em, and have some fun too */
-        if (IS_AFFECTED(vch, AFF_INVISIBLE))
-        {
-            do_function(mob, &do_emote, "looks at you.");
-            do_function(mob, &do_say, "I found you!");
-            multi_hit (mob, vch, TYPE_UNDEFINED);
-            return;
-        }
-        if (IS_AFFECTED(vch, AFF_HIDE))
-        {
-            do_function(mob, &do_emote, "sniffs around...");
-            do_function(mob, &do_say, "Trying to hide are we?");
-            multi_hit (mob, vch, TYPE_UNDEFINED);
-            return;
-        }
-        if (IS_AFFECTED(vch, AFF_SNEAK))
-        {
-            do_function(mob, &do_emote, "laughs.");
-            do_function(mob, &do_say, "Sneaky one aren't ya...");
-            multi_hit (mob, vch, TYPE_UNDEFINED);
-            return;
-        }
-        /* Ok, not affected by anything, just kill em! */
-        multi_hit (mob, vch, TYPE_UNDEFINED);
-        return;
-    }
     
     return;
 }

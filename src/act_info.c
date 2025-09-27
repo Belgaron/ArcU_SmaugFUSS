@@ -4602,7 +4602,7 @@ void do_config( CHAR_DATA* ch, const char* argument )
       set_char_color( AT_DGREEN, ch );
       send_to_char( "Display:   ", ch );
       set_char_color( AT_GREY, ch );
-      ch_printf( ch, "%-12s   %-12s   %-12s   %-12s\r\n           %-12s   %-12s   %-12s   %-12s\r\n           %-12s   %-12s",
+      ch_printf( ch, "%-12s   %-12s   %-12s   %-12s\r\n           %-12s   %-12s   %-12s   %-12s\r\n           %-12s   %-12s\r\n           %-12s   %-12s",
                  IS_SET( ch->pcdata->flags, PCFLAG_PAGERON ) ? "[+] PAGER"
                  : "[-] pager",
                  IS_SET( ch->pcdata->flags, PCFLAG_GAG ) ? "[+] GAG"
@@ -4620,7 +4620,13 @@ void do_config( CHAR_DATA* ch, const char* argument )
                  xIS_SET( ch->act, PLR_RIP ) ? "[+] RIP"
                  : "[-] rip",
                  xIS_SET( ch->act, PLR_COMPASS ) ? "[+] COMPASS"
-                 : "[-] compass", xIS_SET( ch->act, PLR_AUTOMAP ) ? "[+] AUTOMAP" : "[-] automap" );
+                 : "[-] compass", 
+                 xIS_SET( ch->act, PLR_AUTOMAP ) ? "[+] AUTOMAP" : "[-] automap",
+                 IS_SET( ch->pcdata->flags, PCFLAG_ENHANCED_COMBAT ) ? "[+] ENHANCED"
+                 : "[-] enhanced",
+                 IS_SET( ch->pcdata->flags, PCFLAG_BRIEF_COMBAT ) ? "[+] BRIEFCMBT"
+                 : "[-] briefcmbt" );
+
       set_char_color( AT_DGREEN, ch );
       send_to_char( "\r\n\r\nAuto:      ", ch );
       set_char_color( AT_GREY, ch );
@@ -4767,6 +4773,10 @@ void do_config( CHAR_DATA* ch, const char* argument )
             bit = PCFLAG_GROUPWHO;
          else if( !str_prefix( arg + 1, "@hgflag_" ) )
             bit = PCFLAG_HIGHGAG;
+         else if( !str_prefix( arg + 1, "enhanced" ) )
+            bit = PCFLAG_ENHANCED_COMBAT;
+         else if( !str_prefix( arg + 1, "briefcmbt" ) )
+            bit = PCFLAG_BRIEF_COMBAT;
          else
          {
             send_to_char( "Config which option?\r\n", ch );
@@ -4778,7 +4788,12 @@ void do_config( CHAR_DATA* ch, const char* argument )
          else
             REMOVE_BIT( ch->pcdata->flags, bit );
 
-         send_to_char( "Ok.\r\n", ch );
+         if( bit == PCFLAG_ENHANCED_COMBAT )
+            ch_printf( ch, "Enhanced combat messages %s.\r\n", fSet ? "enabled" : "disabled" );
+         else if( bit == PCFLAG_BRIEF_COMBAT )
+            ch_printf( ch, "Brief combat messages %s.\r\n", fSet ? "enabled" : "disabled" );
+         else
+            send_to_char( "Ok.\r\n", ch );
          return;
       }
    }
@@ -4916,15 +4931,9 @@ void do_afk( CHAR_DATA* ch, const char* argument )
 
 void do_slist( CHAR_DATA* ch, const char* argument )
 {
-   int sn, i, lFound;
-   char skn[128];
-   char output_buf[512];
-   char arg1[64];
-   char arg2[64];
-   char temp_line[256];
-   int lowlev, hilev;
-   short lasttype = SKILL_SPELL;
-   int skills_shown = 0;
+   int sn, total_shown = 0;
+   char arg[64];
+   bool show_all = FALSE;
 
    if( IS_NPC( ch ) )
       return;
@@ -4935,29 +4944,10 @@ void do_slist( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   argument = one_argument( argument, arg1 );
-   argument = one_argument( argument, arg2 );
+   argument = one_argument( argument, arg );
 
-   lowlev = 1;
-   hilev = LEVEL_AVATAR;
-
-   if( arg1[0] != '\0' )
-      lowlev = atoi( arg1 );
-
-   if( ( lowlev < 1 ) || ( lowlev > LEVEL_IMMORTAL ) )
-      lowlev = 1;
-
-   if( arg2[0] != '\0' )
-      hilev = atoi( arg2 );
-
-   if( ( hilev < 0 ) || ( hilev >= LEVEL_IMMORTAL ) )
-      hilev = LEVEL_HERO;
-
-   if( lowlev > hilev )
-      lowlev = hilev;
-
-   send_to_char( "SPELL & SKILL LIST\r\n", ch );
-   send_to_char( "------------------\r\n", ch );
+   if( arg[0] != '\0' && !str_cmp( arg, "all" ) )
+      show_all = TRUE;
 
    if( num_skills <= 0 || num_skills > MAX_SKILL )
    {
@@ -4965,102 +4955,99 @@ void do_slist( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   output_buf[0] = '\0';
+   static const char *DASHES = "------------------------------------------------------------";
+   const int BOXW = 29;
 
-   for( i = lowlev; i <= hilev && skills_shown < 1000; i++ )
+   long long char_pl = get_power_level( ch );
+
+   for( int current_type = 0; current_type < 8; current_type++ )
    {
-      lFound = 0;
-      snprintf( skn, sizeof(skn), "%s", "Spell" );
-      
+      bool type_header_shown = FALSE;
+
       for( sn = 0; sn < num_skills && sn < MAX_SKILL; ++sn )
       {
-         const SKILLTYPE *skill;
-         int normalSn;
-
-         skill = skill_table[sn];
-         normalSn = sn;
-
+         const SKILLTYPE *skill = skill_table_bytype[sn];
          if( !skill || !skill->name || skill->name[0] == '\0' )
             continue;
+         if( skill->type != current_type )
+            continue;
 
-         if( skill->type != lasttype )
+         int skill_idx = -1;
+         for( int i = 0; i < num_skills; i++ )
+            if( skill_table[i] == skill ) { skill_idx = i; break; }
+         if( skill_idx == -1 )
+            continue;
+
+         if( !show_all )
          {
-            lasttype = skill->type;
-            if( lasttype >= 0 && lasttype < 8 )
-               strlcpy( skn, skill_tname[lasttype], sizeof(skn) );
+            if( ch->pcdata->learned[skill_idx] <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
+               continue;
+
+            if( skill->min_power_level > 0 && char_pl < skill->min_power_level
+                && ch->pcdata->learned[skill_idx] <= 0 )
+               continue;
+         }
+
+         if( !type_header_shown )
+         {
+            char type_name[128];
+            if( current_type >= 0 && current_type < 8 )
+               strlcpy( type_name, skill_tname[current_type], sizeof(type_name) );
             else
-               strlcpy( skn, "Unknown", sizeof(skn) );
+               strlcpy( type_name, "unknown", sizeof(type_name) );
+
+            /* dividers and header in bright white (&W) */
+            ch_printf( ch, "        &W|%.*s|\r\n", BOXW, DASHES );
+            int tl = (int)strlen(type_name); if( tl > BOXW ) tl = BOXW;
+            int left = (BOXW - tl) / 2, right = BOXW - tl - left;
+            ch_printf( ch, "        &W|%*s%-*.*s%*s|\r\n", left, "", tl, tl, type_name, right, "" );
+            ch_printf( ch, "        &W|%.*s|\r\n", BOXW, DASHES );
+
+            type_header_shown = TRUE;
          }
 
-         if( normalSn < 0 || normalSn >= MAX_SKILL )
-            continue;
+         const int learned_percent = ch->pcdata->learned[skill_idx];
 
-         if( ch->pcdata->learned[normalSn] <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
-            continue;
+         char val[5];
+         if( learned_percent > 0 )
+            snprintf( val, sizeof(val), "%d%%", UMIN(999, learned_percent) );
+         else
+            strlcpy( val, "--", sizeof(val) );
 
-         long long char_pl = get_power_level( ch );
-         long long min_pl = ( skill->min_power_level >= 0 ) ? skill->min_power_level : 0;
-         
-         if( char_pl >= min_pl )
-         {
-            if( !lFound )
-            {
-               lFound = 1;
-               snprintf( temp_line, sizeof(temp_line), "\r\nLevel %d\r\n", i );
-               
-               if( strlen(output_buf) + strlen(temp_line) > 400 )
-               {
-                  send_to_char( output_buf, ch );
-                  output_buf[0] = '\0';
-               }
-               strlcat( output_buf, temp_line, sizeof(output_buf) );
-            }
+         /* NEW color mapping */
+         const char *name_col = "&c"; /* default: blue/cyan */
+         const char *val_col  = "&c";
 
-            snprintf( temp_line, sizeof(temp_line), "%-7.7s: %-20.20s %3d%%\r\n", 
-                     skn, 
-                     skill->name, 
-                     ch->pcdata->learned[normalSn] );
-            
-            if( strlen(output_buf) + strlen(temp_line) > 400 )
-            {
-               send_to_char( output_buf, ch );
-               output_buf[0] = '\0';
-            }
-            
-            strlcat( output_buf, temp_line, sizeof(output_buf) );
-            skills_shown++;
-            
-            if( skills_shown >= 1000 )
-            {
-               strlcat( output_buf, "... (showing first 1000 skills - use level ranges for more)\r\n", sizeof(output_buf) );
-               break;
-            }
+         if( learned_percent >= get_skill_adept( ch, skill_idx ) && learned_percent > 0 )
+         {  /* mastered */
+            name_col = "&g"; val_col = "&g";
          }
+         else if( learned_percent > 0 )
+         {  /* learning */
+            name_col = "&O"; val_col = "&O";
+         }
+         else if( skill->min_power_level > 0 && char_pl < skill->min_power_level )
+         {  /* locked */
+            name_col = "&z"; val_col = "&z";
+         }
+
+         /* edges in bright white (&W) */
+         ch_printf( ch, "        &W| %s%-22.22s&W %s%4s&W |\r\n",
+                    name_col, skill->name, val_col, val );
+
+         total_shown++;
       }
-      
-      if( skills_shown >= 1000 )
-         break;
    }
-   
-   if( output_buf[0] != '\0' )
-   {
-      send_to_char( output_buf, ch );
-   }
-   
-   if( skills_shown == 0 )
-   {
-      send_to_char( "No skills available at your level range.\r\n", ch );
-   }
+
+   ch_printf( ch, "        &W|%.*s|\r\n", BOXW, DASHES );
+
+   ch_printf( ch, "&WShowing &C%d &Wskills ", total_shown );
+   if( !show_all )
+      send_to_char( "(use '&Cslist all&W' to show unavailable skills)\r\n", ch );
    else
-   {
-      snprintf( temp_line, sizeof(temp_line), "\r\nTotal skills shown: %d\r\n", skills_shown );
-      send_to_char( temp_line, ch );
-      if( skills_shown >= 1000 )
-      {
-         send_to_char( "Use 'slist <low> <high>' for specific ranges (e.g., 'slist 1 10').\r\n", ch );
-      }
-   }
+      send_to_char( "(showing all skills)\r\n", ch );
 }
+
 
 void do_whois( CHAR_DATA* ch, const char* argument )
 {

@@ -111,7 +111,7 @@ void do_eat( CHAR_DATA* ch, const char* argument )
             else
                foodcond = 10;
 
-            if( !IS_NPC( ch ) )
+            /*if( !IS_NPC( ch ) )
             {
                int condition;
 
@@ -121,7 +121,7 @@ void do_eat( CHAR_DATA* ch, const char* argument )
                   send_to_char( "You are no longer hungry.\r\n", ch );
                else if( ch->pcdata->condition[COND_FULL] > 40 )
                   send_to_char( "You are full.\r\n", ch );
-            }
+            }*/
 
             if( obj->value[3] != 0
                 || ( foodcond < 4 && number_range( 0, foodcond + 1 ) == 0 )
@@ -165,7 +165,7 @@ void do_eat( CHAR_DATA* ch, const char* argument )
              */
             if( !IS_NPC( ch ) && obj->value[4] )
             {
-               int condition;
+             /*  int condition;
 
                condition = ch->pcdata->condition[COND_FULL];
                gain_condition( ch, COND_FULL, obj->value[4] );
@@ -173,6 +173,7 @@ void do_eat( CHAR_DATA* ch, const char* argument )
                   send_to_char( "You are no longer hungry.\r\n", ch );
                else if( ch->pcdata->condition[COND_FULL] > 40 )
                   send_to_char( "You are full.\r\n", ch );
+				*/
             }
             retcode = obj_cast_spell( obj->value[1], obj->value[0], ch, ch, NULL );
             if( retcode == rNONE )
@@ -228,18 +229,19 @@ void do_quaff( CHAR_DATA* ch, const char* argument )
    }
    /*
     * Fullness checking               -Thoric
-    */
+    *
    if( !IS_NPC( ch ) && ( ch->pcdata->condition[COND_FULL] >= 48 || ch->pcdata->condition[COND_THIRST] >= 48 ) )
    {
       send_to_char( "Your stomach cannot contain any more.\r\n", ch );
       return;
    }
+	 */
 
    /*
     * People with nuisance flag feels up quicker. -- Shaddai 
     * Yeah so I can't spell I'm a coder :P --Shaddai 
     * You are now adept at feeling up quickly! -- Blod 
-    */
+    *
    if( !IS_NPC( ch ) && ch->pcdata->nuisance &&
        ch->pcdata->nuisance->flags > 3
        && ( ch->pcdata->condition[COND_FULL] >= ( 48 - ( 3 * ch->pcdata->nuisance->flags ) + ch->pcdata->nuisance->power )
@@ -247,7 +249,7 @@ void do_quaff( CHAR_DATA* ch, const char* argument )
    {
       send_to_char( "Your stomach cannot contain any more.\r\n", ch );
       return;
-   }
+   }*/
 
    if( !IS_NPC( ch ) && ( !IS_PKILL( ch ) || ( IS_PKILL( ch ) && !IS_SET( ch->pcdata->flags, PCFLAG_HIGHGAG ) ) ) )
       hgflag = FALSE;
@@ -294,9 +296,10 @@ void do_quaff( CHAR_DATA* ch, const char* argument )
       else
          WAIT_STATE( ch, PULSE_PER_SECOND / 3 );
 
-      gain_condition( ch, COND_THIRST, 1 );
+     /* gain_condition( ch, COND_THIRST, 1 );
       if( !IS_NPC( ch ) && ch->pcdata->condition[COND_THIRST] > 43 )
          act( AT_ACTION, "You are getting full.", ch, NULL, NULL, TO_CHAR );
+		*/
       retcode = obj_cast_spell( obj->value[1], obj->value[0], ch, ch, NULL );
       if( retcode == rNONE )
          retcode = obj_cast_spell( obj->value[2], obj->value[0], ch, ch, NULL );

@@ -2061,7 +2061,7 @@ void ability_learn_from_success( CHAR_DATA * ch, int sn )
             ch_printf( ch, "You gain %d experience points from your success!\r\n", gain );
          }
       }
-      gain_exp( ch, gain );
+      gain_pl( ch, gain, true );
    }
 }
 
@@ -2089,12 +2089,9 @@ void learn_from_success( CHAR_DATA * ch, int sn )
       if( ch->pcdata->learned[sn] == adept ) /* fully learned! */
       {
          gain = 1000 * sklvl;
-         /*if( ch->Class == CLASS_MAGE )
-            gain *= 5;  / h, mage upgrade /
-         if( ch->Class == CLASS_CLERIC )
-            gain *= 2;  / h, mage upgrade */
          set_char_color( AT_WHITE, ch );
          ch_printf( ch, "You are now an adept of %s!  You gain %d bonus experience!\r\n", skill_table[sn]->name, gain );
+         gain_pl( ch, gain, true );  /* Show message for skill mastery */
       }
       else
       {
@@ -2103,9 +2100,13 @@ void learn_from_success( CHAR_DATA * ch, int sn )
          {
             set_char_color( AT_WHITE, ch );
             ch_printf( ch, "You gain %d experience points from your success!\r\n", gain );
+            gain_pl( ch, gain, true );  /* Show message for skill practice */
+         }
+         else
+         {
+            gain_pl( ch, gain, true );  // Show message for skill learning
          }
       }
-      gain_exp( ch, gain );
    }
 }
 
@@ -3552,6 +3553,7 @@ void do_kick( CHAR_DATA* ch, const char* argument )
       learn_from_failure( ch, gsn_kick );
       global_retcode = damage( ch, victim, 0, gsn_kick );
    }
+	tail_chain();
 }
 
 void do_punch( CHAR_DATA* ch, const char* argument )
@@ -3587,6 +3589,7 @@ void do_punch( CHAR_DATA* ch, const char* argument )
       learn_from_failure( ch, gsn_punch );
       global_retcode = damage( ch, victim, 0, gsn_punch );
    }
+	tail_chain();
 }
 
 void do_bite( CHAR_DATA* ch, const char* argument )
@@ -3622,6 +3625,7 @@ void do_bite( CHAR_DATA* ch, const char* argument )
       learn_from_failure( ch, gsn_bite );
       global_retcode = damage( ch, victim, 0, gsn_bite );
    }
+	tail_chain();
 }
 
 void do_claw( CHAR_DATA* ch, const char* argument )
@@ -3651,6 +3655,7 @@ void do_claw( CHAR_DATA* ch, const char* argument )
       learn_from_failure( ch, gsn_claw );
       global_retcode = damage( ch, victim, 0, gsn_claw );
    }
+	tail_chain();
 }
 
 void do_sting( CHAR_DATA* ch, const char* argument )
@@ -3686,6 +3691,7 @@ void do_sting( CHAR_DATA* ch, const char* argument )
       learn_from_failure( ch, gsn_sting );
       global_retcode = damage( ch, victim, 0, gsn_sting );
    }
+	tail_chain();
 }
 
 void do_tail( CHAR_DATA* ch, const char* argument )
@@ -3721,6 +3727,7 @@ void do_tail( CHAR_DATA* ch, const char* argument )
       learn_from_failure( ch, gsn_tail );
       global_retcode = damage( ch, victim, 0, gsn_tail );
    }
+	tail_chain();
 }
 
 void do_bash( CHAR_DATA* ch, const char* argument )
@@ -3768,6 +3775,7 @@ void do_bash( CHAR_DATA* ch, const char* argument )
       learn_from_failure( ch, gsn_bash );
       global_retcode = damage( ch, victim, 0, gsn_bash );
    }
+	tail_chain();
 }
 
 void do_stun( CHAR_DATA* ch, const char* argument )
@@ -3853,6 +3861,7 @@ void do_stun( CHAR_DATA* ch, const char* argument )
       act( AT_SKILL, "You try to stun $N, but $E dodges out of the way.", ch, NULL, victim, TO_CHAR );
       act( AT_SKILL, "$n charges screaming at $N, but keeps going right on past.", ch, NULL, victim, TO_NOTVICT );
    }
+	tail_chain();
 }
 
 void do_bloodlet( CHAR_DATA* ch, const char* argument )
@@ -3893,6 +3902,7 @@ void do_bloodlet( CHAR_DATA* ch, const char* argument )
       act( AT_BLOOD, "$n slices open $s skin, but no blood is spilled...", ch, NULL, NULL, TO_ROOM );
       learn_from_failure( ch, gsn_bloodlet );
    }
+	tail_chain();
 }
 
 void do_feed( CHAR_DATA* ch, const char* argument )
@@ -3941,9 +3951,9 @@ void do_feed( CHAR_DATA* ch, const char* argument )
          gain_condition( ch, COND_BLOODTHIRST,
                          UMIN( number_range( 1, ( ch->level + victim->level / 20 ) + 3 ),
                                ( 10 + ch->level ) - ch->pcdata->condition[COND_BLOODTHIRST] ) );
-         if( ch->pcdata->condition[COND_FULL] <= 37 )
+         /*if( ch->pcdata->condition[COND_FULL] <= 37 )
             gain_condition( ch, COND_FULL, 2 );
-         gain_condition( ch, COND_THIRST, 2 );
+         gain_condition( ch, COND_THIRST, 2 );*/
          act( AT_BLOOD, "You manage to suck a little life out of $N.", ch, NULL, victim, TO_CHAR );
          act( AT_BLOOD, "$n sucks some of your blood!", ch, NULL, victim, TO_VICT );
          learn_from_success( ch, gsn_feed );
@@ -3966,6 +3976,7 @@ void do_feed( CHAR_DATA* ch, const char* argument )
          learn_from_failure( ch, gsn_feed );
       }
    }
+	tail_chain();
 }
 
 /*
@@ -4086,6 +4097,7 @@ void do_disarm( CHAR_DATA* ch, const char* argument )
       send_to_char( "You failed.\r\n", ch );
       learn_from_failure( ch, gsn_disarm );
    }
+	tail_chain();
 }
 
 /*
@@ -4179,6 +4191,7 @@ void do_cleave( CHAR_DATA * ch, const char *argument )
       learn_from_failure( ch, gsn_cleave );
       global_retcode = damage( ch, victim, 0, gsn_cleave );
    }
+	tail_chain();
 }
 
 /* Converted to function well as a skill for vampires -- Blodkai */
@@ -4589,7 +4602,7 @@ void do_recall( CHAR_DATA* ch, const char* argument )
          lose = ( int )( ( exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) ) * 0.1 );
          if( ch->desc )
             lose /= 2;
-         gain_exp( ch, 0 - lose );
+         gain_pl( ch, 0 - lose, true );
          ch_printf( ch, "You failed!  You lose %d power level.\r\n", lose );
          return;
       }
@@ -4597,7 +4610,7 @@ void do_recall( CHAR_DATA* ch, const char* argument )
       lose = ( int )( ( exp_level( ch, ch->level + 1 ) - exp_level( ch, ch->level ) ) * 0.2 );
       if( ch->desc )
          lose /= 2;
-      gain_exp( ch, 0 - lose );
+      gain_pl( ch, 0 - lose, true );
       ch_printf( ch, "You recall from combat!  You lose %d power level.\r\n", lose );
       stop_fighting( ch, TRUE );
    }
@@ -4831,7 +4844,7 @@ bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim )
       return FALSE;
    }
    if( !IS_NPC( victim ) && !IS_SET( victim->pcdata->flags, PCFLAG_GAG ) )
-       /*SB*/ act( AT_SKILL, "You parry $n's attack.", ch, NULL, victim, TO_VICT );
+       /*SB*/ act( AT_SKILL, "You parry $n's attack. &w[&Y0 dmg&w]&D", ch, NULL, victim, TO_VICT );
 
    if( !IS_NPC( ch ) && !IS_SET( ch->pcdata->flags, PCFLAG_GAG ) )   /* SB */
       act( AT_SKILL, "$N parries your attack.", ch, NULL, victim, TO_CHAR );
@@ -4871,7 +4884,7 @@ bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim )
    }
 
    if( !IS_NPC( victim ) && !IS_SET( victim->pcdata->flags, PCFLAG_GAG ) )
-      act( AT_SKILL, "You dodge $n's attack.", ch, NULL, victim, TO_VICT );
+      act( AT_SKILL, "You dodge $n's attack. &w[&Y0 dmg&w]&D", ch, NULL, victim, TO_VICT );
 
    if( !IS_NPC( ch ) && !IS_SET( ch->pcdata->flags, PCFLAG_GAG ) )
       act( AT_SKILL, "$N dodges your attack.", ch, NULL, victim, TO_CHAR );
