@@ -22,7 +22,53 @@
 bool validate_spec_fun( const char *name );
 void remove_bexit_flag( EXIT_DATA * pexit, int flag );
 
-const char *const spell_flag[] = { 
+/*
+ * Unified skill accessors (percent values stored as 0..100 in pcdata->learned).
+ * NPCs currently treat learned skills as a flat 80%.
+ */
+int get_skill_tenths( CHAR_DATA *ch, int sn )
+{
+   if( !ch || sn < 0 || sn >= num_skills )
+      return 0;
+
+   if( IS_NPC( ch ) )
+      return 800; /* 80.0% default for mobs */
+
+   if( !ch->pcdata )
+      return 0;
+
+   return URANGE( 0, ch->pcdata->learned[sn], 100 ) * 10;
+}
+
+double get_skill( CHAR_DATA *ch, int sn )
+{
+   return get_skill_tenths( ch, sn ) / 10.0;
+}
+
+void add_skill_tenths( CHAR_DATA *ch, int sn, int delta )
+{
+   if( !ch || sn < 0 || sn >= num_skills )
+      return;
+
+   if( IS_NPC( ch ) || !ch->pcdata )
+      return;
+
+   int cur = get_skill_tenths( ch, sn );
+   int updated = URANGE( 0, cur + delta, 1000 );
+   ch->pcdata->learned[sn] = updated / 10;
+}
+
+void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags )
+{
+   (void)ch;
+   (void)sn;
+   (void)DR;
+   (void)success;
+   (void)context_flags;
+   /* TODO: Implement new mastery progression. */
+}
+
+const char *const spell_flag[] = {
    "water",          // 0  - SF_WATER (BV00)
    "earth",          // 1  - SF_EARTH (BV01)
    "air",            // 2  - SF_AIR (BV02)

@@ -2,7 +2,7 @@ CC      = g++
 #PROF    = -p
 
 #Uncomment to compile in Cygwin
-CYGWIN = -DCYGWIN
+#CYGWIN = -DCYGWIN
 
 #Uncomment the line below if you are getting undefined references to dlsym, dlopen, and dlclose.
 #Comment it out if you get errors about ldl not being found.

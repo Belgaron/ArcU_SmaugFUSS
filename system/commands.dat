@@ -773,6 +773,15 @@ Log         0
 End
 
 #COMMAND
+Name        defense~
+Code        do_defense
+Position    112
+Level       0
+Log         0
+Flags       1
+End
+
+#COMMAND
 Name        east~
 Code        do_east
 Position    112

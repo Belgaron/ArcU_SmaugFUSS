@@ -19,6 +19,203 @@
 #include "mud.h"
 #include "custom_slay.h"
 
+/* Map SMAUG AC to small DefenseRoll bonus: [-150..+100] -> [+20..-5] */
+int armor_bonus_for_roll( CHAR_DATA *v )
+{
+   int ac = GET_AC( v );
+   if( ac < -150 )
+      ac = -150;
+   if( ac > 100 )
+      ac = 100;
+   double t = ( ac + 150 ) / 250.0;
+   int bonus = ( int )( 20 - 25 * t );
+   return bonus;
+}
+
+/* Map SMAUG AC to mitigation %: [-150..+100] -> [50%..0%], hard cap 80 */
+int armor_mitigation_percent( CHAR_DATA *v )
+{
+   int ac = GET_AC( v );
+   if( ac < -150 )
+      ac = -150;
+   if( ac > 100 )
+      ac = 100;
+   double t = ( ac + 150 ) / 250.0;
+   int pct = ( int )( 50 - 50 * t );
+   if( pct < 0 )
+      pct = 0;
+   if( pct > 80 )
+      pct = 80;
+   return pct;
+}
+
+/* Bell-ish RNG: -19..+19 */
+static inline int rng_bell( void )
+{
+   return number_range( 1, 20 ) + number_range( 1, 20 ) - 21;
+}
+
+/* Replace these with your real stat getters if different */
+static inline int stat_STR( CHAR_DATA *ch )
+{
+   return ch->perm_str;
+}
+static inline int stat_DEX( CHAR_DATA *ch )
+{
+   return ch->perm_dex;
+}
+static inline int stat_CON( CHAR_DATA *ch )
+{
+   return ch->perm_con;
+}
+static inline int stat_INT( CHAR_DATA *ch )
+{
+   return ch->perm_int;
+}
+/* TEMP: if you don't have Focus yet, point to CHA or a temp */
+static inline int stat_FOC( CHAR_DATA *ch )
+{
+   return ch->perm_spr;
+}
+
+/* Attack type tags */
+#define ATK_MELEE  1
+#define ATK_RANGED 2
+#define ATK_KI     3
+
+/* Cache skill numbers */
+static int sn_unarmed = -1, sn_melee = -1, sn_ranged = -1, sn_kiblast = -1;
+static int sn_dodge = -1, sn_parry = -1, sn_block = -1;
+
+static void init_mos_skill_sns( void )
+{
+   if( sn_unarmed != -1 )
+      return;
+   sn_unarmed = skill_lookup( "unarmed" );
+   sn_melee = skill_lookup( "melee" );
+   sn_ranged = skill_lookup( "ranged" );
+   sn_kiblast = skill_lookup( "ki blast" );
+   sn_dodge = skill_lookup( "dodge" );
+   sn_parry = skill_lookup( "parry" );
+   sn_block = skill_lookup( "block" );
+}
+
+static int attack_sn_for( CHAR_DATA *ch, int atk_type )
+{
+   switch ( atk_type )
+   {
+      default:
+      case ATK_MELEE:
+         return ( get_eq_char( ch, WEAR_WIELD ) ? sn_melee : sn_unarmed );
+      case ATK_RANGED:
+         return sn_ranged;
+      case ATK_KI:
+         return sn_kiblast;
+   }
+}
+
+int attack_roll( CHAR_DATA *att, int sn, int atk_type )
+{
+   init_mos_skill_sns( );
+
+   double skill = get_skill( att, sn );
+   int statAtk = 0;
+   int weaponAcc = 0;
+
+   if( atk_type == ATK_MELEE )
+      statAtk = ( stat_STR( att ) + stat_DEX( att ) ) / 4;
+   else if( atk_type == ATK_RANGED )
+      statAtk = stat_DEX( att ) / 2;
+   else
+      statAtk = ( stat_FOC( att ) + stat_INT( att ) ) / 4;
+
+   return ( int )( skill * 1.0 ) + statAtk + weaponAcc + rng_bell( );
+}
+
+avoid_t avoid_reason_from_stance( CHAR_DATA *victim, int atk_type )
+{
+   switch ( victim->active_defense )
+   {
+      case DEF_DODGE:
+         return AVOID_DODGE;
+      case DEF_PARRY:
+         if( atk_type == ATK_RANGED || atk_type == ATK_KI )
+            return AVOID_DEFLECT;
+         return AVOID_PARRY;
+      case DEF_BLOCK:
+         return AVOID_BLOCK;
+      default:
+         return AVOID_NONE;
+   }
+}
+
+int defense_roll( CHAR_DATA *def, int atk_type )
+{
+   init_mos_skill_sns( );
+   int stance = def->active_defense;
+   int statDef = 0, stanceMod = 0, dodgePenalty = 0;
+   double defskill = 0.0;
+
+   switch ( stance )
+   {
+      case DEF_DODGE:
+      {
+         defskill = get_skill( def, sn_dodge );
+         statDef = stat_DEX( def ) / 2;
+         OBJ_DATA *w;
+         for( int wear = 0; wear < MAX_WEAR; ++wear )
+            if( ( w = get_eq_char( def, wear ) ) != NULL )
+               dodgePenalty += w->armor_penalty;
+         break;
+      }
+      case DEF_PARRY:
+         defskill = get_skill( def, sn_parry );
+         statDef = ( stat_DEX( def ) + stat_STR( def ) ) / 4;
+         if( atk_type == ATK_RANGED || atk_type == ATK_KI )
+            stanceMod -= 5;
+         break;
+
+      case DEF_BLOCK:
+         defskill = get_skill( def, sn_block );
+         statDef = ( stat_STR( def ) + stat_CON( def ) ) / 4;
+         if( atk_type == ATK_KI )
+            stanceMod -= 3;
+         break;
+
+      default:
+         defskill = 0.0;
+         statDef = 0;
+         break;
+   }
+
+   int armBonus = armor_bonus_for_roll( def );
+   return ( int )( defskill * 1.0 ) + statDef + armBonus + stanceMod - dodgePenalty + rng_bell( );
+}
+
+hit_band_t classify_band( int MoS )
+{
+   if( MoS <= 0 )
+      return HIT_AVOIDED;
+   if( MoS <= 10 )
+      return HIT_GLANCING;
+   if( MoS <= 25 )
+      return HIT_SOLID;
+   return HIT_CLEAN;
+}
+
+int compute_final_mitigation_percent( CHAR_DATA *victim, int MoS, hit_band_t band, int atk_type )
+{
+   int mit = armor_mitigation_percent( victim );
+   mit -= MoS;
+   if( ( band == HIT_GLANCING || band == HIT_SOLID ) && victim->active_defense == DEF_BLOCK )
+      mit += 10;
+   if( mit < 0 )
+      mit = 0;
+   if( mit > 80 )
+      mit = 80;
+   return mit;
+}
+
 extern char lastplayercmd[MAX_INPUT_LENGTH];
 
 OBJ_DATA *used_weapon;  /* Used to figure out which weapon later */
@@ -1258,7 +1455,7 @@ int get_pl_combat_bonus( CHAR_DATA *ch, CHAR_DATA *victim )
 ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
 {
    OBJ_DATA *wield;
-   int victim_ac, thac0, thac0_00, thac0_32, plusris, dam, diceroll, attacktype, cnt, prof_bonus, prof_gsn = -1;
+   int plusris, dam, attacktype, cnt, prof_bonus, prof_gsn = -1;
    ch_ret retcode = rNONE;
 
    /*
@@ -1406,138 +1603,99 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
          dt += wield->value[3];
    }
 
-   /*
-    * Calculate to-hit-armor-class-0 versus armor.
-    */
-   if( IS_NPC( ch ) )
-   {
-      thac0_00 = ch->mobthac0;
-      thac0_32 = 0;
-   }
+   int atk_type = ATK_MELEE;
+   bool using_ranged_weapon = FALSE;
+   bool using_ki_ability = FALSE;
+
+   if( using_ranged_weapon )
+      atk_type = ATK_RANGED;
+   else if( using_ki_ability )
+      atk_type = ATK_KI;
    else
+      atk_type = ATK_MELEE;
+
+   int sn_att = attack_sn_for( ch, atk_type );
+   int ar = attack_roll( ch, sn_att, atk_type );
+   ar += prof_bonus;
+   int dr = defense_roll( victim, atk_type );
+   int MoS = ar - dr;
+
+   hit_band_t band = classify_band( MoS );
+   avoid_t avo = avoid_reason_from_stance( victim, atk_type );
+
+   if( band == HIT_AVOIDED )
    {
-      thac0_00 = class_table[ch->Class]->thac0_00;
-      thac0_32 = class_table[ch->Class]->thac0_32;
-   }
-   thac0 = interpolate( ch->level, thac0_00, thac0_32 ) - GET_HITROLL( ch );
-   victim_ac = UMAX( -19, ( int )( GET_AC( victim ) / 10 ) );
-
-   /*
-    * if you can't see what's coming... 
-    */
-   if( wield && !can_see_obj( victim, wield ) )
-      victim_ac += 1;
-   if( !can_see( ch, victim ) )
-      victim_ac -= 4;
-
-   /*
-    * "learning" between combatants.  Takes the intelligence difference,
-    * and multiplies by the times killed to make up a learning bonus
-    * given to whoever is more intelligent     -Thoric
-    * (basically the more intelligent one "learns" the other's fighting style)
-    */
-   if( ch->fighting && ch->fighting->who == victim )
-   {
-      short times = ch->fighting->timeskilled;
-
-      if( times )
-      {
-         short intdiff = get_curr_int( ch ) - get_curr_int( victim );
-
-         if( intdiff != 0 )
-            victim_ac += ( intdiff * times ) / 10;
-      }
-   }
-
-   /*
-    * Weapon proficiency bonus 
-    */
-   victim_ac += prof_bonus;
-
-   /*
-    * The moment of excitement!
-    */
-   while( ( diceroll = number_bits( 5 ) ) >= 20 )
-      ;
-
-   if( diceroll == 0 || ( diceroll != 19 && diceroll < thac0 - victim_ac ) )
-   {
-      /*
-       * Miss. 
-       */
       if( prof_gsn != -1 )
          learn_from_failure( ch, prof_gsn );
-      damage( ch, victim, 0, dt );
+      enhanced_dam_message_ex( ch, victim, 0, dt, wield, 0, band, avo );
       tail_chain(  );
       return rNONE;
    }
 
-   /*
-    * Hit.
-    * Calc damage.
-    */
+   int base_dam;
 
-   if( !wield )   /* bare hand dice formula fixed by Thoric */
-      /*
-       * Fixed again by korbillian@mud.tka.com 4000 (Cold Fusion Mud) 
-       */
-      dam = number_range( ch->barenumdie, ch->baresizedie * ch->barenumdie ) + ch->damplus;
+   if( !wield )
+      base_dam = number_range( ch->barenumdie, ch->baresizedie * ch->barenumdie ) + ch->damplus;
    else
-      dam = number_range( wield->value[1], wield->value[2] );
+      base_dam = number_range( wield->value[1], wield->value[2] );
 
-   /*
-    * Bonuses.
-    */
-   
-   dam += GET_DAMROLL( ch );
+   base_dam += GET_DAMROLL( ch );
 
    if( prof_bonus )
-      dam += prof_bonus / 4;
+      base_dam += prof_bonus / 4;
 
    /*
     * Calculate Damage Modifiers from Victim's Fighting Style
     */
    if( victim->position == POS_BERSERK )
-      dam = ( int )( 1.2 * dam );
+      base_dam = ( int )( 1.2 * base_dam );
    else if( victim->position == POS_AGGRESSIVE )
-      dam = ( int )( 1.1 * dam );
+      base_dam = ( int )( 1.1 * base_dam );
    else if( victim->position == POS_DEFENSIVE )
-      dam = ( int )( .85 * dam );
+      base_dam = ( int )( .85 * base_dam );
    else if( victim->position == POS_EVASIVE )
-      dam = ( int )( .8 * dam );
+      base_dam = ( int )( .8 * base_dam );
 
    /*
     * Calculate Damage Modifiers from Attacker's Fighting Style
     */
    if( ch->position == POS_BERSERK )
-      dam = ( int )( 1.2 * dam );
+      base_dam = ( int )( 1.2 * base_dam );
    else if( ch->position == POS_AGGRESSIVE )
-      dam = ( int )( 1.1 * dam );
+      base_dam = ( int )( 1.1 * base_dam );
    else if( ch->position == POS_DEFENSIVE )
-      dam = ( int )( .85 * dam );
+      base_dam = ( int )( .85 * base_dam );
    else if( ch->position == POS_EVASIVE )
-      dam = ( int )( .8 * dam );
+      base_dam = ( int )( .8 * base_dam );
 
    if( !IS_NPC( ch ) && ch->pcdata->learned[gsn_enhanced_damage] > 0 )
    {
-      dam += ( int )( dam * LEARNED( ch, gsn_enhanced_damage ) / 120 );
+      base_dam += ( int )( base_dam * LEARNED( ch, gsn_enhanced_damage ) / 120 );
       learn_from_success( ch, gsn_enhanced_damage );
    }
 
    if( !IS_AWAKE( victim ) )
-      dam *= 2;
+      base_dam *= 2;
 
    if( dt == gsn_backstab )
-      dam *= ( 2 + URANGE( 2, ch->level - ( victim->level / 4 ), 30 ) / 8 );
+      base_dam *= ( 2 + URANGE( 2, ch->level - ( victim->level / 4 ), 30 ) / 8 );
 
    if( dt == gsn_pounce )
-      dam *= ( 2 + URANGE( 2, ch->level - ( victim->level / 4 ), 30 ) / 11 );
+      base_dam *= ( 2 + URANGE( 2, ch->level - ( victim->level / 4 ), 30 ) / 11 );
 
    if( dt == gsn_circle )
-      dam *= ( 2 + URANGE( 2, ch->level - ( victim->level / 4 ), 30 ) / 16 );
+      base_dam *= ( 2 + URANGE( 2, ch->level - ( victim->level / 4 ), 30 ) / 16 );
 
-   if( dam <= 0 )
-      dam = 1;
+   if( base_dam <= 0 )
+      base_dam = 1;
+
+   double mult = ( band == HIT_GLANCING ? 0.5 : band == HIT_SOLID ? 1.0 : band == HIT_CLEAN ? 1.25 : 0.0 );
+   int mit = compute_final_mitigation_percent( victim, MoS, band, atk_type );
+   dam = ( int )( base_dam * mult );
+   dam = dam - ( dam * mit ) / 100;
+
+   if( dam < 0 )
+      dam = 0;
 
    plusris = 0;
 
@@ -1710,11 +1868,14 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
          return retcode;
    }
 
-   /* 
-    * FIXED: Now call damage() only ONCE at the end 
-    * This was the main cause of duplicate damage messages
-    */
-   retcode = damage( ch, victim, dam, dt );
+   long long pl_gain = 0;
+   enhanced_dam_message_ex( ch, victim, dam, ( unsigned int ) dt, wield, pl_gain, band, avo );
+
+   if( dam > 0 )
+      retcode = damage( ch, victim, dam, dt );
+   else
+      retcode = rNONE;
+
    if( retcode != rNONE )
       return retcode;
 
