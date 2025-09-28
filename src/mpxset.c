@@ -357,17 +357,6 @@ void do_mpmset( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !str_cmp( arg2, "practice" ) )
-   {
-      if( value < 0 || value > 100 )
-      {
-         progbug( "MpMset: Invalid practice", ch );
-         return;
-      }
-      victim->practice = value;
-      return;
-   }
-
    if( !str_cmp( arg2, "align" ) )
    {
       if( value < -1000 || value > 1000 )

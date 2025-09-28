@@ -1927,6 +1927,7 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
    CHAR_DATA *victim;
    int sn, max, adept;
    const char *fskill_name;
+   bool trained;
 
    if( !IS_NPC( ch ) || ch->desc || IS_AFFECTED( ch, AFF_CHARM ) )
    {
@@ -1959,6 +1960,12 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
       return;
    }
 
+   if( SPELL_FLAG( skill_table[sn], SF_SECRETSKILL ) || SPELL_FLAG( skill_table[sn], SF_RACESKILL ) )
+   {
+      send_to_char( "Mppractice: Cannot train secret or racial skills", ch );
+      progbug( "Mppractice: Attempted to train restricted skill", ch );
+      return;
+   }
 
    if( IS_NPC( victim ) )
    {
@@ -1970,13 +1977,16 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
    fskill_name = skill_table[sn]->name;
 
    max = atoi( arg3 );
-   if( ( max < 0 ) || ( max > 100 ) )
+   if( max < 0 )
    {
       snprintf( log_buf, MAX_STRING_LENGTH, "mp_practice: Invalid maxpercent: %d", max );
       send_to_char( log_buf, ch );
       progbug( log_buf, ch );
       return;
    }
+
+   if( max > 50 )
+      max = 50;
 
    max *= 10;
 
@@ -1991,6 +2001,7 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
     * adept is how high the player can learn it 
     */
    adept = GET_ADEPT( victim, sn );
+   trained = FALSE;
 
    if( ( victim->pcdata->skills[sn].value_tenths >= adept ) || ( victim->pcdata->skills[sn].value_tenths >= max ) )
    {
@@ -2011,6 +2022,13 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
       return;
    }
 
+   if( victim->gold < PRACTICE_SESSION_COST )
+   {
+      ch_printf( victim, "&RYou need %d gold to train, but you only have %d.&D\r\n", PRACTICE_SESSION_COST, victim->gold );
+      act( AT_TELL, "$n says, 'Come back when you can afford the session fee.'", ch, NULL, victim, TO_VICT );
+      return;
+   }
+
    if( max > victim->pcdata->skills[sn].value_tenths )
    {
       int target = max;
@@ -2018,12 +2036,23 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
       if( !IS_IMMORTAL( victim ) && adept > 0 )
          target = UMIN( target, adept );
 
+      target = UMIN( target, PRACTICE_MAX_TENTHS );
+
       if( !trainer_raise_skill_to( victim, sn, target ) )
       {
          act( AT_TELL, "$n tries to teach you, but you're unable to make further progress right now.", ch, NULL, victim, TO_VICT );
          return;
       }
+
+      trained = TRUE;
    }
+
+   if( !trained )
+      return;
+
+   victim->gold = UMAX( 0, victim->gold - PRACTICE_SESSION_COST );
+   ch_printf( victim, "&WYou pay &Y%d gold&W and advance to &Y%.1f&W in &Y%s&W.\r\n",
+              PRACTICE_SESSION_COST, victim->pcdata->skills[sn].value_tenths / 10.0, skill_table[sn]->name );
 
    if( adept > 0 && victim->pcdata->skills[sn].value_tenths >= adept )
       act( AT_TELL, "$n tells you, 'You have learned all I know on this subject...'", ch, NULL, victim, TO_VICT );
