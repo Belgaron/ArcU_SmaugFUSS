@@ -1872,7 +1872,7 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
    enhanced_dam_message_ex( ch, victim, dam, ( unsigned int ) dt, wield, pl_gain, band, avo );
 
    if( dam > 0 )
-      retcode = damage( ch, victim, dam, dt );
+      retcode = damage_ex( ch, victim, dam, dt, true );
    else
       retcode = rNONE;
 
@@ -2257,7 +2257,7 @@ short ris_damage( CHAR_DATA * ch, short dam, int ris )
 /*
  * Inflict damage from a hit. This is one damn big function.
  */
-ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
+ch_ret damage_ex( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt, bool suppress_message )
 {
    char log_buf[MAX_STRING_LENGTH];
    short maxdam;
@@ -2486,8 +2486,8 @@ ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
    }
 
    /* Handle the damage message display */
-	if( ch != victim )
-		new_dam_message( ch, victim, dam, dt, NULL, pl_gained );
+   if( ch != victim && !suppress_message )
+      new_dam_message( ch, victim, dam, dt, NULL, pl_gained );
 
    /*
     * Hurt the victim.
