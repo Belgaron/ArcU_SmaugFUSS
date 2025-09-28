@@ -64,7 +64,7 @@ const char *corpse_descs[] = {
 void advance_level( CHAR_DATA * ch )
 {
    char buf[MAX_STRING_LENGTH];
-   int add_hp, add_mana, add_move, add_prac;
+   int add_hp, add_mana, add_move;
 
    snprintf( buf, MAX_STRING_LENGTH, "the %s", title_table[ch->Class][ch->level][ch->sex == SEX_FEMALE ? 1 : 0] );
    set_title( ch, buf );
@@ -72,7 +72,6 @@ void advance_level( CHAR_DATA * ch )
    add_hp = con_app[get_curr_con( ch )].hitp + number_range( class_table[ch->Class]->hp_min, class_table[ch->Class]->hp_max );
    add_mana = class_table[ch->Class]->fMana ? number_range( 2, ( 2 * get_curr_int( ch ) + get_curr_wis( ch ) ) / 8 ) : 0;
    add_move = number_range( 5, ( get_curr_con( ch ) + get_curr_dex( ch ) ) / 4 );
-   add_prac = wis_app[get_curr_wis( ch )].practice;
 
    add_hp = UMAX( 1, add_hp );
    add_mana = UMAX( 0, add_mana );
@@ -92,7 +91,6 @@ void advance_level( CHAR_DATA * ch )
    ch->max_hit += add_hp;
    ch->max_mana += add_mana;
    ch->max_move += add_move;
-   ch->practice += add_prac;
 
    if( !IS_NPC( ch ) )
       xREMOVE_BIT( ch->act, PLR_BOUGHT_PET );
@@ -115,12 +113,12 @@ void advance_level( CHAR_DATA * ch )
    {
       if( IS_VAMPIRE( ch ) )
          snprintf( buf, MAX_STRING_LENGTH,
-                   "Your gain is: %d/%d hp, %d/%d bp, %d/%d mv %d/%d prac.\r\n",
-                   add_hp, ch->max_hit, 1, ch->level + 10, add_move, ch->max_move, add_prac, ch->practice );
+                   "Your gain is: %d/%d hp, %d/%d bp, %d/%d mv.\r\n",
+                   add_hp, ch->max_hit, 1, ch->level + 10, add_move, ch->max_move );
       else
          snprintf( buf, MAX_STRING_LENGTH,
-                   "Your gain is: %d/%d hp, %d/%d mana, %d/%d mv %d/%d prac.\r\n",
-                   add_hp, ch->max_hit, add_mana, ch->max_mana, add_move, ch->max_move, add_prac, ch->practice );
+                   "Your gain is: %d/%d hp, %d/%d mana, %d/%d mv.\r\n",
+                   add_hp, ch->max_hit, add_mana, ch->max_mana, add_move, ch->max_move );
       set_char_color( AT_WHITE, ch );
       send_to_char( buf, ch );
    }

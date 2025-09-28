@@ -425,7 +425,6 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
 
    fprintf( fp, "Style     %d\n", ch->style );
 
-   fprintf( fp, "Practice     %d\n", ch->practice );
    fprintf( fp, "SavingThrows %d %d %d %d %d\n",
             ch->saving_poison_death, ch->saving_wand, ch->saving_para_petri, ch->saving_breath, ch->saving_spell_staff );
    fprintf( fp, "Alignment    %d\n", ch->alignment );
@@ -1170,10 +1169,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                      if( ch->level < LEVEL_IMMORTAL )
                      {
                         if( skill_table[sn]->race_adept[ch->race] > 0 )
-                        {
                            ch->pcdata->skills[sn].value_tenths = 0;
-                           ++ch->practice;
-                        }
                      }
                   }
                   fMatch = TRUE;
@@ -1713,7 +1709,13 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                }
                break;
             }
-            KEY( "Practice", ch->practice, fread_number( fp ) );
+            if( !str_cmp( word, "Practice" ) )
+            {
+               /* Legacy field: consume the value for backwards compatibility */
+               ( void )fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
             KEY( "Prompt", ch->pcdata->prompt, fread_string( fp ) );
             if( !strcmp( word, "PTimer" ) )
             {
@@ -1868,10 +1870,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                      if( ch->level < LEVEL_IMMORTAL )
                      {
                         if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
-                        {
                            ch->pcdata->skills[sn].value_tenths = 0;
-                           ++ch->practice;
-                        }
                      }
                   }
                   fMatch = TRUE;
@@ -1909,10 +1908,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         ch->pcdata->skills[sn].lock_state = SKILL_LOCK_STEADY;
                      if( ch->level < LEVEL_IMMORTAL )
                         if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
-                        {
                            ch->pcdata->skills[sn].value_tenths = 0;
-                           ++ch->practice;
-                        }
                   }
                   fMatch = TRUE;
                   break;
@@ -2030,10 +2026,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         ch->pcdata->skills[sn].lock_state = SKILL_LOCK_STEADY;
                      if( ch->level < LEVEL_IMMORTAL )
                         if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
-                        {
                            ch->pcdata->skills[sn].value_tenths = 0;
-                           ch->practice++;
-                        }
                   }
                   fMatch = TRUE;
                }
@@ -2108,10 +2101,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         ch->pcdata->skills[sn].lock_state = SKILL_LOCK_STEADY;
                      if( ch->level < LEVEL_IMMORTAL )
                         if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
-                        {
                            ch->pcdata->skills[sn].value_tenths = 0;
-                           ++ch->practice;
-                        }
                   }
                   fMatch = TRUE;
                }

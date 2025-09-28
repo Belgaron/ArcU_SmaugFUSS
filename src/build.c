@@ -1214,7 +1214,7 @@ void do_mset( CHAR_DATA* ch, const char* argument )
       send_to_char( "\r\n", ch );
       send_to_char( "Field being one of:\r\n", ch );
       send_to_char( "  str int wis dex con spr lck sex class\r\n", ch );
-      send_to_char( "  gold hp mana move practice align race\r\n", ch );
+      send_to_char( "  gold hp mana move align race\r\n", ch );
       send_to_char( "  hitroll damroll armor affected level\r\n", ch );
       send_to_char( "  thirst drunk full blood flags\r\n", ch );
       send_to_char( "  pos defpos part (see BODYPARTS)\r\n", ch );
@@ -1686,19 +1686,6 @@ void do_mset( CHAR_DATA* ch, const char* argument )
          return;
       }
       victim->max_move = value;
-      return;
-   }
-
-   if( !str_cmp( arg2, "practice" ) )
-   {
-      if( !can_mmodify( ch, victim ) )
-         return;
-      if( value < 0 || value > 100 )
-      {
-         send_to_char( "Practice range is 0 to 100 sessions.\r\n", ch );
-         return;
-      }
-      victim->practice = value;
       return;
    }
 

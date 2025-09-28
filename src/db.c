@@ -2992,7 +2992,6 @@ void clear_char( CHAR_DATA * ch )
    ch->logon = current_time;
    ch->armor = 100;
    ch->position = POS_STANDING;
-   ch->practice = 0;
    ch->power_level.set_base(5);
    //ch->current_powerlevel = 5;  shouldn't need to set this
    ch->power_level.set_logon();

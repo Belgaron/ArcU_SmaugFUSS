@@ -3693,7 +3693,6 @@ void do_balzhur( CHAR_DATA* ch, const char* argument )
    victim->max_move = 100;
    for( sn = 0; sn < num_skills; ++sn )
       victim->pcdata->skills[sn].value_tenths = 0;
-   victim->practice = 0;
    victim->hit = victim->max_hit;
    victim->mana = victim->max_mana;
    victim->move = victim->max_move;
@@ -3862,7 +3861,6 @@ void do_advance( CHAR_DATA* ch, const char* argument )
       victim->max_move = 100;
       for( sn = 0; sn < num_skills; ++sn )
          victim->pcdata->skills[sn].value_tenths = 0;
-      victim->practice = 0;
       victim->hit = victim->max_hit;
       victim->mana = victim->max_mana;
       victim->move = victim->max_move;
@@ -5658,7 +5656,6 @@ void do_mortalize( CHAR_DATA * ch, const char *argument )
       victim->max_move = 800;
       for( sn = 0; sn < num_skills; sn++ )
          victim->pcdata->skills[sn].value_tenths = 0;
-      victim->practice = 0;
       victim->hit = victim->max_hit;
       victim->mana = victim->max_mana;
       victim->move = victim->max_move;

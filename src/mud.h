@@ -928,11 +928,6 @@ struct int_app_type
    short learn;
 };
 
-struct wis_app_type
-{
-   short practice;
-};
-
 struct dex_app_type
 {
    short defensive;
@@ -2432,7 +2427,6 @@ struct char_data
    short max_mana;
    short move;
    short max_move;
-   short practice;
    short numattacks;
    int gold;
    long long exp;					/* Keep for compatibility - will be synced with PowerLevel */
@@ -3746,7 +3740,6 @@ extern FILE *fpArea;
 extern char strArea[MAX_INPUT_LENGTH];
 extern const struct str_app_type str_app[26];
 extern const struct int_app_type int_app[26];
-extern const struct wis_app_type wis_app[26];
 extern const struct dex_app_type dex_app[26];
 extern const struct con_app_type con_app[26];
 extern const struct cha_app_type cha_app[26];
@@ -4707,10 +4700,6 @@ void show_practice_list( CHAR_DATA *ch, CHAR_DATA *mob );
 void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argument );
 bool can_practice_skill( CHAR_DATA *ch, CHAR_DATA *mob, const SKILLTYPE *skill, int sn );
 int get_skill_adept( CHAR_DATA *ch, int sn );
-void show_skill_category( CHAR_DATA *ch, CHAR_DATA *mob, int flag_type, const char *category );
-void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can_learn, long long char_pl );
-bool has_race_skills( CHAR_DATA *ch );
-bool show_learned_hidden_skills( CHAR_DATA *ch, CHAR_DATA *mob );
 bool can_trainer_teach_hidden_skill( CHAR_DATA *mob, int sn );
 
 /* Power level functions */
@@ -5515,3 +5504,7 @@ OBJ_DATA *trvobj_wnext( TRV_WORLD * );
 /* Global lists adjusting after a node removal */
 void trworld_char_check( CHAR_DATA * );
 void trworld_obj_check( OBJ_DATA * );
+#define PRACTICE_SESSION_COST 1000
+#define PRACTICE_SESSION_GAIN_TENTHS 50
+#define PRACTICE_MAX_TENTHS 500
+
