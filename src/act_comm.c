@@ -3513,30 +3513,36 @@ void do_languages( CHAR_DATA* ch, const char* argument )
          act( AT_TELL, "$n tells you 'You may not learn a new language yet.'", sch, NULL, ch, TO_VICT );
          return;
       }
-      /*
-       * 0..16 spr = 2 pracs, 17..25 = 1 prac. -- Altrag 
-       */
-      prac = 2 - ( get_curr_int( ch ) / 17 );
-      if( ch->practice < prac )
+      /* 0..16 spr = 2 pracs, 17..25 = 1 prac. -- Legacy note retained */
+      prct = 5 + ( get_curr_int( ch ) / 6 ) + ( get_curr_wis( ch ) / 7 );
+
+      SKILL_STATE *state = &ch->pcdata->skills[sn];
+
+      if( state->lock_state == SKILL_LOCK_DOWN )
       {
-         act( AT_TELL, "$n tells you 'You do not have enough practices.'", sch, NULL, ch, TO_VICT );
+         act( AT_TELL, "$n tells you 'Set that language to RAISE or HOLD before we continue.'", sch, NULL, ch, TO_VICT );
          return;
       }
-      ch->practice -= prac;
-      /*
-       * Max 12% (5 + 4 + 3) at 24+ int and 21+ wis. -- Altrag 
-       */
-      prct = 5 + ( get_curr_int( ch ) / 6 ) + ( get_curr_wis( ch ) / 7 );
-      ch->pcdata->skills[sn].value_tenths += prct * 10;
-      ch->pcdata->skills[sn].value_tenths = UMIN( ch->pcdata->skills[sn].value_tenths, 990 );
+
+      int before = state->value_tenths;
+      int target = before + ( prct * 10 );
+      target = UMIN( target, 990 );
+
+      if( !trainer_raise_skill_to( ch, sn, target ) )
+      {
+         act( AT_TELL, "$n tells you 'You can't make progress in that language right now.'", sch, NULL, ch, TO_VICT );
+         return;
+      }
+
       SET_BIT( ch->speaks, lang_array[lang] );
-      if( ch->pcdata->skills[sn].value_tenths == prct * 10 )
+
+      if( before == 0 )
          act( AT_PLAIN, "You begin lessons in $t.", ch, lang_names[lang], NULL, TO_CHAR );
-      else if( ch->pcdata->skills[sn].value_tenths < 600 )
+      else if( state->value_tenths < 600 )
          act( AT_PLAIN, "You continue lessons in $t.", ch, lang_names[lang], NULL, TO_CHAR );
-      else if( ch->pcdata->skills[sn].value_tenths < 600 + ( prct * 10 ) )
+      else if( state->value_tenths < 600 + ( prct * 10 ) )
          act( AT_PLAIN, "You feel you can start communicating in $t.", ch, lang_names[lang], NULL, TO_CHAR );
-      else if( ch->pcdata->skills[sn].value_tenths < 990 )
+      else if( state->value_tenths < 990 )
          act( AT_PLAIN, "You become more fluent in $t.", ch, lang_names[lang], NULL, TO_CHAR );
       else
          act( AT_PLAIN, "You now speak perfect $t.", ch, lang_names[lang], NULL, TO_CHAR );

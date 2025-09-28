@@ -2005,7 +2005,14 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
    act( AT_ACTION, "$N demonstrates $t to you.  You feel more learned in this subject.", victim, skill_table[sn]->name, ch,
         TO_CHAR );
 
-   victim->pcdata->skills[sn].value_tenths = max;
+   if( victim->pcdata->skills[sn].lock_state == SKILL_LOCK_DOWN )
+   {
+      act( AT_TELL, "$n tries to teach you, but you've locked that skill down.", ch, NULL, victim, TO_VICT );
+      return;
+   }
+
+   if( max > victim->pcdata->skills[sn].value_tenths )
+      trainer_raise_skill_to( victim, sn, max );
 
    if( victim->pcdata->skills[sn].value_tenths >= adept )
    {

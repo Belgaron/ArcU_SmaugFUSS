@@ -4208,6 +4208,7 @@ DECLARE_DO_FUN( do_pounce );
 DECLARE_DO_FUN( do_powerup );
 DECLARE_DO_FUN( do_powerdown );
 DECLARE_DO_FUN( do_practice );
+DECLARE_DO_FUN( do_skill );
 DECLARE_DO_FUN( do_project );
 DECLARE_DO_FUN( do_prompt );
 DECLARE_DO_FUN( do_pset );
@@ -5092,6 +5093,7 @@ void ability_learn_from_success( CHAR_DATA * ch, int sn );  // Allow for separat
 void learn_from_failure( CHAR_DATA * ch, int sn );
 void skill_gain_success( CHAR_DATA *ch, int sn, int context_flags );
 void skill_gain_failure( CHAR_DATA *ch, int sn, int context_flags );
+bool trainer_raise_skill_to( CHAR_DATA *ch, int sn, int target_tenths );
 bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim );
 bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim );
 bool check_tumble( CHAR_DATA * ch, CHAR_DATA * victim );
