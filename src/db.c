@@ -3046,10 +3046,6 @@ void clear_char( CHAR_DATA * ch )
       ch->pcdata->cached_prof_bonus = 0;
       ch->pcdata->cached_prof_gsn = -1;
       ch->pcdata->skill_total_tenths = 0;
-      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
-      ch->pcdata->skill_gain_pool = 0;
-      ch->pcdata->skill_gain_last_attempt = 0;
-      ch->pcdata->skill_gain_last_decay = 0;
       ch->pcdata->physical_skill_meter = 0;
       ch->pcdata->mental_skill_meter = 0;
    }
