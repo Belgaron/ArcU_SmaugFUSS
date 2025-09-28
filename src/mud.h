@@ -2531,6 +2531,16 @@ struct ignore_data
 #define SKILL_LOCK_STEADY    0
 #define SKILL_LOCK_UP        1
 
+/* Context flags describing where a skill usage came from */
+#define SKILL_CONTEXT_NONE       0
+#define SKILL_CONTEXT_COMBAT     BV00
+#define SKILL_CONTEXT_CRAFT      BV01
+#define SKILL_CONTEXT_MAGIC      BV02
+#define SKILL_CONTEXT_SOCIAL     BV03
+#define SKILL_CONTEXT_STEALTH    BV04
+#define SKILL_CONTEXT_ABILITY    BV05
+#define SKILL_CONTEXT_SCRIPT     BV06
+
 #define DEFAULT_SKILL_CAP_TENTHS 7000
 #define MAX_SKILL_CAP_TENTHS     (MAX_SKILL * 1000)
 
@@ -4970,6 +4980,7 @@ void   add_skill_tenths( CHAR_DATA *ch, int sn, int delta );
 void   normalize_skill_locks( CHAR_DATA *ch );
 void   recalc_skill_totals( CHAR_DATA *ch );
 void   skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags );
+void   update_skill_meters( CHAR_DATA *ch, int skill_num, int old_level, int new_level );
 void   enhanced_dam_message_ex( CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt,
                                 OBJ_DATA *wield, long long pl_gained,
                                 hit_band_t band, avoid_t avoid_reason );
@@ -5079,6 +5090,8 @@ bool check_ability( CHAR_DATA * ch, char *command, char *argument ); // Allow fo
 void learn_from_success( CHAR_DATA * ch, int sn );
 void ability_learn_from_success( CHAR_DATA * ch, int sn );  // Allow for separate handling of abilities while learning - Kayle 7-8-07
 void learn_from_failure( CHAR_DATA * ch, int sn );
+void skill_gain_success( CHAR_DATA *ch, int sn, int context_flags );
+void skill_gain_failure( CHAR_DATA *ch, int sn, int context_flags );
 bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim );
 bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim );
 bool check_tumble( CHAR_DATA * ch, CHAR_DATA * victim );
