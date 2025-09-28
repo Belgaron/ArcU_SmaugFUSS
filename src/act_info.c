@@ -4958,7 +4958,7 @@ void do_slist( CHAR_DATA* ch, const char* argument )
    }
 
    static const char *DASHES = "------------------------------------------------------------";
-   const int BOXW = 29;
+   const int BOXW = 30;
 
    long long char_pl = get_power_level( ch );
 
@@ -5010,13 +5010,13 @@ void do_slist( CHAR_DATA* ch, const char* argument )
 
          const int learned_percent = ch->pcdata->learned[skill_idx];
 
-         char val[8];
+         char val[16];
          if( learned_percent > 0 )
          {
             int tenths = get_skill_tenths( ch, skill_idx );
             int whole = tenths / 10;
             int tenth = tenths % 10;
-            snprintf( val, sizeof(val), "%d.%d", whole, tenth );
+            snprintf( val, sizeof(val), "%d.%01d", whole, tenth );
          }
          else
             strlcpy( val, "0", sizeof(val) );
