@@ -226,6 +226,120 @@ void recalc_skill_totals( CHAR_DATA *ch )
    ch->pcdata->skill_total_tenths = total;
 }
 
+static bool apply_skill_delta( CHAR_DATA *ch, int sn, int delta, bool mark_last_used )
+{
+   if( !ch || IS_NPC( ch ) || !ch->pcdata )
+      return false;
+
+   if( sn < 0 || sn >= num_skills || !skill_table[sn] )
+      return false;
+
+   if( delta == 0 )
+      return false;
+
+   SKILL_STATE *state = &ch->pcdata->skills[sn];
+
+   if( state->lock_state == SKILL_LOCK_DOWN && delta > 0 )
+      return false;
+
+   int adept = GET_ADEPT( ch, sn );
+   if( adept <= 0 )
+      adept = 1000;
+
+   int cap = state->cap_tenths > 0 ? state->cap_tenths : 1000;
+   int max_value = UMIN( adept, cap );
+
+   if( delta > 0 && state->value_tenths >= max_value )
+      return false;
+
+   if( delta > 0 && state->value_tenths + delta > max_value )
+      delta = max_value - state->value_tenths;
+
+   if( delta == 0 )
+      return false;
+
+   if( ch->pcdata->skill_cap_tenths <= 0 )
+      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
+
+   recalc_skill_totals( ch );
+
+   int cap_total = ch->pcdata->skill_cap_tenths;
+   int total = ch->pcdata->skill_total_tenths;
+
+   if( delta > 0 && total + delta > cap_total )
+   {
+      int need = ( total + delta ) - cap_total;
+      int max_sn = UMIN( num_skills, MAX_SKILL );
+
+      while( need > 0 )
+      {
+         int candidate = -1;
+         time_t oldest = current_time;
+
+         for( int i = 0; i < max_sn; ++i )
+         {
+            if( i == sn )
+               continue;
+
+            SKILL_STATE *cand = &ch->pcdata->skills[i];
+
+            if( cand->lock_state != SKILL_LOCK_DOWN || cand->value_tenths <= 0 )
+               continue;
+
+            if( candidate == -1 || cand->last_used == 0 || cand->last_used < oldest )
+            {
+               oldest = ( cand->last_used == 0 ) ? 0 : cand->last_used;
+               candidate = i;
+            }
+         }
+
+         if( candidate == -1 )
+         {
+            delta -= need;
+            break;
+         }
+
+         SKILL_STATE *cand = &ch->pcdata->skills[candidate];
+         int drop = UMIN( need, UMIN( 10, cand->value_tenths ) );
+
+         cand->value_tenths -= drop;
+         if( cand->value_tenths < 0 )
+            cand->value_tenths = 0;
+
+         need -= drop;
+      }
+
+      recalc_skill_totals( ch );
+      total = ch->pcdata->skill_total_tenths;
+
+      if( total + delta > cap_total )
+      {
+         delta = cap_total - total;
+
+         if( delta <= 0 )
+            return false;
+      }
+   }
+
+   int old_percent = state->value_tenths / 10;
+
+   state->value_tenths = URANGE( 0, state->value_tenths + delta, max_value );
+
+   if( mark_last_used )
+      state->last_used = current_time;
+
+   int new_percent = state->value_tenths / 10;
+
+   recalc_skill_totals( ch );
+
+   ch->pcdata->skill_gain_pool = UMIN( ch->pcdata->skill_cap_tenths, ch->pcdata->skill_total_tenths );
+
+   if( new_percent > old_percent )
+      update_skill_meters( ch, sn, old_percent, new_percent );
+
+   return true;
+}
+
 void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags )
 {
    if( !ch || IS_NPC( ch ) || !ch->pcdata )
@@ -306,87 +420,7 @@ void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags 
    if( delta <= 0 )
       return;
 
-   if( ch->pcdata->skill_cap_tenths <= 0 )
-      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
-
-   recalc_skill_totals( ch );
-
-   int cap_total = ch->pcdata->skill_cap_tenths;
-   int total = ch->pcdata->skill_total_tenths;
-
-   if( total + delta > cap_total )
-   {
-      int need = ( total + delta ) - cap_total;
-      int max_sn = UMIN( num_skills, MAX_SKILL );
-
-      while( need > 0 )
-      {
-         int candidate = -1;
-         time_t oldest = current_time;
-
-         for( int i = 0; i < max_sn; ++i )
-         {
-            if( i == sn )
-               continue;
-
-            SKILL_STATE *cand = &ch->pcdata->skills[i];
-
-            if( cand->lock_state != SKILL_LOCK_DOWN || cand->value_tenths <= 0 )
-               continue;
-
-            if( candidate == -1 || cand->last_used == 0 || cand->last_used < oldest )
-            {
-               oldest = ( cand->last_used == 0 ) ? 0 : cand->last_used;
-               candidate = i;
-            }
-         }
-
-         if( candidate == -1 )
-         {
-            delta -= need;
-            break;
-         }
-
-         SKILL_STATE *cand = &ch->pcdata->skills[candidate];
-         int drop = UMIN( need, UMIN( 10, cand->value_tenths ) );
-
-         cand->value_tenths -= drop;
-         if( cand->value_tenths < 0 )
-            cand->value_tenths = 0;
-
-         need -= drop;
-      }
-
-      recalc_skill_totals( ch );
-      total = ch->pcdata->skill_total_tenths;
-
-         if( total + delta > cap_total )
-         {
-            delta = cap_total - total;
-
-            if( delta <= 0 )
-               return;
-         }
-   }
-
-   if( delta <= 0 )
-      return;
-
-   int old_percent = current / 10;
-
-   state->value_tenths += delta;
-
-   if( state->value_tenths > max_value )
-      state->value_tenths = max_value;
-
-   int new_percent = state->value_tenths / 10;
-
-   recalc_skill_totals( ch );
-
-   ch->pcdata->skill_gain_pool = UMIN( ch->pcdata->skill_cap_tenths, ch->pcdata->skill_total_tenths );
-
-   if( new_percent > old_percent )
-      update_skill_meters( ch, sn, old_percent, new_percent );
+   apply_skill_delta( ch, sn, delta, true );
 }
 
 void skill_gain_success( CHAR_DATA *ch, int sn, int context_flags )
@@ -397,6 +431,40 @@ void skill_gain_success( CHAR_DATA *ch, int sn, int context_flags )
 void skill_gain_failure( CHAR_DATA *ch, int sn, int context_flags )
 {
    skill_gain( ch, sn, 0, false, context_flags );
+}
+
+bool trainer_raise_skill_to( CHAR_DATA *ch, int sn, int target_tenths )
+{
+   if( !ch || IS_NPC( ch ) || !ch->pcdata )
+      return false;
+
+   if( sn < 0 || sn >= num_skills || !skill_table[sn] )
+      return false;
+
+   if( target_tenths < 0 )
+      target_tenths = 0;
+
+   SKILL_STATE *state = &ch->pcdata->skills[sn];
+
+   if( state->lock_state == SKILL_LOCK_DOWN )
+      return false;
+
+   int adept = GET_ADEPT( ch, sn );
+   if( adept <= 0 )
+      adept = 1000;
+
+   int cap = state->cap_tenths > 0 ? state->cap_tenths : 1000;
+   int max_value = UMIN( adept, cap );
+
+   if( target_tenths > max_value )
+      target_tenths = max_value;
+
+   if( state->value_tenths >= target_tenths )
+      return false;
+
+   int delta = target_tenths - state->value_tenths;
+
+   return apply_skill_delta( ch, sn, delta, true );
 }
 
 const char *const spell_flag[] = {

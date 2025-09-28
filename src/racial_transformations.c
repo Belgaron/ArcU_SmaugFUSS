@@ -418,10 +418,12 @@ void try_unlock_racial_transformation(CHAR_DATA *victim, CHAR_DATA *aggressor)
       do_morph_char(victim, md);
 
       /* Permanently learn the transformation skill at 25% */
-      victim->pcdata->skills[rt->skill_sn].value_tenths = UMAX(victim->pcdata->skills[rt->skill_sn].value_tenths, 250);
+      int current_value = victim->pcdata->skills[rt->skill_sn].value_tenths;
+      if( current_value < 250 )
+         trainer_raise_skill_to( victim, rt->skill_sn, 250 );
       
-      ch_printf(victim, "&CYou have learned: &W%s &Cat 25.0%% proficiency!&D\r\n",
-                skill_table[rt->skill_sn]->name);
+      ch_printf(victim, "&CYou have learned: &W%s &Cat %.1f%% proficiency!&D\r\n",
+                skill_table[rt->skill_sn]->name, victim->pcdata->skills[rt->skill_sn].value_tenths / 10.0);
       ch_printf(victim, "&GUse '&W%s&G' to activate this transformation in the future.&D\r\n", 
                 rt->skill_name);
 

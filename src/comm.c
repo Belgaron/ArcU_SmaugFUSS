@@ -3989,8 +3989,14 @@ void display_prompt( DESCRIPTOR_DATA * d )
                      strlcpy( pbuf, "S", MAX_STRING_LENGTH );
                   break;
 
-               case 't':  /* Practice points */
-                  pstat = ch->practice;
+               case 't':  /* Total skill percentage */
+                  if( !IS_NPC( ch ) && ch->pcdata )
+                  {
+                     recalc_skill_totals( ch );
+                     pstat = ch->pcdata->skill_total_tenths / 10;
+                  }
+                  else
+                     pstat = 0;
                   break;
 
                case 'T':

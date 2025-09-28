@@ -340,7 +340,15 @@ void do_score( CHAR_DATA* ch, const char* argument )
          snprintf( buf, MAX_STRING_LENGTH, "%s", "standard" );
          break;
    }
-   pager_printf( ch, "&cPRACT: &G%d&c                     &cLife: &G%-5d \r\n&D", ch->practice, ch->hit );
+   if( !IS_NPC( ch ) )
+   {
+      recalc_skill_totals( ch );
+      int skill_cap = ch->pcdata->skill_cap_tenths <= 0 ? DEFAULT_SKILL_CAP_TENTHS : ch->pcdata->skill_cap_tenths;
+      pager_printf( ch, "&cSKILL: &G%5.1f/%-5.1f&c             &cLife: &G%-5d \r\n&D",
+                    ch->pcdata->skill_total_tenths / 10.0, skill_cap / 10.0, ch->hit );
+   }
+   else
+      pager_printf( ch, "&cSKILL: &G----&c             &cLife: &G%-5d \r\n&D", ch->hit );
 
    pager_printf( ch, "&OGOLD : %-13s&c         &cMana: &C%d/%d&C&D \r\n", 
 				 num_punct( ch->gold ), ch->mana, ch->max_mana  );
