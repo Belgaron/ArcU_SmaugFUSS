@@ -1084,8 +1084,11 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
    }
 
    /*
-    * Rebuild affected_by and RIS to catch errors - FB 
+    * Rebuild affected_by and RIS to catch errors - FB
     */
+   if( !IS_NPC( ch ) && ch->pcdata )
+      migrate_legacy_skill_data( ch );
+
    update_aris( ch );
    loading_char = NULL;
    return found;

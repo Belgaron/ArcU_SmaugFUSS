@@ -4980,6 +4980,8 @@ double get_skill( CHAR_DATA *ch, int sn );
 void   add_skill_tenths( CHAR_DATA *ch, int sn, int delta );
 void   normalize_skill_locks( CHAR_DATA *ch );
 void   recalc_skill_totals( CHAR_DATA *ch );
+void   enforce_skill_total_cap( CHAR_DATA *ch );
+void   migrate_legacy_skill_data( CHAR_DATA *ch );
 void   skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags );
 void   update_skill_meters( CHAR_DATA *ch, int skill_num, int old_level, int new_level );
 void   enhanced_dam_message_ex( CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt,
