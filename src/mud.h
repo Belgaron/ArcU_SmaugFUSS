@@ -2527,11 +2527,18 @@ struct ignore_data
 /*
  * Data which only PC's have.
  */
+#define SKILL_LOCK_DOWN     -1
+#define SKILL_LOCK_STEADY    0
+#define SKILL_LOCK_UP        1
+
+#define DEFAULT_SKILL_CAP_TENTHS 7000
+#define MAX_SKILL_CAP_TENTHS     (MAX_SKILL * 1000)
+
 typedef struct skill_state
 {
    short value_tenths;   /* Stored skill value in tenths of a percent */
    short cap_tenths;     /* Maximum attainable value in tenths */
-   signed char lock_state; /* Placeholder for lock status (unused yet) */
+   signed char lock_state; /* See SKILL_LOCK_* constants */
    time_t last_used;     /* Timestamp of last use */
 } SKILL_STATE;
 
@@ -2577,6 +2584,13 @@ struct pc_data
    short min_snoop;  								/* minimum snoop level */
    short condition[MAX_CONDS];
    SKILL_STATE skills[MAX_SKILL];
+   int skill_total_tenths;
+   int skill_cap_tenths;
+   int skill_gain_pool;
+   time_t skill_gain_last_attempt;
+   time_t skill_gain_last_decay;
+   int physical_skill_meter;
+   int mental_skill_meter;
    unsigned int cyber; 								/* bitmask of installed cybernetics (CYBER_*) */
    short quest_number;  							/* current *QUEST BEING DONE* DON'T REMOVE! */
    short quest_curr; 								/* current number of quest points */
@@ -4953,6 +4967,8 @@ avoid_t avoid_reason_from_stance( CHAR_DATA *victim, int atk_type );
 int    get_skill_tenths( CHAR_DATA *ch, int sn );
 double get_skill( CHAR_DATA *ch, int sn );
 void   add_skill_tenths( CHAR_DATA *ch, int sn, int delta );
+void   normalize_skill_locks( CHAR_DATA *ch );
+void   recalc_skill_totals( CHAR_DATA *ch );
 void   skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags );
 void   enhanced_dam_message_ex( CHAR_DATA *ch, CHAR_DATA *victim, int dam, unsigned int dt,
                                 OBJ_DATA *wield, long long pl_gained,
