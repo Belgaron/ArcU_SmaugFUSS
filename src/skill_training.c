@@ -121,34 +121,38 @@ void update_skill_meters(CHAR_DATA *ch, int skill_num, int old_level, int new_le
     if(IS_NPC(ch) || !ch->pcdata || new_level <= old_level) 
         return;
     
+    bool needs_save = FALSE;
+
     /* Process each skill point gained individually */
     for(int level = old_level + 1; level <= new_level; level++) {
-        
+
         /* Check if physical skill */
         if(is_physical_skill(skill_num)) {
             int meter_gain = get_physical_meter_gain(level);
             ch->pcdata->physical_skill_meter += meter_gain;
-            
+            needs_save = TRUE;
+
             /* Check if meter filled (100% = 100 points) */
             while(ch->pcdata->physical_skill_meter >= 100) {
                 /* Award HP and reset meter */
                 int hp_bonus = number_range(6, 12); /* 6-12 HP */
                 ch->max_hit += hp_bonus;
                 ch->hit += hp_bonus; /* Also heal them */
-                
+
                 ch_printf(ch, "&RYour physical conditioning improves! You gain %d hit points!&x\r\n", hp_bonus);
-                
+
                 /* Reset meter, keep overflow */
                 ch->pcdata->physical_skill_meter -= 100;
-                save_char_obj(ch);
+                needs_save = TRUE;
             }
         }
-        
+
         /* Check if mental skill */
         else if(is_mental_skill(skill_num)) {
             int meter_gain = get_mental_meter_gain(level);
             ch->pcdata->mental_skill_meter += meter_gain;
-            
+            needs_save = TRUE;
+
             /* Check if meter filled */
             while(ch->pcdata->mental_skill_meter >= 100) {
                 /* Award Mana and reset meter */
@@ -157,15 +161,18 @@ void update_skill_meters(CHAR_DATA *ch, int skill_num, int old_level, int new_le
                 ch->mana += mana_bonus; /* Also restore mana */
                 
                 ch_printf(ch, "&BYour mental focus deepens! You gain %d mana points!&x\r\n", mana_bonus);
-                
+
                 /* Reset meter, keep overflow */
                 ch->pcdata->mental_skill_meter -= 100;
-                save_char_obj(ch);
+                needs_save = TRUE;
             }
         }
-        
+
         /* Note: Language and utility skills give no meter progress */
     }
+
+    if(needs_save)
+        save_char_obj(ch);
 }
 
 
