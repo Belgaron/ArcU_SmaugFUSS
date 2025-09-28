@@ -2012,13 +2012,21 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
    }
 
    if( max > victim->pcdata->skills[sn].value_tenths )
-      trainer_raise_skill_to( victim, sn, max );
-
-   if( victim->pcdata->skills[sn].value_tenths >= adept )
    {
-      victim->pcdata->skills[sn].value_tenths = adept;
-      act( AT_TELL, "$n tells you, 'You have learned all I know on this subject...'", ch, NULL, victim, TO_VICT );
+      int target = max;
+
+      if( !IS_IMMORTAL( victim ) && adept > 0 )
+         target = UMIN( target, adept );
+
+      if( !trainer_raise_skill_to( victim, sn, target ) )
+      {
+         act( AT_TELL, "$n tries to teach you, but you're unable to make further progress right now.", ch, NULL, victim, TO_VICT );
+         return;
+      }
    }
+
+   if( adept > 0 && victim->pcdata->skills[sn].value_tenths >= adept )
+      act( AT_TELL, "$n tells you, 'You have learned all I know on this subject...'", ch, NULL, victim, TO_VICT );
 }
 
 void do_mpstrew( CHAR_DATA* ch, const char* argument )
