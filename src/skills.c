@@ -1985,20 +1985,29 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          send_to_char( "Ok.\r\n", ch );
          return;
       }
+
+      if( !str_cmp( arg2, "focus" ) )
+      {
+         if( arg1[0] == 'h' )
+         {
+            send_to_char( "Focus cost is only applicable to skills.\r\n", ch );
+            return;
+         }
+
+         if( sn < 0 || sn >= num_skills || !skill )
+         {
+            send_to_char( "Skill number out of range.\r\n", ch );
+            return;
+         }
+
+         skill->focus_cost = URANGE( 0, atoi( argument ), 1000 );
+         send_to_char( "Ok.\r\n", ch );
+         return;
+      }
       do_sset( ch, "" );
       return;
    }
    
-   // In the skill setting command, add support for "focus" field:
-   if( !str_cmp( arg2, "focus" ) )
-   {
-	  skill = skill_table[sn];
-      skill = skill_table[sn];  // Initialize skill variable
-      skill->focus_cost = URANGE( 0, atoi( argument ), 1000 );
-      send_to_char( "Ok.\r\n", ch );
-      return;
-   }
-
    if( !( victim = get_char_world( ch, arg1 ) ) )
    {
       if( ( sn = skill_lookup( arg1 ) ) >= 0 )
