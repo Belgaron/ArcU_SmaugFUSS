@@ -3804,6 +3804,8 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
    ch_printf( ch, "&WYou pay &Y%d gold&W and advance to &Y%.1f&W in &Y%s&W.\r\n",
               PRACTICE_SESSION_COST, state->value_tenths / 10.0, skill->name );
 
+   save_char_obj( ch );
+
    if( state->value_tenths >= practice_cap )
    {
       if( practice_cap >= PRACTICE_MAX_TENTHS )

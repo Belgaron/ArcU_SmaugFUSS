@@ -2048,6 +2048,8 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
    ch_printf( victim, "&WYou pay &Y%d gold&W and advance to &Y%.1f&W in &Y%s&W.\r\n",
               PRACTICE_SESSION_COST, victim->pcdata->skills[sn].value_tenths / 10.0, skill_table[sn]->name );
 
+   save_char_obj( victim );
+
    if( adept > 0 && victim->pcdata->skills[sn].value_tenths >= adept )
       act( AT_TELL, "$n tells you, 'You have learned all I know on this subject...'", ch, NULL, victim, TO_VICT );
 }
