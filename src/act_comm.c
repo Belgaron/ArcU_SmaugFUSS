@@ -3518,12 +3518,6 @@ void do_languages( CHAR_DATA* ch, const char* argument )
 
       SKILL_STATE *state = &ch->pcdata->skills[sn];
 
-      if( state->lock_state == SKILL_LOCK_DOWN )
-      {
-         act( AT_TELL, "$n tells you 'Set that language to RAISE or HOLD before we continue.'", sch, NULL, ch, TO_VICT );
-         return;
-      }
-
       int before = state->value_tenths;
       int target = before + ( prct * 10 );
       target = UMIN( target, 990 );

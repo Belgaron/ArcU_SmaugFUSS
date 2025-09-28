@@ -97,11 +97,6 @@ static bool parse_sset_tenths( const char *arg, int *out_tenths )
    return parse_sset_tenths_with_limit( arg, out_tenths, 1000 );
 }
 
-static bool parse_sset_cap_tenths( const char *arg, int *out_tenths )
-{
-   return parse_sset_tenths_with_limit( arg, out_tenths, MAX_SKILL_CAP_TENTHS );
-}
-
 /*
  * Unified skill accessors (values stored as tenths of a percent).
  * NPCs currently treat learned skills as a flat 80% (800 tenths).
@@ -181,16 +176,6 @@ void normalize_skill_locks( CHAR_DATA *ch )
 
    int max_sn = UMIN( num_skills, MAX_SKILL );
 
-   if( ch->pcdata->skill_cap_tenths <= 0 )
-      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
-   else if( ch->pcdata->skill_cap_tenths > MAX_SKILL_CAP_TENTHS )
-      ch->pcdata->skill_cap_tenths = MAX_SKILL_CAP_TENTHS;
-
-   if( ch->pcdata->skill_gain_pool < 0 )
-      ch->pcdata->skill_gain_pool = 0;
-   else if( ch->pcdata->skill_gain_pool > ch->pcdata->skill_cap_tenths )
-      ch->pcdata->skill_gain_pool = ch->pcdata->skill_cap_tenths;
-
    if( ch->pcdata->physical_skill_meter < 0 )
       ch->pcdata->physical_skill_meter = 0;
    if( ch->pcdata->mental_skill_meter < 0 )
@@ -209,9 +194,6 @@ void normalize_skill_locks( CHAR_DATA *ch )
          state->value_tenths = 0;
       else if( state->value_tenths > state->cap_tenths )
          state->value_tenths = state->cap_tenths;
-
-      if( state->lock_state < SKILL_LOCK_DOWN || state->lock_state > SKILL_LOCK_UP )
-         state->lock_state = SKILL_LOCK_STEADY;
    }
 }
 
@@ -220,26 +202,16 @@ void recalc_skill_totals( CHAR_DATA *ch )
    if( !ch || IS_NPC( ch ) || !ch->pcdata )
       return;
 
-   if( ch->pcdata->skill_cap_tenths <= 0 )
-      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
-
    int max_sn = UMIN( num_skills, MAX_SKILL );
-   int total = 0;
+   long long total = 0;
 
    for( int sn = 0; sn < max_sn; ++sn )
-   {
       total += ch->pcdata->skills[sn].value_tenths;
-      if( total >= MAX_SKILL_CAP_TENTHS )
-      {
-         total = MAX_SKILL_CAP_TENTHS;
-         break;
-      }
-   }
 
-   if( total > ch->pcdata->skill_cap_tenths )
-      total = ch->pcdata->skill_cap_tenths;
+   if( total > (long long)MAX_SKILL * 1000 )
+      total = (long long)MAX_SKILL * 1000;
 
-   ch->pcdata->skill_total_tenths = total;
+   ch->pcdata->skill_total_tenths = (int)total;
 }
 
 static bool apply_skill_delta( CHAR_DATA *ch, int sn, int delta, bool mark_last_used )
@@ -254,9 +226,6 @@ static bool apply_skill_delta( CHAR_DATA *ch, int sn, int delta, bool mark_last_
       return false;
 
    SKILL_STATE *state = &ch->pcdata->skills[sn];
-
-   if( state->lock_state == SKILL_LOCK_DOWN && delta > 0 )
-      return false;
 
    int adept = GET_ADEPT( ch, sn );
    if( adept <= 0 )
@@ -274,69 +243,6 @@ static bool apply_skill_delta( CHAR_DATA *ch, int sn, int delta, bool mark_last_
    if( delta == 0 )
       return false;
 
-   if( ch->pcdata->skill_cap_tenths <= 0 )
-      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
-
-   recalc_skill_totals( ch );
-
-   int cap_total = ch->pcdata->skill_cap_tenths;
-   int total = ch->pcdata->skill_total_tenths;
-
-   if( delta > 0 && total + delta > cap_total )
-   {
-      int need = ( total + delta ) - cap_total;
-      int max_sn = UMIN( num_skills, MAX_SKILL );
-
-      while( need > 0 )
-      {
-         int candidate = -1;
-         time_t oldest = current_time;
-
-         for( int i = 0; i < max_sn; ++i )
-         {
-            if( i == sn )
-               continue;
-
-            SKILL_STATE *cand = &ch->pcdata->skills[i];
-
-            if( cand->lock_state != SKILL_LOCK_DOWN || cand->value_tenths <= 0 )
-               continue;
-
-            if( candidate == -1 || cand->last_used == 0 || cand->last_used < oldest )
-            {
-               oldest = ( cand->last_used == 0 ) ? 0 : cand->last_used;
-               candidate = i;
-            }
-         }
-
-         if( candidate == -1 )
-         {
-            delta -= need;
-            break;
-         }
-
-         SKILL_STATE *cand = &ch->pcdata->skills[candidate];
-         int drop = UMIN( need, UMIN( 10, cand->value_tenths ) );
-
-         cand->value_tenths -= drop;
-         if( cand->value_tenths < 0 )
-            cand->value_tenths = 0;
-
-         need -= drop;
-      }
-
-      recalc_skill_totals( ch );
-      total = ch->pcdata->skill_total_tenths;
-
-      if( total + delta > cap_total )
-      {
-         delta = cap_total - total;
-
-         if( delta <= 0 )
-            return false;
-      }
-   }
-
    int old_percent = state->value_tenths / 10;
 
    state->value_tenths = URANGE( 0, state->value_tenths + delta, max_value );
@@ -348,120 +254,10 @@ static bool apply_skill_delta( CHAR_DATA *ch, int sn, int delta, bool mark_last_
 
    recalc_skill_totals( ch );
 
-   ch->pcdata->skill_gain_pool = UMIN( ch->pcdata->skill_cap_tenths, ch->pcdata->skill_total_tenths );
-
    if( new_percent > old_percent )
       update_skill_meters( ch, sn, old_percent, new_percent );
 
    return true;
-}
-
-static int sum_skill_values( CHAR_DATA *ch )
-{
-   if( !ch || IS_NPC( ch ) || !ch->pcdata )
-      return 0;
-
-   int max_sn = UMIN( num_skills, MAX_SKILL );
-   int total = 0;
-
-   for( int sn = 0; sn < max_sn; ++sn )
-   {
-      if( sn >= num_skills || !skill_table[sn] )
-         continue;
-
-      total += ch->pcdata->skills[sn].value_tenths;
-      if( total >= MAX_SKILL_CAP_TENTHS )
-      {
-         total = MAX_SKILL_CAP_TENTHS;
-         break;
-      }
-   }
-
-   return total;
-}
-
-static int find_highest_skill_with_lock( CHAR_DATA *ch, int desired_lock )
-{
-   if( !ch || IS_NPC( ch ) || !ch->pcdata )
-      return -1;
-
-   int max_sn = UMIN( num_skills, MAX_SKILL );
-   int candidate = -1;
-   int best_value = -1;
-
-   for( int sn = 0; sn < max_sn; ++sn )
-   {
-      if( sn >= num_skills || !skill_table[sn] )
-         continue;
-
-      SKILL_STATE *state = &ch->pcdata->skills[sn];
-
-      if( state->value_tenths <= 0 )
-         continue;
-
-      if( desired_lock >= SKILL_LOCK_DOWN && desired_lock <= SKILL_LOCK_UP )
-      {
-         if( state->lock_state != desired_lock )
-            continue;
-      }
-
-      if( candidate == -1 || state->value_tenths > best_value )
-      {
-         candidate = sn;
-         best_value = state->value_tenths;
-      }
-   }
-
-   return candidate;
-}
-
-void enforce_skill_total_cap( CHAR_DATA *ch )
-{
-   if( !ch || IS_NPC( ch ) || !ch->pcdata )
-      return;
-
-   normalize_skill_locks( ch );
-
-   if( ch->pcdata->skill_cap_tenths <= 0 )
-      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
-   else if( ch->pcdata->skill_cap_tenths > MAX_SKILL_CAP_TENTHS )
-      ch->pcdata->skill_cap_tenths = MAX_SKILL_CAP_TENTHS;
-
-   int cap_total = ch->pcdata->skill_cap_tenths;
-   int actual_total = sum_skill_values( ch );
-
-   if( actual_total > cap_total )
-   {
-      int excess = actual_total - cap_total;
-
-      while( excess > 0 )
-      {
-         int candidate = find_highest_skill_with_lock( ch, SKILL_LOCK_DOWN );
-
-         if( candidate == -1 )
-            candidate = find_highest_skill_with_lock( ch, SKILL_LOCK_STEADY );
-
-         if( candidate == -1 )
-            candidate = find_highest_skill_with_lock( ch, SKILL_LOCK_UP + 1 );
-
-         if( candidate == -1 )
-            break;
-
-         SKILL_STATE *state = &ch->pcdata->skills[candidate];
-         int drop = UMIN( excess, state->value_tenths );
-
-         if( drop <= 0 )
-            break;
-
-         if( !apply_skill_delta( ch, candidate, -drop, false ) )
-            break;
-
-         excess -= drop;
-      }
-   }
-
-   recalc_skill_totals( ch );
-   ch->pcdata->skill_gain_pool = UMIN( ch->pcdata->skill_cap_tenths, ch->pcdata->skill_total_tenths );
 }
 
 void migrate_legacy_skill_data( CHAR_DATA *ch )
@@ -475,7 +271,8 @@ void migrate_legacy_skill_data( CHAR_DATA *ch )
    if( ch->pcdata->mental_skill_meter < 0 )
       ch->pcdata->mental_skill_meter = 0;
 
-   enforce_skill_total_cap( ch );
+   normalize_skill_locks( ch );
+   recalc_skill_totals( ch );
 }
 
 void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags )
@@ -491,12 +288,7 @@ void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags 
    if( state->value_tenths <= 0 )
       return;
 
-   ch->pcdata->skill_gain_last_attempt = current_time;
-
    state->last_used = current_time;
-
-   if( state->lock_state == SKILL_LOCK_DOWN )
-      return;
 
    int resolved_context = context_flags;
    int inferred = infer_skill_context( sn );
@@ -542,8 +334,6 @@ void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags 
    if( resolved_context & SKILL_CONTEXT_ABILITY )
       base_chance -= 3;
 
-   if( state->lock_state == SKILL_LOCK_UP )
-      base_chance += 5;
 
    base_chance = URANGE( 5, base_chance, 95 );
 
@@ -583,9 +373,6 @@ bool trainer_raise_skill_to( CHAR_DATA *ch, int sn, int target_tenths )
       target_tenths = 0;
 
    SKILL_STATE *state = &ch->pcdata->skills[sn];
-
-   if( state->lock_state == SKILL_LOCK_DOWN )
-      return false;
 
    int adept = GET_ADEPT( ch, sn );
    if( adept <= 0 )
@@ -2579,19 +2366,14 @@ void do_sset( CHAR_DATA* ch, const char* argument )
     * Snarf the value.
     */
    int cap_tenths = -1;
-   int lock_state = SKILL_LOCK_STEADY;
-   int skill_cap_tenths = -1;
    bool cap_set = false;
-   bool lock_set = false;
-   bool skill_cap_set = false;
-   bool adjustment_failed = false;
    char value_buf[MAX_INPUT_LENGTH];
 
    argument = one_argument( argument, value_buf );
 
    if( value_buf[0] == '\0' || !parse_sset_tenths( value_buf, &value_tenths ) )
    {
-      send_to_char( "Usage: sset <char> <skill|all> <value> [cap=<value>] [lock=<state>] [skillcap=<value>]\r\n", ch );
+      send_to_char( "Usage: sset <char> <skill|all> <value> [cap=<value>]\r\n", ch );
       return;
    }
 
@@ -2624,38 +2406,11 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          }
          cap_set = true;
       }
-      else if( !str_prefix( opt, "lock=" ) )
-      {
-         const char *lock_str = strchr( opt, '=' );
-         if( !lock_str || lock_str[1] == '\0' )
-         {
-            send_to_char( "Invalid lock value.\r\n", ch );
-            return;
-         }
-         lock_state = atoi( lock_str + 1 );
-         lock_set = true;
-      }
-      else if( !str_prefix( opt, "skillcap=" ) )
-      {
-         const char *cap_str = strchr( opt, '=' );
-         if( !cap_str || !parse_sset_cap_tenths( cap_str + 1, &skill_cap_tenths ) )
-         {
-            send_to_char( "Invalid global skill cap value.\r\n", ch );
-            return;
-         }
-         skill_cap_set = true;
-      }
       else
       {
          ch_printf( ch, "Unknown modifier '%s'.\r\n", opt );
          return;
       }
-   }
-
-   if( skill_cap_set && ( skill_cap_tenths < 0 || skill_cap_tenths > MAX_SKILL_CAP_TENTHS ) )
-   {
-      send_to_char( "Skill cap must be between 0 and the global maximum.\r\n", ch );
-      return;
    }
 
    if( fAll )
@@ -2690,12 +2445,8 @@ void do_sset( CHAR_DATA* ch, const char* argument )
 
             if( delta != 0 )
             {
-               if( !apply_skill_delta( victim, sn, delta, false ) )
-                  adjustment_failed = true;
+               apply_skill_delta( victim, sn, delta, false );
             }
-
-            if( lock_set )
-               state->lock_state = lock_state;
          }
       }
    }
@@ -2726,23 +2477,11 @@ void do_sset( CHAR_DATA* ch, const char* argument )
       int delta = final_value - state->value_tenths;
 
       if( delta != 0 )
-      {
-         if( !apply_skill_delta( victim, sn, delta, false ) )
-            adjustment_failed = true;
-      }
-
-      if( lock_set )
-         state->lock_state = lock_state;
+         apply_skill_delta( victim, sn, delta, false );
    }
 
-   if( skill_cap_set )
-      victim->pcdata->skill_cap_tenths = skill_cap_tenths;
-
    normalize_skill_locks( victim );
-   enforce_skill_total_cap( victim );
-
-   if( adjustment_failed )
-      send_to_char( "Some skill values were limited by the global cap or lock settings.\r\n", ch );
+   recalc_skill_totals( victim );
 }
 
 /*

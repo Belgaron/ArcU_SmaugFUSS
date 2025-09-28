@@ -132,7 +132,7 @@ void update_skill_meters(CHAR_DATA *ch, int skill_num, int old_level, int new_le
             /* Check if meter filled (100% = 100 points) */
             while(ch->pcdata->physical_skill_meter >= 100) {
                 /* Award HP and reset meter */
-                int hp_bonus = 10 + (ch->pcdata->physical_skill_meter / 50); /* 10-12 HP */
+                int hp_bonus = number_range(6, 12); /* 6-12 HP */
                 ch->max_hit += hp_bonus;
                 ch->hit += hp_bonus; /* Also heal them */
                 
@@ -152,7 +152,7 @@ void update_skill_meters(CHAR_DATA *ch, int skill_num, int old_level, int new_le
             /* Check if meter filled */
             while(ch->pcdata->mental_skill_meter >= 100) {
                 /* Award Mana and reset meter */
-                int mana_bonus = 5 + (ch->pcdata->mental_skill_meter / 50); /* 5-7 mana */
+                int mana_bonus = number_range(2, 8); /* 2-8 mana */
                 ch->max_mana += mana_bonus;
                 ch->mana += mana_bonus; /* Also restore mana */
                 

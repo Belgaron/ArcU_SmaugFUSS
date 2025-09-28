@@ -3620,19 +3620,6 @@ void do_practice( CHAR_DATA* ch, const char* argument )
    }
 }
 
-static const char *skill_lock_label( int lock_state )
-{
-   switch( lock_state )
-   {
-      case SKILL_LOCK_UP:
-         return "Raise";
-      case SKILL_LOCK_DOWN:
-         return "Down";
-      default:
-         return "Hold";
-   }
-}
-
 /*
  * Show the list of skills available for practice
  */
@@ -3775,12 +3762,6 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
 
    SKILL_STATE *state = &ch->pcdata->skills[sn];
 
-   if( state->lock_state == SKILL_LOCK_DOWN )
-   {
-      act( AT_TELL, "$n tells you 'Set that skill to RAISE or HOLD before I can help you.'", mob, NULL, ch, TO_VICT );
-      return;
-   }
-
    int adept = get_skill_adept( ch, sn );
    int practice_cap = UMIN( PRACTICE_MAX_TENTHS, adept );
 
@@ -3834,61 +3815,17 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
 
 void do_skill( CHAR_DATA *ch, const char *argument )
 {
-   char arg[MAX_INPUT_LENGTH];
-   char arg2[MAX_INPUT_LENGTH];
-   char arg3[MAX_INPUT_LENGTH];
-
    if( IS_NPC( ch ) )
       return;
 
-   argument = one_argument( argument, arg );
-
-   if( arg[0] == '\0' )
+   if( argument[0] == '\0' )
    {
       show_practice_list( ch, NULL );
       return;
    }
 
-   if( !str_cmp( arg, "lock" ) )
-   {
-      argument = one_argument( argument, arg2 );
-      argument = one_argument( argument, arg3 );
-
-      if( arg2[0] == '\0' || arg3[0] == '\0' )
-      {
-         send_to_char( "Usage: skill lock <skill> <up|down|hold>\\r\\n", ch );
-         return;
-      }
-
-      int sn = skill_lookup( arg2 );
-
-      if( sn < 0 || sn >= num_skills || !skill_table[sn] )
-      {
-         send_to_char( "That skill isn't recognized.\\r\\n", ch );
-         return;
-      }
-
-      signed char new_state;
-
-      if( !str_prefix( arg3, "up" ) || !str_prefix( arg3, "raise" ) )
-         new_state = SKILL_LOCK_UP;
-      else if( !str_prefix( arg3, "down" ) )
-         new_state = SKILL_LOCK_DOWN;
-      else if( !str_prefix( arg3, "hold" ) || !str_prefix( arg3, "lock" ) || !str_prefix( arg3, "steady" ) )
-         new_state = SKILL_LOCK_STEADY;
-      else
-      {
-         send_to_char( "Valid states are up, down, or hold.\\r\\n", ch );
-         return;
-      }
-
-      ch->pcdata->skills[sn].lock_state = new_state;
-      ch_printf( ch, "Skill &W%s&D lock set to &W%s&D.\\r\\n", skill_table[sn]->name, skill_lock_label( new_state ) );
-      return;
-   }
-
-   send_to_char( "Usage: skill\\r\\n", ch );
-   send_to_char( "       skill lock <skill> <up|down|hold>\\r\\n", ch );
+   send_to_char( "Usage: skill\r\n", ch );
+   send_to_char( "       Use the practice command with a trainer to advance specific skills.\r\n", ch );
 }
 
 

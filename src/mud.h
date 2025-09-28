@@ -2521,10 +2521,6 @@ struct ignore_data
 /*
  * Data which only PC's have.
  */
-#define SKILL_LOCK_DOWN     -1
-#define SKILL_LOCK_STEADY    0
-#define SKILL_LOCK_UP        1
-
 /* Context flags describing where a skill usage came from */
 #define SKILL_CONTEXT_NONE       0
 #define SKILL_CONTEXT_COMBAT     BV00
@@ -2535,14 +2531,10 @@ struct ignore_data
 #define SKILL_CONTEXT_ABILITY    BV05
 #define SKILL_CONTEXT_SCRIPT     BV06
 
-#define DEFAULT_SKILL_CAP_TENTHS 7000
-#define MAX_SKILL_CAP_TENTHS     (MAX_SKILL * 1000)
-
 typedef struct skill_state
 {
    short value_tenths;   /* Stored skill value in tenths of a percent */
    short cap_tenths;     /* Maximum attainable value in tenths */
-   signed char lock_state; /* See SKILL_LOCK_* constants */
    time_t last_used;     /* Timestamp of last use */
 } SKILL_STATE;
 
@@ -2589,10 +2581,6 @@ struct pc_data
    short condition[MAX_CONDS];
    SKILL_STATE skills[MAX_SKILL];
    int skill_total_tenths;
-   int skill_cap_tenths;
-   int skill_gain_pool;
-   time_t skill_gain_last_attempt;
-   time_t skill_gain_last_decay;
    int physical_skill_meter;
    int mental_skill_meter;
    unsigned int cyber; 								/* bitmask of installed cybernetics (CYBER_*) */
@@ -4969,7 +4957,6 @@ double get_skill( CHAR_DATA *ch, int sn );
 void   add_skill_tenths( CHAR_DATA *ch, int sn, int delta );
 void   normalize_skill_locks( CHAR_DATA *ch );
 void   recalc_skill_totals( CHAR_DATA *ch );
-void   enforce_skill_total_cap( CHAR_DATA *ch );
 void   migrate_legacy_skill_data( CHAR_DATA *ch );
 void   skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags );
 void   update_skill_meters( CHAR_DATA *ch, int skill_num, int old_level, int new_level );
