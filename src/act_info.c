@@ -17,6 +17,7 @@
 
 #include <ctype.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <sys/stat.h>
@@ -3765,7 +3766,7 @@ void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can
    // Color code based on availability
    if( !can_learn && skill->min_power_level > char_pl )
       set_pager_color( AT_DGREY, ch );    // Too low power level
-   else if( ch->pcdata->learned[sn] >= adept )
+   else if( ch->pcdata->learned[sn] >= adept * 10 )
       set_pager_color( AT_GREEN, ch );    // Mastered
    else if( ch->pcdata->learned[sn] > 0 )
       set_pager_color( AT_YELLOW, ch );   // Partially learned
@@ -3778,7 +3779,8 @@ void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can
    // Current skill percentage
    if( ch->pcdata->learned[sn] > 0 )
    {
-      pager_printf( ch, " %3d%%", ch->pcdata->learned[sn] );
+      int val = ch->pcdata->learned[sn];            // e.g. 755 means 75.5
+      pager_printf( ch, " %3d.%1d", val / 10, abs( val ) % 10 );
    }
    else
    {
@@ -3806,7 +3808,7 @@ void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can
       set_pager_color( AT_RED, ch );
       pager_printf( ch, " (Need More Power)" );
    }
-   else if( ch->pcdata->learned[sn] >= adept )
+   else if( ch->pcdata->learned[sn] >= adept * 10 )
    {
       set_pager_color( AT_GREEN, ch );
       pager_printf( ch, " (Mastered)" );
