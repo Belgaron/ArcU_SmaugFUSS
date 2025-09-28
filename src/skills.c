@@ -109,6 +109,36 @@ double get_skill( CHAR_DATA *ch, int sn )
    return get_skill_tenths( ch, sn ) / 10.0;
 }
 
+static int infer_skill_context( int sn )
+{
+   if( sn < 0 || sn >= num_skills || !skill_table[sn] )
+      return SKILL_CONTEXT_NONE;
+
+   const struct skill_type *skill = skill_table[sn];
+
+   switch( skill->type )
+   {
+      case SKILL_SPELL:
+         return SKILL_CONTEXT_MAGIC;
+      case SKILL_WEAPON:
+         return SKILL_CONTEXT_COMBAT;
+      case SKILL_TONGUE:
+         return SKILL_CONTEXT_SOCIAL;
+      case SKILL_RACIAL:
+         return SKILL_CONTEXT_ABILITY;
+      case SKILL_SKILL:
+         if( skill->target == TAR_OBJ_INV )
+            return SKILL_CONTEXT_CRAFT;
+         if( skill->target == TAR_CHAR_OFFENSIVE || skill->target == TAR_CHAR_DEFENSIVE )
+            return SKILL_CONTEXT_COMBAT;
+         return SKILL_CONTEXT_STEALTH;
+      default:
+         break;
+   }
+
+   return SKILL_CONTEXT_NONE;
+}
+
 void add_skill_tenths( CHAR_DATA *ch, int sn, int delta )
 {
    if( !ch || sn < 0 || sn >= num_skills )
@@ -198,12 +228,175 @@ void recalc_skill_totals( CHAR_DATA *ch )
 
 void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags )
 {
-   (void)ch;
-   (void)sn;
-   (void)DR;
-   (void)success;
-   (void)context_flags;
-   /* TODO: Implement new mastery progression. */
+   if( !ch || IS_NPC( ch ) || !ch->pcdata )
+      return;
+
+   if( sn < 0 || sn >= num_skills || !skill_table[sn] )
+      return;
+
+   SKILL_STATE *state = &ch->pcdata->skills[sn];
+
+   if( state->value_tenths <= 0 )
+      return;
+
+   ch->pcdata->skill_gain_last_attempt = current_time;
+
+   state->last_used = current_time;
+
+   if( state->lock_state == SKILL_LOCK_DOWN )
+      return;
+
+   int resolved_context = context_flags;
+   int inferred = infer_skill_context( sn );
+   if( resolved_context )
+      resolved_context |= inferred;
+   else
+      resolved_context = inferred;
+
+   int adept = GET_ADEPT( ch, sn );
+   if( adept <= 0 )
+      adept = 1000;
+
+   int cap = state->cap_tenths > 0 ? state->cap_tenths : 1000;
+   int max_value = UMIN( cap, adept );
+
+   if( state->value_tenths >= max_value )
+      return;
+
+   int current = state->value_tenths;
+   int current_percent = current / 10;
+   int difficulty = skill_table[sn]->difficulty;
+
+   int base_chance = 35;
+   base_chance -= current_percent / 2;
+   base_chance -= difficulty * 2;
+   if( success )
+      base_chance += 10;
+   else
+      base_chance -= 5;
+
+   base_chance -= URANGE( -20, DR, 40 );
+
+   if( resolved_context & SKILL_CONTEXT_CRAFT )
+      base_chance += 3;
+   if( resolved_context & SKILL_CONTEXT_MAGIC )
+      base_chance -= 2;
+   if( resolved_context & SKILL_CONTEXT_SOCIAL )
+      base_chance += 2;
+   if( resolved_context & SKILL_CONTEXT_STEALTH )
+      base_chance += 1;
+   if( resolved_context & SKILL_CONTEXT_COMBAT )
+      base_chance += 0;
+   if( resolved_context & SKILL_CONTEXT_ABILITY )
+      base_chance -= 3;
+
+   if( state->lock_state == SKILL_LOCK_UP )
+      base_chance += 5;
+
+   base_chance = URANGE( 5, base_chance, 95 );
+
+   if( number_percent(  ) > base_chance )
+      return;
+
+   int delta = success ? 10 : 5;
+
+   if( current + delta > max_value )
+      delta = max_value - current;
+
+   if( delta <= 0 )
+      return;
+
+   if( ch->pcdata->skill_cap_tenths <= 0 )
+      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
+
+   recalc_skill_totals( ch );
+
+   int cap_total = ch->pcdata->skill_cap_tenths;
+   int total = ch->pcdata->skill_total_tenths;
+
+   if( total + delta > cap_total )
+   {
+      int need = ( total + delta ) - cap_total;
+      int max_sn = UMIN( num_skills, MAX_SKILL );
+
+      while( need > 0 )
+      {
+         int candidate = -1;
+         time_t oldest = current_time;
+
+         for( int i = 0; i < max_sn; ++i )
+         {
+            if( i == sn )
+               continue;
+
+            SKILL_STATE *cand = &ch->pcdata->skills[i];
+
+            if( cand->lock_state != SKILL_LOCK_DOWN || cand->value_tenths <= 0 )
+               continue;
+
+            if( candidate == -1 || cand->last_used == 0 || cand->last_used < oldest )
+            {
+               oldest = ( cand->last_used == 0 ) ? 0 : cand->last_used;
+               candidate = i;
+            }
+         }
+
+         if( candidate == -1 )
+         {
+            delta -= need;
+            break;
+         }
+
+         SKILL_STATE *cand = &ch->pcdata->skills[candidate];
+         int drop = UMIN( need, UMIN( 10, cand->value_tenths ) );
+
+         cand->value_tenths -= drop;
+         if( cand->value_tenths < 0 )
+            cand->value_tenths = 0;
+
+         need -= drop;
+      }
+
+      recalc_skill_totals( ch );
+      total = ch->pcdata->skill_total_tenths;
+
+         if( total + delta > cap_total )
+         {
+            delta = cap_total - total;
+
+            if( delta <= 0 )
+               return;
+         }
+   }
+
+   if( delta <= 0 )
+      return;
+
+   int old_percent = current / 10;
+
+   state->value_tenths += delta;
+
+   if( state->value_tenths > max_value )
+      state->value_tenths = max_value;
+
+   int new_percent = state->value_tenths / 10;
+
+   recalc_skill_totals( ch );
+
+   ch->pcdata->skill_gain_pool = UMIN( ch->pcdata->skill_cap_tenths, ch->pcdata->skill_total_tenths );
+
+   if( new_percent > old_percent )
+      update_skill_meters( ch, sn, old_percent, new_percent );
+}
+
+void skill_gain_success( CHAR_DATA *ch, int sn, int context_flags )
+{
+   skill_gain( ch, sn, 0, true, context_flags );
+}
+
+void skill_gain_failure( CHAR_DATA *ch, int sn, int context_flags )
+{
+   skill_gain( ch, sn, 0, false, context_flags );
 }
 
 const char *const spell_flag[] = {
@@ -2299,108 +2492,25 @@ void do_sset( CHAR_DATA* ch, const char* argument )
  */
 void ability_learn_from_success( CHAR_DATA * ch, int sn )
 {
-   int adept, gain, sklvl, learn, percent, schance;
-
-   if( IS_NPC( ch ) || ch->pcdata->skills[sn].value_tenths <= 0 )
-      return;
-
-   adept = skill_table[sn]->race_adept[ch->race] * 10;
-   if( adept <= 0 )
-      adept = 1000;
-
-   sklvl = skill_table[sn]->min_power_level;
-   if( sklvl == 0 )
-      sklvl = 1;
-   if( ch->pcdata->skills[sn].value_tenths < adept )
-   {
-      schance = ( ch->pcdata->skills[sn].value_tenths / 10 ) + ( 5 * skill_table[sn]->difficulty );
-      percent = number_percent(  );
-      if( percent >= schance )
-         learn = 2;
-      else if( schance - percent > 25 )
-         return;
-      else
-         learn = 1;
-      ch->pcdata->skills[sn].value_tenths = UMIN( adept, ch->pcdata->skills[sn].value_tenths + ( learn * 10 ) );
-      if( ch->pcdata->skills[sn].value_tenths == adept ) /* fully learned! */
-      {
-         gain = 1000 * sklvl;
-         set_char_color( AT_WHITE, ch );
-         ch_printf( ch, "You are now an adept of %s!  You gain %d bonus experience!\r\n", skill_table[sn]->name, gain );
-      }
-      else
-      {
-         gain = 20 * sklvl;
-         if( !ch->fighting && sn != gsn_hide && sn != gsn_sneak )
-         {
-            set_char_color( AT_WHITE, ch );
-            ch_printf( ch, "You gain %d experience points from your success!\r\n", gain );
-         }
-      }
-      gain_pl( ch, gain, true );
-   }
+   skill_gain( ch, sn, 0, true, SKILL_CONTEXT_ABILITY );
 }
 
 void learn_from_success( CHAR_DATA * ch, int sn )
 {
-   int adept, gain, sklvl, learn, percent, schance;
+   int context = infer_skill_context( sn );
+   if( context == SKILL_CONTEXT_NONE )
+      context = SKILL_CONTEXT_COMBAT;
 
-   if( IS_NPC( ch ) || ch->pcdata->skills[sn].value_tenths <= 0 )
-      return;
-   adept = GET_ADEPT( ch, sn );
-   sklvl = skill_table[sn]->min_power_level;
-   if( sklvl == 0 )
-      sklvl = 1;
-   if( ch->pcdata->skills[sn].value_tenths < adept )
-   {
-      schance = ( ch->pcdata->skills[sn].value_tenths / 10 ) + ( 5 * skill_table[sn]->difficulty );
-      percent = number_percent(  );
-      if( percent >= schance )
-         learn = 2;
-      else if( schance - percent > 25 )
-         return;
-      else
-         learn = 1;
-      ch->pcdata->skills[sn].value_tenths = UMIN( adept, ch->pcdata->skills[sn].value_tenths + ( learn * 10 ) );
-      if( ch->pcdata->skills[sn].value_tenths == adept ) /* fully learned! */
-      {
-         gain = 1000 * sklvl;
-         set_char_color( AT_WHITE, ch );
-         ch_printf( ch, "You are now an adept of %s!  You gain %d bonus experience!\r\n", skill_table[sn]->name, gain );
-         gain_pl( ch, gain, true );  /* Show message for skill mastery */
-      }
-      else
-      {
-         gain = 20 * sklvl;
-         if( !ch->fighting && sn != gsn_hide && sn != gsn_sneak )
-         {
-            set_char_color( AT_WHITE, ch );
-            ch_printf( ch, "You gain %d experience points from your success!\r\n", gain );
-            gain_pl( ch, gain, true );  /* Show message for skill practice */
-         }
-         else
-         {
-            gain_pl( ch, gain, true );  // Show message for skill learning
-         }
-      }
-   }
+   skill_gain( ch, sn, 0, true, context );
 }
 
 void learn_from_failure( CHAR_DATA * ch, int sn )
 {
-   int adept, schance;
+   int context = infer_skill_context( sn );
+   if( context == SKILL_CONTEXT_NONE )
+      context = SKILL_CONTEXT_COMBAT;
 
-   if( IS_NPC( ch ) || ch->pcdata->skills[sn].value_tenths <= 0 )
-      return;
-   schance = ( ch->pcdata->skills[sn].value_tenths / 10 ) + ( 5 * skill_table[sn]->difficulty );
-   if( schance - number_percent(  ) > 25 )
-      return;
-   adept = GET_ADEPT( ch, sn );
-   int threshold = adept - 10;
-   if( threshold < 0 )
-      threshold = 0;
-   if( ch->pcdata->skills[sn].value_tenths < threshold )
-      ch->pcdata->skills[sn].value_tenths = UMIN( adept, ch->pcdata->skills[sn].value_tenths + 10 );
+   skill_gain( ch, sn, 0, false, context );
 }
 
 void do_grapple( CHAR_DATA * ch, const char *argument )
