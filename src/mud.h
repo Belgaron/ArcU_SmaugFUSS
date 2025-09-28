@@ -4906,7 +4906,8 @@ void violence_update( void );
 ch_ret multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt );
 ch_ret projectile_hit( CHAR_DATA * ch, CHAR_DATA * victim, OBJ_DATA * wield, OBJ_DATA * projectile, short dist );
 short ris_damage( CHAR_DATA * ch, short dam, int ris );
-ch_ret damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt );
+ch_ret damage_ex( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt, bool suppress_message );
+#define damage(ch, victim, dam, dt) damage_ex( (ch), (victim), (dam), (dt), false )
 void update_pos( CHAR_DATA * victim );
 void set_fighting( CHAR_DATA * ch, CHAR_DATA * victim );
 void stop_fighting( CHAR_DATA * ch, bool fBoth );
