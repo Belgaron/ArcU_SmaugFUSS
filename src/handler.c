@@ -1262,7 +1262,12 @@ void modify_skill( CHAR_DATA * ch, int sn, int mod, bool fAdd )
       if( fAdd )
          ch->pcdata->skills[sn].value_tenths += delta;
       else
-         ch->pcdata->skills[sn].value_tenths = URANGE( 0, ch->pcdata->skills[sn].value_tenths + delta, GET_ADEPT( ch, sn ) );
+      {
+         int cap = get_skill_adept( ch, sn );
+         if( cap <= 0 )
+            cap = 1000;
+         ch->pcdata->skills[sn].value_tenths = URANGE( 0, ch->pcdata->skills[sn].value_tenths + delta, cap );
+      }
    }
 }
 

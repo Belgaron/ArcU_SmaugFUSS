@@ -2000,7 +2000,9 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
    /*
     * adept is how high the player can learn it 
     */
-   adept = GET_ADEPT( victim, sn );
+   adept = get_skill_adept( victim, sn );
+   if( adept <= 0 )
+      adept = 1000;
    trained = FALSE;
 
    if( ( victim->pcdata->skills[sn].value_tenths >= adept ) || ( victim->pcdata->skills[sn].value_tenths >= max ) )

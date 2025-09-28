@@ -1165,7 +1165,6 @@ struct class_type
    int suscept;
    int weapon; /* First weapon         */
    int guild;  /* Vnum of guild room      */
-   short skill_adept;   /* Maximum skill level     */
    short thac0_00;   /* Thac0 for level  0      */
    short thac0_32;   /* Thac0 for level 32      */
    short hp_min;  /* Min hp gained on leveling  */
@@ -3056,8 +3055,6 @@ DECLARE_DO_FUN(do_testtransform);
 struct skill_type
 {
    const char *name; /* Name of skill     */
-   short skill_adept[MAX_CLASS]; /* Max attainable % in this skill */
-   short race_adept[MAX_RACE];   /* Racial abilities: adept      */
    SPELL_FUN *spell_fun;   /* Spell pointer (for spells) */
    const char *spell_fun_name;   /* Spell function name - Trax */
    DO_FUN *skill_fun;   /* Skill pointer (for skills) */
@@ -5437,7 +5434,7 @@ char *rprog_type_to_name( int type );
 void oprog_act_trigger( const char *buf, OBJ_DATA * mobj, CHAR_DATA * ch, OBJ_DATA * obj, CHAR_DATA * victim, OBJ_DATA * target );
 void rprog_act_trigger( const char *buf, ROOM_INDEX_DATA * room, CHAR_DATA * ch, OBJ_DATA * obj, CHAR_DATA * victim, OBJ_DATA * target );
 
-#define GET_ADEPT(ch,sn)    ( IS_IMMORTAL(ch) ? 1000 : ( skill_table[(sn)]->skill_adept[(ch)->Class] * 10 ) )
+#define GET_ADEPT(ch,sn)    ( 1000 )
 #define LEARNED(ch,sn)	    (IS_NPC(ch) ? 800 : ( (ch)->pcdata ? (ch)->pcdata->skills[(sn)].value_tenths : 0 ))
 static inline int learned_percent( CHAR_DATA *ch, int sn )
 {

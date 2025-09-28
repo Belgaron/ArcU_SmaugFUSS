@@ -177,29 +177,14 @@ bool load_class_file( const char *fname )
 
          case 'S':
             if( !str_cmp( word, "Skill" ) )
-			{
-				int sn, adp;
-				
-				word = fread_word( fp );
-				fread_number( fp );  // Skip the old level value
-				adp = fread_number( fp );
-				sn = skill_lookup( word );
-				if( cl < 0 || cl >= MAX_CLASS )
-				{
-					bug( "%s: Skill %s -- class bad/not found (%d)", __func__, word, cl );
-				}
-				else if( !IS_VALID_SN( sn ) )
-				{
-					bug( "%s: Skill %s unknown", __func__, word );
-				}
-				else
-				{
-					skill_table[sn]->skill_adept[cl] = adp;
-				}
-				fMatch = TRUE;
-				break;
-			}
-            KEY( "Skilladept", Class->skill_adept, fread_number( fp ) );
+            {
+               /* Legacy class skill entry: consume tokens and ignore. */
+               word = fread_word( fp );
+               fread_number( fp );
+               fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
             KEY( "Suscept", Class->suscept, fread_number( fp ) );
             break;
 
@@ -298,7 +283,7 @@ void write_class_file( int cl )
    FILE *fpout;
    char filename[MAX_INPUT_LENGTH];
    struct class_type *Class = class_table[cl];
-   int x, y;
+   int x;
 
    snprintf( filename, MAX_INPUT_LENGTH, "%s%s.class", CLASS_DIR, Class->who_name );
    if( ( fpout = fopen( filename, "w" ) ) == NULL )
@@ -314,7 +299,6 @@ void write_class_file( int cl )
    fprintf( fpout, "AttrDeficient   %d\n", Class->attr_deficient );
    fprintf( fpout, "Weapon      %d\n", Class->weapon );
    fprintf( fpout, "Guild       %d\n", Class->guild );
-   fprintf( fpout, "Skilladept  %d\n", Class->skill_adept );
    fprintf( fpout, "Thac0       %d\n", Class->thac0_00 );
    fprintf( fpout, "Thac32      %d\n", Class->thac0_32 );
    fprintf( fpout, "Hpmin       %d\n", Class->hp_min );
@@ -324,14 +308,6 @@ void write_class_file( int cl )
    fprintf( fpout, "Affected    %s\n", print_bitvector( &Class->affected ) );
    fprintf( fpout, "Resist	 %d\n", Class->resist );
    fprintf( fpout, "Suscept	 %d\n", Class->suscept );
-
-   for( x = 0; x < num_skills; ++x )
-   {
-      if( !skill_table[x]->name || skill_table[x]->name[0] == '\0' )
-         break;
-      if( ( y = skill_table[x]->skill_adept[cl] ) < LEVEL_IMMORTAL )
-         fprintf( fpout, "Skill '%s' %d %d\n", skill_table[x]->name, y, skill_table[x]->skill_adept[cl] );
-   }
 
    for( x = 0; x <= MAX_LEVEL; ++x )
       fprintf( fpout, "Title\n%s~\n%s~\n", title_table[cl][x][0], title_table[cl][x][1] );
@@ -442,13 +418,6 @@ void write_race_file( int ra )
    for( i = 0; i < MAX_WHERE_NAME; ++i )
       fprintf( fpout, "WhereName  %s~\n", race->where_name[i] );
 
-   for( x = 0; x < num_skills; ++x )
-	{
-		if( !skill_table[x]->name || skill_table[x]->name[0] == '\0' )
-			break;
-		if( ( y = skill_table[x]->race_adept[ra] ) > 0 && y < LEVEL_IMMORTAL )
-			fprintf( fpout, "Skill '%s' 0 %d\n", skill_table[x]->name, skill_table[x]->race_adept[ra] );
-	}
    fprintf( fpout, "End\n" );
    FCLOSE( fpout );
 }
@@ -562,24 +531,10 @@ bool load_race_file( const char *fname )
             KEY( "Suscept", race->suscept, fread_number( fp ) );
             if( !str_cmp( word, "Skill" ) )
             {
-               int sn, adp;
-
-               word = fread_word( fp );
-               //lev = fread_number( fp ); up for deletion
-               adp = fread_number( fp );
-               sn = skill_lookup( word );
-               if( ra < 0 || ra >= MAX_RACE )
-               {
-                  bug( "%s: Skill %s -- race bad/not found (%d)", __func__, word, ra );
-               }
-               else if( !IS_VALID_SN( sn ) )
-               {
-                  bug( "%s: Skill %s unknown", __func__, word );
-               }
-               else
-               {
-                  skill_table[sn]->race_adept[ra] = adp;
-               }
+               /* Legacy race skill entry: consume tokens and ignore. */
+               fread_word( fp );
+               fread_number( fp );
+               fread_number( fp );
                fMatch = TRUE;
                break;
             }
@@ -822,21 +777,7 @@ void fwrite_skill( FILE * fpout, SKILLTYPE * skill )
    }
 
    if( skill->type != SKILL_HERB )
-   {
-      int y;
-      int min = 1000;
-      for( y = 0; y < MAX_PC_CLASS; ++y )
-         if( skill->skill_adept[y] < min )
-            min = skill->skill_adept[y];
-
       fprintf( fpout, "Minlevel     %d\n", skill->min_power_level );
-
-      min = 1000;
-      for( y = 0; y < MAX_PC_RACE; ++y )
-         if( skill->race_adept[y] < min )
-            min = skill->race_adept[y];
-
-   }
    fprintf( fpout, "End\n\n" );
 }
 
@@ -1019,14 +960,6 @@ SKILLTYPE *fread_skill( FILE * fp )
    skill->min_mana = 0;
    skill->teachers = NULL;
    skill->focus_cost = 0;
-   for( x = 0; x < MAX_CLASS; ++x )
-	{
-		skill->skill_adept[x] = 95;
-	}
-	for( x = 0; x < MAX_RACE; ++x )
-	{
-		skill->race_adept[x] = 95;
-}
    skill->guild = -1;
    skill->target = 0;
    skill->skill_fun = NULL;
@@ -1110,25 +1043,16 @@ SKILLTYPE *fread_skill( FILE * fp )
             }
             break;
 		 
-		 case 'C':
+         case 'C':
             if( !str_cmp( word, "Class" ) )
-			{
-				int Class = fread_number( fp );
-				fread_number( fp );  // Skip the old level value
-				int adept_level = fread_number( fp );
-				
-				// Validate class index
-				if( Class >= 0 && Class < MAX_PC_CLASS )
-				{
-					skill->skill_adept[Class] = adept_level;
-				}
-				else
-				{
-					bug( "%s: Invalid class %d for skill %s", __func__, Class, skill->name );
-				}
-				fMatch = TRUE;
-				break;
-			}
+            {
+               /* Legacy class adept entry: consume tokens and ignore. */
+               fread_number( fp );
+               fread_number( fp );
+               fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
 
             if( !str_cmp( word, "Code" ) )
             {
@@ -1429,14 +1353,14 @@ SKILLTYPE *fread_skill( FILE * fp )
             KEY( "Range", skill->range, fread_number( fp ) );
             KEY( "Rounds", skill->beats, fread_number( fp ) );
             if( !str_cmp( word, "Race" ) )
-			{
-				int race = fread_number( fp );
-				
-				fread_number( fp );  // Skip the old level value
-				skill->race_adept[race] = fread_number( fp );  // Read the adept value
-				fMatch = TRUE;
-				break;
-			}
+            {
+               /* Legacy race adept entry: consume tokens and ignore. */
+               fread_number( fp );
+               fread_number( fp );
+               fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
 			
 			if( !str_cmp( word, "RevertSelf" ) )
             {

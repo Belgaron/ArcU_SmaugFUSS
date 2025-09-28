@@ -1439,7 +1439,10 @@ void do_induct( CHAR_DATA* ch, const char* argument )
       {
          if( skill_table[sn]->guild == clan->Class && skill_table[sn]->name != NULL )
          {
-            victim->pcdata->skills[sn].value_tenths = GET_ADEPT( victim, sn );
+            int cap = get_skill_adept( victim, sn );
+            if( cap <= 0 )
+               cap = 1000;
+            victim->pcdata->skills[sn].value_tenths = cap;
             ch_printf( victim, "%s instructs you in the ways of %s.\r\n", ch->name, skill_table[sn]->name );
          }
       }

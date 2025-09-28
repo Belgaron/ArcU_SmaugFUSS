@@ -3935,24 +3935,16 @@ int get_skill_adept( CHAR_DATA *ch, int sn )
       return 0;
    }
 
-   if( ch->race < 0 || ch->race >= MAX_PC_RACE )
-   {
-      bug( "%s: Invalid race %d for character %s", __func__, ch->race, ch->name ? ch->name : "Unknown" );
-      return 0;
-   }
+   if( IS_NPC( ch ) || !ch->pcdata )
+      return 1000;
 
-   int adept_percent;
+   SKILL_STATE *state = &ch->pcdata->skills[sn];
+   int cap = state->cap_tenths;
 
-   // Use the higher of class adept or race adept (both stored as whole percentages)
-   adept_percent = skill_table[sn]->skill_adept[ch->Class];
-   if( skill_table[sn]->race_adept[ch->race] > adept_percent )
-      adept_percent = skill_table[sn]->race_adept[ch->race];
+   if( cap <= 0 )
+      cap = 1000;
 
-   // Default to a reasonable minimum if no adept is set
-   if( adept_percent <= 0 )
-      adept_percent = UMAX( 1, (int)( class_table[ch->Class]->skill_adept * 0.15 ) );
-
-   return URANGE( 0, adept_percent * 10, 1000 );
+   return URANGE( 0, cap, 1000 );
 }
 
 void do_wimpy( CHAR_DATA* ch, const char* argument )
