@@ -231,7 +231,7 @@ public:
         auto& db = FishDatabase::getInstance();
         const auto& all_fish = db.getAllFish();
         
-        int fishing_skill = LEARNED(ch, skill_lookup("fishing"));
+        int fishing_skill = learned_percent(ch, skill_lookup("fishing"));
         
         // Build list of possible catches
         std::vector<const FishData*> possible_catches;

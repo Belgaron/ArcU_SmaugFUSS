@@ -2603,7 +2603,7 @@ void nanny_read_motd( DESCRIPTOR_DATA * d, const char *argument )
       if( ( iLang = skill_lookup( "common" ) ) < 0 )
          bug( "%s: cannot find common language.", __func__ );
       else
-         ch->pcdata->learned[iLang] = 100;
+         ch->pcdata->skills[iLang].value_tenths = 1000;
 
       /*
        * Give them their racial languages 
@@ -2617,7 +2617,7 @@ void nanny_read_motd( DESCRIPTOR_DATA * d, const char *argument )
                if( ( uLang = skill_lookup( lang_names[iLang] ) ) < 0 )
                   bug( "%s: cannot find racial language [%s].", __func__, lang_names[iLang] );
                else
-                  ch->pcdata->learned[uLang] = 100;
+                  ch->pcdata->skills[uLang].value_tenths = 1000;
             }
          }
       }

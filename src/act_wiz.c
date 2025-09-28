@@ -3692,7 +3692,7 @@ void do_balzhur( CHAR_DATA* ch, const char* argument )
    victim->max_mana = 100;
    victim->max_move = 100;
    for( sn = 0; sn < num_skills; ++sn )
-      victim->pcdata->learned[sn] = 0;
+      victim->pcdata->skills[sn].value_tenths = 0;
    victim->practice = 0;
    victim->hit = victim->max_hit;
    victim->mana = victim->max_mana;
@@ -3861,7 +3861,7 @@ void do_advance( CHAR_DATA* ch, const char* argument )
       victim->max_mana = 100;
       victim->max_move = 100;
       for( sn = 0; sn < num_skills; ++sn )
-         victim->pcdata->learned[sn] = 0;
+         victim->pcdata->skills[sn].value_tenths = 0;
       victim->practice = 0;
       victim->hit = victim->max_hit;
       victim->mana = victim->max_mana;
@@ -4093,7 +4093,7 @@ void do_immortalize( CHAR_DATA* ch, const char* argument )
 
          for( sn = 0; sn < num_skills; ++sn )
             if( skill_table[sn]->guild == victim->pcdata->clan->Class && skill_table[sn]->name != NULL )
-               victim->pcdata->learned[sn] = 0;
+               victim->pcdata->skills[sn].value_tenths = 0;
       }
       if( victim->speaking & LANG_CLAN )
          victim->speaking = LANG_COMMON;
@@ -5657,7 +5657,7 @@ void do_mortalize( CHAR_DATA * ch, const char *argument )
       victim->max_mana = 800;
       victim->max_move = 800;
       for( sn = 0; sn < num_skills; sn++ )
-         victim->pcdata->learned[sn] = 0;
+         victim->pcdata->skills[sn].value_tenths = 0;
       victim->practice = 0;
       victim->hit = victim->max_hit;
       victim->mana = victim->max_mana;

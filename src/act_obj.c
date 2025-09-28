@@ -1458,7 +1458,7 @@ bool remove_obj( CHAR_DATA * ch, int iWear, bool fReplace )
  */
 bool could_dual( CHAR_DATA * ch )
 {
-   if( IS_NPC( ch ) || ch->pcdata->learned[gsn_dual_wield] )
+   if( IS_NPC( ch ) || ch->pcdata->skills[gsn_dual_wield].value_tenths )
       return TRUE;
 
    return FALSE;

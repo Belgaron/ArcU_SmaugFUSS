@@ -1119,13 +1119,13 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch )
                  class_table[victim->Class]->who_name[0] != '\0' ? class_table[victim->Class]->who_name : "unknown" );
    }
 
-   if( number_percent(  ) < LEARNED( ch, gsn_peek ) )
+   if( number_percent(  ) < learned_percent( ch, gsn_peek ) )
    {
       ch_printf( ch, "\r\nYou peek at %s inventory:\r\n", victim->sex == 1 ? "his" : victim->sex == 2 ? "her" : "its" );
       show_list_to_char( victim->first_carrying, ch, TRUE, TRUE );
       learn_from_success( ch, gsn_peek );
    }
-   else if( ch->pcdata->learned[gsn_peek] > 0 )
+   else if( ch->pcdata->skills[gsn_peek].value_tenths > 0 )
       learn_from_failure( ch, gsn_peek );
 }
 
@@ -1538,7 +1538,7 @@ void do_look( CHAR_DATA * ch, const char *argument )
              */
             if( !IS_NPC( ch ) )
             {
-               int percent = LEARNED( ch, skill_lookup( "scry" ) );
+               int percent = learned_percent( ch, skill_lookup( "scry" ) );
                if( !percent )
                {
                   if( IS_HUMAN(ch) )
@@ -3609,7 +3609,7 @@ void do_practice( CHAR_DATA* ch, const char* argument )
 bool should_show_skill( CHAR_DATA *ch, const SKILLTYPE *skill, int sn )
 {
    // Always show if already learned
-   if( ch->pcdata->learned[sn] > 0 )
+   if( ch->pcdata->skills[sn].value_tenths > 0 )
       return TRUE;
 
    // Check for basic skills (always shown)
@@ -3739,7 +3739,7 @@ bool show_learned_hidden_skills( CHAR_DATA *ch, CHAR_DATA *mob )
          continue;
 
       // Only show if already learned AND it's a secret skill
-      if( ch->pcdata->learned[sn] <= 0 )
+      if( ch->pcdata->skills[sn].value_tenths <= 0 )
          continue;
       if( !SPELL_FLAG( skill, SF_SECRETSKILL ) )
          continue;
@@ -3766,9 +3766,9 @@ void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can
    // Color code based on availability
    if( !can_learn && skill->min_power_level > char_pl )
       set_pager_color( AT_DGREY, ch );    // Too low power level
-   else if( ch->pcdata->learned[sn] >= adept * 10 )
+   else if( ch->pcdata->skills[sn].value_tenths >= adept )
       set_pager_color( AT_GREEN, ch );    // Mastered
-   else if( ch->pcdata->learned[sn] > 0 )
+   else if( ch->pcdata->skills[sn].value_tenths > 0 )
       set_pager_color( AT_YELLOW, ch );   // Partially learned
    else
       set_pager_color( AT_CYAN, ch );     // Available to learn
@@ -3777,9 +3777,9 @@ void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can
    pager_printf( ch, "  %-20.20s", skill->name );
    
    // Current skill percentage
-   if( ch->pcdata->learned[sn] > 0 )
+   if( ch->pcdata->skills[sn].value_tenths > 0 )
    {
-      int val = ch->pcdata->learned[sn];            // e.g. 755 means 75.5
+      int val = ch->pcdata->skills[sn].value_tenths;            // e.g. 755 means 75.5
       pager_printf( ch, " %3d.%1d", val / 10, abs( val ) % 10 );
    }
    else
@@ -3808,7 +3808,7 @@ void display_skill_line( CHAR_DATA *ch, const SKILLTYPE *skill, int sn, bool can
       set_pager_color( AT_RED, ch );
       pager_printf( ch, " (Need More Power)" );
    }
-   else if( ch->pcdata->learned[sn] >= adept * 10 )
+   else if( ch->pcdata->skills[sn].value_tenths >= adept )
    {
       set_pager_color( AT_GREEN, ch );
       pager_printf( ch, " (Mastered)" );
@@ -3893,7 +3893,7 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
 
    // Special handling for hidden/secret skills
    // Check if this trainer can teach this specific hidden skill FIRST
-   if( is_hidden_skill && ch->pcdata->learned[sn] <= 0 )
+   if( is_hidden_skill && ch->pcdata->skills[sn].value_tenths <= 0 )
    {
       if( !can_trainer_teach_hidden_skill( mob, sn ) )
       {
@@ -3908,7 +3908,7 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
       return;
    
    // NOW show discovery message if it's a hidden skill being learned for first time
-   if( is_hidden_skill && ch->pcdata->learned[sn] <= 0 )
+   if( is_hidden_skill && ch->pcdata->skills[sn].value_tenths <= 0 )
    {
       ch_printf( ch, "&Y*** You've discovered a hidden skill: %s! ***&D\r\n", 
    			skill_table[sn]->name );
@@ -3933,7 +3933,7 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
    adept = get_skill_adept( ch, sn );
 
    // Check if already at maximum
-   if( ch->pcdata->learned[sn] >= adept )
+   if( ch->pcdata->skills[sn].value_tenths >= adept )
    {
       snprintf( buf, MAX_STRING_LENGTH, 
                "$n tells you, 'I've taught you everything I can about %s.'",
@@ -3941,37 +3941,37 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
       act( AT_TELL, buf, mob, NULL, ch, TO_VICT );
       act( AT_TELL, "$n tells you, 'You'll have to practice it on your own now...'", 
            mob, NULL, ch, TO_VICT );
-      ch_printf( ch, "&GYou have mastered this skill at &W%d%%&G!\r\n", adept );
+      ch_printf( ch, "&GYou have mastered this skill at &W%.1f%%&G!\r\n", adept / 10.0 );
    }
    else
    {
       // Practice the skill
       ch->practice--;
-      gain = int_app[get_curr_int( ch )].learn;
+      gain = int_app[get_curr_int( ch )].learn * 10;
       
       // Bonus learning for high power level
       if( skill_table[sn]->min_power_level > 0 && char_pl >= (skill_table[sn]->min_power_level * 2) )
       {
-         gain += (gain / 4);  // 25% bonus
+         gain += (gain / 4);  // 25% bonus (still in tenths)
          ch_printf( ch, "&YYour high power level helps you learn faster!\r\n" );
       }
       
       // Bonus for discovering hidden skills
-      if( is_hidden_skill && ch->pcdata->learned[sn] <= 0 )
+      if( is_hidden_skill && ch->pcdata->skills[sn].value_tenths <= 0 )
       {
          gain += (gain / 2);  // 50% bonus for first learning of hidden skill
          ch_printf( ch, "&MYour curiosity and discovery grants bonus learning!\r\n" );
       }
       
-      ch->pcdata->learned[sn] += gain;
+      ch->pcdata->skills[sn].value_tenths += gain;
       
       act( AT_ACTION, "You practice $T.", ch, NULL, skill_table[sn]->name, TO_CHAR );
       act( AT_ACTION, "$n practices $T.", ch, NULL, skill_table[sn]->name, TO_ROOM );
       
       // Check if reached adept level
-      if( ch->pcdata->learned[sn] >= adept )
+      if( ch->pcdata->skills[sn].value_tenths >= adept )
       {
-         ch->pcdata->learned[sn] = adept;
+         ch->pcdata->skills[sn].value_tenths = adept;
          act( AT_TELL, "$n tells you, 'You have now mastered $T!'",
              mob, skill_table[sn]->name, ch, TO_VICT );
          ch_printf( ch, "&G*** You have MASTERED %s! ***&D\r\n", skill_table[sn]->name );
@@ -3987,9 +3987,9 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
       }
       else
       {
-         int percentage = (ch->pcdata->learned[sn] * 100) / adept;
-         ch_printf( ch, "&CYou are now &W%d%% &Cproficient in &W%s &C(&W%d%%&C mastery).\r\n", 
-                   ch->pcdata->learned[sn], skill_table[sn]->name, percentage );
+         int percentage = ( ch->pcdata->skills[sn].value_tenths * 100 ) / ( adept == 0 ? 1 : adept );
+         ch_printf( ch, "&CYou are now &W%.1f%% &Cproficient in &W%s &C(&W%d%%&C mastery).\r\n",
+                   ch->pcdata->skills[sn].value_tenths / 10.0, skill_table[sn]->name, percentage );
       }
    }
 }
@@ -4083,34 +4083,31 @@ int get_skill_adept( CHAR_DATA *ch, int sn )
       bug( "%s: Invalid skill number %d", __func__, sn );
       return 0;
    }
-   
+
    if( !ch )
    {
       bug( "%s: NULL character", __func__ );
       return 0;
    }
-   
+
    if( ch->race < 0 || ch->race >= MAX_PC_RACE )
    {
       bug( "%s: Invalid race %d for character %s", __func__, ch->race, ch->name ? ch->name : "Unknown" );
       return 0;
    }
-   
-   int adept;
-   
-   if( sn < 0 || sn >= MAX_SKILL || !skill_table[sn] )
-      return 0;
 
-   // Use the higher of class adept or race adept
-   adept = skill_table[sn]->skill_adept[ch->Class];
-   if( skill_table[sn]->race_adept[ch->race] > adept )
-      adept = skill_table[sn]->race_adept[ch->race];
-   
+   int adept_percent;
+
+   // Use the higher of class adept or race adept (both stored as whole percentages)
+   adept_percent = skill_table[sn]->skill_adept[ch->Class];
+   if( skill_table[sn]->race_adept[ch->race] > adept_percent )
+      adept_percent = skill_table[sn]->race_adept[ch->race];
+
    // Default to a reasonable minimum if no adept is set
-   if( adept <= 0 )
-      adept = UMAX(1, (int)(class_table[ch->Class]->skill_adept * 0.15));
+   if( adept_percent <= 0 )
+      adept_percent = UMAX( 1, (int)( class_table[ch->Class]->skill_adept * 0.15 ) );
 
-   return adept;
+   return URANGE( 0, adept_percent * 10, 1000 );
 }
 
 void do_wimpy( CHAR_DATA* ch, const char* argument )
@@ -4982,11 +4979,11 @@ void do_slist( CHAR_DATA* ch, const char* argument )
 
          if( !show_all )
          {
-            if( ch->pcdata->learned[skill_idx] <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
+            if( ch->pcdata->skills[skill_idx].value_tenths <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
                continue;
 
             if( skill->min_power_level > 0 && char_pl < skill->min_power_level
-                && ch->pcdata->learned[skill_idx] <= 0 )
+                && ch->pcdata->skills[skill_idx].value_tenths <= 0 )
                continue;
          }
 
@@ -5008,10 +5005,10 @@ void do_slist( CHAR_DATA* ch, const char* argument )
             type_header_shown = TRUE;
          }
 
-         const int learned_percent = ch->pcdata->learned[skill_idx];
+         const int learned_value = ch->pcdata->skills[skill_idx].value_tenths;
 
          char val[16];
-         if( learned_percent > 0 )
+         if( learned_value > 0 )
          {
             int tenths = get_skill_tenths( ch, skill_idx );
             int whole = tenths / 10;
@@ -5025,11 +5022,11 @@ void do_slist( CHAR_DATA* ch, const char* argument )
          const char *name_col = "&c"; /* default: blue/cyan */
          const char *val_col  = "&c";
 
-         if( learned_percent >= get_skill_adept( ch, skill_idx ) && learned_percent > 0 )
+         if( learned_value >= get_skill_adept( ch, skill_idx ) && learned_value > 0 )
          {  /* mastered */
             name_col = "&g"; val_col = "&g";
          }
-         else if( learned_percent > 0 )
+         else if( learned_value > 0 )
          {  /* learning */
             name_col = "&O"; val_col = "&O";
          }
