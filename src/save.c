@@ -1156,11 +1156,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         value *= 10;
                      ch->pcdata->skills[sn].value_tenths = URANGE( 0, value, 1000 );
                      ch->pcdata->skills[sn].cap_tenths = ( file_ver >= 6 ) ? URANGE( 0, cap, 1000 ) : 1000;
-                     if( ch->level < LEVEL_IMMORTAL )
-                     {
-                        if( skill_table[sn]->race_adept[ch->race] > 0 )
-                           ch->pcdata->skills[sn].value_tenths = 0;
-                     }
                   }
                   fMatch = TRUE;
                   break;
@@ -1856,11 +1851,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                       * * Assumes class and level were loaded before. -- Altrag *
                       * * Assumes practices are loaded first too now. -- Altrag
                       */
-                     if( ch->level < LEVEL_IMMORTAL )
-                     {
-                        if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
-                           ch->pcdata->skills[sn].value_tenths = 0;
-                     }
                   }
                   fMatch = TRUE;
                   break;
@@ -1892,9 +1882,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         value *= 10;
                      ch->pcdata->skills[sn].value_tenths = URANGE( 0, value, 1000 );
                      ch->pcdata->skills[sn].cap_tenths = ( file_ver >= 6 ) ? URANGE( 0, cap, 1000 ) : 1000;
-                     if( ch->level < LEVEL_IMMORTAL )
-                        if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
-                           ch->pcdata->skills[sn].value_tenths = 0;
                   }
                   fMatch = TRUE;
                   break;
@@ -2007,9 +1994,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         value *= 10;
                      ch->pcdata->skills[sn].value_tenths = URANGE( 0, value, 1000 );
                      ch->pcdata->skills[sn].cap_tenths = ( file_ver >= 6 ) ? URANGE( 0, cap, 1000 ) : 1000;
-                     if( ch->level < LEVEL_IMMORTAL )
-                        if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
-                           ch->pcdata->skills[sn].value_tenths = 0;
                   }
                   fMatch = TRUE;
                }
@@ -2079,9 +2063,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         value *= 10;
                      ch->pcdata->skills[sn].value_tenths = URANGE( 0, value, 1000 );
                      ch->pcdata->skills[sn].cap_tenths = ( file_ver >= 6 ) ? URANGE( 0, cap, 1000 ) : 1000;
-                     if( ch->level < LEVEL_IMMORTAL )
-                        if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
-                           ch->pcdata->skills[sn].value_tenths = 0;
                   }
                   fMatch = TRUE;
                }

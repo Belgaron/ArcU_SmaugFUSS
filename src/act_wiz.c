@@ -8400,8 +8400,8 @@ void do_showclass( CHAR_DATA* ch, const char* argument )
                        Class->who_name, affect_loc_name( Class->attr_prime ), Class->weapon, Class->guild );
    pager_printf_color( ch, "&wSecond Attribute:  &W%-14s  &wDeficient Attribute:  &W%-14s\r\n",
                        affect_loc_name( Class->attr_second ), affect_loc_name( Class->attr_deficient ) );
-   pager_printf_color( ch, "&wMax Skill Adept: &W%-3d             &wThac0 : &W%-5d     &wThac32: &W%d\r\n",
-                       Class->skill_adept, Class->thac0_00, Class->thac0_32 );
+   pager_printf_color( ch, "&wThac0 : &W%-5d     &wThac32: &W%d\r\n",
+                       Class->thac0_00, Class->thac0_32 );
    pager_printf_color( ch, "&wHp Min/Hp Max  : &W%-2d/%-2d           &wMana  : &W%-3s      &wExpBase: &W%d\r\n",
                        Class->hp_min, Class->hp_max, Class->fMana ? "yes" : "no ", Class->exp_base );
    pager_printf_color( ch, "&wAffected by:  &W%s\r\n", affect_bit_name( &Class->affected ) );
@@ -8410,7 +8410,7 @@ void do_showclass( CHAR_DATA* ch, const char* argument )
 
    if( arg2[0] != '\0' )
    {
-      int x, y, cnt;
+      int x;
 
       low = UMAX( 0, atoi( arg2 ) );
       hi = URANGE( low, atoi( argument ), MAX_LEVEL );
@@ -8418,18 +8418,6 @@ void do_showclass( CHAR_DATA* ch, const char* argument )
       {
          set_pager_color( AT_LBLUE, ch );
          pager_printf( ch, "Male: %-30s Female: %s\r\n", title_table[cl][x][0], title_table[cl][x][1] );
-         cnt = 0;
-         set_pager_color( AT_BLUE, ch );
-         for( y = 0; y < num_skills; ++y )
-            if( skill_table[y]->skill_adept[cl] == x )
-            {
-               pager_printf( ch, "  %-7s %-19s%3d     ",
-                             skill_tname[skill_table[y]->type], skill_table[y]->name, skill_table[y]->skill_adept[cl] );
-               if( ++cnt % 2 == 0 )
-                  send_to_pager( "\r\n", ch );
-            }
-         if( cnt % 2 != 0 )
-            send_to_pager( "\r\n", ch );
          send_to_pager( "\r\n", ch );
       }
    }
@@ -8463,7 +8451,6 @@ bool create_new_class( int rcindex, const char *argument )
    class_table[rcindex]->suscept = 0;
    class_table[rcindex]->weapon = 0;
    class_table[rcindex]->guild = 0;
-   class_table[rcindex]->skill_adept = 0;
    class_table[rcindex]->thac0_00 = 0;
    class_table[rcindex]->thac0_32 = 0;
    class_table[rcindex]->hp_min = 0;
@@ -8588,23 +8575,7 @@ void do_setclass( CHAR_DATA* ch, const char* argument )
 
    if( !str_cmp( arg2, "skill" ) )
    {
-      SKILLTYPE *skill;
-      int sn, level, adept;
-
-      argument = one_argument( argument, arg2 );
-      if( ( sn = skill_lookup( arg2 ) ) > 0 )
-      {
-         skill = get_skilltype( sn );
-         argument = one_argument( argument, arg2 );
-         level = atoi( arg2 );
-         argument = one_argument( argument, arg2 );
-         adept = atoi( arg2 );
-         skill->skill_adept[cl] = adept;
-         write_class_file( cl );
-         ch_printf( ch, "Skill \"%s\" added at level %d and %d%%.\r\n", skill->name, level, adept );
-      }
-      else
-         ch_printf( ch, "No such skill as %s.\r\n", arg2 );
+      send_to_char( "Class-specific skill limits are no longer configurable.\r\n", ch );
       return;
    }
 

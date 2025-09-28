@@ -144,20 +144,6 @@ int ch_slookup( CHAR_DATA * ch, const char *name )
     * It is much more efficient to simply do the normal
     * binary search, and *then* make sure that ch has it.
     * -- dchaley 2007-06-22 + */
-#if 0
-   if( IS_NPC( ch ) )
-      return skill_lookup( name );
-   for( sn = 0; sn < top_sn; sn++ )
-   {
-      if( !skill_table[sn]->name )
-         break;
-      if( ch->pcdata->skills[sn].value_tenths > 0
-          && ch->level >= skill_table[sn]->skill_adept[ch->Class]
-          && LOWER( name[0] ) == LOWER( skill_table[sn]->name[0] ) && !str_prefix( name, skill_table[sn]->name ) )
-         return sn;
-   }
-   return -1;
-#endif
 }
 
 /*

@@ -37,11 +37,6 @@ The fields of class_table are:
 
 	This room (vnum) is off limits to characters of other classes.
 
-    sh_int	skill_adept;
-
-	This is the maximum level to which a character of this class may train
-	a skill or spell.
-
     sh_int	thac0_00;		/* Thac0 for level  0		*/
     sh_int	thac0_32;		/* Thac0 for level 32		*/
 
@@ -61,11 +56,10 @@ The fields of class_table are:
 
 === Other class-specific tables
 
-(1) In const.c, skill_table contains the level needed for each class to use a
-    particular skill or spell.  If the class cannot use that skill or spell,
-    the level needed is set to 37, so that immortals (angels and above) can use
-    it.  This table is indexed first by sn (skill/spell number) and then by
-    class.
+(1) In const.c, skill_table contains metadata used to gate access to skills,
+    such as minimum power level and guild restrictions.  Class-based adept
+    percentages are no longer stored here; progression caps are tracked per
+    character via SKILL_STATE.cap_tenths.
 
 (2) In const.c, title_table contains the titles, indexed by class, then by
     level, then by sex.  There are two titles for each class at each level.

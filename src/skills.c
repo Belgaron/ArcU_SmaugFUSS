@@ -227,7 +227,7 @@ static bool apply_skill_delta( CHAR_DATA *ch, int sn, int delta, bool mark_last_
 
    SKILL_STATE *state = &ch->pcdata->skills[sn];
 
-   int adept = GET_ADEPT( ch, sn );
+   int adept = get_skill_adept( ch, sn );
    if( adept <= 0 )
       adept = 1000;
 
@@ -297,7 +297,7 @@ void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags 
    else
       resolved_context = inferred;
 
-   int adept = GET_ADEPT( ch, sn );
+   int adept = get_skill_adept( ch, sn );
    if( adept <= 0 )
       adept = 1000;
 
@@ -374,7 +374,7 @@ bool trainer_raise_skill_to( CHAR_DATA *ch, int sn, int target_tenths )
 
    SKILL_STATE *state = &ch->pcdata->skills[sn];
 
-   int adept = GET_ADEPT( ch, sn );
+   int adept = get_skill_adept( ch, sn );
    if( adept <= 0 )
       adept = 1000;
 
@@ -664,7 +664,7 @@ bool check_ability( CHAR_DATA * ch, char *command, char *argument )
    {
       mana =
          IS_NPC( ch ) ? 0 : UMAX( skill_table[sn]->min_mana,
-                                  100 / ( 2 + ch->level - skill_table[sn]->race_adept[ch->race] ) );
+                                  100 / UMAX( 1, 2 + ch->level ) );
       blood = ( mana / 2 );
       if( IS_VAMPIRE( ch ) )
 		{
@@ -949,7 +949,7 @@ bool check_skill( CHAR_DATA * ch, char *command, char *argument )
    if( skill_table[sn]->min_mana )
    {
       mana = IS_NPC( ch ) ? 0 : UMAX( skill_table[sn]->min_mana,
-                                      100 / ( 2 + ch->level - skill_table[sn]->skill_adept[ch->Class] ) );
+                                      100 / UMAX( 1, 2 + ch->level ) );
       blood = UMAX( 1, ( mana + 4 ) / 8 );   /* NPCs don't have PCDatas. -- Altrag */
       if( IS_VAMPIRE( ch ) )
       {
@@ -1453,38 +1453,7 @@ void do_slookup( CHAR_DATA* ch, const char* argument )
       if( skill->imm_room && skill->imm_room[0] != '\0' )
          ch_printf( ch, "Immroom   : %s\r\n", skill->imm_room );
       if( skill->type != SKILL_HERB )
-      {
-         if( skill->type != SKILL_RACIAL )
-         {
-            send_to_char( "--------------------------[CLASS USE]--------------------------\r\n", ch );
-            for( iClass = 0; iClass < MAX_PC_CLASS; iClass++ )
-            {
-               strlcpy( buf, class_table[iClass]->who_name, MAX_STRING_LENGTH );
-               snprintf( buf + 3, MAX_STRING_LENGTH - 3, ") max: %2d%%", skill->skill_adept[iClass] );
-               if( iClass % 3 == 2 )
-                  strlcat( buf, "\r\n", MAX_STRING_LENGTH );
-               else
-                  strlcat( buf, "  ", MAX_STRING_LENGTH );
-               send_to_char( buf, ch );
-            }
-         }
-         else
-         {
-            send_to_char( "\r\n--------------------------[RACE USE]--------------------------\r\n", ch );
-            for( iRace = 0; iRace < MAX_PC_RACE; iRace++ )
-            {
-               snprintf( buf, MAX_STRING_LENGTH, "%8.8s) max: %2d%%",
-					race_table[iRace]->race_name, skill->race_adept[iRace] );
-               if( !strcmp( race_table[iRace]->race_name, "unused" ) )
-                  snprintf( buf, MAX_STRING_LENGTH, "                           " );
-               if( ( iRace > 0 ) && ( iRace % 2 == 1 ) )
-                  strlcat( buf, "\r\n", MAX_STRING_LENGTH );
-               else
-                  strlcat( buf, "  ", MAX_STRING_LENGTH );
-               send_to_char( buf, ch );
-            }
-         }
-      }
+         send_to_char( "\r\n", ch );
       send_to_char( "\r\n", ch );
    }
 }
@@ -1525,8 +1494,8 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          send_to_char( "\r\nField being one of:\r\n", ch );
          send_to_char( "  name code target minpos slot mana beats dammsg wearoff guild minlevel\r\n", ch );
          send_to_char( "  type damtype acttype classtype powertype seffect flag dice value difficulty\r\n", ch );
-         send_to_char( "  affect rmaffect level adept hit miss die imm (char/vict/room)\r\n", ch );
-         send_to_char( "  components teachers racelevel raceadept\r\n", ch );
+         send_to_char( "  affect rmaffect hit miss die imm (char/vict/room)\r\n", ch );
+         send_to_char( "  components teachers\r\n", ch );
          send_to_char( "  sector\r\n", ch );
          send_to_char( "Affect having the fields: <location> <modfifier> [duration] [bitvector]\r\n", ch );
          send_to_char( "(See AFFECTTYPES for location, and AFFECTED_BY for bitvector)\r\n", ch );
@@ -1603,17 +1572,6 @@ void do_sset( CHAR_DATA* ch, const char* argument )
        ch_printf( ch, "Focus Cost: %d\r\n", skill->focus_cost );
       if( !str_cmp( arg2, "ability" ) )
          skill->type = SKILL_RACIAL;
-
-      for( i = 0; i < MAX_PC_CLASS; i++ )
-      {
-         skill->skill_adept[i] = LEVEL_IMMORTAL;
-         skill->skill_adept[i] = 95;
-      }
-      for( i = 0; i < MAX_PC_RACE; i++ )
-      {
-         skill->race_adept[i] = LEVEL_IMMORTAL;
-         skill->race_adept[i] = 95;
-      }
 
       send_to_char( "Done.\r\n", ch );
       return;
@@ -2068,62 +2026,6 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          return;
       }
 
-      if( !str_cmp( arg2, "level" ) )
-      {
-         char arg3[MAX_INPUT_LENGTH];
-         int Class;
-
-         argument = one_argument( argument, arg3 );
-         Class = atoi( arg3 );
-         if( Class >= MAX_PC_CLASS || Class < 0 )
-            send_to_char( "Not a valid class.\r\n", ch );
-         else
-            skill->skill_adept[Class] = URANGE( 0, atoi( argument ), 100 );
-         return;
-      }
-
-      if( !str_cmp( arg2, "racelevel" ) )
-      {
-         char arg3[MAX_INPUT_LENGTH];
-         int race;
-
-         argument = one_argument( argument, arg3 );
-         race = atoi( arg3 );
-         if( race >= MAX_PC_RACE || race < 0 )
-            send_to_char( "Not a valid race.\r\n", ch );
-         else
-            skill->race_adept[race] = URANGE( 0, atoi( argument ), 100 );
-         return;
-      }
-
-      if( !str_cmp( arg2, "adept" ) )
-      {
-         char arg3[MAX_INPUT_LENGTH];
-         int Class;
-
-         argument = one_argument( argument, arg3 );
-         Class = atoi( arg3 );
-         if( Class >= MAX_PC_CLASS || Class < 0 )
-            send_to_char( "Not a valid class.\r\n", ch );
-         else
-            skill->skill_adept[Class] = URANGE( 0, atoi( argument ), 100 );
-         return;
-      }
-
-      if( !str_cmp( arg2, "raceadept" ) )
-      {
-         char arg3[MAX_INPUT_LENGTH];
-         int race;
-
-         argument = one_argument( argument, arg3 );
-         race = atoi( arg3 );
-         if( race >= MAX_PC_RACE || race < 0 )
-            send_to_char( "Not a valid race.\r\n", ch );
-         else
-            skill->race_adept[race] = URANGE( 0, atoi( argument ), 100 );
-         return;
-      }
-
       if( !str_cmp( arg2, "name" ) )
       {
          DISPOSE( skill->name );
@@ -2427,7 +2329,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          {
             SKILL_STATE *state = &victim->pcdata->skills[sn];
             int final_value = value_tenths;
-            int adept = GET_ADEPT( victim, sn );
+            int adept = get_skill_adept( victim, sn );
 
             if( cap_set )
             {
@@ -2460,7 +2362,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
 
       SKILL_STATE *state = &victim->pcdata->skills[sn];
       int final_value = value_tenths;
-      int adept = GET_ADEPT( victim, sn );
+      int adept = get_skill_adept( victim, sn );
 
       if( cap_set )
       {
@@ -4127,12 +4029,6 @@ void do_bash( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_bash]->skill_adept[ch->Class] )
-   {
-      send_to_char( "You better leave the martial arts to fighters.\r\n", ch );
-      return;
-   }
-
    if( ( victim = who_fighting( ch ) ) == NULL )
    {
       send_to_char( "You aren't fighting anyone.\r\n", ch );
@@ -4174,12 +4070,6 @@ void do_stun( CHAR_DATA* ch, const char* argument )
    if( IS_NPC( ch ) && IS_AFFECTED( ch, AFF_CHARM ) )
    {
       send_to_char( "You can't concentrate enough for that.\r\n", ch );
-      return;
-   }
-
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_stun]->skill_adept[ch->Class] )
-   {
-      send_to_char( "You better leave the martial arts to fighters.\r\n", ch );
       return;
    }
 
@@ -4448,12 +4338,6 @@ void do_disarm( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_disarm]->skill_adept[ch->Class] )
-   {
-      send_to_char( "You don't know how to disarm opponents.\r\n", ch );
-      return;
-   }
-
    if( get_eq_char( ch, WEAR_WIELD ) == NULL )
    {
       send_to_char( "You must wield a weapon to disarm.\r\n", ch );
@@ -4532,12 +4416,6 @@ void do_cleave( CHAR_DATA * ch, const char *argument )
    if( IS_NPC( ch ) && IS_AFFECTED( ch, AFF_CHARM ) )
    {
       send_to_char( "A clear mind is required to use that skill.\r\n", ch );
-      return;
-   }
-
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_cleave]->skill_adept[ch->Class] )
-   {
-      send_to_char( "You can't seem to summon the strength.\r\n", ch );
       return;
    }
 
@@ -5092,12 +4970,6 @@ void do_mount( CHAR_DATA* ch, const char* argument )
 {
    CHAR_DATA *victim;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_mount]->skill_adept[ch->Class] )
-   {
-      send_to_char( "I don't think that would be a good idea...\r\n", ch );
-      return;
-   }
-
    if( ch->mount )
    {
       send_to_char( "You're already mounted!\r\n", ch );
@@ -5316,12 +5188,6 @@ void do_poison_weapon( CHAR_DATA* ch, const char* argument )
    char arg[MAX_INPUT_LENGTH];
    int percent;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_poison_weapon]->skill_adept[ch->Class] )
-   {
-      send_to_char( "What do you think you are, a thief?\r\n", ch );
-      return;
-   }
-
    one_argument( argument, arg );
 
    if( arg[0] == '\0' )
@@ -5461,12 +5327,6 @@ void do_scribe( CHAR_DATA* ch, const char* argument )
    if( IS_NPC( ch ) )
       return;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_scribe]->skill_adept[ch->Class] )
-   {
-      send_to_char( "A skill such as this requires more magical ability than that of your class.\r\n", ch );
-      return;
-   }
-
    if( argument[0] == '\0' || !str_cmp( argument, "" ) )
    {
       send_to_char( "Scribe what?\r\n", ch );
@@ -5495,7 +5355,7 @@ void do_scribe( CHAR_DATA* ch, const char* argument )
    }
 
    mana = IS_NPC( ch ) ? 0 : UMAX( skill_table[sn]->min_mana,
-                                   100 / ( 2 + ch->level - skill_table[sn]->skill_adept[ch->Class] ) );
+                                   100 / UMAX( 1, 2 + ch->level ) );
 
    mana *= 5;
 
@@ -5574,12 +5434,6 @@ void do_brew( CHAR_DATA* ch, const char* argument )
    if( IS_NPC( ch ) )
       return;
 
-   if( !IS_NPC( ch ) && ch->level < skill_table[gsn_brew]->skill_adept[ch->Class] )
-   {
-      send_to_char( "A skill such as this requires more magical ability than that of your class.\r\n", ch );
-      return;
-   }
-
    if( argument[0] == '\0' || !str_cmp( argument, "" ) )
    {
       send_to_char( "Brew what?\r\n", ch );
@@ -5608,7 +5462,7 @@ void do_brew( CHAR_DATA* ch, const char* argument )
    }
 
    mana = IS_NPC( ch ) ? 0 : UMAX( skill_table[sn]->min_mana,
-                                   100 / ( 2 + ch->level - skill_table[sn]->skill_adept[ch->Class] ) );
+                                   100 / UMAX( 1, 2 + ch->level ) );
 
    mana *= 4;
 
@@ -6854,12 +6708,6 @@ void do_slice( CHAR_DATA* ch, const char* argument )
     * Noticed that it was checking gsn_kick.  Bug report by Li'l Lukey
     */
 
-   if( !IS_NPC( ch ) && !IS_IMMORTAL( ch ) && ch->level < skill_table[gsn_slice]->skill_adept[ch->Class] )
-   {
-      send_to_char( "You are not learned in this skill.\r\n", ch );
-      return;
-   }
-
    if( argument[0] == '\0' )
    {
       send_to_char( "From what do you wish to slice meat?\r\n", ch );
@@ -6957,11 +6805,6 @@ void do_style( CHAR_DATA * ch, const char *argument )
 
    if( !str_prefix( arg, "evasive" ) )
    {
-      if( ch->level < skill_table[gsn_style_evasive]->skill_adept[ch->Class] )
-      {
-         send_to_char( "You have not yet learned enough to fight evasively.\r\n", ch );
-         return;
-      }
       WAIT_STATE( ch, skill_table[gsn_style_evasive]->beats );
       if( number_percent(  ) < learned_percent( ch, gsn_style_evasive ) )
       {
@@ -6990,11 +6833,6 @@ void do_style( CHAR_DATA * ch, const char *argument )
    }
    else if( !str_prefix( arg, "defensive" ) )
    {
-      if( ch->level < skill_table[gsn_style_defensive]->skill_adept[ch->Class] )
-      {
-         send_to_char( "You have not yet learned enough to fight defensively.\r\n", ch );
-         return;
-      }
       WAIT_STATE( ch, skill_table[gsn_style_defensive]->beats );
       if( number_percent(  ) < learned_percent( ch, gsn_style_defensive ) )
       {
@@ -7023,11 +6861,6 @@ void do_style( CHAR_DATA * ch, const char *argument )
    }
    else if( !str_prefix( arg, "standard" ) )
    {
-      if( ch->level < skill_table[gsn_style_standard]->skill_adept[ch->Class] )
-      {
-         send_to_char( "You have not yet learned enough to fight in the standard style.\r\n", ch );
-         return;
-      }
       WAIT_STATE( ch, skill_table[gsn_style_standard]->beats );
       if( number_percent(  ) < learned_percent( ch, gsn_style_standard ) )
       {
@@ -7056,11 +6889,6 @@ void do_style( CHAR_DATA * ch, const char *argument )
    }
    else if( !str_prefix( arg, "aggressive" ) )
    {
-      if( ch->level < skill_table[gsn_style_aggressive]->skill_adept[ch->Class] )
-      {
-         send_to_char( "You have not yet learned enough to fight aggressively.\r\n", ch );
-         return;
-      }
       WAIT_STATE( ch, skill_table[gsn_style_aggressive]->beats );
       if( number_percent(  ) < learned_percent( ch, gsn_style_aggressive ) )
       {
@@ -7089,11 +6917,6 @@ void do_style( CHAR_DATA * ch, const char *argument )
    }
    else if( !str_prefix( arg, "berserk" ) )
    {
-      if( ch->level < skill_table[gsn_style_berserk]->skill_adept[ch->Class] )
-      {
-         send_to_char( "You have not yet learned enough to fight as a berserker.\r\n", ch );
-         return;
-      }
       WAIT_STATE( ch, skill_table[gsn_style_berserk]->beats );
       if( number_percent(  ) < learned_percent( ch, gsn_style_berserk ) )
       {
@@ -7154,12 +6977,6 @@ void do_cook( CHAR_DATA* ch, const char* argument )
    char buf[MAX_STRING_LENGTH];
 
    one_argument( argument, arg );
-   if( IS_NPC( ch ) || ch->level < skill_table[gsn_cook]->skill_adept[ch->Class] )
-   {
-      send_to_char( "That skill is beyond your understanding.\r\n", ch );
-      return;
-   }
-
    if( arg[0] == '\0' )
    {
       send_to_char( "Cook what?\r\n", ch );
