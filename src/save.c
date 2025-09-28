@@ -29,7 +29,7 @@
  * Increment with every major format change.
  * Upped to 5 for addition of new Age Setup. - Kayle 1/22/08
  */
-const int SAVEVERSION = 6;
+const int SAVEVERSION = 7;
 
 /*
  * Array to keep track of equipment temporarily. - Thoric
@@ -372,6 +372,12 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
    short pos;
    SKILLTYPE *skill = NULL;
 
+   if( !IS_NPC( ch ) && ch->pcdata )
+   {
+      normalize_skill_locks( ch );
+      recalc_skill_totals( ch );
+   }
+
    fprintf( fp, "#PLAYER\n" );
 
    fprintf( fp, "Version      %d\n", SAVEVERSION );
@@ -544,6 +550,11 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
 
    fprintf( fp, "Condition    %d %d %d %d\n",
             ch->pcdata->condition[0], ch->pcdata->condition[1], ch->pcdata->condition[2], ch->pcdata->condition[3] );
+   fprintf( fp, "SkillTotal   %d\n", ch->pcdata->skill_total_tenths );
+   fprintf( fp, "SkillCap     %d\n", ch->pcdata->skill_cap_tenths );
+   fprintf( fp, "SkillPool    %d %ld %ld\n", ch->pcdata->skill_gain_pool,
+            (long)ch->pcdata->skill_gain_last_attempt, (long)ch->pcdata->skill_gain_last_decay );
+   fprintf( fp, "SkillMeter   %d %d\n", ch->pcdata->physical_skill_meter, ch->pcdata->mental_skill_meter );
    if( ch->pcdata->recent_site )
       fprintf( fp, "Site         %s\n", ch->pcdata->recent_site );
    else
@@ -578,7 +589,7 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
       int cap = ch->pcdata->skills[sn].cap_tenths;
       int lock = ch->pcdata->skills[sn].lock_state;
 
-      if( value <= 0 && cap == 1000 && lock == 0 )
+      if( value <= 0 && cap == 1000 && lock == SKILL_LOCK_STEADY )
          continue;
 
       switch ( skill_table[sn]->type )
@@ -864,12 +875,19 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
    ch->mental_state = -10;
    ch->mobinvis = 0;
    for( i = 0; i < MAX_SKILL; i++ )
-	{
+   {
       ch->pcdata->skills[i].value_tenths = 0;
       ch->pcdata->skills[i].cap_tenths = 1000;
-      ch->pcdata->skills[i].lock_state = 0;
+      ch->pcdata->skills[i].lock_state = SKILL_LOCK_STEADY;
       ch->pcdata->skills[i].last_used = 0;
-	}
+   }
+   ch->pcdata->skill_total_tenths = 0;
+   ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
+   ch->pcdata->skill_gain_pool = 0;
+   ch->pcdata->skill_gain_last_attempt = 0;
+   ch->pcdata->skill_gain_last_decay = 0;
+   ch->pcdata->physical_skill_meter = 0;
+   ch->pcdata->mental_skill_meter = 0;
 	for( i = 0; i < MAX_ANDROID_COMPONENTS; i++ )		/* Initialize android component system */
 		ch->pcdata->android_components[i] = 0;
 	ch->pcdata->android_schematics = 0;
@@ -1727,6 +1745,45 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
             break;
 
          case 'S':
+            if( !strcmp( word, "SkillCap" ) )
+            {
+               ch->pcdata->skill_cap_tenths = fread_number( fp );
+               if( ch->pcdata->skill_cap_tenths < 0 )
+                  ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
+               else if( ch->pcdata->skill_cap_tenths > MAX_SKILL_CAP_TENTHS )
+                  ch->pcdata->skill_cap_tenths = MAX_SKILL_CAP_TENTHS;
+               fMatch = TRUE;
+               break;
+            }
+            if( !strcmp( word, "SkillTotal" ) )
+            {
+               ch->pcdata->skill_total_tenths = fread_number( fp );
+               if( ch->pcdata->skill_total_tenths < 0 )
+                  ch->pcdata->skill_total_tenths = 0;
+               else if( ch->pcdata->skill_total_tenths > MAX_SKILL_CAP_TENTHS )
+                  ch->pcdata->skill_total_tenths = MAX_SKILL_CAP_TENTHS;
+               fMatch = TRUE;
+               break;
+            }
+            if( !strcmp( word, "SkillPool" ) )
+            {
+               ch->pcdata->skill_gain_pool = fread_number( fp );
+               ch->pcdata->skill_gain_last_attempt = (time_t)fread_number( fp );
+               ch->pcdata->skill_gain_last_decay = (time_t)fread_number( fp );
+               fMatch = TRUE;
+               break;
+            }
+            if( !strcmp( word, "SkillMeter" ) )
+            {
+               ch->pcdata->physical_skill_meter = fread_number( fp );
+               ch->pcdata->mental_skill_meter = fread_number( fp );
+               if( ch->pcdata->physical_skill_meter < 0 )
+                  ch->pcdata->physical_skill_meter = 0;
+               if( ch->pcdata->mental_skill_meter < 0 )
+                  ch->pcdata->mental_skill_meter = 0;
+               fMatch = TRUE;
+               break;
+            }
             KEY( "Sex", ch->sex, fread_number( fp ) );
             KEY( "ShortDescr", ch->short_descr, fread_string( fp ) );
             KEY( "Style", ch->style, fread_number( fp ) );
@@ -1775,7 +1832,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   word = "End";
                else
                {
-                  int sn, value, cap = 1000, lock = 0;
+                  int sn, value, cap = 1000, lock = SKILL_LOCK_STEADY;
                   value = fread_number( fp );
                   if( file_ver >= 6 )
                   {
@@ -1796,7 +1853,10 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         value *= 10;
                      ch->pcdata->skills[sn].value_tenths = URANGE( 0, value, 1000 );
                      ch->pcdata->skills[sn].cap_tenths = ( file_ver >= 6 ) ? URANGE( 0, cap, 1000 ) : 1000;
-                     ch->pcdata->skills[sn].lock_state = ( file_ver >= 6 ) ? lock : 0;
+                     if( file_ver >= 6 )
+                        ch->pcdata->skills[sn].lock_state = lock;
+                     else
+                        ch->pcdata->skills[sn].lock_state = SKILL_LOCK_STEADY;
                      /*
                       * Take care of people who have stuff they shouldn't     *
                       * * Assumes class and level were loaded before. -- Altrag *
@@ -1822,7 +1882,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   word = "End";
                else
                {
-                  int sn, value, cap = 1000, lock = 0;
+                  int sn, value, cap = 1000, lock = SKILL_LOCK_STEADY;
                   value = fread_number( fp );
                   if( file_ver >= 6 )
                   {
@@ -1840,7 +1900,10 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         value *= 10;
                      ch->pcdata->skills[sn].value_tenths = URANGE( 0, value, 1000 );
                      ch->pcdata->skills[sn].cap_tenths = ( file_ver >= 6 ) ? URANGE( 0, cap, 1000 ) : 1000;
-                     ch->pcdata->skills[sn].lock_state = ( file_ver >= 6 ) ? lock : 0;
+                     if( file_ver >= 6 )
+                        ch->pcdata->skills[sn].lock_state = lock;
+                     else
+                        ch->pcdata->skills[sn].lock_state = SKILL_LOCK_STEADY;
                      if( ch->level < LEVEL_IMMORTAL )
                         if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
                         {
@@ -1927,6 +1990,8 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                                    ( int )( race_table[ch->race]->weight * 1.1 ) );
                if( ch->pcdata->clan )
                   update_roster( ch );
+               normalize_skill_locks( ch );
+               recalc_skill_totals( ch );
                return;
             }
             KEY( "Exp", ch->exp, fread_number( fp ) );
@@ -1939,7 +2004,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   word = "End";
                else
                {
-                  int sn, value, cap = 1000, lock = 0;
+                  int sn, value, cap = 1000, lock = SKILL_LOCK_STEADY;
                   value = fread_number( fp );
                   if( file_ver >= 6 )
                   {
@@ -1956,7 +2021,10 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         value *= 10;
                      ch->pcdata->skills[sn].value_tenths = URANGE( 0, value, 1000 );
                      ch->pcdata->skills[sn].cap_tenths = ( file_ver >= 6 ) ? URANGE( 0, cap, 1000 ) : 1000;
-                     ch->pcdata->skills[sn].lock_state = ( file_ver >= 6 ) ? lock : 0;
+                     if( file_ver >= 6 )
+                        ch->pcdata->skills[sn].lock_state = lock;
+                     else
+                        ch->pcdata->skills[sn].lock_state = SKILL_LOCK_STEADY;
                      if( ch->level < LEVEL_IMMORTAL )
                         if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
                         {
@@ -2013,7 +2081,7 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                   word = "End";
                else
                {
-                  int sn, value, cap = 1000, lock = 0;
+                  int sn, value, cap = 1000, lock = SKILL_LOCK_STEADY;
                   value = fread_number( fp );
                   if( file_ver >= 6 )
                   {
@@ -2031,7 +2099,10 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                         value *= 10;
                      ch->pcdata->skills[sn].value_tenths = URANGE( 0, value, 1000 );
                      ch->pcdata->skills[sn].cap_tenths = ( file_ver >= 6 ) ? URANGE( 0, cap, 1000 ) : 1000;
-                     ch->pcdata->skills[sn].lock_state = ( file_ver >= 6 ) ? lock : 0;
+                     if( file_ver >= 6 )
+                        ch->pcdata->skills[sn].lock_state = lock;
+                     else
+                        ch->pcdata->skills[sn].lock_state = SKILL_LOCK_STEADY;
                      if( ch->level < LEVEL_IMMORTAL )
                         if( skill_table[sn]->skill_adept[ch->Class] >= LEVEL_IMMORTAL )
                         {

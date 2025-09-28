@@ -128,6 +128,74 @@ void add_skill_tenths( CHAR_DATA *ch, int sn, int delta )
    ch->pcdata->skills[sn].value_tenths = updated;
 }
 
+void normalize_skill_locks( CHAR_DATA *ch )
+{
+   if( !ch || IS_NPC( ch ) || !ch->pcdata )
+      return;
+
+   int max_sn = UMIN( num_skills, MAX_SKILL );
+
+   if( ch->pcdata->skill_cap_tenths <= 0 )
+      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
+   else if( ch->pcdata->skill_cap_tenths > MAX_SKILL_CAP_TENTHS )
+      ch->pcdata->skill_cap_tenths = MAX_SKILL_CAP_TENTHS;
+
+   if( ch->pcdata->skill_gain_pool < 0 )
+      ch->pcdata->skill_gain_pool = 0;
+   else if( ch->pcdata->skill_gain_pool > ch->pcdata->skill_cap_tenths )
+      ch->pcdata->skill_gain_pool = ch->pcdata->skill_cap_tenths;
+
+   if( ch->pcdata->physical_skill_meter < 0 )
+      ch->pcdata->physical_skill_meter = 0;
+   if( ch->pcdata->mental_skill_meter < 0 )
+      ch->pcdata->mental_skill_meter = 0;
+
+   for( int sn = 0; sn < max_sn; ++sn )
+   {
+      SKILL_STATE *state = &ch->pcdata->skills[sn];
+
+      if( state->cap_tenths < 0 )
+         state->cap_tenths = 0;
+      else if( state->cap_tenths > 1000 )
+         state->cap_tenths = 1000;
+
+      if( state->value_tenths < 0 )
+         state->value_tenths = 0;
+      else if( state->value_tenths > state->cap_tenths )
+         state->value_tenths = state->cap_tenths;
+
+      if( state->lock_state < SKILL_LOCK_DOWN || state->lock_state > SKILL_LOCK_UP )
+         state->lock_state = SKILL_LOCK_STEADY;
+   }
+}
+
+void recalc_skill_totals( CHAR_DATA *ch )
+{
+   if( !ch || IS_NPC( ch ) || !ch->pcdata )
+      return;
+
+   if( ch->pcdata->skill_cap_tenths <= 0 )
+      ch->pcdata->skill_cap_tenths = DEFAULT_SKILL_CAP_TENTHS;
+
+   int max_sn = UMIN( num_skills, MAX_SKILL );
+   int total = 0;
+
+   for( int sn = 0; sn < max_sn; ++sn )
+   {
+      total += ch->pcdata->skills[sn].value_tenths;
+      if( total >= MAX_SKILL_CAP_TENTHS )
+      {
+         total = MAX_SKILL_CAP_TENTHS;
+         break;
+      }
+   }
+
+   if( total > ch->pcdata->skill_cap_tenths )
+      total = ch->pcdata->skill_cap_tenths;
+
+   ch->pcdata->skill_total_tenths = total;
+}
+
 void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags )
 {
    (void)ch;
@@ -2112,7 +2180,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
     * Snarf the value.
     */
    int cap_tenths = -1;
-   int lock_state = 0;
+   int lock_state = SKILL_LOCK_STEADY;
    bool cap_set = false;
    bool lock_set = false;
    char value_buf[MAX_INPUT_LENGTH];
@@ -2221,6 +2289,9 @@ void do_sset( CHAR_DATA* ch, const char* argument )
       if( lock_set )
          victim->pcdata->skills[sn].lock_state = lock_state;
    }
+
+   normalize_skill_locks( victim );
+   recalc_skill_totals( victim );
 }
 
 /*
