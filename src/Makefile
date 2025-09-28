@@ -60,15 +60,15 @@ smaug: $(O_FILES)
 	chmod a+x smaug.exe
 	chmod g+w $(O_FILES)
 
-clean:
-	@rm -f o/*.o smaug.exe dependencies.d resolver.exe resolver.o *~
-
 else
 smaug: $(O_FILES)
 	rm -f smaug
 	$(CC) -o smaug $(O_FILES) $(L_FLAGS)
 	@echo "Done compiling mud."
 endif
+
+clean:
+	@rm -f o/*.o smaug smaug.exe dependencies.d resolver resolver.exe resolver.o *~
 
 dns: resolver.o
 	rm -f resolver
