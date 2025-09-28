@@ -2996,7 +2996,7 @@ void do_mset( CHAR_DATA* ch, const char* argument )
 
             for( sn = 0; sn < num_skills; ++sn )
                if( skill_table[sn]->guild == victim->pcdata->clan->Class && skill_table[sn]->name != NULL )
-                  victim->pcdata->learned[sn] = 0;
+                  victim->pcdata->skills[sn].value_tenths = 0;
          }
          if( victim->speaking & LANG_CLAN )
             victim->speaking = LANG_COMMON;

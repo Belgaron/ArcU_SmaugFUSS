@@ -2527,6 +2527,14 @@ struct ignore_data
 /*
  * Data which only PC's have.
  */
+typedef struct skill_state
+{
+   short value_tenths;   /* Stored skill value in tenths of a percent */
+   short cap_tenths;     /* Maximum attainable value in tenths */
+   signed char lock_state; /* Placeholder for lock status (unused yet) */
+   time_t last_used;     /* Timestamp of last use */
+} SKILL_STATE;
+
 struct pc_data
 {
    CHAR_DATA *pet;
@@ -2568,7 +2576,7 @@ struct pc_data
    short wizinvis;   								/* wizinvis level */
    short min_snoop;  								/* minimum snoop level */
    short condition[MAX_CONDS];
-   short learned[MAX_SKILL];
+   SKILL_STATE skills[MAX_SKILL];
    unsigned int cyber; 								/* bitmask of installed cybernetics (CYBER_*) */
    short quest_number;  							/* current *QUEST BEING DONE* DON'T REMOVE! */
    short quest_curr; 								/* current number of quest points */
@@ -5420,8 +5428,12 @@ char *rprog_type_to_name( int type );
 void oprog_act_trigger( const char *buf, OBJ_DATA * mobj, CHAR_DATA * ch, OBJ_DATA * obj, CHAR_DATA * victim, OBJ_DATA * target );
 void rprog_act_trigger( const char *buf, ROOM_INDEX_DATA * room, CHAR_DATA * ch, OBJ_DATA * obj, CHAR_DATA * victim, OBJ_DATA * target );
 
-#define GET_ADEPT(ch,sn)    ( IS_IMMORTAL(ch) ? 100 : skill_table[(sn)]->skill_adept[(ch)->Class] )
-#define LEARNED(ch,sn)	    (IS_NPC(ch) ? 80 : URANGE(0, (ch)->pcdata->learned[(sn)], 101))
+#define GET_ADEPT(ch,sn)    ( IS_IMMORTAL(ch) ? 1000 : ( skill_table[(sn)]->skill_adept[(ch)->Class] * 10 ) )
+#define LEARNED(ch,sn)	    (IS_NPC(ch) ? 800 : ( (ch)->pcdata ? (ch)->pcdata->skills[(sn)].value_tenths : 0 ))
+static inline int learned_percent( CHAR_DATA *ch, int sn )
+{
+   return LEARNED( ch, sn ) / 10;
+}
 
 /* List handling v2.0, expanded a bit - Luc 06/2007
    Whoa! Eight years since I wrote v1.0...  :( */

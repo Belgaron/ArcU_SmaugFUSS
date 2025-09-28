@@ -1978,6 +1978,8 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
       return;
    }
 
+   max *= 10;
+
    if( get_power_level(victim) < skill_table[sn]->min_power_level )
    {
       snprintf( buf, MAX_INPUT_LENGTH, "$n attempts to tutor you in %s, but it's beyond your comprehension.", fskill_name );
@@ -1990,7 +1992,7 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
     */
    adept = GET_ADEPT( victim, sn );
 
-   if( ( victim->pcdata->learned[sn] >= adept ) || ( victim->pcdata->learned[sn] >= max ) )
+   if( ( victim->pcdata->skills[sn].value_tenths >= adept ) || ( victim->pcdata->skills[sn].value_tenths >= max ) )
    {
       snprintf( buf, MAX_INPUT_LENGTH, "$n shows some knowledge of %s, but yours is clearly superior.", fskill_name );
       act( AT_TELL, buf, ch, NULL, victim, TO_VICT );
@@ -2003,11 +2005,11 @@ void do_mp_practice( CHAR_DATA* ch, const char* argument )
    act( AT_ACTION, "$N demonstrates $t to you.  You feel more learned in this subject.", victim, skill_table[sn]->name, ch,
         TO_CHAR );
 
-   victim->pcdata->learned[sn] = max;
+   victim->pcdata->skills[sn].value_tenths = max;
 
-   if( victim->pcdata->learned[sn] >= adept )
+   if( victim->pcdata->skills[sn].value_tenths >= adept )
    {
-      victim->pcdata->learned[sn] = adept;
+      victim->pcdata->skills[sn].value_tenths = adept;
       act( AT_TELL, "$n tells you, 'You have learned all I know on this subject...'", ch, NULL, victim, TO_VICT );
    }
 }

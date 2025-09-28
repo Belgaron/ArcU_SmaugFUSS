@@ -1258,10 +1258,11 @@ void modify_skill( CHAR_DATA * ch, int sn, int mod, bool fAdd )
 {
    if( !IS_NPC( ch ) )
    {
+      int delta = mod * 10;
       if( fAdd )
-         ch->pcdata->learned[sn] += mod;
+         ch->pcdata->skills[sn].value_tenths += delta;
       else
-         ch->pcdata->learned[sn] = URANGE( 0, ch->pcdata->learned[sn] + mod, GET_ADEPT( ch, sn ) );
+         ch->pcdata->skills[sn].value_tenths = URANGE( 0, ch->pcdata->skills[sn].value_tenths + delta, GET_ADEPT( ch, sn ) );
    }
 }
 

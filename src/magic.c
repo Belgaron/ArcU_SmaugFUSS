@@ -127,7 +127,7 @@ int ch_slookup( CHAR_DATA * ch, const char *name )
    // and, (b) ch's level is high enough
    if( IS_NPC(ch) )
       return sn;
-   if( ch->pcdata->learned[sn] > 0
+   if( ch->pcdata->skills[sn].value_tenths > 0
     && get_power_level(ch) >= skill_table[sn]->min_power_level )
    {
       return sn;
@@ -151,7 +151,7 @@ int ch_slookup( CHAR_DATA * ch, const char *name )
    {
       if( !skill_table[sn]->name )
          break;
-      if( ch->pcdata->learned[sn] > 0
+      if( ch->pcdata->skills[sn].value_tenths > 0
           && ch->level >= skill_table[sn]->skill_adept[ch->Class]
           && LOWER( name[0] ) == LOWER( skill_table[sn]->name[0] ) && !str_prefix( name, skill_table[sn]->name ) )
          return sn;
@@ -1774,7 +1774,7 @@ void do_cast( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !IS_NPC( ch ) && ( number_percent(  ) + skill->difficulty * 5 ) > ch->pcdata->learned[sn] )
+   if( !IS_NPC( ch ) && ( number_percent(  ) + skill->difficulty * 5 ) > ( ch->pcdata->skills[sn].value_tenths / 10 ) )
    {
       /*
        * Some more interesting loss of concentration messages  -Thoric 

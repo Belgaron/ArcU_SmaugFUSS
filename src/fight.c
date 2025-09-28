@@ -293,9 +293,9 @@ void generate_focus( CHAR_DATA *ch )
     base_focus = number_range( 1, UMAX(1, get_curr_int(ch)) / 5 );
     
     // Apply defensive skill penalties (like DBSC)
-    if( ch->pcdata->learned[gsn_dodge] > 0 )
+    if( ch->pcdata->skills[gsn_dodge].value_tenths > 0 )
         penalty += 5;
-    if( ch->pcdata->learned[gsn_parry] > 0 )  // Using parry instead of block
+    if( ch->pcdata->skills[gsn_parry].value_tenths > 0 )  // Using parry instead of block
         penalty += 5;
     // Add other defensive skills as needed
     
@@ -1187,15 +1187,15 @@ ch_ret multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
     * 40% or higher is always hit.. don't learn anything here though. 
     * -- Altrag 
     */
-   schance = IS_NPC( ch ) ? 100 : ( LEARNED( ch, gsn_berserk ) * 5 / 2 );
+   schance = IS_NPC( ch ) ? 100 : ( learned_percent( ch, gsn_berserk ) * 5 / 2 );
    if( IS_AFFECTED( ch, AFF_BERSERK ) && number_percent(  ) < schance )
       if( ( retcode = one_hit( ch, victim, dt ) ) != rNONE || who_fighting( ch ) != victim )
          return retcode;
 
    if( get_eq_char( ch, WEAR_DUAL_WIELD ) )
    {
-      dual_bonus = IS_NPC( ch ) ? ( ch->level / 10 ) : ( LEARNED( ch, gsn_dual_wield ) / 10 );
-      schance = IS_NPC( ch ) ? ch->level : LEARNED( ch, gsn_dual_wield );
+      dual_bonus = IS_NPC( ch ) ? ( ch->level / 10 ) : ( learned_percent( ch, gsn_dual_wield ) / 10 );
+      schance = IS_NPC( ch ) ? ch->level : learned_percent( ch, gsn_dual_wield );
       if( number_percent(  ) < schance )
       {
          learn_from_success( ch, gsn_dual_wield );
@@ -1230,7 +1230,7 @@ ch_ret multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
       return retcode;
    }
 
-   schance = IS_NPC( ch ) ? ch->level : ( int )( ( LEARNED( ch, gsn_second_attack ) + dual_bonus ) / 1.5 );
+   schance = IS_NPC( ch ) ? ch->level : ( int )( ( learned_percent( ch, gsn_second_attack ) + dual_bonus ) / 1.5 );
    if( number_percent(  ) < schance )
    {
       learn_from_success( ch, gsn_second_attack );
@@ -1241,7 +1241,7 @@ ch_ret multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
    else
       learn_from_failure( ch, gsn_second_attack );
 
-   schance = IS_NPC( ch ) ? ch->level : ( int )( ( LEARNED( ch, gsn_third_attack ) + ( dual_bonus * 1.5 ) ) / 2 );
+   schance = IS_NPC( ch ) ? ch->level : ( int )( ( learned_percent( ch, gsn_third_attack ) + ( dual_bonus * 1.5 ) ) / 2 );
    if( number_percent(  ) < schance )
    {
       learn_from_success( ch, gsn_third_attack );
@@ -1252,7 +1252,7 @@ ch_ret multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
    else
       learn_from_failure( ch, gsn_third_attack );
 
-   schance = IS_NPC( ch ) ? ch->level : ( int )( ( LEARNED( ch, gsn_fourth_attack ) + ( dual_bonus * 2 ) ) / 3 );
+   schance = IS_NPC( ch ) ? ch->level : ( int )( ( learned_percent( ch, gsn_fourth_attack ) + ( dual_bonus * 2 ) ) / 3 );
    if( number_percent(  ) < schance )
    {
       learn_from_success( ch, gsn_fourth_attack );
@@ -1263,7 +1263,7 @@ ch_ret multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
    else
       learn_from_failure( ch, gsn_fourth_attack );
 
-   schance = IS_NPC( ch ) ? ch->level : ( int )( ( LEARNED( ch, gsn_fifth_attack ) + ( dual_bonus * 3 ) ) / 4 );
+   schance = IS_NPC( ch ) ? ch->level : ( int )( ( learned_percent( ch, gsn_fifth_attack ) + ( dual_bonus * 3 ) ) / 4 );
    if( number_percent(  ) < schance )
    {
       learn_from_success( ch, gsn_fifth_attack );
@@ -1348,7 +1348,7 @@ int weapon_prof_bonus_check( CHAR_DATA * ch, OBJ_DATA * wield, int *gsn_ptr )
 
       }
       if( *gsn_ptr != -1 )
-         bonus = ( int )( ( LEARNED( ch, *gsn_ptr ) - 50 ) / 10 );
+         bonus = ( int )( ( learned_percent( ch, *gsn_ptr ) - 50 ) / 10 );
 
       /*
        * Reduce weapon bonuses for misaligned clannies.
@@ -1668,9 +1668,9 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
    else if( ch->position == POS_EVASIVE )
       base_dam = ( int )( .8 * base_dam );
 
-   if( !IS_NPC( ch ) && ch->pcdata->learned[gsn_enhanced_damage] > 0 )
+   if( !IS_NPC( ch ) && ch->pcdata->skills[gsn_enhanced_damage].value_tenths > 0 )
    {
-      base_dam += ( int )( base_dam * LEARNED( ch, gsn_enhanced_damage ) / 120 );
+      base_dam += ( int )( base_dam * learned_percent( ch, gsn_enhanced_damage ) / 120 );
       learn_from_success( ch, gsn_enhanced_damage );
    }
 
@@ -2030,9 +2030,9 @@ ch_ret projectile_hit( CHAR_DATA * ch, CHAR_DATA * victim, OBJ_DATA * wield, OBJ
    else if( victim->position == POS_EVASIVE )
       dam = ( int )( .8 * dam );
 
-   if( !IS_NPC( ch ) && ch->pcdata->learned[gsn_enhanced_damage] > 0 )
+   if( !IS_NPC( ch ) && ch->pcdata->skills[gsn_enhanced_damage].value_tenths > 0 )
    {
-      dam += ( int )( dam * LEARNED( ch, gsn_enhanced_damage ) / 120 );
+      dam += ( int )( dam * learned_percent( ch, gsn_enhanced_damage ) / 120 );
       learn_from_success( ch, gsn_enhanced_damage );
    }
 
@@ -3676,10 +3676,10 @@ OBJ_DATA *raw_kill( CHAR_DATA * ch, CHAR_DATA * victim )
 			{
 					/* Try to steal a random skill */
 					int skill_num = number_range(0, MAX_SKILL-1);
-					if( victim->pcdata->learned[skill_num] > 0 && ch->pcdata->learned[skill_num] == 0 )
+					if( victim->pcdata->skills[skill_num].value_tenths > 0 && ch->pcdata->skills[skill_num].value_tenths == 0 )
 {
 						/* Bio-android learns the skill */
-						ch->pcdata->learned[skill_num] = victim->pcdata->learned[skill_num];
+						ch->pcdata->skills[skill_num].value_tenths = victim->pcdata->skills[skill_num].value_tenths;
 						ch_printf( ch, "&GYou absorb knowledge of %s from %s!&x\r\n", 
 									skill_table[skill_num]->name, victim->name );
 						act( AT_MAGIC, "$n's eyes flash as $e absorbs $N's knowledge!", ch, NULL, victim, TO_ROOM );

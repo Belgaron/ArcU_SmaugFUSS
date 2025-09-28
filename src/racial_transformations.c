@@ -351,7 +351,7 @@ void try_unlock_racial_transformation(CHAR_DATA *victim, CHAR_DATA *aggressor)
       return;  /* Already morphed */
       
    /* Check if already learned */
-   if (rt->skill_sn >= 0 && victim->pcdata->learned[rt->skill_sn] > 0)
+   if (rt->skill_sn >= 0 && victim->pcdata->skills[rt->skill_sn].value_tenths > 0)
       return;  /* Already learned */
 
    /* HP threshold check */
@@ -418,9 +418,9 @@ void try_unlock_racial_transformation(CHAR_DATA *victim, CHAR_DATA *aggressor)
       do_morph_char(victim, md);
 
       /* Permanently learn the transformation skill at 25% */
-      victim->pcdata->learned[rt->skill_sn] = UMAX(victim->pcdata->learned[rt->skill_sn], 25);
+      victim->pcdata->skills[rt->skill_sn].value_tenths = UMAX(victim->pcdata->skills[rt->skill_sn].value_tenths, 250);
       
-      ch_printf(victim, "&CYou have learned: &W%s &Cat 25%% proficiency!&D\r\n", 
+      ch_printf(victim, "&CYou have learned: &W%s &Cat 25.0%% proficiency!&D\r\n",
                 skill_table[rt->skill_sn]->name);
       ch_printf(victim, "&GUse '&W%s&G' to activate this transformation in the future.&D\r\n", 
                 rt->skill_name);
@@ -499,7 +499,7 @@ void do_testtransform(CHAR_DATA *ch, const char *argument)
    
    if (rt->skill_sn >= 0)
    {
-      ch_printf(ch, "  Current Skill Level: %d%%\r\n", victim->pcdata->learned[rt->skill_sn]);
+      ch_printf(ch, "  Current Skill Level: %.1f%%\r\n", victim->pcdata->skills[rt->skill_sn].value_tenths / 10.0);
    }
    
    /* Calculate current chance */

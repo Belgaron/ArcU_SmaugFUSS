@@ -1439,7 +1439,7 @@ void do_induct( CHAR_DATA* ch, const char* argument )
       {
          if( skill_table[sn]->guild == clan->Class && skill_table[sn]->name != NULL )
          {
-            victim->pcdata->learned[sn] = GET_ADEPT( victim, sn );
+            victim->pcdata->skills[sn].value_tenths = GET_ADEPT( victim, sn );
             ch_printf( victim, "%s instructs you in the ways of %s.\r\n", ch->name, skill_table[sn]->name );
          }
       }
@@ -1635,7 +1635,7 @@ void do_outcast( CHAR_DATA* ch, const char* argument )
       for( sn = 0; sn < num_skills; ++sn )
          if( skill_table[sn]->guild == victim->pcdata->clan->Class && skill_table[sn]->name != NULL )
          {
-            victim->pcdata->learned[sn] = 0;
+            victim->pcdata->skills[sn].value_tenths = 0;
             ch_printf( victim, "You forget the ways of %s.\r\n", skill_table[sn]->name );
          }
    }
