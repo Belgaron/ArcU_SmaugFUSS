@@ -889,7 +889,7 @@ ch_ret move_char( CHAR_DATA * ch, EXIT_DATA * pexit, int fall )
 
          if( !found && !ch->mount )
          {
-            if( ( !IS_NPC( ch ) && number_percent(  ) > LEARNED( ch, gsn_climb ) ) || drunk || ch->mental_state < -90 )
+            if( ( !IS_NPC( ch ) && number_percent(  ) > learned_percent( ch, gsn_climb ) ) || drunk || ch->mental_state < -90 )
             {
                send_to_char( "You start to climb... but lose your grip and fall!\r\n", ch );
                learn_from_failure( ch, gsn_climb );
@@ -2041,7 +2041,7 @@ void do_bashdoor( CHAR_DATA* ch, const char* argument)
       else
          keyword = pexit->keyword;
       if( !IS_NPC( ch ) )
-         schance = LEARNED( ch, gsn_bashdoor ) / 2;
+         schance = learned_percent( ch, gsn_bashdoor ) / 2;
       else
          schance = 90;
       if( IS_SET( pexit->exit_info, EX_LOCKED ) )

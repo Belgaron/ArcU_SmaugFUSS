@@ -3346,7 +3346,7 @@ int knows_language( CHAR_DATA * ch, int language, CHAR_DATA * cch )
          if( IS_SET( language, lang_array[lang] ) && IS_SET( ch->speaks, lang_array[lang] ) )
          {
             if( ( sn = skill_lookup( lang_names[lang] ) ) != -1 )
-               return ch->pcdata->learned[sn];
+               return ch->pcdata->skills[sn].value_tenths / 10;
          }
    }
    return 0;
@@ -3376,7 +3376,7 @@ bool can_learn_lang( CHAR_DATA * ch, int language )
                bug( "%s: valid language without sn: %d", __func__, lang );
                continue;
             }
-            if( ch->pcdata->learned[sn] >= 99 )
+            if( ch->pcdata->skills[sn].value_tenths >= 990 )
                return FALSE;
          }
    }
@@ -3492,7 +3492,7 @@ void do_languages( CHAR_DATA* ch, const char* argument )
          return;
       }
       if( race_table[ch->race]->language & lang_array[lang] ||
-          lang_array[lang] == LANG_COMMON || ch->pcdata->learned[sn] >= 99 )
+          lang_array[lang] == LANG_COMMON || ch->pcdata->skills[sn].value_tenths >= 990 )
       {
          act( AT_PLAIN, "You are already fluent in $t.", ch, lang_names[lang], NULL, TO_CHAR );
          return;
@@ -3508,7 +3508,7 @@ void do_languages( CHAR_DATA* ch, const char* argument )
          send_to_char( "There is no one who can teach that language here.\r\n", ch );
          return;
       }
-      if( countlangs( ch->speaks ) >= ( ch->level / 10 ) && ch->pcdata->learned[sn] <= 0 )
+      if( countlangs( ch->speaks ) >= ( ch->level / 10 ) && ch->pcdata->skills[sn].value_tenths <= 0 )
       {
          act( AT_TELL, "$n tells you 'You may not learn a new language yet.'", sch, NULL, ch, TO_VICT );
          return;
@@ -3527,16 +3527,16 @@ void do_languages( CHAR_DATA* ch, const char* argument )
        * Max 12% (5 + 4 + 3) at 24+ int and 21+ wis. -- Altrag 
        */
       prct = 5 + ( get_curr_int( ch ) / 6 ) + ( get_curr_wis( ch ) / 7 );
-      ch->pcdata->learned[sn] += prct;
-      ch->pcdata->learned[sn] = UMIN( ch->pcdata->learned[sn], 99 );
+      ch->pcdata->skills[sn].value_tenths += prct * 10;
+      ch->pcdata->skills[sn].value_tenths = UMIN( ch->pcdata->skills[sn].value_tenths, 990 );
       SET_BIT( ch->speaks, lang_array[lang] );
-      if( ch->pcdata->learned[sn] == prct )
+      if( ch->pcdata->skills[sn].value_tenths == prct * 10 )
          act( AT_PLAIN, "You begin lessons in $t.", ch, lang_names[lang], NULL, TO_CHAR );
-      else if( ch->pcdata->learned[sn] < 60 )
+      else if( ch->pcdata->skills[sn].value_tenths < 600 )
          act( AT_PLAIN, "You continue lessons in $t.", ch, lang_names[lang], NULL, TO_CHAR );
-      else if( ch->pcdata->learned[sn] < 60 + prct )
+      else if( ch->pcdata->skills[sn].value_tenths < 600 + ( prct * 10 ) )
          act( AT_PLAIN, "You feel you can start communicating in $t.", ch, lang_names[lang], NULL, TO_CHAR );
-      else if( ch->pcdata->learned[sn] < 99 )
+      else if( ch->pcdata->skills[sn].value_tenths < 990 )
          act( AT_PLAIN, "You become more fluent in $t.", ch, lang_names[lang], NULL, TO_CHAR );
       else
          act( AT_PLAIN, "You now speak perfect $t.", ch, lang_names[lang], NULL, TO_CHAR );

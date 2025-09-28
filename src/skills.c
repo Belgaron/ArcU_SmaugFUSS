@@ -87,8 +87,8 @@ static bool parse_sset_tenths( const char *arg, int *out_tenths )
 }
 
 /*
- * Unified skill accessors (percent values stored as 0..100 in pcdata->learned).
- * NPCs currently treat learned skills as a flat 80%.
+ * Unified skill accessors (values stored as tenths of a percent).
+ * NPCs currently treat learned skills as a flat 80% (800 tenths).
  */
 int get_skill_tenths( CHAR_DATA *ch, int sn )
 {
@@ -101,7 +101,7 @@ int get_skill_tenths( CHAR_DATA *ch, int sn )
    if( !ch->pcdata )
       return 0;
 
-   return URANGE( 0, ch->pcdata->learned[sn], 100 ) * 10;
+   return ch->pcdata->skills[sn].value_tenths;
 }
 
 double get_skill( CHAR_DATA *ch, int sn )
@@ -117,9 +117,15 @@ void add_skill_tenths( CHAR_DATA *ch, int sn, int delta )
    if( IS_NPC( ch ) || !ch->pcdata )
       return;
 
-   int cur = get_skill_tenths( ch, sn );
-   int updated = URANGE( 0, cur + delta, 1000 );
-   ch->pcdata->learned[sn] = updated / 10;
+   int cur = ch->pcdata->skills[sn].value_tenths;
+   int updated = cur + delta;
+
+   if( updated < 0 )
+      updated = 0;
+   else if( updated > 1000 )
+      updated = 1000;
+
+   ch->pcdata->skills[sn].value_tenths = updated;
 }
 
 void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags )
@@ -572,7 +578,7 @@ bool check_ability( CHAR_DATA * ch, char *command, char *argument )
       /*
        * check for failure
        */
-      if( ( number_percent(  ) + skill_table[sn]->difficulty * 5 ) > ( IS_NPC( ch ) ? 75 : LEARNED( ch, sn ) ) )
+      if( ( number_percent(  ) + skill_table[sn]->difficulty * 5 ) > ( IS_NPC( ch ) ? 75 : learned_percent( ch, sn ) ) )
       {
          failed_casting( skill_table[sn], ch, victim, obj );
          learn_from_failure( ch, sn );
@@ -848,7 +854,7 @@ bool check_skill( CHAR_DATA * ch, char *command, char *argument )
       /*
        * check for failure 
        */
-      if( ( number_percent(  ) + skill_table[sn]->difficulty * 5 ) > ( IS_NPC( ch ) ? 75 : LEARNED( ch, sn ) ) )
+      if( ( number_percent(  ) + skill_table[sn]->difficulty * 5 ) > ( IS_NPC( ch ) ? 75 : learned_percent( ch, sn ) ) )
       {
          failed_casting( skill_table[sn], ch, victim, obj );
          learn_from_failure( ch, sn );
@@ -2105,11 +2111,65 @@ void do_sset( CHAR_DATA* ch, const char* argument )
    /*
     * Snarf the value.
     */
-   value_tenths = 0;
-   if( !parse_sset_tenths( argument, &value_tenths ) )
+   int cap_tenths = -1;
+   int lock_state = 0;
+   bool cap_set = false;
+   bool lock_set = false;
+   char value_buf[MAX_INPUT_LENGTH];
+
+   argument = one_argument( argument, value_buf );
+
+   if( value_buf[0] == '\0' || !parse_sset_tenths( value_buf, &value_tenths ) )
    {
-      send_to_char( "Value must be between 0 and 100.0 (0 to 1000 tenths).\r\n", ch );
+      send_to_char( "Usage: sset <char> <skill|all> <value> [cap=<value>] [lock=<state>]\r\n", ch );
       return;
+   }
+
+   if( value_tenths < 0 || value_tenths > 1000 )
+   {
+      send_to_char( "Value must be between 0 and 100.0.\r\n", ch );
+      return;
+   }
+
+   while( argument[0] != '\0' )
+   {
+      char opt[MAX_INPUT_LENGTH];
+      argument = one_argument( argument, opt );
+
+      if( opt[0] == '\0' )
+         break;
+
+      if( !str_prefix( opt, "cap=" ) )
+      {
+         const char *cap_str = strchr( opt, '=' );
+         if( !cap_str || !parse_sset_tenths( cap_str + 1, &cap_tenths ) )
+         {
+            send_to_char( "Invalid cap value.\r\n", ch );
+            return;
+         }
+         if( cap_tenths < 0 || cap_tenths > 1000 )
+         {
+            send_to_char( "Cap must be between 0 and 100.0.\r\n", ch );
+            return;
+         }
+         cap_set = true;
+      }
+      else if( !str_prefix( opt, "lock=" ) )
+      {
+         const char *lock_str = strchr( opt, '=' );
+         if( !lock_str || lock_str[1] == '\0' )
+         {
+            send_to_char( "Invalid lock value.\r\n", ch );
+            return;
+         }
+         lock_state = atoi( lock_str + 1 );
+         lock_set = true;
+      }
+      else
+      {
+         ch_printf( ch, "Unknown modifier '%s'.\r\n", opt );
+         return;
+      }
    }
 
    if( fAll )
@@ -2121,20 +2181,46 @@ void do_sset( CHAR_DATA* ch, const char* argument )
           */
          if( get_power_level(victim) >= skill_table[sn]->min_power_level )
          {
-            // Bugfix by Sadiq - Modified slightly by Samson. No need to call GET_ADEPT more than once each time this loop runs.
-            int adept = GET_ADEPT( victim, sn );
-            int adept_tenths = URANGE( 0, adept * 10, 1000 );
             int final_value = value_tenths;
+            int adept = GET_ADEPT( victim, sn );
 
-            if( !IS_IMMORTAL( victim ) )
-               final_value = UMIN( final_value, adept_tenths );
+            if( cap_set )
+            {
+               victim->pcdata->skills[sn].cap_tenths = cap_tenths;
+               if( final_value > cap_tenths )
+                  final_value = cap_tenths;
+            }
 
-            victim->pcdata->learned[sn] = URANGE( 0, final_value, 1000 );
+            if( !IS_IMMORTAL( victim ) && adept > 0 )
+               final_value = UMIN( final_value, adept );
+
+            victim->pcdata->skills[sn].value_tenths = URANGE( 0, final_value, 1000 );
+
+            if( lock_set )
+               victim->pcdata->skills[sn].lock_state = lock_state;
          }
       }
    }
    else
-      victim->pcdata->learned[sn] = URANGE( 0, value_tenths, 1000 );
+   {
+      int final_value = value_tenths;
+      int adept = GET_ADEPT( victim, sn );
+
+      if( cap_set )
+      {
+         victim->pcdata->skills[sn].cap_tenths = cap_tenths;
+         if( final_value > cap_tenths )
+            final_value = cap_tenths;
+      }
+
+      if( !IS_IMMORTAL( victim ) && adept > 0 )
+         final_value = UMIN( final_value, adept );
+
+      victim->pcdata->skills[sn].value_tenths = URANGE( 0, final_value, 1000 );
+
+      if( lock_set )
+         victim->pcdata->skills[sn].lock_state = lock_state;
+   }
 }
 
 /*
@@ -2144,17 +2230,19 @@ void ability_learn_from_success( CHAR_DATA * ch, int sn )
 {
    int adept, gain, sklvl, learn, percent, schance;
 
-   if( IS_NPC( ch ) || ch->pcdata->learned[sn] <= 0 )
+   if( IS_NPC( ch ) || ch->pcdata->skills[sn].value_tenths <= 0 )
       return;
 
-   adept = skill_table[sn]->race_adept[ch->race];
+   adept = skill_table[sn]->race_adept[ch->race] * 10;
+   if( adept <= 0 )
+      adept = 1000;
 
    sklvl = skill_table[sn]->min_power_level;
    if( sklvl == 0 )
       sklvl = 1;
-   if( ch->pcdata->learned[sn] < adept )
+   if( ch->pcdata->skills[sn].value_tenths < adept )
    {
-      schance = ch->pcdata->learned[sn] + ( 5 * skill_table[sn]->difficulty );
+      schance = ( ch->pcdata->skills[sn].value_tenths / 10 ) + ( 5 * skill_table[sn]->difficulty );
       percent = number_percent(  );
       if( percent >= schance )
          learn = 2;
@@ -2162,8 +2250,8 @@ void ability_learn_from_success( CHAR_DATA * ch, int sn )
          return;
       else
          learn = 1;
-      ch->pcdata->learned[sn] = UMIN( adept, ch->pcdata->learned[sn] + learn );
-      if( ch->pcdata->learned[sn] == adept ) /* fully learned! */
+      ch->pcdata->skills[sn].value_tenths = UMIN( adept, ch->pcdata->skills[sn].value_tenths + ( learn * 10 ) );
+      if( ch->pcdata->skills[sn].value_tenths == adept ) /* fully learned! */
       {
          gain = 1000 * sklvl;
          set_char_color( AT_WHITE, ch );
@@ -2186,15 +2274,15 @@ void learn_from_success( CHAR_DATA * ch, int sn )
 {
    int adept, gain, sklvl, learn, percent, schance;
 
-   if( IS_NPC( ch ) || ch->pcdata->learned[sn] <= 0 )
+   if( IS_NPC( ch ) || ch->pcdata->skills[sn].value_tenths <= 0 )
       return;
    adept = GET_ADEPT( ch, sn );
    sklvl = skill_table[sn]->min_power_level;
    if( sklvl == 0 )
       sklvl = 1;
-   if( ch->pcdata->learned[sn] < adept )
+   if( ch->pcdata->skills[sn].value_tenths < adept )
    {
-      schance = ch->pcdata->learned[sn] + ( 5 * skill_table[sn]->difficulty );
+      schance = ( ch->pcdata->skills[sn].value_tenths / 10 ) + ( 5 * skill_table[sn]->difficulty );
       percent = number_percent(  );
       if( percent >= schance )
          learn = 2;
@@ -2202,8 +2290,8 @@ void learn_from_success( CHAR_DATA * ch, int sn )
          return;
       else
          learn = 1;
-      ch->pcdata->learned[sn] = UMIN( adept, ch->pcdata->learned[sn] + learn );
-      if( ch->pcdata->learned[sn] == adept ) /* fully learned! */
+      ch->pcdata->skills[sn].value_tenths = UMIN( adept, ch->pcdata->skills[sn].value_tenths + ( learn * 10 ) );
+      if( ch->pcdata->skills[sn].value_tenths == adept ) /* fully learned! */
       {
          gain = 1000 * sklvl;
          set_char_color( AT_WHITE, ch );
@@ -2231,14 +2319,17 @@ void learn_from_failure( CHAR_DATA * ch, int sn )
 {
    int adept, schance;
 
-   if( IS_NPC( ch ) || ch->pcdata->learned[sn] <= 0 )
+   if( IS_NPC( ch ) || ch->pcdata->skills[sn].value_tenths <= 0 )
       return;
-   schance = ch->pcdata->learned[sn] + ( 5 * skill_table[sn]->difficulty );
+   schance = ( ch->pcdata->skills[sn].value_tenths / 10 ) + ( 5 * skill_table[sn]->difficulty );
    if( schance - number_percent(  ) > 25 )
       return;
    adept = GET_ADEPT( ch, sn );
-   if( ch->pcdata->learned[sn] < ( adept - 1 ) )
-      ch->pcdata->learned[sn] = UMIN( adept, ch->pcdata->learned[sn] + 1 );
+   int threshold = adept - 10;
+   if( threshold < 0 )
+      threshold = 0;
+   if( ch->pcdata->skills[sn].value_tenths < threshold )
+      ch->pcdata->skills[sn].value_tenths = UMIN( adept, ch->pcdata->skills[sn].value_tenths + 10 );
 }
 
 void do_grapple( CHAR_DATA * ch, const char *argument )
@@ -2313,7 +2404,7 @@ void do_grapple( CHAR_DATA * ch, const char *argument )
       return;
    }
 
-   percent = LEARNED( ch, gsn_grapple );
+   percent = learned_percent( ch, gsn_grapple );
    WAIT_STATE( ch, skill_table[gsn_grapple]->beats );
 
    if( !chance( ch, percent ) )
@@ -2717,7 +2808,7 @@ void do_dig( CHAR_DATA* ch, const char* argument )
       if( IS_OBJ_STAT( obj, ITEM_BURIED ) && ( can_use_skill( ch, ( number_percent(  ) * ( shovel ? 1 : 2 ) ), gsn_dig ) ) )
 /*
 	&&  (number_percent() * (shovel ? 1 : 2)) <
-	    (IS_NPC(ch) ? 80 : ch->pcdata->learned[gsn_dig]) )
+	    (IS_NPC(ch) ? 80 : ch->pcdata->skills[gsn_dig].value_tenths) )
 */
       {
          found = TRUE;
@@ -3344,7 +3435,7 @@ void do_meditate( CHAR_DATA * ch, const char *argument )
    {
        int meditate_sn = skill_lookup("meditate");
        
-       if( meditate_sn == -1 || !ch->pcdata || ch->pcdata->learned[meditate_sn] == 0 )
+       if( meditate_sn == -1 || !ch->pcdata || ch->pcdata->skills[meditate_sn].value_tenths == 0 )
        {
            if( IS_BIO_ANDROID(ch) )
            {
@@ -4945,7 +5036,7 @@ bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim )
    {
       if( get_eq_char( victim, WEAR_WIELD ) == NULL )
          return FALSE;
-      chances = ( int )( LEARNED( victim, gsn_parry ) / sysdata.parry_mod );
+      chances = ( int )( learned_percent( victim, gsn_parry ) / sysdata.parry_mod );
    }
 
    /*
@@ -4986,7 +5077,7 @@ bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim )
    if( IS_NPC( victim ) )
       chances = UMIN( 60, 2 * victim->level );
    else
-      chances = ( int )( LEARNED( victim, gsn_dodge ) / sysdata.dodge_mod );
+      chances = ( int )( learned_percent( victim, gsn_dodge ) / sysdata.dodge_mod );
 
    if( chances != 0 && victim->morph != NULL )
       chances += victim->morph->dodge;
@@ -5017,7 +5108,7 @@ bool check_tumble( CHAR_DATA * ch, CHAR_DATA * victim )
 
    /*if( victim->Class != CLASS_THIEF || !IS_AWAKE( victim ) )
       return FALSE;*/
-   if( !IS_NPC( victim ) && !( victim->pcdata->learned[gsn_tumble] > 0 ) )
+   if( !IS_NPC( victim ) && !( victim->pcdata->skills[gsn_tumble].value_tenths > 0 ) )
       return FALSE;
    if( IS_PKILL( victim ) )
       mod_tumble_by = sysdata.tumble_pk;
@@ -5026,7 +5117,7 @@ bool check_tumble( CHAR_DATA * ch, CHAR_DATA * victim )
    if( IS_NPC( victim ) )
       chances = UMIN( 60, 2 * victim->level );
    else
-      chances = ( int )( LEARNED( victim, gsn_tumble ) / mod_tumble_by + ( get_curr_dex( victim ) - 13 ) );
+      chances = ( int )( learned_percent( victim, gsn_tumble ) / mod_tumble_by + ( get_curr_dex( victim ) - 13 ) );
    if( chances != 0 && victim->morph )
       chances += victim->morph->tumble;
    if( !chance( victim, chances + victim->level - ch->level ) )
@@ -5436,7 +5527,7 @@ bool check_grip( CHAR_DATA * ch, CHAR_DATA * victim )
    if( IS_NPC( victim ) )
       schance = UMIN( 60, 2 * victim->level );
    else
-      schance = ( int )( LEARNED( victim, gsn_grip ) / 2 );
+      schance = ( int )( learned_percent( victim, gsn_grip ) / 2 );
 
    /*
     * Consider luck as a factor 
@@ -5558,7 +5649,7 @@ void do_berserk( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   percent = LEARNED( ch, gsn_berserk );
+   percent = learned_percent( ch, gsn_berserk );
    WAIT_STATE( ch, skill_table[gsn_berserk]->beats );
    if( !chance( ch, percent ) )
    {
@@ -5606,7 +5697,7 @@ void do_hitall( CHAR_DATA* ch, const char* argument )
       send_to_char( "There's no one else here!\r\n", ch );
       return;
    }
-   percent = LEARNED( ch, gsn_hitall );
+   percent = learned_percent( ch, gsn_hitall );
    for( vch = ch->in_room->first_person; vch; vch = vch_next )
    {
       vch_next = vch->next_in_room;
@@ -6694,7 +6785,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
          return;
       }
       WAIT_STATE( ch, skill_table[gsn_style_evasive]->beats );
-      if( number_percent(  ) < LEARNED( ch, gsn_style_evasive ) )
+      if( number_percent(  ) < learned_percent( ch, gsn_style_evasive ) )
       {
          /*
           * success 
@@ -6727,7 +6818,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
          return;
       }
       WAIT_STATE( ch, skill_table[gsn_style_defensive]->beats );
-      if( number_percent(  ) < LEARNED( ch, gsn_style_defensive ) )
+      if( number_percent(  ) < learned_percent( ch, gsn_style_defensive ) )
       {
          /*
           * success 
@@ -6760,7 +6851,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
          return;
       }
       WAIT_STATE( ch, skill_table[gsn_style_standard]->beats );
-      if( number_percent(  ) < LEARNED( ch, gsn_style_standard ) )
+      if( number_percent(  ) < learned_percent( ch, gsn_style_standard ) )
       {
          /*
           * success 
@@ -6793,7 +6884,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
          return;
       }
       WAIT_STATE( ch, skill_table[gsn_style_aggressive]->beats );
-      if( number_percent(  ) < LEARNED( ch, gsn_style_aggressive ) )
+      if( number_percent(  ) < learned_percent( ch, gsn_style_aggressive ) )
       {
          /*
           * success 
@@ -6826,7 +6917,7 @@ void do_style( CHAR_DATA * ch, const char *argument )
          return;
       }
       WAIT_STATE( ch, skill_table[gsn_style_berserk]->beats );
-      if( number_percent(  ) < LEARNED( ch, gsn_style_berserk ) )
+      if( number_percent(  ) < learned_percent( ch, gsn_style_berserk ) )
       {
          /*
           * success 
@@ -6861,7 +6952,7 @@ bool can_use_skill( CHAR_DATA * ch, int percent, int gsn )
    bool check = FALSE;
    if( IS_NPC( ch ) && percent < 85 )
       check = TRUE;
-   else if( !IS_NPC( ch ) && percent < LEARNED( ch, gsn ) )
+   else if( !IS_NPC( ch ) && percent < learned_percent( ch, gsn ) )
       check = TRUE;
    else if( ch->morph && ch->morph->morph && ch->morph->morph->skills &&
             ch->morph->morph->skills[0] != '\0' &&
@@ -6931,7 +7022,7 @@ void do_cook( CHAR_DATA* ch, const char* argument )
    }
 
    separate_obj( food );   /* Bug catch by Tchaika from SMAUG list */
-   if( number_percent(  ) > LEARNED( ch, gsn_cook ) )
+   if( number_percent(  ) > learned_percent( ch, gsn_cook ) )
    {
       food->timer = food->timer / 2;
       food->value[0] = 0;

@@ -191,7 +191,7 @@ void do_track( CHAR_DATA* ch, const char* argument )
    char arg[MAX_INPUT_LENGTH];
    int dir, maxdist;
 
-   if( !IS_NPC( ch ) && ch->pcdata->learned[gsn_track] <= 0 )
+   if( !IS_NPC( ch ) && ch->pcdata->skills[gsn_track].value_tenths <= 0 )
    {
       send_to_char( "You do not know of this skill yet.\r\n", ch );
       return;
@@ -215,7 +215,7 @@ void do_track( CHAR_DATA* ch, const char* argument )
    maxdist = 100 + ch->level * 30;
 
    if( !IS_NPC( ch ) )
-      maxdist = ( maxdist * LEARNED( ch, gsn_track ) ) / 100;
+      maxdist = ( maxdist * learned_percent( ch, gsn_track ) ) / 100;
 
    dir = find_first_step( ch->in_room, vict->in_room, maxdist );
 
