@@ -15,12 +15,76 @@
  *                          Player skills module                            *
  ****************************************************************************/
 
+#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include "mud.h"
 
 bool validate_spec_fun( const char *name );
 void remove_bexit_flag( EXIT_DATA * pexit, int flag );
+
+static bool parse_sset_tenths( const char *arg, int *out_tenths )
+{
+   if( !arg || !*arg || !out_tenths )
+      return false;
+
+   const char *dot = strchr( arg, '.' );
+
+   if( dot )
+   {
+      int whole = 0;
+      int frac = 0;
+      const char *p = arg;
+
+      if( dot != arg )
+      {
+         while( p < dot )
+         {
+            if( !isdigit( ( unsigned char )*p ) )
+               return false;
+            whole = whole * 10 + ( *p - '0' );
+            if( whole > 1000 )
+               return false;
+            ++p;
+         }
+      }
+
+      if( dot[1] == '\0' || !isdigit( ( unsigned char )dot[1] ) )
+         return false;
+
+      frac = dot[1] - '0';
+
+      if( dot[2] != '\0' )
+         return false;
+
+      if( whole == 1000 && frac > 0 )
+         return false;
+
+      int total = whole * 10 + frac;
+
+      if( total > 1000 )
+         return false;
+
+      *out_tenths = total;
+      return true;
+   }
+   else
+   {
+      int total = 0;
+
+      for( const char *p = arg; *p; ++p )
+      {
+         if( !isdigit( ( unsigned char )*p ) )
+            return false;
+         total = total * 10 + ( *p - '0' );
+         if( total > 1000 )
+            return false;
+      }
+
+      *out_tenths = total;
+      return true;
+   }
+}
 
 /*
  * Unified skill accessors (percent values stored as 0..100 in pcdata->learned).
@@ -1175,6 +1239,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
    char arg2[MAX_INPUT_LENGTH];
    CHAR_DATA *victim;
    int value;
+   int value_tenths;
    int sn, i;
    bool fAll;
    SKILLTYPE *skill;
@@ -1207,6 +1272,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          send_to_char( "(See AFFECTTYPES for location, and AFFECTED_BY for bitvector)\r\n", ch );
       }
       send_to_char( "Skill being any skill or spell.\r\n", ch );
+      send_to_char( "Value range is 0 to 100.0 (0 to 1000 tenths).\r\n", ch );
       return;
    }
 
@@ -2039,16 +2105,10 @@ void do_sset( CHAR_DATA* ch, const char* argument )
    /*
     * Snarf the value.
     */
-   if( !is_number( argument ) )
+   value_tenths = 0;
+   if( !parse_sset_tenths( argument, &value_tenths ) )
    {
-      send_to_char( "Value must be numeric.\r\n", ch );
-      return;
-   }
-
-   value = atoi( argument );
-   if( value < 0 || value > 100 )
-   {
-      send_to_char( "Value range is 0 to 100.\r\n", ch );
+      send_to_char( "Value must be between 0 and 100.0 (0 to 1000 tenths).\r\n", ch );
       return;
    }
 
@@ -2063,16 +2123,18 @@ void do_sset( CHAR_DATA* ch, const char* argument )
          {
             // Bugfix by Sadiq - Modified slightly by Samson. No need to call GET_ADEPT more than once each time this loop runs.
             int adept = GET_ADEPT( victim, sn );
+            int adept_tenths = URANGE( 0, adept * 10, 1000 );
+            int final_value = value_tenths;
 
-            if( value > adept && !IS_IMMORTAL( victim ) )
-               victim->pcdata->learned[sn] = adept;
-            else
-               victim->pcdata->learned[sn] = value;
+            if( !IS_IMMORTAL( victim ) )
+               final_value = UMIN( final_value, adept_tenths );
+
+            victim->pcdata->learned[sn] = URANGE( 0, final_value, 1000 );
          }
       }
    }
    else
-      victim->pcdata->learned[sn] = value;
+      victim->pcdata->learned[sn] = URANGE( 0, value_tenths, 1000 );
 }
 
 /*
