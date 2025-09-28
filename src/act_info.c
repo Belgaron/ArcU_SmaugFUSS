@@ -5010,11 +5010,16 @@ void do_slist( CHAR_DATA* ch, const char* argument )
 
          const int learned_percent = ch->pcdata->learned[skill_idx];
 
-         char val[5];
+         char val[8];
          if( learned_percent > 0 )
-            snprintf( val, sizeof(val), "%d%%", UMIN(999, learned_percent) );
+         {
+            int tenths = get_skill_tenths( ch, skill_idx );
+            int whole = tenths / 10;
+            int tenth = tenths % 10;
+            snprintf( val, sizeof(val), "%d.%d", whole, tenth );
+         }
          else
-            strlcpy( val, "--", sizeof(val) );
+            strlcpy( val, "0", sizeof(val) );
 
          /* NEW color mapping */
          const char *name_col = "&c"; /* default: blue/cyan */
@@ -5034,7 +5039,7 @@ void do_slist( CHAR_DATA* ch, const char* argument )
          }
 
          /* edges in bright white (&W) */
-         ch_printf( ch, "        &W| %s%-22.22s&W %s%4s&W |\r\n",
+         ch_printf( ch, "        &W| %s%-22.22s&W %s%5s&W |\r\n",
                     name_col, skill->name, val_col, val );
 
          total_shown++;
@@ -5048,6 +5053,7 @@ void do_slist( CHAR_DATA* ch, const char* argument )
       send_to_char( "(use '&Cslist all&W' to show unavailable skills)\r\n", ch );
    else
       send_to_char( "(showing all skills)\r\n", ch );
+
 }
 
 
