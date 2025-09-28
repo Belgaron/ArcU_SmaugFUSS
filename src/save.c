@@ -864,10 +864,12 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
    ch->mental_state = -10;
    ch->mobinvis = 0;
    for( i = 0; i < MAX_SKILL; i++ )
+	{
       ch->pcdata->skills[i].value_tenths = 0;
       ch->pcdata->skills[i].cap_tenths = 1000;
       ch->pcdata->skills[i].lock_state = 0;
       ch->pcdata->skills[i].last_used = 0;
+	}
 	for( i = 0; i < MAX_ANDROID_COMPONENTS; i++ )		/* Initialize android component system */
 		ch->pcdata->android_components[i] = 0;
 	ch->pcdata->android_schematics = 0;
