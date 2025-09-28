@@ -1284,7 +1284,6 @@ void do_slookup( CHAR_DATA* ch, const char* argument )
    char buf[MAX_STRING_LENGTH];
    char arg[MAX_INPUT_LENGTH];
    int sn;
-   int iClass, iRace;
    SKILLTYPE *skill = NULL;
 
    one_argument( argument, arg );
@@ -1469,7 +1468,7 @@ void do_sset( CHAR_DATA* ch, const char* argument )
    CHAR_DATA *victim;
    int value;
    int value_tenths;
-   int sn, i;
+   int sn;
    bool fAll;
    SKILLTYPE *skill;
 

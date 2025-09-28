@@ -369,7 +369,6 @@ void write_race_file( int ra )
    char filename[MAX_INPUT_LENGTH];
    struct race_type *race = race_table[ra];
    int i;
-   int x, y;
 
    if( !race->race_name )
    {

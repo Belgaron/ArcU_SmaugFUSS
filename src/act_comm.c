@@ -3461,7 +3461,6 @@ void do_languages( CHAR_DATA* ch, const char* argument )
       char arg2[MAX_INPUT_LENGTH];
       int sn;
       int prct;
-      int prac;
 
       argument = one_argument( argument, arg2 );
       if( arg2[0] == '\0' )
