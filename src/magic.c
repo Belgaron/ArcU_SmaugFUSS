@@ -2122,16 +2122,20 @@ ch_ret spell_ancient_ascension( int sn, int level, CHAR_DATA *ch, void *vo )
     /* Apply the morph transformation */
     if( do_morph_char( ch, morph ) )
     {
-        /* Success messages are handled by the morph system */
+        if( !send_skill_transform_messages( ch, skill ) )
+        {
+            act( AT_MORPH, "&YAncient power surges through your veins as your form transcends mortal limits!&D", ch, NULL, NULL, TO_CHAR );
+            act( AT_MORPH, "&Y$n is engulfed in radiant sigils as eldritch might reshapes $s form!&D", ch, NULL, NULL, TO_ROOM );
+        }
+
+        apply_transform_skill_effects( ch, sn, skill, level );
         successful_casting( skill, ch, ch, NULL );
         return rNONE;
     }
-    else
-    {
-        /* Morph failed */
-        failed_casting( skill, ch, ch, NULL );
-        return rSPELL_FAILED;
-    }
+
+    /* Morph failed */
+    failed_casting( skill, ch, ch, NULL );
+    return rSPELL_FAILED;
 }
 
 ch_ret spell_blindness( int sn, int level, CHAR_DATA * ch, void *vo )
