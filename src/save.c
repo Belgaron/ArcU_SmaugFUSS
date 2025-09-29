@@ -874,8 +874,6 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
    ch->no_immune = 0;
    ch->was_in_room = NULL;
    xCLEAR_BITS( ch->no_affected_by );
-   ch->pcdata->condition[COND_THIRST] = 48;
-   ch->pcdata->condition[COND_FULL] = 48;
    ch->pcdata->condition[COND_BLOODTHIRST] = 10;
    ch->pcdata->nuisance = NULL;
    ch->pcdata->wizinvis = 0;

@@ -67,7 +67,7 @@ const char *const liquid_types[LIQTYPE_TOP] = {
 };
 
 const char *const mod_types[MAX_CONDS] = {
-   "Drunk", "Full", "Thirst", "Bloodthirst"
+   "Drunk", "Bloodthirst"
 };
 
 void save_house_by_vnum( int vnum );
@@ -106,8 +106,7 @@ void save_liquids( void )
       fprintf( fp, "Color     %s~\n", liq->color );
       fprintf( fp, "Type      %d\n", liq->type );
       fprintf( fp, "Vnum      %d\n", liq->vnum );
-      fprintf( fp, "Mod       %d %d %d %d\n", liq->mod[COND_DRUNK], liq->mod[COND_FULL], liq->mod[COND_THIRST],
-               liq->mod[COND_BLOODTHIRST] );
+      fprintf( fp, "Mod       %d %d\n", liq->mod[COND_DRUNK], liq->mod[COND_BLOODTHIRST] );
       fprintf( fp, "%s", "End\n\n" );
    }
    fprintf( fp, "%s", "#END\n" );
@@ -158,9 +157,8 @@ LIQ_TABLE *fread_liquid( FILE * fp )
             if( !str_cmp( word, "Mod" ) )
             {
                liq->mod[COND_DRUNK] = fread_number( fp );
-               liq->mod[COND_FULL] = fread_number( fp );
-               liq->mod[COND_THIRST] = fread_number( fp );
                liq->mod[COND_BLOODTHIRST] = fread_number( fp );
+               fread_to_eol( fp );
             }
             break;
 
@@ -504,8 +502,7 @@ void do_showliquid( CHAR_DATA* ch, const char* argument )
       pager_printf( ch, "&GLiquid type:&g\t %s\r\n", liquid_types[liq->type] );
       send_to_pager( "&GLiquid Modifiers\r\n", ch );
       for( i = 0; i < MAX_CONDS; i++ )
-         if( liquid_table[i] )
-            pager_printf( ch, "&G%s:&g\t %d\r\n", mod_types[i], liq->mod[i] );
+         pager_printf( ch, "&G%s:&g\t %d\r\n", mod_types[i], liq->mod[i] );
       return;
    }
    else if( !NULLSTR( argument ) && ( ( liq = get_liq( argument ) ) == NULL ) )
@@ -546,7 +543,7 @@ void do_setliquid( CHAR_DATA* ch, const char* argument )
    {
       send_to_char( "Syntax: setliquid <vnum> <field> <value>\r\n"
                     "        setliquid create <name>\r\n" "        setliquid delete <vnum>\r\n", ch );
-      send_to_char( " Fields being one of the following:\r\n" " name color type shortdesc drunk thrist blood full\r\n", ch );
+      send_to_char( " Fields being one of the following:\r\n" " name color type shortdesc drunk blood\r\n", ch );
       return;
    }
 
@@ -637,7 +634,7 @@ void do_setliquid( CHAR_DATA* ch, const char* argument )
       if( EMPTYSTR( arg2 ) )
       {
          send_to_char( "Syntax: setliquid <vnum> <field> <value>\r\n", ch );
-         send_to_char( " Fields being one of the following:\r\n" " name color shortdesc drunk thrist blood full\r\n", ch );
+         send_to_char( " Fields being one of the following:\r\n" " name color shortdesc drunk blood\r\n", ch );
          return;
       }
 
@@ -704,13 +701,13 @@ void do_setliquid( CHAR_DATA* ch, const char* argument )
       {
          int i;
          bool found = FALSE;
-         static const char *const arg_names[MAX_CONDS] = { "drunk", "full", "thirst", "blood" };
+         static const char *const arg_names[MAX_CONDS] = { "drunk", "blood" };
 
          if( NULLSTR( argument ) )
          {
             send_to_char( "Syntax: setliquid <vnum> <field> <value>\r\n", ch );
             send_to_char( " Fields being one of the following:\r\n"
-                          " name color shortdesc drunk thrist blood full\r\n", ch );
+                          " name color shortdesc drunk blood\r\n", ch );
             return;
          }
 
@@ -1303,13 +1300,6 @@ void do_drink( CHAR_DATA* ch, const char* argument )
 
             if( ch->pcdata->condition[COND_BLOODTHIRST] < ( 10 + ch->level ) )
             {
-               if( ch->pcdata->condition[COND_FULL] >= MAX_COND_VALUE
-                   || ch->pcdata->condition[COND_THIRST] >= MAX_COND_VALUE )
-               {
-                  send_to_char( "You are too full to drink any blood.\r\n", ch );
-                  return;
-               }
-
                if( !oprog_use_trigger( ch, obj, NULL, NULL ) )
                {
                   act( AT_BLOOD, "$n drinks from the spilled blood.", ch, NULL, NULL, TO_ROOM );
@@ -1324,8 +1314,6 @@ void do_drink( CHAR_DATA* ch, const char* argument )
                }
 
                gain_condition( ch, COND_BLOODTHIRST, 1 );
-               //gain_condition( ch, COND_FULL, 1 );
-               //gain_condition( ch, COND_THIRST, 1 );
                if( --obj->value[1] <= 0 )
                {
                   if( obj->serial == cur_obj )
@@ -1368,14 +1356,10 @@ void do_drink( CHAR_DATA* ch, const char* argument )
 
          if( !IS_NPC( ch ) && obj->value[2] != 0 )
          {
-            //gain_condition( ch, COND_THIRST, liq->mod[COND_THIRST] );
-            //gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
             gain_condition( ch, COND_DRUNK, liq->mod[COND_DRUNK] );
             if( IS_VAMPIRE( ch ) )
                gain_condition( ch, COND_BLOODTHIRST, liq->mod[COND_BLOODTHIRST] );
          }
-         //else if( !IS_NPC( ch ) && obj->value[2] == 0 )
-         //   ch->pcdata->condition[COND_THIRST] = MAX_COND_VALUE;
 
          if( !oprog_use_trigger( ch, obj, NULL, NULL ) )
          {
@@ -1395,17 +1379,6 @@ void do_drink( CHAR_DATA* ch, const char* argument )
             return;
          }
 
-         /*
-          * allow water to be drank; but nothing else on a full stomach     -Nopey 
-          
-         if( !IS_NPC( ch ) && ( ch->pcdata->condition[COND_THIRST] == MAX_COND_VALUE
-                                || ch->pcdata->condition[COND_FULL] == MAX_COND_VALUE ) )
-         {
-            send_to_char( "Your stomach is too full to drink anymore!\r\n", ch );
-            return;
-         }
-			 */
-
          if( ( liq = get_liq_vnum( obj->value[2] ) ) == NULL )
          {
             bug( "%s: bad liquid number %d.", __func__, obj->value[2] );
@@ -1420,13 +1393,7 @@ void do_drink( CHAR_DATA* ch, const char* argument )
 
          amount = 1;
 
-         /*
-          * gain conditions accordingly              -Nopey 
-          */
          gain_condition( ch, COND_DRUNK, liq->mod[COND_DRUNK] );
-         /*gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
-         gain_condition( ch, COND_THIRST, liq->mod[COND_THIRST] );
-			 */
 
          if( IS_VAMPIRE( ch ) )
             gain_condition( ch, COND_BLOODTHIRST, liq->mod[COND_BLOODTHIRST] );
@@ -1461,22 +1428,6 @@ void do_drink( CHAR_DATA* ch, const char* argument )
             else if( ch->pcdata->condition[COND_DRUNK] == MAX_COND_VALUE )
                send_to_char( "You feel like your going to pass out.\r\n", ch );
 
-            /*
-				if( ch->pcdata->condition[COND_THIRST] > ( MAX_COND_VALUE / 2 )
-                && ch->pcdata->condition[COND_THIRST] < ( MAX_COND_VALUE * .4 ) )
-               send_to_char( "Your stomach begins to slosh around.\r\n", ch );
-            else if( ch->pcdata->condition[COND_THIRST] >= ( MAX_COND_VALUE * .4 )
-                     && ch->pcdata->condition[COND_THIRST] < ( MAX_COND_VALUE * .6 ) )
-               send_to_char( "You start to feel bloated.\r\n", ch );
-            else if( ch->pcdata->condition[COND_THIRST] >= ( MAX_COND_VALUE * .6 )
-                     && ch->pcdata->condition[COND_THIRST] < ( MAX_COND_VALUE * .9 ) )
-               send_to_char( "You feel bloated.\r\n", ch );
-            else if( ch->pcdata->condition[COND_THIRST] >= ( MAX_COND_VALUE * .9 )
-                     && ch->pcdata->condition[COND_THIRST] < MAX_COND_VALUE )
-               send_to_char( "You stomach is almost filled to it's brim!\r\n", ch );
-            else if( ch->pcdata->condition[COND_THIRST] == MAX_COND_VALUE )
-               send_to_char( "Your stomach is full, you can't manage to get anymore down.\r\n", ch );
-				 */
 
             /*
              * Hopefully this is the reason why that crap was happening. =0P 
@@ -1536,8 +1487,6 @@ void do_drink( CHAR_DATA* ch, const char* argument )
          amount = 1;
 
          gain_condition( ch, COND_DRUNK, liq->mod[COND_DRUNK] );
-         //gain_condition( ch, COND_FULL, liq->mod[COND_FULL] );
-         //gain_condition( ch, COND_THIRST, liq->mod[COND_THIRST] );
 
          if( IS_VAMPIRE( ch ) )
             gain_condition( ch, COND_BLOODTHIRST, liq->mod[COND_BLOODTHIRST] );
@@ -1572,23 +1521,8 @@ void do_drink( CHAR_DATA* ch, const char* argument )
             else if( ch->pcdata->condition[COND_DRUNK] == MAX_COND_VALUE )
                send_to_char( "You feel like your going to pass out.\r\n", ch );
 
-            if( ch->pcdata->condition[COND_THIRST] > ( MAX_COND_VALUE / 2 )
-                && ch->pcdata->condition[COND_THIRST] < ( MAX_COND_VALUE * .4 ) )
-               send_to_char( "Your stomach begins to slosh around.\r\n", ch );
-            else if( ch->pcdata->condition[COND_THIRST] >= ( MAX_COND_VALUE * .4 )
-                     && ch->pcdata->condition[COND_THIRST] < ( MAX_COND_VALUE * .6 ) )
-               send_to_char( "You start to feel bloated.\r\n", ch );
-            else if( ch->pcdata->condition[COND_THIRST] >= ( MAX_COND_VALUE * .6 )
-                     && ch->pcdata->condition[COND_THIRST] < ( MAX_COND_VALUE * .9 ) )
-               send_to_char( "You feel bloated.\r\n", ch );
-            else if( ch->pcdata->condition[COND_THIRST] >= ( MAX_COND_VALUE * .9 )
-                     && ch->pcdata->condition[COND_THIRST] < MAX_COND_VALUE )
-               send_to_char( "You stomach is almost filled to it's brim!\r\n", ch );
-            else if( ch->pcdata->condition[COND_THIRST] == MAX_COND_VALUE )
-               send_to_char( "Your stomach is full, you can't manage to get anymore down.\r\n", ch );
-
             /*
-             * Hopefully this is the reason why that crap was happening. =0P 
+             * Hopefully this is the reason why that crap was happening. =0P
              */
             if( IS_VAMPIRE( ch ) )
             {

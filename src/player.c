@@ -364,11 +364,7 @@ void do_score( CHAR_DATA* ch, const char* argument )
 
    if( !IS_NPC( ch ) && ch->pcdata->condition[COND_DRUNK] > 10 )
       send_to_pager( "You are drunk.\r\n", ch );
-   //if( !IS_NPC( ch ) && ch->pcdata->condition[COND_THIRST] == 0 )
-   //   send_to_pager( "You are in danger of dehydrating.\r\n", ch );
-   //if( !IS_NPC( ch ) && ch->pcdata->condition[COND_FULL] == 0 )
-   //   send_to_pager( "You are starving to death.\r\n", ch );
-		send_to_pager( "You feel fine.\r\n", ch );
+   send_to_pager( "You feel fine.\r\n", ch );
    if( ch->position != POS_SLEEPING )
       switch ( ch->mental_state / 10 )
       {
@@ -767,10 +763,6 @@ const char *tiny_affect_loc_name( int location )
          return " REMOVE";
       case APPLY_DIG:
          return " DIG   ";
-      case APPLY_FULL:
-         return " HUNGER";
-      case APPLY_THIRST:
-         return " THIRST";
       case APPLY_DRUNK:
          return " DRUNK ";
       case APPLY_BLOOD:

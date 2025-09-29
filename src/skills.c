@@ -4226,9 +4226,6 @@ void do_feed( CHAR_DATA* ch, const char* argument )
          gain_condition( ch, COND_BLOODTHIRST,
                          UMIN( number_range( 1, ( ch->level + victim->level / 20 ) + 3 ),
                                ( 10 + ch->level ) - ch->pcdata->condition[COND_BLOODTHIRST] ) );
-         /*if( ch->pcdata->condition[COND_FULL] <= 37 )
-            gain_condition( ch, COND_FULL, 2 );
-         gain_condition( ch, COND_THIRST, 2 );*/
          act( AT_BLOOD, "You manage to suck a little life out of $N.", ch, NULL, victim, TO_CHAR );
          act( AT_BLOOD, "$n sucks some of your blood!", ch, NULL, victim, TO_VICT );
          learn_from_success( ch, gsn_feed );
