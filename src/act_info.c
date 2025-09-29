@@ -4856,6 +4856,7 @@ void do_slist( CHAR_DATA* ch, const char* argument )
    int sn, total_shown = 0;
    char arg[64];
    bool show_all = FALSE;
+   const bool is_immortal = IS_IMMORTAL( ch );
 
    if( IS_NPC( ch ) )
       return;
@@ -4869,7 +4870,12 @@ void do_slist( CHAR_DATA* ch, const char* argument )
    argument = one_argument( argument, arg );
 
    if( arg[0] != '\0' && !str_cmp( arg, "all" ) )
-      show_all = TRUE;
+   {
+      if( !is_immortal )
+         send_to_char( "Only immortals may view all skills.\r\n", ch );
+      else
+         show_all = TRUE;
+   }
 
    if( num_skills <= 0 || num_skills > MAX_SKILL )
    {
@@ -4972,7 +4978,12 @@ void do_slist( CHAR_DATA* ch, const char* argument )
 
    ch_printf( ch, "&WShowing &C%d &Wskills ", total_shown );
    if( !show_all )
-      send_to_char( "(use '&Cslist all&W' to show unavailable skills)\r\n", ch );
+   {
+      if( is_immortal )
+         send_to_char( "(use '&Cslist all&W' to show unavailable skills)\r\n", ch );
+      else
+         send_to_char( "\r\n", ch );
+   }
    else
       send_to_char( "(showing all skills)\r\n", ch );
 
