@@ -3110,6 +3110,7 @@ void free_char( CHAR_DATA * ch )
    if( ch->pcdata )
    {
       IGNORE_DATA *temp, *next;
+      MORPH_HISTORY_DATA *mhist, *mhist_next;
 
       if( ch->pcdata->pet )
       {
@@ -3126,6 +3127,12 @@ void free_char( CHAR_DATA * ch )
          UNLINK( temp, ch->pcdata->first_ignored, ch->pcdata->last_ignored, next, prev );
          STRFREE( temp->name );
          DISPOSE( temp );
+      }
+
+      for( mhist = ch->pcdata->first_morph_taken; mhist; mhist = mhist_next )
+      {
+         mhist_next = mhist->next;
+         DISPOSE( mhist );
       }
 
       STRFREE( ch->pcdata->filename );

@@ -1830,6 +1830,7 @@ void do_morph( CHAR_DATA * ch, MORPH_DATA * morph )
    REMOVE_BIT( ch->susceptible, morph->no_suscept );
    ch->morph = ch_morph;
    morph->used++;
+   add_morph_history( ch, morph->vnum );
 }
 
 /*
@@ -2952,12 +2953,89 @@ void do_morphlist( CHAR_DATA* ch, const char* argument )
    }
 }
 
+static void remove_morph_history_entry( CHAR_DATA *ch, int vnum )
+{
+   MORPH_HISTORY_DATA *mhist, *mhist_next;
+
+   if( !ch || IS_NPC( ch ) || !ch->pcdata )
+      return;
+
+   for( mhist = ch->pcdata->first_morph_taken; mhist; mhist = mhist_next )
+   {
+      mhist_next = mhist->next;
+      if( mhist->vnum == vnum )
+      {
+         UNLINK( mhist, ch->pcdata->first_morph_taken, ch->pcdata->last_morph_taken, next, prev );
+         DISPOSE( mhist );
+         return;
+      }
+   }
+}
+
+int morph_skill_lookup_vnum( int vnum )
+{
+   MORPH_DATA *morph;
+
+   morph = get_morph_vnum( vnum );
+   if( !morph || !morph->name || morph->name[0] == '\0' )
+      return -1;
+
+   return skill_lookup( morph->name );
+}
+
 /* Helper function for prerequisite checking */
 bool has_used_morph_before( CHAR_DATA *ch, int vnum )
 {
-   /* For now, return TRUE to allow all morphs */
-   /* Later you can add morph usage tracking to player data */
-   return TRUE;
+   MORPH_HISTORY_DATA *mhist;
+   int sn;
+
+   if( !ch || vnum <= 0 )
+      return FALSE;
+
+   if( IS_NPC( ch ) )
+      return TRUE;
+
+   if( !ch->pcdata )
+      return FALSE;
+
+   sn = morph_skill_lookup_vnum( vnum );
+   if( sn >= 0 && sn < num_skills )
+   {
+      if( ch->pcdata->skills[sn].value_tenths > 0 )
+      {
+         remove_morph_history_entry( ch, vnum );
+         return TRUE;
+      }
+   }
+
+   for( mhist = ch->pcdata->first_morph_taken; mhist; mhist = mhist->next )
+      if( mhist->vnum == vnum )
+         return TRUE;
+
+   return FALSE;
+}
+
+void add_morph_history( CHAR_DATA *ch, int vnum )
+{
+   MORPH_HISTORY_DATA *mhist;
+   int sn;
+
+   if( !ch || IS_NPC( ch ) || !ch->pcdata || vnum <= 0 )
+      return;
+
+   sn = morph_skill_lookup_vnum( vnum );
+   if( sn >= 0 && sn < num_skills && ch->pcdata->skills[sn].value_tenths > 0 )
+   {
+      remove_morph_history_entry( ch, vnum );
+      return;
+   }
+
+   if( has_used_morph_before( ch, vnum ) )
+      return;
+
+   CREATE( mhist, MORPH_HISTORY_DATA, 1 );
+   mhist->vnum = vnum;
+   LINK( mhist, ch->pcdata->first_morph_taken, ch->pcdata->last_morph_taken, next, prev );
 }
 
 /* Process morph maintenance costs per tick */

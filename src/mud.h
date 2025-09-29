@@ -187,6 +187,7 @@ typedef struct help_data HELP_DATA;
 typedef struct mob_index_data MOB_INDEX_DATA;
 typedef struct char_morph CHAR_MORPH;
 typedef struct morph_data MORPH_DATA;
+typedef struct morph_history_data MORPH_HISTORY_DATA;
 typedef struct nuisance_data NUISANCE_DATA;
 typedef struct note_data NOTE_DATA;
 typedef struct board_data BOARD_DATA;
@@ -2607,6 +2608,8 @@ struct pc_data
    short pagerlen;   								/* For pager (NOT menus) */
    IGNORE_DATA *first_ignored;   				/* keep track of who to ignore */
    IGNORE_DATA *last_ignored;
+   MORPH_HISTORY_DATA *first_morph_taken;                          /* Fallback unlock tracking for morphs without skills */
+   MORPH_HISTORY_DATA *last_morph_taken;
    const char **tell_history; 					/* for immortal only command lasttell */
    short lt_index;   								/* last_tell index */
    bool hotboot;  									/* hotboot tracker */
@@ -2630,6 +2633,13 @@ struct pc_data
 	OBJ_DATA *last_weapon;        				/* Last weapon for proficiency caching */
    int cached_prof_bonus;  						/* Cached weapon proficiency bonus */
    int cached_prof_gsn;    						/* Cached weapon proficiency gsn */
+};
+
+struct morph_history_data
+{
+   MORPH_HISTORY_DATA *next;
+   MORPH_HISTORY_DATA *prev;
+   int vnum;
 };
 
 /*
@@ -5064,7 +5074,9 @@ MORPH_DATA *fread_morph( FILE * fp );
 void free_morph( MORPH_DATA * morph );
 void morph_defaults( MORPH_DATA * morph );
 void sort_morphs( void );
+int morph_skill_lookup_vnum( int vnum );
 bool has_used_morph_before( CHAR_DATA *ch, int morph_vnum );
+void add_morph_history( CHAR_DATA *ch, int morph_vnum );
 void process_morph_maintenance( CHAR_DATA *ch );
 void check_morph_position( CHAR_DATA *ch );
 const char *get_morph_prompt_tag( CHAR_DATA *ch );
