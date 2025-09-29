@@ -2272,11 +2272,44 @@ void nanny_confirm_new_password( DESCRIPTOR_DATA * d, char *argument )
    d->connected = CON_GET_NEW_SEX;
 }
 
+static void prompt_for_race_selection( DESCRIPTOR_DATA *d, const char *message )
+{
+   char buf[MAX_STRING_LENGTH];
+   int iRace;
+
+   write_to_buffer( d, message, 0 );
+   write_to_buffer( d, "[", 0 );
+
+   buf[0] = '\0';
+
+   for( iRace = 0; iRace < MAX_PC_RACE; iRace++ )
+   {
+      if( race_table[iRace]->race_name && race_table[iRace]->race_name[0] != '\0'
+          && str_cmp( race_table[iRace]->race_name, "unused" ) )
+      {
+         if( iRace > 0 )
+         {
+            if( strlen( buf ) + strlen( race_table[iRace]->race_name ) > 77 )
+            {
+               strlcat( buf, "\r\n", MAX_STRING_LENGTH );
+               write_to_buffer( d, buf, 0 );
+               buf[0] = '\0';
+            }
+            else
+               strlcat( buf, " ", MAX_STRING_LENGTH );
+         }
+         strlcat( buf, race_table[iRace]->race_name, MAX_STRING_LENGTH );
+      }
+   }
+
+   strlcat( buf, "]\r\n: ", MAX_STRING_LENGTH );
+   write_to_buffer( d, buf, 0 );
+   d->connected = CON_GET_NEW_RACE;
+}
+
 void nanny_get_new_sex( DESCRIPTOR_DATA * d, char *argument )
 {
    CHAR_DATA *ch;
-   char buf[MAX_STRING_LENGTH];
-   int iClass;
 
    ch = d->character;
 
@@ -2299,114 +2332,15 @@ void nanny_get_new_sex( DESCRIPTOR_DATA * d, char *argument )
          return;
    }
 
-   write_to_buffer( d, "\r\nSelect a class, or type help [class] to learn more about that class.\r\n[", 0 );
-   buf[0] = '\0';
-
-   for( iClass = 0; iClass < MAX_PC_CLASS; iClass++ )
-   {
-      if( class_table[iClass]->who_name && class_table[iClass]->who_name[0] != '\0' )
-      {
-         if( iClass > 0 )
-         {
-            if( strlen( buf ) + strlen( class_table[iClass]->who_name ) > 77 )
-            {
-               strlcat( buf, "\r\n", MAX_STRING_LENGTH );
-               write_to_buffer( d, buf, 0 );
-               buf[0] = '\0';
-            }
-            else
-               strlcat( buf, " ", MAX_STRING_LENGTH );
-         }
-         strlcat( buf, class_table[iClass]->who_name, MAX_STRING_LENGTH );
-      }
-   }
-   strlcat( buf, "]\r\n: ", MAX_STRING_LENGTH );
-   write_to_buffer( d, buf, 0 );
-   d->connected = CON_GET_NEW_CLASS;
+   prompt_for_race_selection( d, "\r\nYou may choose from the following races, or type help [race] to learn more:\r\n" );
 }
 
 void nanny_get_new_class( DESCRIPTOR_DATA * d, const char *argument )
 {
-   CHAR_DATA *ch;
-   char buf[MAX_STRING_LENGTH];
-   char arg[MAX_STRING_LENGTH];
-   int iClass, iRace;
+   (void)argument;
 
-   ch = d->character;
-   argument = one_argument( argument, arg );
-
-   if( !str_cmp( arg, "help" ) )
-   {
-
-      for( iClass = 0; iClass < MAX_PC_CLASS; iClass++ )
-      {
-         if( class_table[iClass]->who_name && class_table[iClass]->who_name[0] != '\0' )
-         {
-            if( toupper( argument[0] ) == toupper( class_table[iClass]->who_name[0] )
-                && !str_prefix( argument, class_table[iClass]->who_name ) )
-            {
-               do_help( ch, argument );
-               write_to_buffer( d, "Please choose a class: ", 0 );
-               return;
-            }
-         }
-      }
-      write_to_buffer( d, "No such help topic.  Please choose a class: ", 0 );
-      return;
-   }
-
-   for( iClass = 0; iClass < MAX_PC_CLASS; iClass++ )
-   {
-      if( class_table[iClass]->who_name && class_table[iClass]->who_name[0] != '\0' )
-      {
-         if( toupper( arg[0] ) == toupper( class_table[iClass]->who_name[0] )
-             && !str_prefix( arg, class_table[iClass]->who_name ) )
-         {
-            ch->Class = iClass;
-            break;
-         }
-      }
-   }
-
-   if( iClass == MAX_PC_CLASS
-       || !class_table[iClass]->who_name
-       || class_table[iClass]->who_name[0] == '\0' || !str_cmp( class_table[iClass]->who_name, "unused" ) )
-   {
-      write_to_buffer( d, "That's not a class.\r\nWhat IS your class? ", 0 );
-      return;
-   }
-
-
-   if( check_bans( ch, BAN_CLASS ) )
-   {
-      write_to_buffer( d, "That class is not currently avaiable.\r\nWhat IS your class? ", 0 );
-      return;
-   }
-
-   write_to_buffer( d, "\r\nYou may choose from the following races, or type help [race] to learn more:\r\n[", 0 );
-   buf[0] = '\0';
-   for( iRace = 0; iRace < MAX_PC_RACE; iRace++ )
-	{
-		if( race_table[iRace]->race_name && race_table[iRace]->race_name[0] != '\0'
-			&& str_cmp( race_table[iRace]->race_name, "unused" ) )
-      {
-         if( iRace > 0 )
-         {
-            if( strlen( buf ) + strlen( race_table[iRace]->race_name ) > 77 )
-            {
-               strlcat( buf, "\r\n", MAX_STRING_LENGTH );
-               write_to_buffer( d, buf, 0 );
-               buf[0] = '\0';
-            }
-            else
-               strlcat( buf, " ", MAX_STRING_LENGTH );
-         }
-         strlcat( buf, race_table[iRace]->race_name, MAX_STRING_LENGTH );
-      }
-   }
-   strlcat( buf, "]\r\n: ", MAX_STRING_LENGTH );
-   write_to_buffer( d, buf, 0 );
-   d->connected = CON_GET_NEW_RACE;
+   write_to_buffer( d, "\r\nClasses are determined automatically by your chosen race.\r\n", 0 );
+   prompt_for_race_selection( d, "Please choose a race, or type help [race] to learn more:\r\n" );
 }
 
 void nanny_get_new_race( DESCRIPTOR_DATA * d, const char *argument )
