@@ -372,28 +372,28 @@ void do_score( CHAR_DATA* ch, const char* argument )
             send_to_pager( "You're completely messed up!\r\n", ch );
             break;
          case -10:
-            send_to_pager( "You're barely conscious.\r\n", ch );
+            send_to_pager( "You're barely conscious, but sheer will keeps you on your feet.\r\n", ch );
             break;
          case -9:
-            send_to_pager( "You can barely keep your eyes open.\r\n", ch );
+            send_to_pager( "Your eyelids droop, yet you push yourself to stay alert.\r\n", ch );
             break;
          case -8:
-            send_to_pager( "You're extremely drowsy.\r\n", ch );
+            send_to_pager( "You're extremely drowsy and every action takes effort.\r\n", ch );
             break;
          case -7:
-            send_to_pager( "You feel very unmotivated.\r\n", ch );
+            send_to_pager( "You feel very unmotivated, though you can carry on if needed.\r\n", ch );
             break;
          case -6:
-            send_to_pager( "You feel sedated.\r\n", ch );
+            send_to_pager( "You feel sedated and sluggish.\r\n", ch );
             break;
          case -5:
-            send_to_pager( "You feel sleepy.\r\n", ch );
+            send_to_pager( "Sleep tugs at you, but you keep moving.\r\n", ch );
             break;
          case -4:
-            send_to_pager( "You feel tired.\r\n", ch );
+            send_to_pager( "You feel tired and could benefit from a break.\r\n", ch );
             break;
          case -3:
-            send_to_pager( "You could use a rest.\r\n", ch );
+            send_to_pager( "A short rest might help clear your head.\r\n", ch );
             break;
          case -2:
             send_to_pager( "You feel a little under the weather.\r\n", ch );
@@ -440,9 +440,9 @@ void do_score( CHAR_DATA* ch, const char* argument )
    else if( ch->mental_state > 25 )
       send_to_pager( "Your sleep is uneasy.\r\n", ch );
    else if( ch->mental_state < -35 )
-      send_to_pager( "You are deep in a much needed sleep.\r\n", ch );
+      send_to_pager( "You sleep deeply, recovering from the exhaustion that grips you.\r\n", ch );
    else if( ch->mental_state < -25 )
-      send_to_pager( "You are in deep slumber.\r\n", ch );
+      send_to_pager( "You are in a deep slumber, finding what rest you can.\r\n", ch );
    send_to_pager( "&cLanguages: &w", ch );
    for( iLang = 0; lang_array[iLang] != LANG_UNKNOWN; iLang++ )
       if( knows_language( ch, lang_array[iLang], ch ) || ( IS_NPC( ch ) && ch->speaks == 0 ) )

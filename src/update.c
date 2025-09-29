@@ -1041,52 +1041,35 @@ void char_update( void )
             {
                case 10:
                   if( ch->position > POS_SLEEPING )
-                  {
-                     if( ( ch->position == POS_STANDING
-                           || ch->position < POS_FIGHTING ) && number_percent(  ) + 10 < abs( ch->mental_state ) )
-                        do_sleep( ch, "" );
-                     else
-                        send_to_char( "You're barely conscious.\r\n", ch );
-                  }
+                     send_to_char( "You're barely conscious, but you stubbornly fight to stay awake.\r\n", ch );
                   break;
                case 9:
                   if( ch->position > POS_SLEEPING )
-                  {
-                     if( ( ch->position == POS_STANDING
-                           || ch->position < POS_FIGHTING ) && ( number_percent(  ) + 20 ) < abs( ch->mental_state ) )
-                        do_sleep( ch, "" );
-                     else
-                        send_to_char( "You can barely keep your eyes open.\r\n", ch );
-                  }
+                     send_to_char( "Your eyelids droop, yet you manage to keep them open.\r\n", ch );
                   break;
                case 8:
                   if( ch->position > POS_SLEEPING )
-                  {
-                     if( ch->position < POS_SITTING && ( number_percent(  ) + 30 ) < abs( ch->mental_state ) )
-                        do_sleep( ch, "" );
-                     else
-                        send_to_char( "You're extremely drowsy.\r\n", ch );
-                  }
+                     send_to_char( "Exhaustion weighs heavily on you, making each moment a struggle.\r\n", ch );
                   break;
                case 7:
                   if( ch->position > POS_RESTING )
-                     send_to_char( "You feel very unmotivated.\r\n", ch );
+                     send_to_char( "You feel very unmotivated, though you can press on if you choose.\r\n", ch );
                   break;
                case 6:
                   if( ch->position > POS_RESTING )
-                     send_to_char( "You feel sedated.\r\n", ch );
+                     send_to_char( "You feel sedated and sluggish.\r\n", ch );
                   break;
                case 5:
                   if( ch->position > POS_RESTING )
-                     send_to_char( "You feel sleepy.\r\n", ch );
+                     send_to_char( "Sleep tugs at you, but you keep moving.\r\n", ch );
                   break;
                case 4:
                   if( ch->position > POS_RESTING )
-                     send_to_char( "You feel tired.\r\n", ch );
+                     send_to_char( "You feel tired and could benefit from a break.\r\n", ch );
                   break;
                case 3:
                   if( ch->position > POS_RESTING )
-                     send_to_char( "You could use a rest.\r\n", ch );
+                     send_to_char( "A short rest might help clear your head.\r\n", ch );
                   break;
             }
          }
