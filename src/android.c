@@ -446,7 +446,11 @@ ch_ret spell_aegis( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Aegis transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    do_morph( ch, morph );
+    if( !do_morph_char( ch, morph ) )
+    {
+        send_to_char( "The transformation fails to take hold.\r\n", ch );
+        return rSPELL_FAILED;
+    }
     return rNONE;
 }
 
@@ -472,7 +476,11 @@ ch_ret spell_titan( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Titan transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    do_morph( ch, morph );
+    if( !do_morph_char( ch, morph ) )
+    {
+        send_to_char( "The transformation fails to take hold.\r\n", ch );
+        return rSPELL_FAILED;
+    }
     return rNONE;
 }
 
@@ -498,7 +506,11 @@ ch_ret spell_valkyrie( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Valkyrie transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    do_morph( ch, morph );
+    if( !do_morph_char( ch, morph ) )
+    {
+        send_to_char( "The transformation fails to take hold.\r\n", ch );
+        return rSPELL_FAILED;
+    }
     return rNONE;
 }
 
@@ -524,7 +536,11 @@ ch_ret spell_olympus( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Olympus transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    do_morph( ch, morph );
+    if( !do_morph_char( ch, morph ) )
+    {
+        send_to_char( "The transformation fails to take hold.\r\n", ch );
+        return rSPELL_FAILED;
+    }
     return rNONE;
 }
 
@@ -550,7 +566,11 @@ ch_ret spell_ragnarok( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Ragnarok transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    do_morph( ch, morph );
+    if( !do_morph_char( ch, morph ) )
+    {
+        send_to_char( "The transformation fails to take hold.\r\n", ch );
+        return rSPELL_FAILED;
+    }
     return rNONE;
 }
 
@@ -576,6 +596,10 @@ ch_ret spell_excalibur( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Excalibur transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    do_morph( ch, morph );
+    if( !do_morph_char( ch, morph ) )
+    {
+        send_to_char( "The transformation fails to take hold.\r\n", ch );
+        return rSPELL_FAILED;
+    }
     return rNONE;
 }
