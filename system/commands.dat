@@ -3176,7 +3176,7 @@ End
 Name        score~
 Code        do_score
 Position    100
-Level       2
+Level       0
 Log         0
 Flags       16
 End
