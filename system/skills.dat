@@ -1438,6 +1438,18 @@ Minlevel     0
 End
 
 #SKILL
+Name         mining~
+Type         Skill
+Info         0
+Flags        gatherskill
+Rounds       18
+Code         do_mine
+Dammsg       mining attempt~
+Wearoff      Your arms stop aching from mining.~
+Minlevel     0
+End
+
+#SKILL
 Name         block~
 Type         Skill
 Info         0
