@@ -511,9 +511,9 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
 
       for( mhist = ch->pcdata->first_morph_taken; mhist; mhist = mhist->next )
       {
-         int sn = morph_skill_lookup_vnum( mhist->vnum );
+         int morph_sn = morph_skill_lookup_vnum( mhist->vnum );
 
-         if( sn >= 0 && sn < num_skills && ch->pcdata->skills[sn].value_tenths > 0 )
+         if( morph_sn >= 0 && morph_sn < num_skills && ch->pcdata->skills[morph_sn].value_tenths > 0 )
             continue;
 
          fprintf( fp, "MorphTaken   %d\n", mhist->vnum );
