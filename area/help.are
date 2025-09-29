@@ -4433,6 +4433,21 @@ FILL can be used with drink containers, regular containers or pipes.
  
 ~
 
+0 FISHING~
+Syntax:  fish
+Syntax:  cast 'sense water'
+
+Fishing allows adventurers to gather food and rare curiosities from
+waterways across the realms.  Locate a room with a water sector type or
+a body of water nearby, then use the FISH command to cast your line.  A
+successful attempt may return fish, treasure, or other aquatic finds
+that can be eaten, sold, or used in quests.  Spells or abilities that
+highlight nearby water, such as Sense Water, help you identify good
+locations to cast from.
+
+See also:  COOKING, SURVIVAL, WATERBREATHING
+~
+
 1 FINDNOTE~
 Syntax: findnote <keyword>
  
@@ -9055,6 +9070,21 @@ For.-+== =================[]===HORIZON=ST==== ==+-X-   10 Scrolls
    Graveyard      Bridge    Marina-Coral Depths    S   22 Tailor
  
 NOTES: Archive second floor, all south.  Oracle second floor, all south, east.
+~
+
+0 MINING~
+Syntax:  mine
+Syntax:  wield pick
+
+Mining lets craftsmen harvest ore, gems, and stone from underground
+seams.  Equip a mining pick, travel to a room with a mountain, cave, or
+underground sector, and use the MINE command to chip away at the wall.
+Each attempt may uncover raw materials that can be smelted by smiths or
+sold to crafters for profit.  Higher skill and better tools improve your
+odds of finding rare veins, while light sources help reveal hidden
+deposits.
+
+See also:  FORGE, SMELT, TRADE
 ~
 
 51 MAPOUT~
