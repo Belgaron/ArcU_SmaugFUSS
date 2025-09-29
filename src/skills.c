@@ -127,6 +127,9 @@ static int infer_skill_context( int sn )
 
    const struct skill_type *skill = skill_table[sn];
 
+   if( skill->flags & SF_GATHERSKILL )
+      return SKILL_CONTEXT_GATHER;
+
    switch( skill->type )
    {
       case SKILL_SPELL:
@@ -323,6 +326,8 @@ void skill_gain( CHAR_DATA *ch, int sn, int DR, bool success, int context_flags 
 
    if( resolved_context & SKILL_CONTEXT_CRAFT )
       base_chance += 3;
+   if( resolved_context & SKILL_CONTEXT_GATHER )
+      base_chance += 3;
    if( resolved_context & SKILL_CONTEXT_MAGIC )
       base_chance -= 2;
    if( resolved_context & SKILL_CONTEXT_SOCIAL )
@@ -418,7 +423,8 @@ const char *const spell_flag[] = {
    "nomob",          // 22 - SF_NOMOB (BV22)
    "basicskill",     // 23 - SF_BASICSKILL (BV23)
    "raceskill",      // 24 - SF_RACESKILL (BV24)
-   "r5", "r6", "r7", "r8", "r9", "r10", "r11"
+   "gatherskill",    // 25 - SF_GATHERSKILL (BV25)
+   "r5", "r6", "r7", "r8", "r9", "r10"
 };
 
 const char *const spell_saves[] = { "none", "poison_death", "wands", "para_petri", "breath", "spell_staff" };

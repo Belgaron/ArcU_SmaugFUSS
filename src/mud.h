@@ -1686,6 +1686,7 @@ typedef enum
 #define SF_NOMOB		  	BV22   /* cannot be cast on mobiles */
 #define SF_BASICSKILL     	BV23   /* Always shown on practice lists */
 #define SF_RACESKILL      	BV24   /* Race-specific skills, shown if race can use */
+#define SF_GATHERSKILL    	BV25   /* Gathering-focused ability */
 typedef enum
 { SS_NONE, SS_POISON_DEATH, SS_ROD_WANDS, SS_PARA_PETRI,
    SS_BREATH, SS_SPELL_STAFF
@@ -2537,7 +2538,8 @@ struct ignore_data
 #define SKILL_CONTEXT_SOCIAL     BV03
 #define SKILL_CONTEXT_STEALTH    BV04
 #define SKILL_CONTEXT_ABILITY    BV05
-#define SKILL_CONTEXT_SCRIPT     BV06
+#define SKILL_CONTEXT_GATHER     BV06
+#define SKILL_CONTEXT_SCRIPT     BV07
 
 typedef struct skill_state
 {
