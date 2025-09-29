@@ -4765,6 +4765,92 @@ void do_afk( CHAR_DATA* ch, const char* argument )
    }
 }
 
+typedef struct racial_skill_rule
+{
+   const char *skill_name;
+   int required_race;
+   bool hide_until_learned;
+   bool exclude_bio_android;
+} RACIAL_SKILL_RULE;
+
+static bool char_matches_racial_rule( const CHAR_DATA *ch, const RACIAL_SKILL_RULE *rule )
+{
+   if( !ch || IS_NPC( ch ) || !rule )
+      return FALSE;
+
+   switch( rule->required_race )
+   {
+      case RACE_HUMAN:
+         return ( ch->race == RACE_HUMAN || ch->Class == CLASS_HUMAN );
+      case RACE_ELDARI:
+         return ( ch->race == RACE_ELDARI || ch->Class == CLASS_ELDARI );
+      case RACE_ANDROID:
+         if( ( ch->race == RACE_ANDROID || ch->Class == CLASS_ANDROID ) )
+         {
+            if( rule->exclude_bio_android )
+               return ( ch->race != RACE_BIO_ANDROID && ch->Class != CLASS_BIO_ANDROID );
+            return TRUE;
+         }
+         return FALSE;
+      case RACE_BIO_ANDROID:
+         return ( ch->race == RACE_BIO_ANDROID || ch->Class == CLASS_BIO_ANDROID );
+      case RACE_SPIRITBORN:
+         return ( ch->race == RACE_SPIRITBORN || ch->Class == CLASS_SPIRITBORN );
+      case RACE_HOLLOWBORN:
+         return ( ch->race == RACE_HOLLOWBORN || ch->Class == CLASS_HOLLOWBORN );
+      case RACE_LYCAN:
+         return ( ch->race == RACE_LYCAN || ch->Class == CLASS_LYCAN );
+      case RACE_VAMPIRE:
+         return ( ch->race == RACE_VAMPIRE || ch->Class == CLASS_VAMPIRE );
+      case RACE_ARCOSIAN:
+         return ( ch->race == RACE_ARCOSIAN || ch->Class == CLASS_ARCOSIAN );
+      default:
+         return FALSE;
+   }
+}
+
+static bool should_hide_racial_skill( const CHAR_DATA *ch, const SKILLTYPE *skill, int learned_value )
+{
+   static const RACIAL_SKILL_RULE racial_rules[] =
+   {
+      { "ascended form", RACE_HUMAN, TRUE, FALSE },
+      { "shikai", RACE_SPIRITBORN, TRUE, FALSE },
+      { "hollow rage", RACE_HOLLOWBORN, TRUE, FALSE },
+      { "primal form", RACE_LYCAN, TRUE, FALSE },
+      { "blood awakening", RACE_VAMPIRE, TRUE, FALSE },
+      { "true form", RACE_ARCOSIAN, TRUE, FALSE },
+      { "aegis", RACE_ANDROID, TRUE, TRUE },
+      { "titan", RACE_ANDROID, TRUE, TRUE },
+      { "valkyrie", RACE_ANDROID, TRUE, TRUE },
+      { "olympus", RACE_ANDROID, TRUE, TRUE },
+      { "ragnarok", RACE_ANDROID, TRUE, TRUE },
+      { "excalibur", RACE_ANDROID, TRUE, TRUE }
+   };
+
+   if( !skill || !skill->name )
+      return FALSE;
+
+   for( size_t i = 0; i < sizeof( racial_rules ) / sizeof( racial_rules[0] ); ++i )
+   {
+      const RACIAL_SKILL_RULE *rule = &racial_rules[i];
+      if( !str_cmp( skill->name, rule->skill_name ) )
+      {
+         if( !char_matches_racial_rule( ch, rule ) )
+            return TRUE;
+
+         if( rule->hide_until_learned && learned_value <= 0 )
+            return TRUE;
+
+         return FALSE;
+      }
+   }
+
+   if( SPELL_FLAG( skill, SF_RACESKILL ) && learned_value <= 0 )
+      return TRUE;
+
+   return FALSE;
+}
+
 void do_slist( CHAR_DATA* ch, const char* argument )
 {
    int sn, total_shown = 0;
@@ -4814,13 +4900,18 @@ void do_slist( CHAR_DATA* ch, const char* argument )
          if( skill_idx == -1 )
             continue;
 
+         const int learned_value = ch->pcdata->skills[skill_idx].value_tenths;
+
+         if( should_hide_racial_skill( ch, skill, learned_value ) )
+            continue;
+
          if( !show_all )
          {
-            if( ch->pcdata->skills[skill_idx].value_tenths <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
+            if( learned_value <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
                continue;
 
             if( skill->min_power_level > 0 && char_pl < skill->min_power_level
-                && ch->pcdata->skills[skill_idx].value_tenths <= 0 )
+                && learned_value <= 0 )
                continue;
          }
 
@@ -4841,8 +4932,6 @@ void do_slist( CHAR_DATA* ch, const char* argument )
 
             type_header_shown = TRUE;
          }
-
-         const int learned_value = ch->pcdata->skills[skill_idx].value_tenths;
 
          char val[16];
          if( learned_value > 0 )
