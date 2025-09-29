@@ -3822,7 +3822,15 @@ void do_skill( CHAR_DATA *ch, const char *argument )
 
    if( argument[0] == '\0' )
    {
-      show_practice_list( ch, NULL );
+      if( IS_IMMORTAL( ch ) )
+      {
+         show_practice_list( ch, NULL );
+      }
+      else
+      {
+         send_to_char( "You need to seek out a trainer and ask what they can teach.\r\n", ch );
+         send_to_char( "Trainers can then help you practice specific skills.\r\n", ch );
+      }
       return;
    }
 
