@@ -1621,6 +1621,12 @@ void do_morph( CHAR_DATA * ch, MORPH_DATA * morph )
    if( morph->focus_cost > 0 )
       ch->focus -= morph->focus_cost;
 
+   if( morph->favourused > 0 && !IS_NPC( ch ) && ch->pcdata && ch->pcdata->deity )
+   {
+      ch->pcdata->favor -= morph->favourused;
+      adjust_favor( ch, -1, 1 );
+   }
+
    xSET_BITS( ch->affected_by, morph->affected_by );
    SET_BIT( ch->immune, morph->immune );
    SET_BIT( ch->resistant, morph->resistant );
@@ -1642,88 +1648,56 @@ int do_morph_char( CHAR_DATA * ch, MORPH_DATA * morph )
 {
    bool canmorph = TRUE;
    OBJ_DATA *obj, *tmpobj;
+   OBJ_DATA *needed_objs[3] = { NULL, NULL, NULL };
+   int i;
 
    if( ch->morph )
       canmorph = FALSE;
 
-   if( morph->obj[0] )
+   if( morph->obj[0] || morph->obj[1] || morph->obj[2] )
    {
-      if( !( obj = get_obj_vnum( ch, morph->obj[0] ) ) )
-         canmorph = FALSE;
-      else if( morph->objuse[0] )
+      for( obj = ch->last_carrying; obj; obj = obj->prev_content )
       {
-         act( AT_OBJECT, "$p disappears in a whisp of smoke!", obj->carried_by, obj, NULL, TO_CHAR );
-         if( obj == get_eq_char( obj->carried_by, WEAR_WIELD )
-             && ( tmpobj = get_eq_char( obj->carried_by, WEAR_DUAL_WIELD ) ) != NULL )
-            tmpobj->wear_loc = WEAR_WIELD;
-         separate_obj( obj );
-         extract_obj( obj );
-      }
-   }
+         if( !can_see_obj( ch, obj ) )
+            continue;
 
-   if( morph->obj[1] )
-   {
-      if( !( obj = get_obj_vnum( ch, morph->obj[1] ) ) )
-         canmorph = FALSE;
-      else if( morph->objuse[1] )
-      {
-         act( AT_OBJECT, "$p disappears in a whisp of smoke!", obj->carried_by, obj, NULL, TO_CHAR );
-         if( obj == get_eq_char( obj->carried_by, WEAR_WIELD )
-             && ( tmpobj = get_eq_char( obj->carried_by, WEAR_DUAL_WIELD ) ) != NULL )
-            tmpobj->wear_loc = WEAR_WIELD;
-         separate_obj( obj );
-         extract_obj( obj );
+         for( i = 0; i < 3; ++i )
+         {
+            if( morph->obj[i] && !needed_objs[i] && obj->pIndexData->vnum == morph->obj[i] )
+            {
+               needed_objs[i] = obj;
+               break;
+            }
+         }
       }
-   }
 
-   if( morph->obj[2] )
-   {
-      if( !( obj = get_obj_vnum( ch, morph->obj[2] ) ) )
-         canmorph = FALSE;
-      else if( morph->objuse[2] )
-      {
-         act( AT_OBJECT, "$p disappears in a whisp of smoke!", obj->carried_by, obj, NULL, TO_CHAR );
-         if( obj == get_eq_char( obj->carried_by, WEAR_WIELD )
-             && ( tmpobj = get_eq_char( obj->carried_by, WEAR_DUAL_WIELD ) ) != NULL )
-            tmpobj->wear_loc = WEAR_WIELD;
-         separate_obj( obj );
-         extract_obj( obj );
-      }
+      for( i = 0; i < 3; ++i )
+         if( morph->obj[i] && !needed_objs[i] )
+            canmorph = FALSE;
    }
 
    if( morph->hpused )
    {
       if( ch->hit < morph->hpused )
          canmorph = FALSE;
-      else
-         ch->hit -= morph->hpused;
    }
 
    if( morph->moveused )
    {
       if( ch->move < morph->moveused )
          canmorph = FALSE;
-      else
-         ch->move -= morph->moveused;
    }
 
    if( morph->manaused )
    {
       if( ch->mana < morph->manaused )
          canmorph = FALSE;
-      else
-         ch->mana -= morph->manaused;
    }
 
    if( morph->favourused )
    {
       if( IS_NPC( ch ) || !ch->pcdata->deity || ch->pcdata->favor < morph->favourused )
          canmorph = FALSE;
-      else
-      {
-         ch->pcdata->favor -= morph->favourused;
-         adjust_favor( ch, -1, 1 );
-      }
    }
 
    if( !canmorph )
@@ -1731,6 +1705,37 @@ int do_morph_char( CHAR_DATA * ch, MORPH_DATA * morph )
       send_to_char( "You begin to transform, but something goes wrong.\r\n", ch );
       return FALSE;
    }
+
+   if( morph->objuse[0] && needed_objs[0] )
+   {
+      act( AT_OBJECT, "$p disappears in a whisp of smoke!", needed_objs[0]->carried_by, needed_objs[0], NULL, TO_CHAR );
+      if( needed_objs[0] == get_eq_char( needed_objs[0]->carried_by, WEAR_WIELD )
+          && ( tmpobj = get_eq_char( needed_objs[0]->carried_by, WEAR_DUAL_WIELD ) ) != NULL )
+         tmpobj->wear_loc = WEAR_WIELD;
+      separate_obj( needed_objs[0] );
+      extract_obj( needed_objs[0] );
+   }
+
+   if( morph->objuse[1] && needed_objs[1] )
+   {
+      act( AT_OBJECT, "$p disappears in a whisp of smoke!", needed_objs[1]->carried_by, needed_objs[1], NULL, TO_CHAR );
+      if( needed_objs[1] == get_eq_char( needed_objs[1]->carried_by, WEAR_WIELD )
+          && ( tmpobj = get_eq_char( needed_objs[1]->carried_by, WEAR_DUAL_WIELD ) ) != NULL )
+         tmpobj->wear_loc = WEAR_WIELD;
+      separate_obj( needed_objs[1] );
+      extract_obj( needed_objs[1] );
+   }
+
+   if( morph->objuse[2] && needed_objs[2] )
+   {
+      act( AT_OBJECT, "$p disappears in a whisp of smoke!", needed_objs[2]->carried_by, needed_objs[2], NULL, TO_CHAR );
+      if( needed_objs[2] == get_eq_char( needed_objs[2]->carried_by, WEAR_WIELD )
+          && ( tmpobj = get_eq_char( needed_objs[2]->carried_by, WEAR_DUAL_WIELD ) ) != NULL )
+         tmpobj->wear_loc = WEAR_WIELD;
+      separate_obj( needed_objs[2] );
+      extract_obj( needed_objs[2] );
+   }
+
    send_morph_message( ch, morph, TRUE );
    do_morph( ch, morph );
    return TRUE;
