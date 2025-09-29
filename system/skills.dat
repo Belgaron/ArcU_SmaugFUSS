@@ -515,7 +515,7 @@ End
 Name         dig~
 Type         Skill
 Info         0
-Flags        0
+Flags        gatherskill
 Minpos       112
 Rounds       20
 Code         do_dig
@@ -1429,7 +1429,7 @@ End
 Name         fishing~
 Type         Skill
 Info         0
-Flags        0
+Flags        gatherskill
 Rounds       12
 Code         do_fish
 Dammsg       fishing attempt~
