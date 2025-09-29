@@ -340,7 +340,7 @@ void do_score( CHAR_DATA* ch, const char* argument )
          snprintf( buf, MAX_STRING_LENGTH, "%s", "standard" );
          break;
    }
-   pager_printf( ch, "&cLife: &G%-5d \r\n&D", ch->hit );
+   pager_printf( ch, "&c         &cLife: &G%-5d&D\r\n", ch->hit );
 
    pager_printf( ch, "&OGOLD : %-13s&c         &cMana: &C%d/%d&C&D \r\n", 
 				 num_punct( ch->gold ), ch->mana, ch->max_mana  );
@@ -364,8 +364,8 @@ void do_score( CHAR_DATA* ch, const char* argument )
 
    if( !IS_NPC( ch ) && ch->pcdata->condition[COND_DRUNK] > 10 )
       send_to_pager( "You are drunk.\r\n", ch );
-   send_to_pager( "You feel fine.\r\n", ch );
    if( ch->position != POS_SLEEPING )
+   {
       switch ( ch->mental_state / 10 )
       {
          default:
@@ -435,14 +435,20 @@ void do_score( CHAR_DATA* ch, const char* argument )
             send_to_pager( "You are a Supreme Entity.\r\n", ch );
             break;
       }
-   else if( ch->mental_state > 45 )
-      send_to_pager( "Your sleep is filled with strange and vivid dreams.\r\n", ch );
-   else if( ch->mental_state > 25 )
-      send_to_pager( "Your sleep is uneasy.\r\n", ch );
-   else if( ch->mental_state < -35 )
-      send_to_pager( "You sleep deeply, recovering from the exhaustion that grips you.\r\n", ch );
-   else if( ch->mental_state < -25 )
-      send_to_pager( "You are in a deep slumber, finding what rest you can.\r\n", ch );
+   }
+   else
+   {
+      if( ch->mental_state > 45 )
+         send_to_pager( "Your sleep is filled with strange and vivid dreams.\r\n", ch );
+      else if( ch->mental_state > 25 )
+         send_to_pager( "Your sleep is uneasy.\r\n", ch );
+      else if( ch->mental_state < -35 )
+         send_to_pager( "You sleep deeply, recovering from the exhaustion that grips you.\r\n", ch );
+      else if( ch->mental_state < -25 )
+         send_to_pager( "You are in a deep slumber, finding what rest you can.\r\n", ch );
+      else
+         send_to_pager( "You feel fine.\r\n", ch );
+   }
    send_to_pager( "&cLanguages: &w", ch );
    for( iLang = 0; lang_array[iLang] != LANG_UNKNOWN; iLang++ )
       if( knows_language( ch, lang_array[iLang], ch ) || ( IS_NPC( ch ) && ch->speaks == 0 ) )
