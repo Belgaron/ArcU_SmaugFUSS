@@ -466,6 +466,335 @@ void setFishingSkillSn( int sn )
 
 } // namespace Fishing
 
+namespace Mining {
+
+namespace {
+   constexpr const char *SKILL_NAME = "mining";
+   constexpr const char *DIFFICULTY_SKILL_KEY = "mining";
+   int miningSkillSn = -1;
+}
+
+class OreData
+{
+ public:
+   int vnum;
+   std::string name;
+   std::string short_desc;
+   std::string long_desc;
+   int rarity;
+   int min_skill;
+   int weight;
+   int value;
+   int base_difficulty;
+   std::vector<int> valid_sectors;
+
+   OreData( int v, const std::string &n, const std::string &sd, const std::string &ld,
+            int r, int ms, int w, int val, int diff, const std::vector<int> &sectors )
+      : vnum( v ), name( n ), short_desc( sd ), long_desc( ld ), rarity( r ), min_skill( ms ),
+        weight( w ), value( val ), base_difficulty( diff ), valid_sectors( sectors )
+   {
+   }
+};
+
+class OreDatabase
+{
+ private:
+   std::vector<std::unique_ptr<OreData>> ore_types;
+   static std::unique_ptr<OreDatabase> instance;
+
+   void registerOreDifficulty( const OreData &ore )
+   {
+      DifficultyTracker::getInstance().setDifficultyForTask( DIFFICULTY_SKILL_KEY, ore.name, ore.base_difficulty, ore.min_skill );
+   }
+
+ public:
+   static OreDatabase &getInstance()
+   {
+      if( !instance )
+      {
+         instance = std::make_unique<OreDatabase>();
+         instance->initialize();
+      }
+      return *instance;
+   }
+
+   void initialize()
+   {
+      auto addOre = [this]( int vnum, const std::string &name, const std::string &short_desc, const std::string &long_desc,
+                            int rarity, int min_skill, int weight, int value, int difficulty,
+                            const std::vector<int> &sectors )
+      {
+         auto ore = std::make_unique<OreData>( vnum, name, short_desc, long_desc, rarity, min_skill, weight, value, difficulty, sectors );
+         registerOreDifficulty( *ore );
+         ore_types.emplace_back( std::move( ore ) );
+      };
+
+      addOre( 11001, "copper ore", "a chunk of copper ore",
+              "A chunk of raw copper ore lies here, streaked with green patina.",
+              80, 0, 6, 15, -10,
+              std::vector<int>{ SECT_HILLS, SECT_MOUNTAIN, SECT_UNDERGROUND } );
+
+      addOre( 11002, "iron ore", "a vein of iron ore",
+              "A hefty mass of iron ore juts from the stone, dark and unyielding.",
+              60, 20, 10, 25, 0,
+              std::vector<int>{ SECT_MOUNTAIN, SECT_UNDERGROUND } );
+
+      addOre( 11003, "silver ore", "a gleaming silver ore chunk",
+              "A gleaming chunk of silver ore sparkles faintly in the light.",
+              40, 35, 8, 45, 10,
+              std::vector<int>{ SECT_MOUNTAIN, SECT_UNDERGROUND } );
+
+      addOre( 11004, "gold ore", "a heavy gold ore nugget",
+              "A heavy nugget of gold ore rests here, veins of yellow metal twisting through rock.",
+              25, 50, 9, 75, 15,
+              std::vector<int>{ SECT_MOUNTAIN, SECT_UNDERGROUND } );
+
+      addOre( 11005, "mythril ore", "a shard of mythril ore",
+              "A luminous shard of mythril ore pulses softly with arcane energy.",
+              15, 70, 5, 150, 25,
+              std::vector<int>{ SECT_UNDERGROUND } );
+   }
+
+   const std::vector<std::unique_ptr<OreData>> &getAllOres() const
+   {
+      return ore_types;
+   }
+
+   void addOre( std::unique_ptr<OreData> ore )
+   {
+      registerOreDifficulty( *ore );
+      ore_types.push_back( std::move( ore ) );
+   }
+};
+
+std::unique_ptr<OreDatabase> OreDatabase::instance = nullptr;
+
+class MiningEquipment
+{
+ public:
+   enum class PickQuality
+   {
+      BASIC = 0,
+      QUALITY = 1,
+      MASTER = 2
+   };
+
+   static bool hasMiningPick( CHAR_DATA *ch )
+   {
+      return getMiningPick( ch ) != nullptr;
+   }
+
+   static OBJ_DATA *getMiningPick( CHAR_DATA *ch )
+   {
+      if( auto obj = get_eq_char( ch, WEAR_HOLD ) )
+      {
+         if( isMiningPick( obj ) )
+            return obj;
+      }
+
+      if( auto obj = get_eq_char( ch, WEAR_WIELD ) )
+      {
+         if( isMiningPick( obj ) )
+            return obj;
+      }
+
+      for( auto obj = ch->first_carrying; obj; obj = obj->next_content )
+      {
+         if( isMiningPick( obj ) )
+            return obj;
+      }
+
+      return nullptr;
+   }
+
+   static PickQuality getPickQuality( OBJ_DATA *pick )
+   {
+      if( !pick || !isMiningPick( pick ) )
+         return PickQuality::BASIC;
+
+      if( xIS_SET( pick->extra_flags, ITEM_MAGIC ) )
+         return PickQuality::MASTER;
+
+      if( pick->cost > 150 )
+         return PickQuality::QUALITY;
+
+      return PickQuality::BASIC;
+   }
+
+ private:
+   static bool isMiningPick( OBJ_DATA *obj )
+   {
+      return obj && obj->item_type == ITEM_WEAPON && obj->value[0] == 98;
+   }
+};
+
+class MiningEnvironment
+{
+ public:
+   static bool isMinableRoom( ROOM_INDEX_DATA *room )
+   {
+      if( !room )
+         return false;
+
+      const std::vector<int> valid_sectors = { SECT_HILLS, SECT_MOUNTAIN, SECT_UNDERGROUND };
+
+      return std::find( valid_sectors.begin(), valid_sectors.end(), room->sector_type ) != valid_sectors.end();
+   }
+
+   static int getMiningDifficultyRating( CHAR_DATA *ch, ROOM_INDEX_DATA *room )
+   {
+      int difficulty = 55;
+
+      if( !room )
+         return difficulty;
+
+      switch ( room->sector_type )
+      {
+         case SECT_HILLS:
+            difficulty -= 5;
+            break;
+         case SECT_MOUNTAIN:
+            difficulty += 5;
+            break;
+         case SECT_UNDERGROUND:
+            difficulty -= 10;
+            break;
+         default:
+            break;
+      }
+
+      if( auto pick = MiningEquipment::getMiningPick( ch ) )
+      {
+         switch ( MiningEquipment::getPickQuality( pick ) )
+         {
+            case MiningEquipment::PickQuality::QUALITY:
+               difficulty -= 5;
+               break;
+            case MiningEquipment::PickQuality::MASTER:
+               difficulty -= 12;
+               break;
+            default:
+               break;
+         }
+      }
+
+      return std::clamp( difficulty, 5, 95 );
+   }
+};
+
+class OreSelector
+{
+ public:
+   static const OreData *selectOre( const CHAR_DATA *ch, ROOM_INDEX_DATA *room, int mining_skill )
+   {
+      auto &db = OreDatabase::getInstance();
+      const auto &all_ores = db.getAllOres();
+
+      std::vector<const OreData *> possible_ores;
+      possible_ores.reserve( all_ores.size() );
+
+      for( const auto &ore : all_ores )
+      {
+         auto profile = DifficultyTracker::getInstance().getDifficultyForTask( DIFFICULTY_SKILL_KEY, ore->name );
+         int required_skill = ore->min_skill;
+         if( profile && profile->minimum_skill > 0 )
+            required_skill = profile->minimum_skill;
+
+         if( mining_skill < required_skill )
+            continue;
+
+         if( std::find( ore->valid_sectors.begin(), ore->valid_sectors.end(), room->sector_type ) == ore->valid_sectors.end() )
+            continue;
+
+         possible_ores.push_back( ore.get() );
+      }
+
+      if( possible_ores.empty() )
+         return all_ores.empty() ? nullptr : all_ores.front().get();
+
+      return weightedRandomSelect( possible_ores );
+   }
+
+ private:
+   static const OreData *weightedRandomSelect( const std::vector<const OreData *> &ore_list )
+   {
+      int total_weight = 0;
+      for( const auto &ore : ore_list )
+         total_weight += std::max( 1, ore->rarity );
+
+      if( total_weight <= 0 )
+         return ore_list.front();
+
+      int random_roll = number_range( 1, total_weight );
+      int current_weight = 0;
+
+      for( const auto &ore : ore_list )
+      {
+         current_weight += std::max( 1, ore->rarity );
+         if( random_roll <= current_weight )
+            return ore;
+      }
+
+      return ore_list.front();
+   }
+};
+
+class OreObjectCreator
+{
+ public:
+   static OBJ_DATA *createOreObject( const OreData *ore_data )
+   {
+      if( !ore_data )
+         return nullptr;
+
+      auto pObjIndex = get_obj_index( ore_data->vnum );
+
+      if( !pObjIndex )
+      {
+         pObjIndex = make_object( ore_data->vnum, 0, ore_data->name.c_str() );
+         if( !pObjIndex )
+         {
+            bug( "%s: Could not create object index for vnum %d", __func__, ore_data->vnum );
+            return nullptr;
+         }
+
+         setupObjectIndex( pObjIndex, ore_data );
+      }
+
+      return create_object( pObjIndex, 0 );
+   }
+
+ private:
+   static void setupObjectIndex( OBJ_INDEX_DATA *pObjIndex, const OreData *ore_data )
+   {
+      STRFREE( pObjIndex->short_descr );
+      pObjIndex->short_descr = STRALLOC( ore_data->short_desc.c_str() );
+
+      STRFREE( pObjIndex->description );
+      pObjIndex->description = STRALLOC( ore_data->long_desc.c_str() );
+
+      pObjIndex->item_type = ITEM_TREASURE;
+      pObjIndex->weight = ore_data->weight;
+      pObjIndex->cost = ore_data->value;
+
+      xSET_BIT( pObjIndex->extra_flags, ITEM_METAL );
+   }
+};
+
+int getMiningSkillSn()
+{
+   if( miningSkillSn < 0 )
+      miningSkillSn = skill_lookup( SKILL_NAME );
+   return miningSkillSn;
+}
+
+void setMiningSkillSn( int sn )
+{
+   miningSkillSn = sn;
+}
+
+} // namespace Mining
+
 } // namespace Gathering
 
 using Gathering::DifficultyTracker;
@@ -474,6 +803,11 @@ using Gathering::Fishing::FishSelector;
 using Gathering::Fishing::ObjectCreator;
 using Gathering::Fishing::EnvironmentChecker;
 using Gathering::Fishing::FishingEquipment;
+using Gathering::Mining::OreDatabase;
+using Gathering::Mining::OreObjectCreator;
+using Gathering::Mining::OreSelector;
+using Gathering::Mining::MiningEnvironment;
+using Gathering::Mining::MiningEquipment;
 
 /***************************************************************************
  * External C Interfaces
@@ -577,42 +911,181 @@ extern "C" void do_fish( CHAR_DATA *ch, const char *argument )
    learn_from_success( ch, fishingSn );
 }
 
+extern "C" void do_mine( CHAR_DATA *ch, const char *argument )
+{
+   using namespace Gathering;
+   using namespace Gathering::Mining;
+
+   (void)argument;
+
+   if( IS_NPC( ch ) )
+   {
+      send_to_char( "NPCs have no need to mine for ore.\r\n", ch );
+      return;
+   }
+
+   if( !MiningEnvironment::isMinableRoom( ch->in_room ) )
+   {
+      send_to_char( "There is no suitable rock face here to mine.\r\n", ch );
+      return;
+   }
+
+   if( !MiningEquipment::hasMiningPick( ch ) )
+   {
+      send_to_char( "You need a mining pick to chip away at the stone.\r\n", ch );
+      return;
+   }
+
+   if( ch->fighting )
+   {
+      send_to_char( "You can't concentrate on mining while fighting!\r\n", ch );
+      return;
+   }
+
+   if( ch->position != POS_STANDING )
+   {
+      send_to_char( "You need to be standing to get a good swing with your pick.\r\n", ch );
+      return;
+   }
+
+   int miningSn = getMiningSkillSn();
+   if( miningSn < 0 )
+   {
+      bug( "%s: mining skill not found in skill table", __func__ );
+      send_to_char( "Mining skill is not configured.\r\n", ch );
+      return;
+   }
+
+   int mining_skill = learned_percent( ch, miningSn );
+
+   act( AT_ACTION, "You raise your pick and begin striking the rock for ore...", ch, nullptr, nullptr, TO_CHAR );
+   act( AT_ACTION, "$n starts chipping away at the stone with $s mining pick.", ch, nullptr, nullptr, TO_ROOM );
+
+   const auto *target_ore = OreSelector::selectOre( ch, ch->in_room, mining_skill );
+   if( !target_ore )
+   {
+      send_to_char( "BUG: No ore could be selected. Please report this.\r\n", ch );
+      return;
+   }
+
+   auto profile = DifficultyTracker::getInstance().getDifficultyForTask( "mining", target_ore->name );
+   if( profile && profile->minimum_skill > 0 && mining_skill < profile->minimum_skill )
+   {
+      send_to_char( "Your mining knowledge isn't advanced enough to extract that vein.\r\n", ch );
+      learn_from_failure( ch, miningSn );
+      return;
+   }
+
+   int difficulty_rating = MiningEnvironment::getMiningDifficultyRating( ch, ch->in_room );
+   if( profile )
+      difficulty_rating = std::clamp( difficulty_rating + profile->difficulty_modifier, 0, 100 );
+   else
+      difficulty_rating = std::clamp( difficulty_rating + target_ore->base_difficulty, 0, 100 );
+
+   int roll = number_percent();
+   int modifier = difficulty_rating - 50;
+   if( modifier != 0 )
+      roll = std::clamp( roll + modifier, 0, 150 );
+
+   if( !can_use_skill( ch, roll, miningSn ) )
+   {
+      act( AT_ACTION, "Chunks of worthless stone crumble away as you fail to expose any valuable ore.",
+           ch, nullptr, nullptr, TO_CHAR );
+      act( AT_ACTION, "$n chips at the rock but comes away with nothing of value.",
+           ch, nullptr, nullptr, TO_ROOM );
+      learn_from_failure( ch, miningSn );
+      return;
+   }
+
+   auto ore_obj = OreObjectCreator::createOreObject( target_ore );
+   if( !ore_obj )
+   {
+      send_to_char( "BUG: Could not create ore object. Please report this.\r\n", ch );
+      return;
+   }
+
+   obj_to_char( ore_obj, ch );
+
+   ch_printf( ch, "With a satisfying crack, you free %s from the rock!\r\n", ore_obj->short_descr );
+   act( AT_ACTION, "$n frees a chunk of ore from the stone with a resounding crack!",
+        ch, nullptr, nullptr, TO_ROOM );
+
+   learn_from_success( ch, miningSn );
+}
+
 extern "C" void init_gathering_system()
 {
    using namespace Gathering;
-   using namespace Gathering::Fishing;
 
    DifficultyTracker::getInstance();
    FishDatabase::getInstance();
+   OreDatabase::getInstance();
 
-   int sn = skill_lookup( SKILL_NAME );
-   if( sn < 0 )
    {
-      bug( "%s: fishing skill not found in skill table", __func__ );
-      return;
+      using namespace Gathering::Fishing;
+
+      int sn = skill_lookup( SKILL_NAME );
+      if( sn < 0 )
+      {
+         bug( "%s: fishing skill not found in skill table", __func__ );
+      }
+      else if( !skill_table[sn] )
+      {
+         bug( "%s: fishing skill table entry is NULL", __func__ );
+      }
+      else
+      {
+         auto skill = skill_table[sn];
+         setFishingSkillSn( sn );
+
+         skill->skill_fun = do_fish;
+         skill->target = TAR_IGNORE;
+         skill->minimum_position = POS_SITTING;
+         skill->type = SKILL_SKILL;
+
+         if( !skill->noun_damage )
+            skill->noun_damage = strdup( "fishing attempt" );
+         if( !skill->msg_off )
+            skill->msg_off = strdup( "You feel like you could fish again." );
+      }
    }
 
-   auto skill = skill_table[sn];
-   if( !skill )
    {
-      bug( "%s: fishing skill table entry is NULL", __func__ );
-      return;
+      using namespace Gathering::Mining;
+
+      int sn = skill_lookup( SKILL_NAME );
+      if( sn < 0 )
+      {
+         bug( "%s: mining skill not found in skill table", __func__ );
+      }
+      else if( !skill_table[sn] )
+      {
+         bug( "%s: mining skill table entry is NULL", __func__ );
+      }
+      else
+      {
+         auto skill = skill_table[sn];
+         setMiningSkillSn( sn );
+
+         skill->skill_fun = do_mine;
+         skill->target = TAR_IGNORE;
+         skill->minimum_position = POS_STANDING;
+         skill->type = SKILL_SKILL;
+
+         if( !skill->noun_damage )
+            skill->noun_damage = strdup( "mining attempt" );
+         if( !skill->msg_off )
+            skill->msg_off = strdup( "Your arms stop aching from mining." );
+      }
    }
-
-   setFishingSkillSn( sn );
-
-   skill->skill_fun = do_fish;
-   skill->target = TAR_IGNORE;
-   skill->minimum_position = POS_SITTING;
-   skill->type = SKILL_SKILL;
-
-   if( !skill->noun_damage )
-      skill->noun_damage = strdup( "fishing attempt" );
-   if( !skill->msg_off )
-      skill->msg_off = strdup( "You feel like you could fish again." );
 }
 
 extern "C" void init_fishing_skill()
+{
+   init_gathering_system();
+}
+
+extern "C" void init_mining_skill()
 {
    init_gathering_system();
 }
@@ -653,6 +1126,46 @@ extern "C" void do_fishdb( CHAR_DATA *ch, const char *argument )
       ch_printf( ch, "%-6d %-15s %-20s %4d %5d %4d %4d %6d %6d\r\n",
                  fish->vnum, fish->name.c_str(), fish->short_desc.c_str(),
                  fish->rarity, fish->min_skill, fish->weight, fish->value,
+                 difficulty_mod, minimum_skill );
+   }
+}
+
+extern "C" void do_oredb( CHAR_DATA *ch, const char *argument )
+{
+   using namespace Gathering;
+
+   if( IS_NPC( ch ) || get_trust( ch ) < LEVEL_IMMORTAL )
+   {
+      send_to_char( "Huh?\r\n", ch );
+      return;
+   }
+
+   char arg[MAX_INPUT_LENGTH];
+   one_argument( argument, arg );
+
+   if( str_cmp( arg, "list" ) )
+   {
+      send_to_char( "Usage: oredb list\r\n", ch );
+      return;
+   }
+
+   auto &db = OreDatabase::getInstance();
+   const auto &ore_list = db.getAllOres();
+
+   ch_printf( ch, "Available Ore Types:\r\n" );
+   ch_printf( ch, "%-6s %-18s %-24s %4s %5s %4s %5s %6s %6s\r\n",
+              "Vnum", "Name", "Short Desc", "Rare", "Skill", "Wt", "Val", "DMod", "Req" );
+   ch_printf( ch, "%s\r\n", std::string( 92, '-' ).c_str() );
+
+   for( const auto &ore : ore_list )
+   {
+      auto profile = DifficultyTracker::getInstance().getDifficultyForTask( "mining", ore->name );
+      int difficulty_mod = profile ? profile->difficulty_modifier : ore->base_difficulty;
+      int minimum_skill = profile ? profile->minimum_skill : ore->min_skill;
+
+      ch_printf( ch, "%-6d %-18s %-24s %4d %5d %4d %5d %6d %6d\r\n",
+                 ore->vnum, ore->name.c_str(), ore->short_desc.c_str(),
+                 ore->rarity, ore->min_skill, ore->weight, ore->value,
                  difficulty_mod, minimum_skill );
    }
 }

@@ -425,8 +425,9 @@ void boot_db( bool fCopyOver )
    remap_slot_numbers(  ); /* must be after the sort */
    
    num_sorted_skills = num_skills;
-	init_racial_transformations();
-	init_fishing_skill();
+   init_racial_transformations();
+   init_fishing_skill();
+   init_mining_skill();
 	
    log_string( "Loading classes" );
    load_classes(  );

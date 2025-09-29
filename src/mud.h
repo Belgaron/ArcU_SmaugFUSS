@@ -4577,6 +4577,9 @@ extern "C" {
 void do_fish(CHAR_DATA *ch, const char *argument);
 void init_fishing_skill(void);
 void do_fishdb(CHAR_DATA *ch, const char *argument);
+void do_mine(CHAR_DATA *ch, const char *argument);
+void init_mining_skill(void);
+void do_oredb(CHAR_DATA *ch, const char *argument);
 void init_gathering_system(void);
 void set_gather_task_difficulty(const char *skill, const char *task, int difficulty, int min_skill);
 bool get_gather_task_difficulty(const char *skill, const char *task, int *difficulty, int *min_skill);
