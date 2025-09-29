@@ -2529,7 +2529,6 @@ ch_ret damage_ex( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt, bool supp
       af.modifier = -2;
       af.bitvector = meb( AFF_POISON );
       affect_join( victim, &af );
-      victim->mental_state = URANGE( 20, victim->mental_state + ( IS_PKILL( victim ) ? 1 : 2 ), 100 );
    }
 
    /*
@@ -2583,14 +2582,10 @@ ch_ret damage_ex( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt, bool supp
          if( dam > ( victim->max_hit / 4 ) )
          {
             act( AT_HURT, "That really did HURT!", victim, 0, 0, TO_CHAR );
-            if( number_percent( ) < ( 10 + ( dam / 20 ) ) )
-               worsen_mental_state( victim, 1 );
          }
          if( victim->hit < ( victim->max_hit / 4 ) )
          {
             act( AT_DANGER, "You wish that your wounds would stop BLEEDING so much!", victim, 0, 0, TO_CHAR );
-            if( number_percent( ) < ( 10 + ( dam / 20 ) ) )
-               worsen_mental_state( victim, 1 );
          }
          break;
    }

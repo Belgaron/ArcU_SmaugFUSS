@@ -953,7 +953,6 @@ void char_update( void )
          {
             act( AT_POISON, "$n shivers and suffers.", ch, NULL, NULL, TO_ROOM );
             act( AT_POISON, "You shiver and suffer.", ch, NULL, NULL, TO_CHAR );
-            ch->mental_state = URANGE( 20, ch->mental_state + ( IS_NPC( ch ) ? 2 : IS_PKILL( ch ) ? 3 : 4 ), 100 );
             damage( ch, ch, 6, gsn_poison );
          }
          else if( ch->position == POS_INCAP )
