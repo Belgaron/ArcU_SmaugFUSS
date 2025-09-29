@@ -30,7 +30,7 @@ D_FLAGS = -g2 -O $(M_FLAGS) $(PROF) $(SOLARIS_LINK)
 
 C_FILES = act_comm.c act_info.c act_move.c act_obj.c act_wiz.c ban.c android.c boards.c \
           build.c calendar.c chess.c clans.c color.c combat_messages.c comm.c comments.c const.c custom_slay.c \
-                    cyber.c db.c deity.c dns.c fight.c fishing.c grub.c handler.c hashstr.c hint.c hotboot.c \
+                    cyber.c db.c deity.c dns.c fight.c gathering.c grub.c handler.c hashstr.c hint.c hotboot.c \
           house.c imm_host.c interp.c liquids.c magic.c makeobjs.c mapout.c mapper.c mccp.c \
           misc.c mpxset.c mssp.c mud_comm.c mud_prog.c news.c planes.c player.c polymorph.c powerup.c \
           racial_transformations.c renumber.c reset.c save.c services.c sha256.c shops.c skill_training.c skills.c special.c tables.c \

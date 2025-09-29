@@ -4572,11 +4572,15 @@ void give_android_component( CHAR_DATA *android );
 void check_android_schematics( CHAR_DATA *ch );
 int android_component_drop_chance( CHAR_DATA *android, CHAR_DATA *victim );
 
-/* fishing.cpp */
+/* gathering.c */
 extern "C" {
 void do_fish(CHAR_DATA *ch, const char *argument);
 void init_fishing_skill(void);
 void do_fishdb(CHAR_DATA *ch, const char *argument);
+void init_gathering_system(void);
+void set_gather_task_difficulty(const char *skill, const char *task, int difficulty, int min_skill);
+bool get_gather_task_difficulty(const char *skill, const char *task, int *difficulty, int *min_skill);
+void clear_gather_task_difficulty(const char *skill, const char *task);
 }
 
 /* mobile_ai1_1.c - AI system function declarations  
