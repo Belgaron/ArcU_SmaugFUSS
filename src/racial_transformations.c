@@ -106,7 +106,8 @@ static const int racial_trans_count = sizeof(racial_trans)/sizeof(racial_trans[0
 ch_ret spell_ascended_form( int sn, int level, CHAR_DATA *ch, void *vo )
 {
     MORPH_DATA *morph;
-    
+    SKILLTYPE *skill = get_skilltype( sn );
+
     if( IS_NPC(ch) || !IS_HUMAN(ch) )
     {
         send_to_char( "Only humans can access this transformation.\r\n", ch );
@@ -125,11 +126,17 @@ ch_ret spell_ascended_form( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Ascended form transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    
-    act( AT_MAGIC, "You feel divine potential stirring within your mortal frame...", ch, NULL, NULL, TO_CHAR );
-    act( AT_MAGIC, "$n's body begins to glow with inner light...", ch, NULL, NULL, TO_ROOM );
-    
-    do_morph_char( ch, morph );
+
+    if( !send_skill_transform_messages( ch, skill ) )
+    {
+        act( AT_MAGIC, "You feel divine potential stirring within your mortal frame...", ch, NULL, NULL, TO_CHAR );
+        act( AT_MAGIC, "$n's body begins to glow with inner light...", ch, NULL, NULL, TO_ROOM );
+    }
+
+    if( !do_morph_char( ch, morph ) )
+        return rSPELL_FAILED;
+
+    apply_transform_skill_effects( ch, sn, skill, level );
     return rNONE;
 }
 
@@ -137,7 +144,8 @@ ch_ret spell_ascended_form( int sn, int level, CHAR_DATA *ch, void *vo )
 ch_ret spell_shikai( int sn, int level, CHAR_DATA *ch, void *vo )
 {
     MORPH_DATA *morph;
-    
+    SKILLTYPE *skill = get_skilltype( sn );
+
     if( IS_NPC(ch) || !IS_SPIRITBORN(ch) )
     {
         send_to_char( "Only spiritborn can access shikai.\r\n", ch );
@@ -165,13 +173,19 @@ ch_ret spell_shikai( int sn, int level, CHAR_DATA *ch, void *vo )
     
     act( AT_MAGIC, "You close your eyes and focus your spiritual pressure...", ch, NULL, NULL, TO_CHAR );
     act( AT_MAGIC, "$n closes $s eyes, spiritual energy gathering around $m...", ch, NULL, NULL, TO_ROOM );
-    
+
     WAIT_STATE( ch, PULSE_VIOLENCE );
-    
-    act( AT_WHITE, "&WYou whisper your zanpakuto's true name as power floods your being!&D", ch, NULL, NULL, TO_CHAR );
-    act( AT_WHITE, "&W$n's spiritual pressure explodes outward in a brilliant display!&D", ch, NULL, NULL, TO_ROOM );
-    
-    do_morph_char( ch, morph );
+
+    if( !send_skill_transform_messages( ch, skill ) )
+    {
+        act( AT_WHITE, "&WYou whisper your zanpakuto's true name as power floods your being!&D", ch, NULL, NULL, TO_CHAR );
+        act( AT_WHITE, "&W$n's spiritual pressure explodes outward in a brilliant display!&D", ch, NULL, NULL, TO_ROOM );
+    }
+
+    if( !do_morph_char( ch, morph ) )
+        return rSPELL_FAILED;
+
+    apply_transform_skill_effects( ch, sn, skill, level );
     return rNONE;
 }
 
@@ -179,7 +193,8 @@ ch_ret spell_shikai( int sn, int level, CHAR_DATA *ch, void *vo )
 ch_ret spell_hollow_rage( int sn, int level, CHAR_DATA *ch, void *vo )
 {
     MORPH_DATA *morph;
-    
+    SKILLTYPE *skill = get_skilltype( sn );
+
     if( IS_NPC(ch) || !IS_HOLLOWBORN(ch) )
     {
         send_to_char( "Only hollowborn can access this rage.\r\n", ch );
@@ -198,11 +213,17 @@ ch_ret spell_hollow_rage( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Hollow rage transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    
-    act( AT_RED, "The emptiness within you stirs hungrily...", ch, NULL, NULL, TO_CHAR );
-    act( AT_RED, "Darkness seems to gather around $n...", ch, NULL, NULL, TO_ROOM );
-    
-    do_morph_char( ch, morph );
+
+    if( !send_skill_transform_messages( ch, skill ) )
+    {
+        act( AT_RED, "The emptiness within you stirs hungrily...", ch, NULL, NULL, TO_CHAR );
+        act( AT_RED, "Darkness seems to gather around $n...", ch, NULL, NULL, TO_ROOM );
+    }
+
+    if( !do_morph_char( ch, morph ) )
+        return rSPELL_FAILED;
+
+    apply_transform_skill_effects( ch, sn, skill, level );
     return rNONE;
 }
 
@@ -210,7 +231,8 @@ ch_ret spell_hollow_rage( int sn, int level, CHAR_DATA *ch, void *vo )
 ch_ret spell_primal_form( int sn, int level, CHAR_DATA *ch, void *vo )
 {
     MORPH_DATA *morph;
-    
+    SKILLTYPE *skill = get_skilltype( sn );
+
     if( IS_NPC(ch) || !IS_LYCAN(ch) )
     {
         send_to_char( "Only lycans can access their primal form.\r\n", ch );
@@ -229,11 +251,17 @@ ch_ret spell_primal_form( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Primal form transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    
-    act( AT_YELLOW, "Your beast nature claws its way to the surface...", ch, NULL, NULL, TO_CHAR );
-    act( AT_YELLOW, "$n's eyes take on a feral gleam...", ch, NULL, NULL, TO_ROOM );
-    
-    do_morph_char( ch, morph );
+
+    if( !send_skill_transform_messages( ch, skill ) )
+    {
+        act( AT_YELLOW, "Your beast nature claws its way to the surface...", ch, NULL, NULL, TO_CHAR );
+        act( AT_YELLOW, "$n's eyes take on a feral gleam...", ch, NULL, NULL, TO_ROOM );
+    }
+
+    if( !do_morph_char( ch, morph ) )
+        return rSPELL_FAILED;
+
+    apply_transform_skill_effects( ch, sn, skill, level );
     return rNONE;
 }
 
@@ -241,7 +269,8 @@ ch_ret spell_primal_form( int sn, int level, CHAR_DATA *ch, void *vo )
 ch_ret spell_blood_awakening( int sn, int level, CHAR_DATA *ch, void *vo )
 {
     MORPH_DATA *morph;
-    
+    SKILLTYPE *skill = get_skilltype( sn );
+
     if( IS_NPC(ch) || !IS_VAMPIRE(ch) )
     {
         send_to_char( "Only vampires can awaken their ancient blood.\r\n", ch );
@@ -260,11 +289,17 @@ ch_ret spell_blood_awakening( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "Blood awakening transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    
-    act( AT_BLOOD, "Ancient power stirs in your undead veins...", ch, NULL, NULL, TO_CHAR );
-    act( AT_BLOOD, "$n's eyes blaze with crimson fire...", ch, NULL, NULL, TO_ROOM );
-    
-    do_morph_char( ch, morph );
+
+    if( !send_skill_transform_messages( ch, skill ) )
+    {
+        act( AT_BLOOD, "Ancient power stirs in your undead veins...", ch, NULL, NULL, TO_CHAR );
+        act( AT_BLOOD, "$n's eyes blaze with crimson fire...", ch, NULL, NULL, TO_ROOM );
+    }
+
+    if( !do_morph_char( ch, morph ) )
+        return rSPELL_FAILED;
+
+    apply_transform_skill_effects( ch, sn, skill, level );
     return rNONE;
 }
 
@@ -272,7 +307,8 @@ ch_ret spell_blood_awakening( int sn, int level, CHAR_DATA *ch, void *vo )
 ch_ret spell_true_form( int sn, int level, CHAR_DATA *ch, void *vo )
 {
     MORPH_DATA *morph;
-    
+    SKILLTYPE *skill = get_skilltype( sn );
+
     if( IS_NPC(ch) || !IS_ARCOSIAN(ch) )
     {
         send_to_char( "Only arcosians can access their true form.\r\n", ch );
@@ -291,11 +327,17 @@ ch_ret spell_true_form( int sn, int level, CHAR_DATA *ch, void *vo )
         send_to_char( "True form transformation not available.\r\n", ch );
         return rSPELL_FAILED;
     }
-    
-    act( AT_WHITE, "Your natural form feels increasingly restrictive...", ch, NULL, NULL, TO_CHAR );
-    act( AT_WHITE, "$n's body begins to reshape and grow...", ch, NULL, NULL, TO_ROOM );
-    
-    do_morph_char( ch, morph );
+
+    if( !send_skill_transform_messages( ch, skill ) )
+    {
+        act( AT_WHITE, "Your natural form feels increasingly restrictive...", ch, NULL, NULL, TO_CHAR );
+        act( AT_WHITE, "$n's body begins to reshape and grow...", ch, NULL, NULL, TO_ROOM );
+    }
+
+    if( !do_morph_char( ch, morph ) )
+        return rSPELL_FAILED;
+
+    apply_transform_skill_effects( ch, sn, skill, level );
     return rNONE;
 }
 

@@ -2419,6 +2419,13 @@ struct char_data
    int transform_upkeep_debt;      /* Mana debt */
    int transform_hitroll_bonus;    /* Applied hitroll */
    int transform_damroll_bonus;    /* Applied damroll */
+   short transform_ac_bonus;       /* Applied armor class bonus */
+   short transform_str_bonus;      /* Applied STR modifier */
+   short transform_dex_bonus;      /* Applied DEX modifier */
+   short transform_con_bonus;      /* Applied CON modifier */
+   short transform_int_bonus;      /* Applied INT modifier */
+   short transform_wis_bonus;      /* Applied WIS modifier */
+   short transform_spr_bonus;      /* Applied SPR modifier */
    time_t transform_start_time;    /* When started */
    short hit;
    short max_hit;
@@ -5043,6 +5050,10 @@ int do_morph_char( CHAR_DATA * ch, MORPH_DATA * morph );
 MORPH_DATA *find_morph( CHAR_DATA * ch, const char *target, bool is_cast );
 void do_unmorph_char( CHAR_DATA * ch );
 void send_morph_message( CHAR_DATA * ch, MORPH_DATA * morph, bool is_morph );
+bool send_skill_transform_messages( CHAR_DATA *ch, SKILLTYPE *skill );
+bool send_skill_revert_messages( CHAR_DATA *ch, SKILLTYPE *skill );
+void apply_transform_skill_effects( CHAR_DATA *ch, int sn, SKILLTYPE *skill, int level );
+void clear_transform_skill_effects( CHAR_DATA *ch );
 bool can_morph( CHAR_DATA * ch, MORPH_DATA * morph, bool is_cast );
 void do_morph( CHAR_DATA * ch, MORPH_DATA * morph );
 void do_unmorph( CHAR_DATA * ch );

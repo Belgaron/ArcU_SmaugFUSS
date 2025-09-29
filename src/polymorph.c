@@ -1514,6 +1514,199 @@ void send_morph_message( CHAR_DATA * ch, MORPH_DATA * morph, bool is_morph )
    }
 }
 
+bool send_skill_transform_messages( CHAR_DATA *ch, SKILLTYPE *skill )
+{
+   bool used = FALSE;
+
+   if( !ch || !skill )
+      return FALSE;
+
+   if( skill->transform_msg_room && skill->transform_msg_room[0] != '\0' )
+   {
+      act( AT_MORPH, skill->transform_msg_room, ch, NULL, NULL, TO_ROOM );
+      used = TRUE;
+   }
+
+   if( skill->transform_msg_self && skill->transform_msg_self[0] != '\0' )
+   {
+      act( AT_MORPH, skill->transform_msg_self, ch, NULL, NULL, TO_CHAR );
+      used = TRUE;
+   }
+
+   return used;
+}
+
+bool send_skill_revert_messages( CHAR_DATA *ch, SKILLTYPE *skill )
+{
+   bool used = FALSE;
+
+   if( !ch || !skill )
+      return FALSE;
+
+   if( skill->revert_msg_room && skill->revert_msg_room[0] != '\0' )
+   {
+      act( AT_MORPH, skill->revert_msg_room, ch, NULL, NULL, TO_ROOM );
+      used = TRUE;
+   }
+
+   if( skill->revert_msg_self && skill->revert_msg_self[0] != '\0' )
+   {
+      act( AT_MORPH, skill->revert_msg_self, ch, NULL, NULL, TO_CHAR );
+      used = TRUE;
+   }
+
+   return used;
+}
+
+void apply_transform_skill_effects( CHAR_DATA *ch, int sn, SKILLTYPE *skill, int level )
+{
+   int effective_level;
+
+   if( !ch )
+      return;
+
+   ch->transform_hitroll_bonus = 0;
+   ch->transform_damroll_bonus = 0;
+   ch->transform_ac_bonus = 0;
+   ch->transform_str_bonus = 0;
+   ch->transform_dex_bonus = 0;
+   ch->transform_con_bonus = 0;
+   ch->transform_int_bonus = 0;
+   ch->transform_wis_bonus = 0;
+   ch->transform_spr_bonus = 0;
+
+   if( !skill )
+   {
+      ch->active_transformation = -1;
+      return;
+   }
+
+   effective_level = ( level > 0 ) ? level : ch->level;
+   ch->active_transformation = sn;
+   ch->transform_start_time = current_time;
+
+   if( skill->hitroll_bonus && skill->hitroll_bonus[0] != '\0' )
+   {
+      int bonus = dice_parse( ch, effective_level, skill->hitroll_bonus );
+      ch->transform_hitroll_bonus = bonus;
+      ch->hitroll += bonus;
+   }
+
+   if( skill->damroll_bonus && skill->damroll_bonus[0] != '\0' )
+   {
+      int bonus = dice_parse( ch, effective_level, skill->damroll_bonus );
+      ch->transform_damroll_bonus = bonus;
+      ch->damroll += bonus;
+   }
+
+   if( skill->ac_bonus )
+   {
+      ch->transform_ac_bonus = skill->ac_bonus;
+      ch->armor += ch->transform_ac_bonus;
+   }
+
+   if( skill->str_bonus )
+   {
+      ch->transform_str_bonus = skill->str_bonus;
+      ch->mod_str += ch->transform_str_bonus;
+   }
+
+   if( skill->dex_bonus )
+   {
+      ch->transform_dex_bonus = skill->dex_bonus;
+      ch->mod_dex += ch->transform_dex_bonus;
+   }
+
+   if( skill->con_bonus )
+   {
+      ch->transform_con_bonus = skill->con_bonus;
+      ch->mod_con += ch->transform_con_bonus;
+   }
+
+   if( skill->int_bonus )
+   {
+      ch->transform_int_bonus = skill->int_bonus;
+      ch->mod_int += ch->transform_int_bonus;
+   }
+
+   if( skill->wis_bonus )
+   {
+      ch->transform_wis_bonus = skill->wis_bonus;
+      ch->mod_wis += ch->transform_wis_bonus;
+   }
+
+   if( skill->spr_bonus )
+   {
+      ch->transform_spr_bonus = skill->spr_bonus;
+      ch->mod_spr += ch->transform_spr_bonus;
+   }
+}
+
+void clear_transform_skill_effects( CHAR_DATA *ch )
+{
+   if( !ch )
+      return;
+
+   if( ch->transform_hitroll_bonus )
+   {
+      ch->hitroll -= ch->transform_hitroll_bonus;
+      ch->transform_hitroll_bonus = 0;
+   }
+
+   if( ch->transform_damroll_bonus )
+   {
+      ch->damroll -= ch->transform_damroll_bonus;
+      ch->transform_damroll_bonus = 0;
+   }
+
+   if( ch->transform_ac_bonus )
+   {
+      ch->armor -= ch->transform_ac_bonus;
+      ch->transform_ac_bonus = 0;
+   }
+
+   if( ch->transform_str_bonus )
+   {
+      ch->mod_str -= ch->transform_str_bonus;
+      ch->transform_str_bonus = 0;
+   }
+
+   if( ch->transform_dex_bonus )
+   {
+      ch->mod_dex -= ch->transform_dex_bonus;
+      ch->transform_dex_bonus = 0;
+   }
+
+   if( ch->transform_con_bonus )
+   {
+      ch->mod_con -= ch->transform_con_bonus;
+      ch->transform_con_bonus = 0;
+   }
+
+   if( ch->transform_int_bonus )
+   {
+      ch->mod_int -= ch->transform_int_bonus;
+      ch->transform_int_bonus = 0;
+   }
+
+   if( ch->transform_wis_bonus )
+   {
+      ch->mod_wis -= ch->transform_wis_bonus;
+      ch->transform_wis_bonus = 0;
+   }
+
+   if( ch->transform_spr_bonus )
+   {
+      ch->mod_spr -= ch->transform_spr_bonus;
+      ch->transform_spr_bonus = 0;
+   }
+
+   ch->active_transformation = -1;
+   ch->transform_duration = 0;
+   ch->transform_upkeep_debt = 0;
+   ch->transform_start_time = 0;
+}
+
 /*
  * Create new player morph, a scailed down version of original morph
  * so if morph gets changed stats don't get messed up.
@@ -1793,13 +1986,24 @@ void do_unmorph( CHAR_DATA * ch )
 void do_unmorph_char( CHAR_DATA * ch )
 {
    MORPH_DATA *temp;
+   SKILLTYPE *skill = NULL;
+   bool used_custom = FALSE;
 
    if( !ch->morph )
       return;
 
    temp = ch->morph->morph;
+   if( ch->active_transformation > 0 && ch->active_transformation < num_skills )
+      skill = get_skilltype( ch->active_transformation );
+
+   clear_transform_skill_effects( ch );
    do_unmorph( ch );
-   send_morph_message( ch, temp, FALSE );
+
+   if( skill )
+      used_custom = send_skill_revert_messages( ch, skill );
+
+   if( !used_custom )
+      send_morph_message( ch, temp, FALSE );
 }
 
 /* Morph revert command ( God only knows why the Smaugers left this out ) - Samson 6-14-99 */

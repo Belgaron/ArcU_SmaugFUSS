@@ -193,6 +193,65 @@ The fields of skill_table are:
 
 	How many times this skill has been used this boot.
 
+    int		base_upkeep_cost;
+
+	For transformation-style skills, the amount of mana drained each
+	update tick while the form is maintained.  If zero, upkeep is handled
+	entirely by the morph definition.
+
+    int		base_duration;
+
+	The number of update ticks a temporary transformation lasts when no
+	explicit duration is provided by the morph or ability code.
+
+    char *	transform_msg_self;
+
+	Optional override for the "pre-morph" message sent to the caster when
+	a transformation activates.  If blank, the hard-coded spell text is
+	used instead.
+
+    char *	transform_msg_room;
+
+	Room-facing counterpart to transform_msg_self.  Set this when you want
+	a custom broadcast message instead of the legacy strings.
+
+    char *	revert_msg_self;
+
+	Message shown to the caster when the transformation ends.  When this
+	string is present it replaces the morph's unmorph_self text.
+
+    char *	revert_msg_room;
+
+	Message shown to everyone else in the room when the transformation
+	ends.  Overrides the morph's unmorph_other text when provided.
+
+    char *	transformed_desc;
+
+	Replacement short description applied to the character while the
+	transformation is active.
+
+    char *	hitroll_bonus;
+
+	Dice string evaluated when the form is activated.  The resulting
+	hitroll bonus is applied on top of the morph data and automatically
+	removed when the character reverts.
+
+    char *	damroll_bonus;
+
+	Works the same way as hitroll_bonus, but applies to damroll instead.
+
+    sh_int	ac_bonus;
+
+	Flat armor class adjustment layered on top of the morph's AC change.
+
+    sh_int	str_bonus, dex_bonus, con_bonus, int_bonus,
+		wis_bonus, spr_bonus;
+
+	Temporary stat modifiers (affecting the matching mod_* fields) that
+	apply only while the transformation remains active.  They are cleared
+	automatically on revert, so builders can safely override morph stats
+	in a data-driven way.
+
 
 === Examples
 
