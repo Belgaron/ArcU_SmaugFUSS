@@ -363,6 +363,9 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
    else
       ch->pcdata->condition[iCond] = URANGE( 0, condition + value, 48 );
 
+   if( iCond == COND_DRUNK && ch->pcdata->condition[iCond] < condition )
+      better_mental_state( ch, condition - ch->pcdata->condition[iCond] );
+
    if( ch->pcdata->condition[iCond] == 0 )
    {
       switch ( iCond )

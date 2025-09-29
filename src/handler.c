@@ -1768,7 +1768,7 @@ void affect_join( CHAR_DATA * ch, AFFECT_DATA * paf )
 
    for( paf_old = ch->first_affect; paf_old; paf_old = paf_old->next )
    {
-      if( paf_old->type == paf->type )
+      if( paf_old->type == paf->type && paf_old->location == paf->location )
       {
          paf->duration = UMIN( 1000000, paf->duration + paf_old->duration );
          if( paf->modifier )

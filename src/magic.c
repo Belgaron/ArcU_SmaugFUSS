@@ -20,6 +20,58 @@
 #include <string.h>
 #include "mud.h"
 
+static void apply_mentalstate_affect( CHAR_DATA *victim, int sn, int duration, int min_value, int delta )
+{
+   AFFECT_DATA *paf;
+   AFFECT_DATA *existing = NULL;
+   AFFECT_DATA af;
+   int current;
+   int base;
+   int desired;
+
+   if( !victim )
+      return;
+
+   for( paf = victim->first_affect; paf; paf = paf->next )
+      if( paf->type == sn && paf->location == APPLY_MENTALSTATE )
+      {
+         existing = paf;
+         break;
+      }
+
+   current = victim->mental_state;
+   desired = URANGE( min_value, current + delta, 100 );
+   base = existing ? current - existing->modifier : current;
+
+   if( existing )
+      affect_remove( victim, existing );
+
+   if( desired == base || duration <= 0 )
+      return;
+
+   af.type = sn;
+   af.duration = duration;
+   af.location = APPLY_MENTALSTATE;
+   af.modifier = desired - base;
+   xCLEAR_BITS( af.bitvector );
+   affect_to_char( victim, &af );
+}
+
+static void strip_mentalstate_affects( CHAR_DATA *victim, int sn )
+{
+   AFFECT_DATA *paf, *paf_next;
+
+   if( !victim )
+      return;
+
+   for( paf = victim->first_affect; paf; paf = paf_next )
+   {
+      paf_next = paf->next;
+      if( paf->type == sn && paf->location == APPLY_MENTALSTATE )
+         affect_remove( victim, paf );
+   }
+}
+
 /*
  * Check if character has enough focus to cast a spell/skill
  */
@@ -2596,6 +2648,7 @@ ch_ret spell_expurgation( int sn, int level, CHAR_DATA * ch, void *vo )
    if( !is_affected( victim, gsn_poison ) )
       return rSPELL_FAILED;
    affect_strip( victim, gsn_poison );
+   strip_mentalstate_affects( victim, gsn_poison );
    act( AT_MAGIC, "You speak an ancient prayer, begging your god for purification.", ch, NULL, NULL, TO_CHAR );
    act( AT_MAGIC, "$n speaks an ancient prayer begging $s god for purification.", ch, NULL, NULL, TO_ROOM );
    return rNONE;
@@ -2629,7 +2682,6 @@ ch_ret spell_cure_poison( int sn, int level, CHAR_DATA * ch, void *vo )
 {
    CHAR_DATA *victim = ( CHAR_DATA * ) vo;
    SKILLTYPE *skill = get_skilltype( sn );
-   int x = 0;
 
    if( IS_SET( victim->immune, RIS_MAGIC ) )
    {
@@ -2640,10 +2692,9 @@ ch_ret spell_cure_poison( int sn, int level, CHAR_DATA * ch, void *vo )
    if( is_affected( victim, gsn_poison ) )
    {
       affect_strip( victim, gsn_poison );
+      strip_mentalstate_affects( victim, gsn_poison );
       set_char_color( AT_MAGIC, victim );
       send_to_char( "A warm feeling runs through your body.\r\n", victim );
-      x = victim->mental_state < 0 ? -x : x;
-      victim->mental_state = URANGE( -25, victim->mental_state, 25 );
       if( ch != victim )
       {
          act( AT_MAGIC, "A flush of health washes over $N.", ch, NULL, victim, TO_NOTVICT );
@@ -3737,6 +3788,8 @@ ch_ret spell_poison( int sn, int level, CHAR_DATA * ch, void *vo )
    CHAR_DATA *victim = ( CHAR_DATA * ) vo;
    AFFECT_DATA af;
    int schance;
+   AFFECT_DATA *paf;
+   AFFECT_DATA *poison_aff = NULL;
    bool first = TRUE;
 
    schance = ris_save( victim, level, RIS_POISON );
@@ -3754,12 +3807,22 @@ ch_ret spell_poison( int sn, int level, CHAR_DATA * ch, void *vo )
    af.modifier = -2;
    af.bitvector = meb( AFF_POISON );
    affect_join( victim, &af );
+
+   for( paf = victim->first_affect; paf; paf = paf->next )
+      if( paf->type == sn && paf->location == APPLY_STR )
+      {
+         poison_aff = paf;
+         break;
+      }
    set_char_color( AT_GREEN, victim );
    send_to_char( "You feel very sick.\r\n", victim );
-   if( IS_PKILL( victim ) )
-      victim->mental_state = URANGE( 10, victim->mental_state + ( first ? 5 : 0 ), 100 );
-   else
-      victim->mental_state = URANGE( 20, victim->mental_state + ( first ? 5 : 0 ), 100 );
+   if( poison_aff )
+   {
+      int min_value = IS_PKILL( victim ) ? 10 : 20;
+      int delta = first ? 5 : 0;
+
+      apply_mentalstate_affect( victim, sn, poison_aff->duration, min_value, delta );
+   }
    if( ch != victim )
    {
       act( AT_GREEN, "$N shivers as your poison spreads through $S body.", ch, NULL, victim, TO_CHAR );
@@ -5705,12 +5768,20 @@ ch_ret spell_affectchar( int sn, int level, CHAR_DATA * ch, void *vo )
    CHAR_DATA *victim = ( CHAR_DATA * ) vo;
    int schance;
    bool affected = FALSE, first = TRUE;
+   bool apply_poison_mental = FALSE;
+   int poison_minimum = 0;
+   int poison_delta = 0;
+   int poison_sn = 0;
    ch_ret retcode = rNONE;
 
    if( SPELL_FLAG( skill, SF_RECASTABLE ) )
       affect_strip( victim, sn );
    for( saf = skill->first_affect; saf; saf = saf->next )
    {
+      apply_poison_mental = FALSE;
+      poison_minimum = 0;
+      poison_delta = 0;
+      poison_sn = 0;
       if( saf->location >= REVERSE_APPLY )
       {
          if( !SPELL_FLAG( skill, SF_ACCUMULATIVE ) )
@@ -5763,7 +5834,10 @@ ch_ret spell_affectchar( int sn, int level, CHAR_DATA * ch, void *vo )
                   return retcode;
                continue;
             }
-            victim->mental_state = URANGE( 30, victim->mental_state + 2, 100 );
+            apply_poison_mental = TRUE;
+            poison_minimum = 30;
+            poison_delta = 2;
+            poison_sn = af.type;
             break;
 
          case AFF_BLIND:
@@ -5849,6 +5923,24 @@ ch_ret spell_affectchar( int sn, int level, CHAR_DATA * ch, void *vo )
          affect_join( victim, &af );
       else
          affect_to_char( victim, &af );
+
+      if( apply_poison_mental && poison_sn > 0 )
+      {
+         AFFECT_DATA *poison_af;
+         int duration = 0;
+
+         for( poison_af = victim->first_affect; poison_af; poison_af = poison_af->next )
+            if( poison_af->type == poison_sn && poison_af->location == APPLY_STR )
+            {
+               duration = poison_af->duration;
+               break;
+            }
+
+         if( duration <= 0 )
+            duration = af.duration;
+
+         apply_mentalstate_affect( victim, poison_sn, duration, poison_minimum, poison_delta );
+      }
    }
    update_pos( victim );
    return retcode;
@@ -6411,7 +6503,7 @@ ch_ret spell_smaug( int sn, int level, CHAR_DATA * ch, void *vo )
                if( is_affected( victim, gsn_poison ) )
                {
                   affect_strip( victim, gsn_poison );
-                  victim->mental_state = URANGE( -100, victim->mental_state, -10 );
+                  strip_mentalstate_affects( victim, gsn_poison );
                   successful_casting( skill, ch, victim, NULL );
                   return rNONE;
                }
