@@ -3776,8 +3776,6 @@ neutral when they die given the difficulting of changing align */
       xREMOVE_BIT( victim->act, PLR_THIEF );
       send_to_char( "The gods have pardoned you for your thievery.\r\n", victim );
    }
-   victim->pcdata->condition[COND_FULL] = 12;
-   victim->pcdata->condition[COND_THIRST] = 12;
    if( IS_VAMPIRE( victim ) )
       victim->pcdata->condition[COND_BLOODTHIRST] = ( victim->level / 2 );
 

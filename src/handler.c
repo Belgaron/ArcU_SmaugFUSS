@@ -1462,16 +1462,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd )
          /*
           * Player condition modifiers
           */
-      case APPLY_FULL:
-         if( !IS_NPC( ch ) )
-            ch->pcdata->condition[COND_FULL] = URANGE( 0, ch->pcdata->condition[COND_FULL] + mod, 48 );
-         break;
-
-      case APPLY_THIRST:
-         if( !IS_NPC( ch ) )
-            ch->pcdata->condition[COND_THIRST] = URANGE( 0, ch->pcdata->condition[COND_THIRST] + mod, 48 );
-         break;
-
       case APPLY_DRUNK:
          if( !IS_NPC( ch ) )
             ch->pcdata->condition[COND_DRUNK] = URANGE( 0, ch->pcdata->condition[COND_DRUNK] + mod, 48 );
@@ -3836,10 +3826,6 @@ const char *affect_loc_name( int location )
          return "remove";
       case APPLY_DIG:
          return "dig";
-      case APPLY_FULL:
-         return "hunger";
-      case APPLY_THIRST:
-         return "thirst";
       case APPLY_DRUNK:
          return "drunk";
       case APPLY_BLOOD:

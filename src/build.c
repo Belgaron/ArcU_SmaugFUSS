@@ -125,7 +125,7 @@ const char *const a_types[] = {
    "steal", "sneak", "hide", "palm", "detrap", "dodge", "peek", "scan", "gouge",
    "search", "mount", "disarm", "kick", "parry", "bash", "stun", "punch", "climb",
    "grip", "scribe", "brew", "wearspell", "removespell", "emotion", "mentalstate",
-   "stripsn", "remove", "dig", "full", "thirst", "drunk", "blood", "cook",
+   "stripsn", "remove", "dig", "unused", "unused2", "drunk", "blood", "cook",
    "recurringspell", "contagious", "xaffected", "odor", "roomflag", "sectortype",
    "roomlight", "televnum", "teledelay"
 };
@@ -1852,24 +1852,6 @@ void do_mset( CHAR_DATA* ch, const char* argument )
       return;
    }
 
-   if( !str_cmp( arg2, "thirst" ) )
-   {
-      if( IS_NPC( victim ) )
-      {
-         send_to_char( "Not on NPC's.\r\n", ch );
-         return;
-      }
-
-      if( value < 0 || value > 100 )
-      {
-         send_to_char( "Thirst range is 0 to 100.\r\n", ch );
-         return;
-      }
-
-      victim->pcdata->condition[COND_THIRST] = value;
-      return;
-   }
-
    if( !str_cmp( arg2, "drunk" ) )
    {
       if( IS_NPC( victim ) )
@@ -1885,24 +1867,6 @@ void do_mset( CHAR_DATA* ch, const char* argument )
       }
 
       victim->pcdata->condition[COND_DRUNK] = value;
-      return;
-   }
-
-   if( !str_cmp( arg2, "full" ) )
-   {
-      if( IS_NPC( victim ) )
-      {
-         send_to_char( "Not on NPC's.\r\n", ch );
-         return;
-      }
-
-      if( value < 0 || value > 100 )
-      {
-         send_to_char( "Full range is 0 to 100.\r\n", ch );
-         return;
-      }
-
-      victim->pcdata->condition[COND_FULL] = value;
       return;
    }
 

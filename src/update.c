@@ -250,12 +250,6 @@ int hit_gain( CHAR_DATA * ch )
          }
       }
 
-      /*if( ch->pcdata->condition[COND_FULL] == 0 )
-         gain /= 2;
-
-      if( ch->pcdata->condition[COND_THIRST] == 0 )
-         gain /= 2;
-		*/
    }
 
    if( IS_AFFECTED( ch, AFF_POISON ) )
@@ -286,13 +280,7 @@ int mana_gain( CHAR_DATA * ch )
          case POS_RESTING:
             gain += ( int )( get_curr_int( ch ) * 1.75 );
             break;
-      }
-
-      //if( ch->pcdata->condition[COND_FULL] == 0 )
-       //  gain /= 2;
-
-      //if( ch->pcdata->condition[COND_THIRST] == 0 )
-       //  gain /= 2;
+   }
 
    }
 
@@ -353,11 +341,6 @@ int move_gain( CHAR_DATA * ch )
          }
       }
 
-      //if( ch->pcdata->condition[COND_FULL] == 0 )
-      //   gain /= 2;
-
-      //if( ch->pcdata->condition[COND_THIRST] == 0 )
-      //   gain /= 2;
    }
 
    if( IS_AFFECTED( ch, AFF_POISON ) )
@@ -384,30 +367,6 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
    {
       switch ( iCond )
       {
-         /*case COND_FULL:
-            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
-            {
-               set_char_color( AT_HUNGRY, ch );
-               send_to_char( "You are STARVING!\r\n", ch );
-               act( AT_HUNGRY, "$n is starved half to death!", ch, NULL, NULL, TO_ROOM );
-               if( !IS_PKILL( ch ) || number_bits( 1 ) == 0 )
-                  worsen_mental_state( ch, 1 );
-               retcode = damage( ch, ch, 1, TYPE_UNDEFINED );
-            }
-            break;
-
-         case COND_THIRST:
-            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
-            {
-               set_char_color( AT_THIRSTY, ch );
-               send_to_char( "You are DYING of THIRST!\r\n", ch );
-               act( AT_THIRSTY, "$n is dying of thirst!", ch, NULL, NULL, TO_ROOM );
-               worsen_mental_state( ch, IS_PKILL( ch ) ? 1 : 2 );
-               retcode = damage( ch, ch, 2, TYPE_UNDEFINED );
-            }
-            break;
-			*/
-
          case COND_BLOODTHIRST:
             if( ch->level < LEVEL_AVATAR )
             {
@@ -440,27 +399,6 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
    {
       switch ( iCond )
       {
-         case COND_FULL:
-            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
-            {
-               set_char_color( AT_HUNGRY, ch );
-               send_to_char( "You are really hungry.\r\n", ch );
-               act( AT_HUNGRY, "You can hear $n's stomach growling.", ch, NULL, NULL, TO_ROOM );
-               if( number_bits( 1 ) == 0 )
-                  worsen_mental_state( ch, 1 );
-            }
-            break;
-
-         case COND_THIRST:
-            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
-            {
-               set_char_color( AT_THIRSTY, ch );
-               send_to_char( "You are really thirsty.\r\n", ch );
-               worsen_mental_state( ch, 1 );
-               act( AT_THIRSTY, "$n looks a little parched.", ch, NULL, NULL, TO_ROOM );
-            }
-            break;
-
          case COND_BLOODTHIRST:
             if( ch->level < LEVEL_AVATAR )
             {
@@ -484,22 +422,6 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
    {
       switch ( iCond )
       {
-         case COND_FULL:
-            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
-            {
-               set_char_color( AT_HUNGRY, ch );
-               send_to_char( "You are hungry.\r\n", ch );
-            }
-            break;
-
-         case COND_THIRST:
-            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
-            {
-               set_char_color( AT_THIRSTY, ch );
-               send_to_char( "You are thirsty.\r\n", ch );
-            }
-            break;
-
          case COND_BLOODTHIRST:
             if( ch->level < LEVEL_AVATAR )
             {
@@ -514,22 +436,6 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value )
    {
       switch ( iCond )
       {
-         case COND_FULL:
-            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
-            {
-               set_char_color( AT_HUNGRY, ch );
-               send_to_char( "You are a mite peckish.\r\n", ch );
-            }
-            break;
-
-         case COND_THIRST:
-            if( ch->level < LEVEL_AVATAR && !IS_VAMPIRE(ch) )
-            {
-               set_char_color( AT_THIRSTY, ch );
-               send_to_char( "You could use a sip of something refreshing.\r\n", ch );
-            }
-            break;
-
          case COND_BLOODTHIRST:
             if( ch->level < LEVEL_AVATAR )
             {
@@ -842,40 +748,7 @@ void char_calendar_update( void )
    for( ch = last_char; ch; ch = trvch_wnext( lc ) )
    {
       if( !IS_NPC( ch ) && !IS_IMMORTAL( ch ) )
-      {
          gain_condition( ch, COND_DRUNK, -1 );
-
-         /*
-          * Newbies won't starve now - Samson 10-2-98 
-          *
-         if( ch->in_room && ch->level > 3 )
-            gain_condition( ch, COND_FULL, -1 + race_table[ch->race]->hunger_mod );
-
-          *
-          * Newbies won't dehydrate now - Samson 10-2-98 
-          *
-         if( ch->in_room && ch->level > 3 )
-         {
-            int sector;
-
-            sector = ch->in_room->sector_type;
-
-            switch ( sector )
-            {
-               default:
-                  gain_condition( ch, COND_THIRST, -1 + race_table[ch->race]->thirst_mod );
-                  break;
-               case SECT_DESERT:
-                  gain_condition( ch, COND_THIRST, -3 + race_table[ch->race]->thirst_mod );
-                  break;
-               case SECT_UNDERWATER:
-               case SECT_OCEANFLOOR:
-                  if( number_bits( 1 ) == 0 )
-                     gain_condition( ch, COND_THIRST, -1 + race_table[ch->race]->thirst_mod );
-                  break;
-            }
-         } */
-      }
    }
    trworld_dispose( &lc );
 }
@@ -1027,68 +900,12 @@ void char_update( void )
 
          if( ch->pcdata->condition[COND_DRUNK] > 8 )
             worsen_mental_state( ch, ch->pcdata->condition[COND_DRUNK] / 8 );
-         if( ch->pcdata->condition[COND_FULL] > 1 )
-         {
-            switch ( ch->position )
-            {
-               case POS_SLEEPING:
-                  better_mental_state( ch, 4 );
-                  break;
-               case POS_RESTING:
-                  better_mental_state( ch, 3 );
-                  break;
-               case POS_SITTING:
-               case POS_MOUNTED:
-                  better_mental_state( ch, 2 );
-                  break;
-               case POS_STANDING:
-                  better_mental_state( ch, 1 );
-                  break;
-               case POS_FIGHTING:
-               case POS_EVASIVE:
-               case POS_DEFENSIVE:
-               case POS_AGGRESSIVE:
-               case POS_BERSERK:
-                  if( number_bits( 2 ) == 0 )
-                     better_mental_state( ch, 1 );
-                  break;
-            }
-         }
-
-         if( ch->pcdata->condition[COND_THIRST] > 1 )
-         {
-            switch ( ch->position )
-            {
-               case POS_SLEEPING:
-                  better_mental_state( ch, 5 );
-                  break;
-               case POS_RESTING:
-                  better_mental_state( ch, 3 );
-                  break;
-               case POS_SITTING:
-               case POS_MOUNTED:
-                  better_mental_state( ch, 2 );
-                  break;
-               case POS_STANDING:
-                  better_mental_state( ch, 1 );
-                  break;
-               case POS_FIGHTING:
-               case POS_EVASIVE:
-               case POS_DEFENSIVE:
-               case POS_AGGRESSIVE:
-               case POS_BERSERK:
-                  if( number_bits( 2 ) == 0 )
-                     better_mental_state( ch, 1 );
-                  break;
-            }
-         }
 
          /*
           * Function added on suggestion from Cronel
           */
          check_alignment( ch );
          gain_condition( ch, COND_DRUNK, -1 );
-         gain_condition( ch, COND_FULL, -1 + race_table[ch->race]->hunger_mod );
 
          if( IS_VAMPIRE(ch) && ch->level >= 10 )
          {
@@ -1096,16 +913,12 @@ void char_update( void )
                gain_condition( ch, COND_BLOODTHIRST, -1 );
          }
 
-         if( CAN_PKILL( ch ) && ch->pcdata->condition[COND_THIRST] - 9 > 10 )
-            gain_condition( ch, COND_THIRST, -9 );
-
          if( !IS_NPC( ch ) && ch->pcdata->nuisance )
          {
             int value;
 
             value = ( ( 0 - ch->pcdata->nuisance->flags ) * ch->pcdata->nuisance->power );
-            gain_condition( ch, COND_THIRST, value );
-            gain_condition( ch, COND_FULL, --value );
+            gain_condition( ch, COND_DRUNK, value );
          }
       }
 
