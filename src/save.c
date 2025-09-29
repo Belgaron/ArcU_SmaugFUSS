@@ -506,6 +506,20 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
       }
    }
 
+   {
+      MORPH_HISTORY_DATA *mhist;
+
+      for( mhist = ch->pcdata->first_morph_taken; mhist; mhist = mhist->next )
+      {
+         int sn = morph_skill_lookup_vnum( mhist->vnum );
+
+         if( sn >= 0 && sn < num_skills && ch->pcdata->skills[sn].value_tenths > 0 )
+            continue;
+
+         fprintf( fp, "MorphTaken   %d\n", mhist->vnum );
+      }
+   }
+
    if( IS_IMMORTAL( ch ) )
    {
       if( ch->pcdata->bamfin && ch->pcdata->bamfin[0] != '\0' )
@@ -894,6 +908,8 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
    ch->pcdata->pagerlen = 24;
    ch->pcdata->first_ignored = NULL;   /* Ignore list */
    ch->pcdata->last_ignored = NULL;
+   ch->pcdata->first_morph_taken = NULL;
+   ch->pcdata->last_morph_taken = NULL;
    ch->pcdata->tell_history = NULL; /* imm only lasttell cmnd */
    ch->pcdata->lt_index = 0;  /* last tell index */
    ch->morph = NULL;
@@ -1584,6 +1600,28 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
             KEY( "Minsnoop", ch->pcdata->min_snoop, fread_number( fp ) );
             KEY( "MKills", ch->pcdata->mkills, fread_number( fp ) );
             KEY( "Mobinvis", ch->mobinvis, fread_number( fp ) );
+            if( !str_cmp( word, "MorphTaken" ) )
+            {
+               MORPH_HISTORY_DATA *mhist;
+               int vnum = fread_number( fp );
+               int sn = morph_skill_lookup_vnum( vnum );
+
+               if( sn >= 0 && sn < num_skills && ch->pcdata->skills[sn].value_tenths > 0 )
+               {
+                  fMatch = TRUE;
+                  break;
+               }
+
+               if( !has_used_morph_before( ch, vnum ) )
+               {
+                  CREATE( mhist, MORPH_HISTORY_DATA, 1 );
+                  mhist->vnum = vnum;
+                  LINK( mhist, ch->pcdata->first_morph_taken, ch->pcdata->last_morph_taken, next, prev );
+               }
+
+               fMatch = TRUE;
+               break;
+            }
             if( !strcmp( word, "MobRange" ) )
             {
                ch->pcdata->m_range_lo = fread_number( fp );
