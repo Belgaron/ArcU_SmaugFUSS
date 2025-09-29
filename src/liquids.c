@@ -1402,7 +1402,6 @@ void do_drink( CHAR_DATA* ch, const char* argument )
          {
             act( AT_POISON, "$n sputters and gags.", ch, NULL, NULL, TO_ROOM );
             act( AT_POISON, "You sputter and gag.", ch, NULL, NULL, TO_CHAR );
-            ch->mental_state = URANGE( 20, ch->mental_state + 5, 100 );
             af.type = gsn_poison;
             af.duration = obj->value[3];
             af.location = APPLY_NONE;
@@ -1495,7 +1494,6 @@ void do_drink( CHAR_DATA* ch, const char* argument )
          {
             act( AT_POISON, "$n sputters and gags.", ch, NULL, NULL, TO_ROOM );
             act( AT_POISON, "You sputter and gag.", ch, NULL, NULL, TO_CHAR );
-            ch->mental_state = URANGE( 20, ch->mental_state + 5, 100 );
             af.type = gsn_poison;
             af.duration = obj->value[3];
             af.location = APPLY_NONE;

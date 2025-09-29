@@ -1027,7 +1027,6 @@ void do_devote( CHAR_DATA* ch, const char* argument )
       if( ch->pcdata->deity->worshippers < 0 )
          ch->pcdata->deity->worshippers = 0;
       ch->pcdata->favor = -2500;
-      ch->mental_state = -80;
       send_to_char( "A terrible curse afflicts you as you forsake a deity!\r\n", ch );
       xREMOVE_BITS( ch->affected_by, ch->pcdata->deity->affected );
       REMOVE_BIT( ch->resistant, ch->pcdata->deity->element );

@@ -120,13 +120,11 @@ void do_eat( CHAR_DATA* ch, const char* argument )
                {
                   act( AT_POISON, "$n chokes and gags.", ch, NULL, NULL, TO_ROOM );
                   act( AT_POISON, "You choke and gag.", ch, NULL, NULL, TO_CHAR );
-                  ch->mental_state = URANGE( 20, ch->mental_state + 5, 100 );
                }
                else
                {
                   act( AT_POISON, "$n gags on $p.", ch, obj, NULL, TO_ROOM );
                   act( AT_POISON, "You gag on $p.", ch, obj, NULL, TO_CHAR );
-                  ch->mental_state = URANGE( 15, ch->mental_state + 5, 100 );
                }
 
                af.type = gsn_poison;
