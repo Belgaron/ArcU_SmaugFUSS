@@ -4907,11 +4907,10 @@ void do_slist( CHAR_DATA* ch, const char* argument )
 
          if( !show_all )
          {
-            if( learned_value <= 0 && SPELL_FLAG( skill, SF_SECRETSKILL ) )
+            if( learned_value <= 0 )
                continue;
 
-            if( skill->min_power_level > 0 && char_pl < skill->min_power_level
-                && learned_value <= 0 )
+            if( skill->min_power_level > 0 && char_pl < skill->min_power_level )
                continue;
          }
 
