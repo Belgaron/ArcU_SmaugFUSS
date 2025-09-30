@@ -509,6 +509,12 @@ void load_obj_files( void )
    log_string( "World state: loading objs" );
    snprintf( directory_name, 100, "%s", HOTBOOT_DIR );
    dp = opendir( directory_name );
+   if( !dp )
+   {
+      log_printf_plus( LOG_WARN, sysdata.log_level, "%s: unable to open hotboot directory %s", __func__, directory_name );
+      return;
+   }
+
    dentry = readdir( dp );
    while( dentry )
    {

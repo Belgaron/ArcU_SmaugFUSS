@@ -147,6 +147,13 @@ void show_colorthemes( CHAR_DATA * ch )
    send_to_pager( "&YThe following themes are available:\r\n", ch );
 
    dp = opendir( COLOR_DIR );
+   if( !dp )
+   {
+      log_printf( "%s: unable to open color directory %s", __func__, COLOR_DIR );
+      send_to_pager( "Color theme directory is unavailable.\r\n", ch );
+      return;
+   }
+
    dentry = readdir( dp );
    while( dentry )
    {
