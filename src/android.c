@@ -125,13 +125,16 @@ void check_android_components( CHAR_DATA *ch, CHAR_DATA *victim )
         return;
     
     /* Group vs solo rates */
-    if( is_same_group(android, ch) )
+    if( android == ch )
+    {
+        if( !android->leader )
+            drop_chance = 1;  /* 1% for solo, only if android killed the enemy */
+        else
+            drop_chance = 2;  /* Leader present implies groupmates involved */
+    }
+    else if( is_same_group(android, ch) )
     {
         drop_chance = 2;  /* 2% for group */
-    }
-    else if( !android->leader && android == ch )
-    {
-        drop_chance = 1;  /* 1% for solo, only if android killed the enemy */
     }
     
     /* Check for drop */
