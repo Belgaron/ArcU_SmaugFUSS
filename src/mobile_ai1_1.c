@@ -382,65 +382,69 @@ bool ai_wizard(CHAR_DATA * mob) {
          */
         if ((_level >= 21) && (_level <= 999))
         {
+            bool action_taken = FALSE;
+
             chance = number_range(1, 7);
-            
+
             if (chance == 1 && _level >= 21)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Acid anyone?");
 #endif
                 do_function (mob, &do_cast, "'acid blast'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 2 && _level >= 28)
+            else if (chance == 2 && _level >= 28)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Mmm fire..");
 #endif
                 do_function (mob, &do_cast, "'fire storm'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 3 && _level >= 28)
+            else if (chance == 3 && _level >= 28)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Just die..");
 #endif
                 do_function (mob, &do_cast, "'death touch'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 4 && _level >= 32)
+            else if (chance == 4 && _level >= 32)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Here kitty kitty..");
 #endif
                 do_function (mob, &do_cast, "'energy drain'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 5 && _level >= 36)
+            else if (chance == 5 && _level >= 36)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Is it cold in here, or is it just you?");
 #endif
                 do_function (mob, &do_cast, "'ice bolt'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 6 && _level >= 38)
+            else if (chance == 6 && _level >= 38)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "crush crush CRUSH CRUSH! FIRE!");
 #endif
                 do_function (mob, &do_cast, "'fire crush'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 7 && _level >= 40)
+            else if (chance == 7 && _level >= 40)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Wanna smell my breath?");
 #endif
                 do_function (mob, &do_cast, "'acid breath'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            return TRUE;
+
+            if (action_taken)
+                return TRUE;
         }
         
         /*
@@ -448,6 +452,8 @@ bool ai_wizard(CHAR_DATA * mob) {
          */
         if (_level <= 20)
         {
+            bool action_taken = FALSE;
+
             chance = number_range(1, 10);
 
             if (chance == 1 && _level >= 1)
@@ -456,81 +462,83 @@ bool ai_wizard(CHAR_DATA * mob) {
                 do_function (mob, &do_say, "Eat Wizard Fire!");
 #endif
                 do_function (mob, &do_cast, "'wizard fire'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 2 && _level >= 1)
+            else if (chance == 2 && _level >= 1)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Suck on some Wizard Frost!");
 #endif
                 do_function (mob, &do_cast, "'wizard frost'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 3 && _level >= 1)
+            else if (chance == 3 && _level >= 1)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Feel the Powah of Wizard Spark!");
 #endif
                 do_function (mob, &do_cast, "'wizard spark'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 4 && _level >= 4)
+            else if (chance == 4 && _level >= 4)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Are my hands hot to you?");
 #endif
                 do_function (mob, &do_cast, "'burning hands'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 5 && _level >= 5)
+            else if (chance == 5 && _level >= 5)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Do you feel sick?");
 #endif
                 do_function (mob, &do_cast, "'weaken'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 6 && _level >= 6)
+            else if (chance == 6 && _level >= 6)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Ooo, purtty colours...");
 #endif
                 do_function (mob, &do_cast, "'colour spray'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 7 && _level >= 9)
+            else if (chance == 7 && _level >= 9)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Ooo, its chilly in here!");
 #endif
                 do_function (mob, &do_cast, "'chill touch'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 8 && _level >= 10)
+            else if (chance == 8 && _level >= 10)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Wow, your strong, can I have some?");
 #endif
                 do_function (mob, &do_cast, "'leech strength'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 9 && _level >= 16)
+            else if (chance == 9 && _level >= 16)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "You can't hit what you can't see!");
 #endif
                 do_function (mob, &do_cast, "'blindness'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            if (chance == 10 && _level >= 19)
+            else if (chance == 10 && _level >= 19)
             {
 #if AI_DEBUG
                 do_function (mob, &do_say, "Hope this hurts!");
 #endif
                 do_function (mob, &do_cast, "'force spike'");
-                return TRUE;
+                action_taken = TRUE;
             }
-            return TRUE;
+
+            if (action_taken)
+                return TRUE;
         }
     }   /* End fighting */
     
