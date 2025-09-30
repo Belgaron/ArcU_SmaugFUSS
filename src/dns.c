@@ -235,6 +235,7 @@ bool read_from_dns( int fd, char *buffer )
    static char inbuf[MAX_STRING_LENGTH * 2];
    unsigned int iStart;
    int i, j, k;
+   bool newline_found = false;
 
    /*
     * Check for overflow. 
@@ -257,7 +258,16 @@ bool read_from_dns( int fd, char *buffer )
       if( nRead > 0 )
       {
          iStart += nRead;
-         if( inbuf[iStart - 2] == '\n' || inbuf[iStart - 2] == '\r' )
+         /* Scan only the freshly read bytes so single-byte reads are handled safely. */
+         for( int idx = iStart - nRead; idx < (int) iStart; ++idx )
+         {
+            if( inbuf[idx] == '\n' || inbuf[idx] == '\r' )
+            {
+               newline_found = true;
+               break;
+            }
+         }
+         if( newline_found )
             break;
       }
       else if( nRead == 0 )
