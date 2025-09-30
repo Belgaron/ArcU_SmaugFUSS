@@ -3556,28 +3556,29 @@ void do_delete( CHAR_DATA *ch, const char *argument )
 
 char *default_fprompt( CHAR_DATA * ch )
 {
-   static char buf[60];
+   static char buf[128];
+   const size_t bufsize = sizeof( buf );
 
-   strlcpy( buf, "&gHP&w(&G%h&w)&D ", 60 );
+   strlcpy( buf, "&gHP&w(&G%h&w)&D ", bufsize );
    if( IS_VAMPIRE( ch ) )
-	{
-      strlcat( buf, "&rBLOOD&w(&R%b&w)&D ", 60 );
-	}
+        {
+      strlcat( buf, "&rBLOOD&w(&R%b&w)&D ", bufsize );
+        }
    else
-	{
-      strlcat( buf, "&cMP&w(&C%m&w)&D ", 60 );
-	}
-   strlcat( buf, " &OPL&w(&Y%j&w)&D", 60 );
+        {
+      strlcat( buf, "&cMP&w(&C%m&w)&D ", bufsize );
+        }
+   strlcat( buf, " &OPL&w(&Y%j&w)&D", bufsize );
    if( !IS_NPC(ch) )
-	{
-      strlcat( buf, " &P%ff&D", 60 );  // This should work now
-	}
-   strcat( buf, "\n\r&w<&r%n &r&w(&W%c&w) &cFOC&w(&W%f&w)>&D " );
-   //strlcat( buf, "&rT-HP&w(&W%c&w)&D ", 60 );
-	//strlcat( buf, "&cFOC&w(&W%f&w) ", 60 );
-	
+        {
+      strlcat( buf, " &P%ff&D", bufsize );  // This should work now
+        }
+   strlcat( buf, "\n\r&w<&r%n &r&w(&W%c&w) &cFOC&w(&W%f&w)>&D ", bufsize );
+   //strlcat( buf, "&rT-HP&w(&W%c&w)&D ", bufsize );
+        //strlcat( buf, "&cFOC&w(&W%f&w) ", bufsize );
+
    if( IS_NPC( ch ) || IS_IMMORTAL( ch ) )
-      strlcat( buf, " %i%R", 60 );
+      strlcat( buf, " %i%R", bufsize );
    return buf;
 }
 
