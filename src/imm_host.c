@@ -144,15 +144,35 @@ bool check_immortal_domain( CHAR_DATA * ch, const char *host )
    IMMORTAL_HOST *temp;
    char my_host[MAX_STRING_LENGTH];
    char my_name[MAX_STRING_LENGTH];
-   unsigned int i = 0;
+   size_t i;
+   size_t host_len, name_len;
 
-   for( i = 0; i < strlen( host ); i++ )
-      my_host[i] = LOWER( host[i] );
-   my_host[i] = '\0';
+   if( !ch || !ch->name )
+   {
+      log_printf( "%s: invalid character data", __func__ );
+      return FALSE;
+   }
 
-   for( i = 0; i < strlen( ch->name ); i++ )
-      my_name[i] = LOWER( ch->name[i] );
-   my_name[i] = '\0';
+   if( !host )
+      host = "";
+
+   host_len = mudstrlcpy( my_host, host, sizeof( my_host ) );
+   if( host_len >= sizeof( my_host ) )
+   {
+      log_printf( "%s: truncated host for %s: %s", __func__, ch ? ch->name : "(unknown)", host );
+      return FALSE;
+   }
+   for( i = 0; my_host[i] != '\0'; ++i )
+      my_host[i] = LOWER( my_host[i] );
+
+   name_len = mudstrlcpy( my_name, ch->name, sizeof( my_name ) );
+   if( name_len >= sizeof( my_name ) )
+   {
+      log_printf( "%s: truncated name for %s", __func__, ch->name );
+      return FALSE;
+   }
+   for( i = 0; my_name[i] != '\0'; ++i )
+      my_name[i] = LOWER( my_name[i] );
 
    for( temp = immortal_host_start; temp; temp = temp->next )
    {

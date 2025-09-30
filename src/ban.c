@@ -1143,11 +1143,21 @@ bool check_total_bans( DESCRIPTOR_DATA * d )
 {
    BAN_DATA *pban;
    char new_host[MAX_STRING_LENGTH];
-   int i;
+   size_t i;
 
-   for( i = 0; i < ( int )strlen( d->host ); i++ )
-      new_host[i] = LOWER( d->host[i] );
-   new_host[i] = '\0';
+   if( d->host && d->host[0] != '\0' )
+   {
+      size_t host_len = mudstrlcpy( new_host, d->host, sizeof( new_host ) );
+      if( host_len >= sizeof( new_host ) )
+      {
+         log_printf_plus( LOG_WARN, sysdata.log_level, "%s: truncated host in descriptor: %s", __func__, d->host );
+         return TRUE;
+      }
+   }
+   else
+      new_host[0] = '\0';
+   for( i = 0; new_host[i] != '\0'; ++i )
+      new_host[i] = LOWER( new_host[i] );
 
    for( pban = first_ban; pban; pban = pban->next )
    {
@@ -1214,7 +1224,7 @@ bool check_bans( CHAR_DATA * ch, int type )
 {
    BAN_DATA *pban;
    char new_host[MAX_STRING_LENGTH];
-   int i;
+   size_t i;
    bool fMatch = FALSE;
 
    switch ( type )
@@ -1227,9 +1237,19 @@ bool check_bans( CHAR_DATA * ch, int type )
          break;
       case BAN_SITE:
          pban = first_ban;
-         for( i = 0; i < ( int )( strlen( ch->desc->host ) ); i++ )
-            new_host[i] = LOWER( ch->desc->host[i] );
-         new_host[i] = '\0';
+         if( ch->desc && ch->desc->host && ch->desc->host[0] != '\0' )
+         {
+            size_t host_len = mudstrlcpy( new_host, ch->desc->host, sizeof( new_host ) );
+            if( host_len >= sizeof( new_host ) )
+            {
+               log_printf_plus( LOG_WARN, sysdata.log_level, "%s: truncated host for %s: %s", __func__, ch->name, ch->desc->host );
+               return TRUE;
+            }
+            for( i = 0; new_host[i] != '\0'; ++i )
+               new_host[i] = LOWER( new_host[i] );
+         }
+         else
+            new_host[0] = '\0';
          break;
       default:
          bug( "%s: Ban type in check_bans: %d.", __func__, type );
