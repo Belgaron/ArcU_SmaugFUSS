@@ -4206,7 +4206,6 @@ DECLARE_DO_FUN( do_pounce );
 DECLARE_DO_FUN( do_powerup );
 DECLARE_DO_FUN( do_powerdown );
 DECLARE_DO_FUN( do_practice );
-DECLARE_DO_FUN( do_skill );
 DECLARE_DO_FUN( do_project );
 DECLARE_DO_FUN( do_prompt );
 DECLARE_DO_FUN( do_pset );

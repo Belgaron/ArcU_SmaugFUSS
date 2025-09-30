@@ -2583,14 +2583,6 @@ Log         0
 End
 
 #COMMAND
-Name        skill~
-Code        do_skill
-Position    104
-Level       0
-Log         0
-End
-
-#COMMAND
 Name        pardon~
 Code        do_pardon
 Position    100
