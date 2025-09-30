@@ -639,6 +639,7 @@ void mssp_reply( DESCRIPTOR_DATA * d, const char *var, const char *fmt, ... )
 {
    char buf[MAX_STRING_LENGTH];
    va_list args;
+   int ret;
 
    if( !d )
    {
@@ -652,8 +653,22 @@ void mssp_reply( DESCRIPTOR_DATA * d, const char *var, const char *fmt, ... )
    }
 
    va_start( args, fmt );
-   vsprintf( buf, fmt, args );
+   ret = vsnprintf( buf, sizeof( buf ), fmt, args );
    va_end( args );
+
+   if( ret < 0 )
+   {
+      buf[0] = '\0';
+      log_printf( "%s: vsnprintf error formatting MSSP field '%s' for descriptor %d (%s)",
+                  __func__, var, d ? d->descriptor : -1,
+                  ( d && d->host ) ? d->host : "unknown" );
+   }
+   else if( ret >= ( int )sizeof( buf ) )
+   {
+      log_printf( "%s: truncated MSSP field '%s' for descriptor %d (%s). Needed %d bytes for buffer of %d.",
+                  __func__, var, d ? d->descriptor : -1,
+                  ( d && d->host ) ? d->host : "unknown", ret, ( int )sizeof( buf ) );
+   }
 
    descriptor_printf( d, "%s\t%s\r\n", var, buf );
 }
