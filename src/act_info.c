@@ -3815,33 +3815,6 @@ void practice_specific_skill( CHAR_DATA *ch, CHAR_DATA *mob, const char *argumen
    }
 }
 
-void do_skill( CHAR_DATA *ch, const char *argument )
-{
-   if( IS_NPC( ch ) )
-      return;
-
-   if( argument[0] == '\0' )
-   {
-      if( IS_IMMORTAL( ch ) )
-      {
-         show_practice_list( ch, NULL );
-      }
-      else
-      {
-         send_to_char( "You need to seek out a trainer and ask what they can teach.\r\n", ch );
-         send_to_char( "Trainers can then help you practice specific skills.\r\n", ch );
-      }
-      return;
-   }
-
-   send_to_char( "Usage: skill\r\n", ch );
-   send_to_char( "       Use the practice command with a trainer to advance specific skills.\r\n", ch );
-}
-
-
-
-
-
 /*
  * Check if a trainer can teach a specific hidden skill
  */
