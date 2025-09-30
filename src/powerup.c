@@ -79,7 +79,7 @@ void apply_powerup_effects( CHAR_DATA *ch, short powerup_tier )
      * The multiplier effect is applied in get_power_level() function */
     
     /* Visual effects based on race - adjust race checks as needed */
-    if( ch->race == 1 )  /* Change this number to match your android race number */
+    if( IS_ANDROID(ch) )
     {
         switch( powerup_tier )
         {
