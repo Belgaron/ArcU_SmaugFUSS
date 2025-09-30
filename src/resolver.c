@@ -57,11 +57,16 @@ char *resolve_address( const string & address )
    struct in_addr addr4;
    static char addr_str[256];
    struct hostent *from;
+   bool has_ipv6 = false;
 
    // ::1 is localhost, so if they're not connecting from that, check both cases to be sure they'll work.
    if( address != "::1" )
    {
-      if( inet_pton( AF_INET6, address.c_str(), &addr6 ) == 0 )
+      int pton_result = inet_pton( AF_INET6, address.c_str(), &addr6 );
+
+      if( pton_result == 1 )
+         has_ipv6 = true;
+      else
       {
          if( inet_aton( address.c_str(), &addr4 ) == 0 )
          {
@@ -77,16 +82,24 @@ char *resolve_address( const string & address )
       strlcpy( addr_str, "localhost", 256 );
    else
    {
-      if( ( from = gethostbyaddr( &addr6, sizeof( addr6 ), AF_INET6 ) ) != nullptr )
+      bool resolved = false;
+
+      if( has_ipv6 )
       {
-         strlcpy( addr_str, strcmp( from->h_name, "localhost" ) ? from->h_name : "localhost", 256 );
+         if( ( from = gethostbyaddr( &addr6, sizeof( addr6 ), AF_INET6 ) ) != nullptr )
+         {
+            strlcpy( addr_str, strcmp( from->h_name, "localhost" ) ? from->h_name : "localhost", 256 );
+            resolved = true;
+         }
       }
-      else
+
+      if( !resolved )
       {
          string::size_type pos = address.find_last_of( ":", address.length() );
 
          if( pos != string::npos )
          {
+            // If IPv6 parsing failed or the reverse lookup did not resolve, return the original literal address.
             strlcpy( addr_str, address.c_str(), 256 );
          }
          else
