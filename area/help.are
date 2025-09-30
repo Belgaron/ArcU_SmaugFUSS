@@ -207,6 +207,13 @@ sanity they were attempting to cure. What was once a place of peace and
 salvation has become a haven of the damned, ruled by chaos unbridled.
 ~
 
+
+65 ACOMP~
+Syntax: acomp <player> <component|all> <value>
+Components: nano quantum plasma neural fusion ethereal
+Special: acomp <player> all <value>
+Acomp adjusts the android component calibration for a pure android player. Values must be between 0 and 5; using "all" applies the value to every component and unlocks the matching schematics. The target must be a non-NPC android that is not a bio-android. The changes are saved immediately.
+~
 1 'ACETUM PRIMUS'~
 'Acetum Primus,' is the third and most powerful of the known acid
 disciplines at the Mage's disposal.  This incantation pulls forth the
@@ -339,6 +346,11 @@ keyword for that exit:
    to UNIX-C (over a period of about 3 years) (c)1984.
 ~
 
+
+54 AECHO~
+Syntax: aecho [_color|*color] <message>
+Sends a message to every player inside your current area. If you start the message with an immortal color token such as _red or *yel, that color (or its blinking variant) is applied; otherwise the message uses the immortal default color. Aecho ignores privacy flags and does not move you.
+~
 1 AFFECTED 'AFFECTED BY'~
 Syntax:  affected       (abbrevation:  af)
 Syntax:  affected by    (abbreviation: af by)
@@ -452,6 +464,11 @@ are fighting a mob opposite of your align.
 You can find out what your alignment is by typing SCORE.
 ~
 
+
+59 ALINKS~
+Syntax: alinks <area filename> [detailed|names|reverse]
+Lists every exit that connects the supplied area to another area. The default output shows the room vnum, exit direction, and status flags (p = room has a program, k = keyed, f = flagged). "detailed" includes destination information, "names" adds the destination area and room names, and "reverse" reports links pointing into the area (and implies detailed output). Links through private, solitary, prototype, no-mob, no-missile, or do-not-disturb rooms are skipped.
+~
 58 ALLOW BAN~
 ALLOW BAN WARN
 Syntax:  allow  site/race/class    <address/race/class>
@@ -1664,6 +1681,11 @@ VALUE asks the shop keeper how much he, she, or it will buy the item for.
  
 ~
 
+
+63 CACHE~
+Syntax: cache
+Displays all hostnames currently stored in the DNS cache along with their IP addresses and the total number cached. Useful for reviewing recent resolves when diagnosing site bans or connection issues.
+~
 0 'CALL LIGHTNING'~
 Syntax: cast 'call lightning'
 
@@ -3286,6 +3308,11 @@ transform a perfectly healthy food item or drink container into one
 wrought with poison.
 ~
 
+
+60 DESTRO~
+Destro is a safeguard for the DESTROY command. It does not delete anything; it simply reminds you to type the full DESTROY command when you truly intend to erase a character file.
+See also: DESTROY
+~
 65 DESTROY~
 -----------------------------------------------------------
  
@@ -3985,6 +4012,16 @@ Omit the space when using the commands in your notes):
  
 ~
 
+
+52 EDITSLAY~
+Syntax: editslay <name> <field> <value>
+Syntax: editslay <name> name new
+Syntax: editslay <name> general 0|1
+Syntax: editslay <name> victim|char|room <message>
+Syntax: editslay list
+Editslay manages custom slay messages. "list" shows available slays. "name new" creates a blank entry; supplying another name renames an existing entry. "general 0" clears the owner so any immortal may use the slay, while "general 1" marks it as personal to you. The victim/char/room fields control the three strings seen when the slay is used. Messages are saved immediately.
+See also: SLAY
+~
 1 ELBOW~
 Syntax:  elbow
  
@@ -4448,6 +4485,11 @@ locations to cast from.
 See also:  COOKING, SURVIVAL, WATERBREATHING
 ~
 
+
+53 FINDEXIT~
+Syntax: findexit <target vnum> [mud|<low>] [high]
+Searches for exits that lead to the supplied room vnum. With no range arguments the search is restricted to your assigned area's vnum range. Supplying "mud" searches the entire world (greater+). Otherwise provide explicit low and high vnum bounds. Each match lists the room vnum, direction, exit vnum, key, and flags for the exit that points at the target room.
+~
 1 FINDNOTE~
 Syntax: findnote <keyword>
  
@@ -4466,6 +4508,11 @@ type missileweapons, a bow wielded and a quiver or arrows in your inventory.
 *** For smaug release..  use wooden bow and flint from newdark***
 ~
 
+
+62 FIXCHAR~
+Syntax: fixchar <player>
+Restores the character in the room to sane default modifiers by calling the core fix_char routine (armor, stat mods, hitroll/damroll, alignment clamps, etc.). Use this when a player has become corrupted by bad affects or bugs. The target must be present and the character is saved immediately.
+~
 51 FIXED~
 Syntax:  fixed <message>
          fixed list
@@ -4621,6 +4668,11 @@ problem player can even get to the authorization state of connection.
 See USERS, CONSTATES and DISCONNECT.
 ~
 
+
+61 FORMPASS~
+Syntax: formpass <password>
+Encrypts the supplied password with the game's SHA-256 routine and echoes the resulting hash. Formpass enforces the same minimum requirements as player passwords (at least five characters and not beginning with '!') so staff can safely pre-hash passwords for pfiles or configuration updates.
+~
 51 FQUIT~
 Syntax: fquit <character>
  
@@ -5711,6 +5763,13 @@ at creation and gain between 6 and 19 hp per gained level, depending on
 class, race and CON.  Equipment can also add to your total hp.
 ~
 
+
+60 HOTBOOT~
+Syntax: hotboot
+Syntax: hotboot debug
+Performs a hotboot, saving the world state, active descriptors, and character files before restarting the executable. Hotboot refuses to run if anyone is fighting or using the in-game line editor. The optional "debug" flag prepares the hotboot files but stops before exec'ing so you can inspect the output. Without "debug" every eligible player is flagged for hotboot, saved, notified, and reattached after the new binary loads.
+See also: REBOOT, SHUTDOWN
+~
 1 HQS~
 Peaceful players are not to enter deadly hq's.  If found there you will be 
 escorted out if you don't do so voluntarily.  Non compliance will result
@@ -7810,6 +7869,12 @@ immortal use only:
 See also PROMPT
 ~
 
+
+59 IMMORTALIZE~
+Syntax: immortalize <player>
+Raises an avatar in the room to level 51, strips their inventory, clears clan membership and ranks, and shows them the introductory immortal help. Characters already immortal or below avatar are refused. All changes are saved immediately.
+See also: MORTALIZE
+~
 51 IMMQUEST~
 This help file will contain the current status as well as the expectations of
 what is to be followed of Immortals questing.
@@ -7952,6 +8017,20 @@ Currently the builder should quit and have his/her vnums cleared manually.
 (This should be fixed soon).
 ~
 
+
+61 INSTAZONE~
+Syntax: instazone
+Syntax: instazone nodoors
+Wipes every reset in your assigned area and regenerates them by running instaroom on each room in the area. "nodoors" omits door resets. Restricted to builders with an assigned area (or greater+). Use with care—this overwrites manual reset work.
+See also: INSTAROOM
+~
+
+54 INSTAROOM~
+Syntax: instaroom
+Syntax: instaroom nodoors
+Rebuilds the reset list for the current room from its prototypes. Existing resets are wiped first. Use "nodoors" to skip generating door resets. You must own the area (or be greater+) and be standing in the room you intend to rebuild.
+See also: INSTAZONE
+~
 1 INT INTELLIGENCE~
 Intelligence (INT in your 'score') represents your character's mental
 capacity.  Among other things, it affects:
@@ -8663,6 +8742,19 @@ very direct manner, it can affect nearly every aspect to at least a degree.
  
 ~
 
+
+54 LAST~
+Syntax: last <player>
+Reports the last time the named player was active by checking their player file timestamp.
+Use the player's properly capitalized name; if the pfile cannot be found or validated you'll be told they were not located.
+~
+
+51 LEAD~
+Syntax: lead <player>
+Syntax: lead <your name>
+Newbie Council members may use LEAD to add a player in the room (level 25 or lower) as their follower, sending a beckon message. Issuing LEAD on yourself releases any followers you currently lead. You cannot lead NPCs or anyone with equal or higher trust.
+See also: BECKON
+~
 1 LEAP~
 Syntax:  leap
  
@@ -8839,6 +8931,12 @@ SNOOP yourself to cancel all outstanding snoops.
  
 ~
 
+
+54 LOOP~
+Syntax: loop <command> <start> <end> <parameters>
+Executes the chosen command once for every number in the inclusive range. The current number is inserted after the command name. If the range is specified backwards the values are swapped automatically. Use caution—loop can execute powerful commands many times in rapid succession.
+Example: loop mset 22000 22100 flags prototype
+~
 1 LOYAL LOYALTY~
 The item flag 'loyal' reflects a weapon's loyal status to its deadly owner.
 Such a weapon will return to a player's inventory when disarmed by another
@@ -8994,6 +9092,11 @@ DESCRIPTION: The MAKEDEITY command creates a new deity
 SEE ALSO: SETDEITY, SHOWDEITY, DEITIES 
 ~
 
+
+61 MAKEWIZLIST~
+Syntax: makewizlist
+Regenerates the wizlist from the current immortal roster. Run this after promotions or demotions to update the published list.
+~
 57 MAKEREPAIR~
 Syntax:  makerepair <mobvnum>
  
@@ -9154,6 +9257,12 @@ you everything you need to know to be a master mudder!
 We all know this, but put up with you anyways!
 ~
 
+
+56 MDELETE~
+Syntax: mdelete <vnum>
+Deletes the mobile prototype with the supplied vnum after verifying it lies within your assigned range (unless you have modify_proto access). The deletion is immediate and removes the mob from the index. Use with care and keep backups.
+See also: ODELETE, RDELETE
+~
 1 MEDITATE MEDITATION~
 Syntax:  meditate
  
@@ -9232,6 +9341,13 @@ Merc would like to thank ...
                                 Share and enjoy.
 ~
 
+
+53 MESSAGE~
+Syntax: message <player> <text>
+Syntax: message <player> type <number>
+Syntax: message list
+Stores a login message for the named player. If the player is online you are prompted to use tells instead. Without "type" the remainder of the command becomes the message delivered when the player next logs in. Supplying "type <number>" queues one of the predefined login message templates. Greater+ immortals may use "message list" to review all stored login messages.
+~
 51 MFIND OFIND~
 Syntax: mfind <name>
 Syntax: ofind <name>
@@ -9446,6 +9562,11 @@ October 22nd through 12/19
                   Trancendentally Cool Mud.
 ~
 
+
+60 MOBINVADE~
+Syntax: mobinvade <area filename> <count> <mob vnum>
+Spawns up to 300 instances of the given mobile and scatters them through random rooms in the target area. Safe rooms are skipped. The area is referenced by its filename (e.g. darkhaven.are). Useful for invasion events.
+~
 51 MOBTRIGGERS MUDTRIGGERS MPTRIGGERS~
 Trigger Optnl Triggering Variable Explanation
 ------- ----- ------------------- -----------
@@ -9513,6 +9634,12 @@ things, while unmorph reverts the effect.
 See also:  polymorph, morphcreate, morphdestroy, morphstat
 ~
 
+
+51 MORPHLIST~
+Syntax: morphlist
+Lists every available morph by vnum and name. Use this before morphset or morphstat to locate the morph you need to edit.
+See also: MORPHSET, MORPHSTAT
+~
 51 MORPHCREATE MORPHDESTROY~
 These commands are used for the creation or deletion of
 polymorph data.
@@ -9520,6 +9647,14 @@ polymorph data.
 See also:  polymorph, morph, morphstat
 ~
 
+
+51 MORPHSET~
+Syntax: morphset <morph> <field> <value>
+Syntax: morphset <morph> on
+Syntax: morphset <morph> save
+A full morph editor. Use "morphset <morph> on" to enter repeat mode; "stat" inside repeat mode shows the current settings and "done" leaves the editor. Supported fields include stat adjustments (str/int/wis/dex/con/spr/lck), hitroll/damroll/AC, hp/mana/move and favour costs, allowed races/classes/deities, timers, minimum levels, pkill restrictions, object requirements, descriptions (description/help), morph/unmorph messages, resist/immune/suscept flags, and more. "save" writes the morph table to disk.
+See also: MORPHLIST, MORPHSTAT, MORPH
+~
 51 MORPHSTAT~
 Syntax:  morphstat <vnum|name> [help|desc]
  
@@ -9536,6 +9671,12 @@ This space made available  via  Thoric and the Realms of Despair
 To create your own .. use hedit motd
 ~
 
+
+58 MORTALIZE~
+Syntax: mortalize <player>
+Demotes an immortal back to level 50 (avatar). If the target is offline their pfile is loaded temporarily. The command clears immortal data, removes clan leadership, resets stats, wipes equipment, saves or backs up any assigned area, and updates the wizlist. Only works on players of lower trust.
+See also: IMMORTALIZE
+~
 0 MOUNT DISMOUNT~
 Syntax: mount <mob>
 Syntax: dismount
@@ -10168,6 +10309,12 @@ You suddenly feel much more powerful!
 You suddenly feel much more powerful!
 ~
 
+
+55 MUSE~
+Syntax: muse <message>
+Broadcasts a message on the highgod muse channel. Available to high-level immortals and retired staff.
+See also: THINK
+~
 1 NAME NAMES~
 &YSyntax:  name <newname>&W
  
@@ -10617,6 +10764,32 @@ A restorative spell of the Augurer which heals the caster of wounds.
 The spell cannot be cast on others.
 ~
 
+
+61 NORESOLVE~
+Syntax: noresolve
+Toggles the global name-resolving flag. When enabled the mud skips DNS lookups on incoming connections; when disabled it resumes resolving hostnames.
+~
+
+54 NOHOMEPAGE~
+Syntax: nohomepage <player>
+Toggles the NOHOMEPAGE flag and clears the stored homepage for the target player. When set, the player cannot set a custom homepage and is notified (or queued a login message if offline). Only affects players below your trust.
+~
+
+54 NO_DESC NODESC~
+Syntax: nodesc <player>
+Toggles the NODESC flag and clears the description for the target player. When set, the player cannot edit their description and receives a notification (or a login message if offline). Only affects players below your trust.
+See also: NOBIO NOHOMEPAGE
+~
+
+54 NOBIO~
+Syntax: nobio <player>
+Toggles the NOBIO flag and clears the biography for the target player. When active, the player cannot set a personal bio and is informed (or queued a login message if offline). Only affects players below your trust.
+~
+
+54 NOBECKON~
+Syntax: nobeckon <player>
+Toggles the NOBECKON flag on the target player. When set, the player cannot use the BECKON command and is notified (or queued a login message if offline). Only affects players below your trust.
+~
 55 NOSUPPLICATE NOSUPP~
 Nosupplicate as a room flag is only for use in hell, jails and some immortal
 rooms. It should never be used in an area without fair warning given to mortals
@@ -11004,6 +11177,19 @@ race, yet confusing for ogres. The threat of the ogre race ended long ago and
 very few visit, or attack, them.
 ~
 
+
+59 ODELETE~
+Syntax: odelete <vnum>
+Deletes the object prototype with the supplied vnum after checking that it lies within your assigned range (unless you have modify_proto access). The object is removed from the index immediately—keep backups.
+See also: MDELETE, RDELETE
+~
+
+60 OCLAIM~
+Syntax: oclaim <object> [from <player>] [+silent]
+Syntax: oclaim <vnum> [from <player>] [+silent]
+Transfers the chosen object directly into your inventory. You may specify a player to take it from and you can reference the item by vnum. Without +silent the victim and room are notified; +silent suppresses the public messages. You cannot take items from someone of equal or higher trust. Portals are safely removed before transfer.
+See also: OGRUB
+~
 51 OGRUB~
 Syntax: ogrub <num of lines> <sort order> [keywords] [operands]
  
@@ -11142,6 +11328,11 @@ to tell by those who witness it, for it is a constant reminder of what has
 been lost.
 ~
 
+
+59 OOWNER~
+Syntax: oowner <object> <player|none>
+Sets or clears the personal owner on the specified object. Using a player name marks the item ITEM_PERSONAL to that player; using "none" clears the flag and owner string. The object must be in your possession.
+~
 63 OLDCHANGES~
 .*> Online building is now implemented.  This includes rooms, mobiles,
     objects and programs for each as well as resets.
@@ -11237,6 +11428,13 @@ BOLT and UNBOLT bolt and unbolt a closed door.  You must be on the side of
 the door that has the bolt to BOLT or UNBOLT the door.
 ~
 
+
+51 OPFIND~
+Syntax: opfind <max lines> mud <text>
+Syntax: opfind <max lines> <low vnum> <high vnum> <text>
+Searches object programs for the supplied text. The first argument limits how many matching rows are displayed. Use "mud" to scan every object in the mud or supply an explicit vnum range. Each hit shows the sequential index, object vnum, and number of occurrences within that object's programs.
+See also: MPFIND, RPFIND
+~
 53 OPSTAT~
 Syntax: opstat <object/object vnum>
  
@@ -11825,6 +12023,12 @@ Obviously this spell requires a good deal of natural foliage in both the
 caster's and the victim's location.
 ~
 
+
+51 PL~
+Syntax: pl
+Syntax: pl <player|self> <value>
+Without arguments PL reports your base and current power level plus any modifier. Immortals may set a player's base power level by supplying a target and numeric value (minimum zero). The change is saved immediately and notifies the player if online.
+~
 55 PLRSTATS~
 The following results were obtained by leveling a character with maxed
 attributes from 1 to 50 a total of 20 times.  The results were averaged
@@ -11888,6 +12092,19 @@ machinations of the gods.
 See also:  revert
 ~
 
+
+65 POWERUP~
+Syntax: powerup
+Syntax: powerup max
+Raises your powerup tier by one, or to the maximum tier when "max" is specified. You must meet the power level requirements for the next tier. The command refuses to exceed your maximum tier or operate on NPCs.
+See also: POWERDOWN
+~
+
+65 POWERDOWN~
+Syntax: powerdown
+Reduces your current powerup tier by one. If you are morphed, powerdown instead cancels the morph and returns you to your base form. When the tier reaches zero you return to normal power. NPCs cannot use this command.
+See also: POWERUP, MORPH, UNMORPH
+~
 1 PRACTICE~
 Syntax: PRACTICE
 Syntax: PRACTICE <skill|spell|weapon>
@@ -12235,6 +12452,12 @@ There is no RENT here.  Just SAVE and QUIT whenever you want to leave.
 59 R~
 ~
 
+
+56 RANK~
+Syntax: rank <text>
+Syntax: rank none
+Sets your immortal rank line, which is shown on wizlist-style displays. "rank none" clears the rank. The previous value is replaced immediately.
+~
 0 RACE RACES~
 There are currently 14 known races existing within these Realms.
 Type "help [race]" for specific information on the specified race:
@@ -12499,6 +12722,11 @@ are true or not, the Realm of Worship is wandered by only the most powerful
 adventurers, and occasionally by those who seek a quick death.
 ~
 
+
+60 REBOO~
+Reboo is a safeguard for the REBOOT command. It performs no action other than reminding you to spell out REBOOT when you truly intend to restart the game.
+See also: REBOOT
+~
 58 REBOOT SHUTDOWN WIZLOCK~
 Syntax: reboot <nosave>
 Syntax: shutdown <nosave>
@@ -12562,6 +12790,12 @@ spell was broken, the fortress returned to its location of old, behind great
 dark gates in a quiet corner of what is now refered to as the 'Old Marsh.'
 ~
 
+
+59 RDELETE~
+Syntax: rdelete <room vnum>
+Deletes the room with the supplied vnum after verifying you can modify it. Exits pointing to the room are fixed automatically. Use with caution and keep backups of your area file.
+See also: MDELETE, ODELETE
+~
 53 REDIT~
 Syntax: REDIT FIELD [parameter list]
         REDIT ON
@@ -12608,6 +12842,12 @@ on if any.
 See REFRESH.
 ~
 
+
+52 REGOTO~
+Syntax: regoto
+Returns you to the last room recorded by the goto command. Handy when you need to pop back to the place you were before a quick goto.
+See also: GOTO
+~
 52 REFRESH~
 Syntax: refresh
 
@@ -12875,6 +13115,12 @@ reserve *goof                  add the substring "goof" to the list
  
 ~
 
+
+53 RESIDENCE~
+Syntax: residence
+Lists every player residence, showing the owner, housing area, type (H = house, A = apartment), number of rooms, and starting vnum. Useful for home maintenance.
+See also: ACCESSORIES
+~
 53 RESET~
 Syntax: reset list   [start] [end]
 Syntax: reset delete [number]
@@ -13104,6 +13350,12 @@ rooms including and after the argument, and when used with two arguments,
 it will list all rooms including and between the two. 
 ~
 
+
+54 RLOOP~
+Syntax: rloop <start vnum> <end vnum> redit <arguments>
+Runs the supplied redit command in every room between the start and end vnum within your assigned area. Only redit commands are permitted and you must own the area. The command temporarily moves you to each room while executing.
+See also: LOOP, REDIT
+~
 53 RMENU~
 Syntax: rmenu [menu letter] (defaults to 'a' if none given)
 
@@ -13411,6 +13663,12 @@ Syntax: savearea
 Savearea and loadarea will save or load your prototype area.
 ~
 
+
+60 SAVEHOLIDAY~
+Syntax: saveholiday
+Writes the current holiday table to disk. Run this after creating or editing holidays with setholiday.
+See also: SETHOLIDAY
+~
 53 SAVINGTHROWS~
 Saving throws:
   sav1 - Saving vs. poison or death
@@ -13485,6 +13743,12 @@ Augurer the greater the damage.
  
 ~
 
+
+61 SCATTER~
+Syntax: scatter <player>
+Teleports the target in the room to a random non-private, non-solitary, non-prototype room somewhere in the world. You cannot scatter players with equal or higher trust.
+See also: TRANSFER
+~
 1 SCORE~
 Syntax: score
  
@@ -13668,6 +13932,13 @@ echoes to that effect.  The echoes start 30 minutes before the reboot
 and are repeated at t minus 15, 10, 5, 4, 3, 2 and 1 minute(s). 
 ~
 
+
+60 SETCLASS~
+Syntax: setclass <class> <field> <value>
+Syntax: setclass <class> create
+Allows online editing of class definitions. Fields cover names, prime/secondary/deficient attributes, starting weapon, guild, THAC0 values, HP/mana gains, experience base, titles, affected/resist/suscept flags, and more. "create" allocates a new class file in the next free slot. Every successful change rewrites the class file (and updates the class list where appropriate). Run without arguments for a full field list.
+See also: SHOWCLASS
+~
 65 SETCLAN~
 Usage: setclan <clan> <field> <deity|leader|number1|number2> <player>
 Field being one of:
@@ -13681,6 +13952,45 @@ ex: to set a new person in the number 1 spot of guild of warriors..
 setclan 'guild of warriors' number1 <name>
 ~
 
+
+56 SETMIXTURE~
+Syntax: setmixture <name> <field> <value>
+Syntax: setmixture create <name>
+Syntax: setmixture delete <name>
+Syntax: setmixture list [name]
+Syntax: setmixture save
+Edits liquid mixing recipes. Fields include name, vnum1/vnum2 (source liquids), "into" (resulting liquid or object), and "object" (toggle between liquid and object output). "list" shows all mixtures or details for a specific recipe. "save" writes the table.
+See also: SHOWMIXTURE, SETLIQUID
+~
+
+56 SETLIQUID~
+Syntax: setliquid <vnum> <field> <value>
+Syntax: setliquid create <name>
+Syntax: setliquid delete <vnum|name>
+Maintains the liquid table. You can create new liquids, delete existing ones, or change their name, color, short description, type, and drunk/blood modifiers. Creation automatically assigns an unused vnum. Deletion frees the entry and compacts the table.
+See also: SHOWLIQUID, SETMIXTURE
+~
+
+60 SETHOLIDAY~
+Syntax: setholiday <name> <field> <value>
+Syntax: setholiday <name> create
+Syntax: setholiday save
+Creates and edits entries in the holiday table. Fields allow you to set the calendar day/month, announcement text, and name, or delete an entry. "save" writes the table immediately. Creation checks the maximum holiday count.
+See also: SAVEHOLIDAY
+~
+
+61 SETDEITY~
+Syntax: setdeity <deity> <field> <value>
+Syntax: setdeity <deity> delete
+Online editor for deity definitions. Supports changing alignment, races/classes, deific affects/resists, worshipper counts, favour adjustments, supplicate requirements, descriptions, names, filenames, and more. "delete" removes the deity after unbinding any worshippers. Editing the description or help opens the string editor. Run without arguments for the full list of fields.
+See also: SHOWDEITY, DEVOTE
+~
+
+61 SETCOUNCIL~
+Syntax: setcouncil <council> <field> <value>
+Edits council data: head/head2, member count, board vnum, meeting room, storage room, abbreviation, description, filename, name, and powers. Storage changes update the shared vault list automatically. Only higher-trust immortals may rename or change filenames/powers.
+See also: SHOWCLAN, SHOWCOUNCIL
+~
 51 SETRACE~
 .&w
 Syntax: Setrace <racename> <field> 
@@ -13751,6 +14061,27 @@ also speak of an immense red dragon that has taken up residence in these
 tunnels, though few believe them.
 ~
 
+
+60 SETWEATHER~
+Syntax: setweather <x> <y> climate <flag>
+Syntax: setweather <x> <y> hemisphere <flag>
+Sets the climate data for the world weather grid. Coordinates must be within the configured map size. Climate flags include rainforest, savanna, desert, steppe, chapparal, arctic, grasslands, deciduous_forest, taiga, tundra, and alpine. Hemisphere accepts "northern" or "southern".
+See also: SHOWWEATHER
+~
+
+58 SETVAULT~
+Syntax: setvault show
+Syntax: setvault <room vnum> create
+Syntax: setvault <room vnum> delete
+Maintains the list of donation vault rooms. "show" lists the current vault vnums and their room names. Creating or deleting entries updates the shared vault list used by councils and clans. You must supply a valid room vnum.
+See also: SHOWCLAN, SETCOUNCIL
+~
+
+61 SETMSSP~
+Syntax: setmssp <field> [value]
+Syntax: setmssp show
+Updates the MSSP metadata sent to crawlers. String fields (hostname, contact, icon, language, location, website, family, genre, gameplay, game_system, intermud, status, subgenre, multiplaying, player_killing, equipment_system, training_system, quest_system, roleplaying, world_originality, etc.) accept the documented values and will prompt you if a keyword is invalid. Capability switches (ansi, mccp, mcp, msp, ssl, mxp, pueblo, vt100, xterm256, pay2play, pay4perks, hiring_builders, hiring_coders, adult_material, multiclassing, newbie_friendly, player_cities, player_clans, player_crafting, player_guilds) use "yes" or "no". Numeric fields (created, min_age, worlds) enforce MSSP-defined ranges. "show" displays the current dataset.
+~
 0 SHADOWFORM~
 Entering Shadowform makes you almost untouchable by non-magical attacks, 
 at no cost to your attributes.
@@ -13881,18 +14212,37 @@ Syntax: showclan <clan name>
 Displays statistics on a clan.
 ~
 
+
+56 SHOWCLASS~
+Syntax: showclass <class> [low] [high]
+Displays detailed statistics for the selected class, including attributes, thac0, hp/mana gains, resists, and susceptibility flags. If you supply optional low/high levels, the corresponding male and female titles for that range are listed.
+See also: SETCLASS
+~
 65 SHOWCOUNCIL~
 Syntax: showcouncil '<name> council'
  
 Shows the statistics on the council.
 ~
 
+
+51 SHOWDEITY~
+Syntax: showdeity <name>
+Prints the full definition of the specified deity, including alignment, allowed races/classes, favour adjustments, supplicate requirements, affects, resists, and statistics.
+See also: SETDEITY
+~
 51 SHOWGUILD~
 Syntax: showguild 'guild of <guild name>'
  
 Displays the statistics on a guild.
 ~
 
+
+51 SHOWLIQUID~
+Syntax: showliquid
+Syntax: showliquid <vnum|name>
+Lists the liquid table or displays the detailed entry for a single liquid (name, color, vnum, type, and condition modifiers).
+See also: SETLIQUID, SHOWMIXTURE
+~
 65 SHOWLAYERS~
 Syntax: showlayers <number of lines>
  
@@ -13908,6 +14258,19 @@ We don't want players to be able to wear 10 pieces of eq on the same
 wear location and get huge stats as a result.
 ~
 
+
+52 SHOWORDER~
+Syntax: showorder [name]
+Alias for SHOWCLAN that reports information about orders. Accepts the same arguments as SHOWCLAN and SHOWGUILD.
+See also: SHOWCLAN, SHOWGUILD
+~
+
+51 SHOWMIXTURE~
+Syntax: showmixture
+Syntax: showmixture <name>
+Lists every liquid/object mixing recipe or shows the details for a specific mixture. Each entry notes whether it produces a liquid or an object and the required component vnums.
+See also: SETMIXTURE, SHOWLIQUID
+~
 51 SHOWRACE~
 Syntax: Showrace <name of race>
  
@@ -13933,6 +14296,12 @@ See also help &WSETRACE
 &w
 ~
 
+
+51 SHOWWEATHER~
+Syntax: showweather <x> <y>
+Displays the weather cell data (climate, hemisphere, cloud cover, energy, temperature, pressure, humidity, precipitation, and wind vectors) for the specified coordinates on the global weather map.
+See also: SETWEATHER
+~
 1 SHRIEK~
 Syntax:  shriek
  
@@ -13941,6 +14310,11 @@ its anguished sound.
  
 ~
 
+
+61 SHUTDOW~
+Shutdow is a safeguard for the SHUTDOWN command. It performs no action other than reminding you to use the full SHUTDOWN syntax when you intend to shut the mud down.
+See also: SHUTDOWN
+~
 0 SIT~
 Syntax: sit
 
@@ -13953,6 +14327,11 @@ to see to what extent you have them practiced.  Type 'slist' to view a
 list of all skills available at each level to your class.
 ~
 
+
+57 SLA~
+Sla is a safeguard for the SLAY command. It does not kill the target; it simply reminds you to type the full SLAY command deliberately.
+See also: SLAY
+~
 55 SLAY~
 Syntax: slay <victim> [immolate/shatter/demon]
 
@@ -14477,6 +14856,13 @@ can only be used against your primary opponent.  If it successfully
 lands, it inflicts damage on your opponent.
 ~
 
+
+63 STREW~
+Syntax: strew <player> coins
+Syntax: strew <player> inventory
+Blasts the target's gold or inventory into random rooms throughout the mud. Inventory mode relocates each carried item to a random safe room and reports the destination vnums. Coins mode removes all carried gold. You cannot strew someone of equal or higher trust.
+See also: STRIP
+~
 61 STRIP~
 Syntax 'strip <victim>
  
@@ -14851,6 +15237,13 @@ to the reset itself.
  
 ~
 
+
+65 TIMECMD~
+Syntax: timecmd <command>
+Syntax: timecmd update
+Measures how long a command takes to execute. The first form runs the command once and reports the elapsed time. "timecmd update" arms the update-loop profiler (only one immortal at a time may do this). Use with care—timed commands still perform their normal actions.
+See also: TIMER
+~
 51 TIMER~
 Associated help files: help corpse, help imm cr, help bodybag
  
@@ -15358,6 +15751,13 @@ See also: MPSTAT, RPSTAT, OPSTAT, MPEDIT, RPEDIT, OPEDIT, TRIGGER, MPTRIGGERS,
           RPTRIGGERS, OPTRIGGERS, MPCOMMANDS, RPCOMMANDS, OPCOMMANDS, IFCHECKS.
 ~
 
+
+61 VASSIGN~
+Syntax: vassign <player> <low vnum> <high vnum>
+Syntax: vassign <player> 0 0
+Assigns a builder a personal vnum range and creates the initial room/mob/object skeletons at the endpoints. Using 0 0 removes the current assignment. The command also loads the player's area file if necessary and notifies them of the change.
+See also: VNUMS
+~
 1 VAULT~
 Syntax:  vault
  
@@ -15798,6 +16198,12 @@ However, before your deity comes to collect your soul, you feel a strange
 pulling sensation as strange and colorful mists swirl around you...
 ~
 
+
+54 VSTAT~
+Syntax: vstat <player>
+Lists all active mud variables attached to the target player, including the vnum, tag, type, timer, and stored data. Useful for debugging scripted variables.
+See also: VARIABLE
+~
 0 $~
 
 
