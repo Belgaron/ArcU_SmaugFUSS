@@ -441,11 +441,41 @@ void do_ban( CHAR_DATA* ch, const char* argument )
 
       if( !str_cmp( arg2, "site" ) )
       {
+         size_t len;
+
          pban = first_ban;
          if( temp[0] == '*' )
+         {
             temp++;
-         if( temp[strlen( temp ) - 1] == '*' )
-            temp[strlen( temp ) - 1] = '\0';
+            if( temp[0] == '\0' )
+            {
+               send_to_char( "You must include more than a wildcard for that search.\r\n", ch );
+               return;
+            }
+         }
+
+         len = strlen( temp );
+         if( len == 0 )
+         {
+            send_to_char( "You must include more than a wildcard for that search.\r\n", ch );
+            return;
+         }
+
+         if( temp[len - 1] == '*' )
+         {
+            if( len == 1 )
+            {
+               send_to_char( "You must include more than a wildcard for that search.\r\n", ch );
+               return;
+            }
+
+            temp[len - 1] = '\0';
+            if( temp[0] == '\0' )
+            {
+               send_to_char( "You must include more than a wildcard for that search.\r\n", ch );
+               return;
+            }
+         }
       }
       else if( !str_cmp( arg2, "class" ) )
          pban = first_ban_class;
@@ -528,18 +558,53 @@ void do_allow( CHAR_DATA* ch, const char* argument )
    {
       if( !value )
       {
+         size_t len;
+
          if( strlen( arg2 ) < 2 )
          {
-            send_to_char( "You have to have at least 2 chars for a ban\r\n", ch );
-            send_to_char( "If you are trying to allow by number use #\r\n", ch );
+            if( arg2[0] == '*' )
+               send_to_char( "You must include more than a wildcard.\r\n", ch );
+            else
+            {
+               send_to_char( "You have to have at least 2 chars for a ban\r\n", ch );
+               send_to_char( "If you are trying to allow by number use #\r\n", ch );
+            }
             return;
          }
 
          temp = arg2;
          if( arg2[0] == '*' )
+         {
             temp++;
-         if( temp[strlen( temp ) - 1] == '*' )
-            temp[strlen( temp ) - 1] = '\0';
+            if( temp[0] == '\0' )
+            {
+               send_to_char( "You must include more than a wildcard.\r\n", ch );
+               return;
+            }
+         }
+
+         len = strlen( temp );
+         if( len == 0 )
+         {
+            send_to_char( "You must include more than a wildcard.\r\n", ch );
+            return;
+         }
+
+         if( temp[len - 1] == '*' )
+         {
+            if( len == 1 )
+            {
+               send_to_char( "You must include more than a wildcard.\r\n", ch );
+               return;
+            }
+
+            temp[len - 1] = '\0';
+            if( temp[0] == '\0' )
+            {
+               send_to_char( "You must include more than a wildcard.\r\n", ch );
+               return;
+            }
+         }
       }
 
       for( pban = first_ban; pban; pban = pban->next )
@@ -925,7 +990,7 @@ int add_ban( CHAR_DATA * ch, const char *arg1, const char *arg2, int btime, int 
             {
                bool prefix = FALSE, suffix = FALSE, user_name = FALSE;
                char *temp_host = NULL, *temp_user = NULL;
-               size_t x;
+               size_t x, len;
 
                for( x = 0; x < strlen( arg ); x++ )
                {
@@ -961,12 +1026,66 @@ int add_ban( CHAR_DATA * ch, const char *arg1, const char *arg2, int btime, int 
                {
                   prefix = TRUE;
                   name++;
+                  if( name[0] == '\0' )
+                  {
+                     if( user_name )
+                     {
+                        DISPOSE( temp_host );
+                        DISPOSE( temp_user );
+                     }
+                     send_to_char( "You must include more than a wildcard.\r\n", ch );
+                     return 0;
+                  }
                }
 
-               if( name[strlen( name ) - 1] == '*' )
+               if( name[0] == '\0' )
                {
+                  if( user_name )
+                  {
+                     DISPOSE( temp_host );
+                     DISPOSE( temp_user );
+                  }
+                  send_to_char( "You must include more than a wildcard.\r\n", ch );
+                  return 0;
+               }
+
+               len = strlen( name );
+               if( len == 0 )
+               {
+                  if( user_name )
+                  {
+                     DISPOSE( temp_host );
+                     DISPOSE( temp_user );
+                  }
+                  send_to_char( "You must include more than a wildcard.\r\n", ch );
+                  return 0;
+               }
+
+               if( name[len - 1] == '*' )
+               {
+                  if( len == 1 )
+                  {
+                     if( user_name )
+                     {
+                        DISPOSE( temp_host );
+                        DISPOSE( temp_user );
+                     }
+                     send_to_char( "You must include more than a wildcard.\r\n", ch );
+                     return 0;
+                  }
+
                   suffix = TRUE;
-                  name[strlen( name ) - 1] = '\0';
+                  name[len - 1] = '\0';
+                  if( name[0] == '\0' )
+                  {
+                     if( user_name )
+                     {
+                        DISPOSE( temp_host );
+                        DISPOSE( temp_user );
+                     }
+                     send_to_char( "You must include more than a wildcard.\r\n", ch );
+                     return 0;
+                  }
                }
                for( temp = first_ban; temp; temp = temp->next )
                {
