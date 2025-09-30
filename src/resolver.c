@@ -108,8 +108,6 @@ char *resolve_address( const string & address )
 
 int main( int argc, char *argv[] )
 {
-   int ip;
-   string input = argv[1]; // Ordinarily this unsafe to just accept, but the only way this gets called is through the MUD anyway.
    char *address;
 
    if( argc != 2 )
@@ -119,6 +117,7 @@ int main( int argc, char *argv[] )
       exit( 0 );
    }
 
+   string input = argv[1]; // Ordinarily this unsafe to just accept, but the only way this gets called is through the MUD anyway.
    address = resolve_address( input );
 
    // If we've made it this far, then either the resolution succeeded or the IP address is being passed through. So let's pass this along now.
