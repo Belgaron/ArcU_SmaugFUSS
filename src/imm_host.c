@@ -21,6 +21,67 @@
 #include <unistd.h>
 #include "mud.h"
 
+static bool imm_host_normalize_pattern( const char *pattern, char *normalized, size_t normalized_size, bool *prefix, bool *suffix )
+{
+   char work[MAX_INPUT_LENGTH];
+   char *start, *end;
+
+   if( !pattern || !normalized || normalized_size == 0 || !prefix || !suffix )
+      return FALSE;
+
+   if( mudstrlcpy( work, pattern, sizeof( work ) ) >= sizeof( work ) )
+      return FALSE;
+
+   start = work;
+   while( *start && isspace( (unsigned char)*start ) )
+      ++start;
+
+   if( *start == '\0' )
+      return FALSE;
+
+   *prefix = FALSE;
+   *suffix = FALSE;
+
+   if( *start == '*' )
+   {
+      *prefix = TRUE;
+      ++start;
+   }
+
+   end = start + strlen( start );
+   while( end > start && isspace( (unsigned char)*( end - 1 ) ) )
+      --end;
+
+   if( end > start && *( end - 1 ) == '*' )
+   {
+      *suffix = TRUE;
+      --end;
+   }
+
+   while( end > start && isspace( (unsigned char)*( end - 1 ) ) )
+      --end;
+
+   *end = '\0';
+
+   if( *start == '\0' )
+      return FALSE;
+
+   if( strchr( start, '*' ) )
+      return FALSE;
+
+   for( end = start; *end; ++end )
+   {
+      if( isspace( (unsigned char)*end ) )
+         return FALSE;
+      *end = LOWER( *end );
+   }
+
+   if( mudstrlcpy( normalized, start, normalized_size ) >= normalized_size )
+      return FALSE;
+
+   return TRUE;
+}
+
 /*
  * This loads the Immortal host data structure to keep certain immortals
  * from logging on from certain sites...  IE keep hackers out of the high
@@ -203,9 +264,10 @@ void do_add_imm_host( CHAR_DATA* ch, const char* argument )
    char type[MAX_INPUT_LENGTH];
    char arg1[MAX_INPUT_LENGTH];
    char arg2[MAX_INPUT_LENGTH];
-   char *arg3 = NULL;
    char *name;
    IMMORTAL_HOST *temp, *host;
+   char normalized[MAX_INPUT_LENGTH];
+   bool prefix = FALSE, suffix = FALSE;
 
    argument = one_argument( argument, type );
    argument = one_argument( argument, arg1 );
@@ -250,15 +312,15 @@ void do_add_imm_host( CHAR_DATA* ch, const char* argument )
    {
       IMMORTAL_HOST *it = NULL;
 
-      arg3 = arg2;
-      if( arg3[0] == '*' )
-         arg3++;
-      if( arg3[strlen( arg3 ) - 1] == '*' )
-         arg3[strlen( arg3 ) - 1] = '\0';
+      if( !imm_host_normalize_pattern( arg2, normalized, sizeof( normalized ), &prefix, &suffix ) )
+      {
+         send_to_char( "Invalid host pattern.\r\n", ch );
+         return;
+      }
 
       for( temp = immortal_host_start; temp; temp = temp->next )
       {
-         if( !str_cmp( arg1, temp->name ) && !str_cmp( arg3, temp->host ) )
+         if( !str_cmp( arg1, temp->name ) && temp->prefix == prefix && temp->suffix == suffix && !str_cmp( normalized, temp->host ) )
          {
             it = temp;
             break;
@@ -269,38 +331,32 @@ void do_add_imm_host( CHAR_DATA* ch, const char* argument )
          send_to_char( "Didn't find that entry.\r\n", ch );
          return;
       }
-      DISPOSE( temp->name );
-      DISPOSE( temp->host );
+      DISPOSE( it->name );
+      DISPOSE( it->host );
       UNLINK( it, immortal_host_start, immortal_host_end, next, prev );
       DISPOSE( it );
    }
    else if( !str_cmp( type, "add" ) )
    {
-      bool prefix = FALSE, suffix = FALSE;
       int i;
 
       smash_tilde( arg1 );
       smash_tilde( arg2 );
-      name = arg2;
 
-      if( arg2[0] == '*' )
+      if( !imm_host_normalize_pattern( arg2, normalized, sizeof( normalized ), &prefix, &suffix ) )
       {
-         prefix = TRUE;
-         name++;
+         send_to_char( "Invalid host pattern.\r\n", ch );
+         return;
       }
 
-      if( name[strlen( name ) - 1] == '*' )
-      {
-         suffix = TRUE;
-         name[strlen( name ) - 1] = '\0';
-      }
+      name = normalized;
 
       arg1[0] = toupper( arg1[0] );
       for( i = 0; i < ( int )strlen( name ); i++ )
          name[i] = LOWER( name[i] );
       for( temp = immortal_host_start; temp; temp = temp->next )
       {
-         if( !str_cmp( temp->name, arg1 ) && !str_cmp( temp->host, name ) )
+         if( !str_cmp( temp->name, arg1 ) && temp->prefix == prefix && temp->suffix == suffix && !str_cmp( temp->host, name ) )
          {
             send_to_char( "Entry already exists.\r\n", ch );
             return;
