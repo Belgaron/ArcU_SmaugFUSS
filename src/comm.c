@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <sys/stat.h>
+#include <stdarg.h>
 #include <ctype.h>
 #include <errno.h>
 #include <time.h>
@@ -1733,12 +1734,26 @@ void write_to_buffer( DESCRIPTOR_DATA * d, const char *txt, size_t length )
 void buffer_printf( DESCRIPTOR_DATA * d, const char *fmt, ... )
 {
    char buf[MAX_STRING_LENGTH * 2];
-
    va_list args;
+   int ret;
 
    va_start( args, fmt );
-   vsprintf( buf, fmt, args );
+   ret = vsnprintf( buf, sizeof( buf ), fmt, args );
    va_end( args );
+
+   if( ret < 0 )
+   {
+      buf[0] = '\0';
+      log_printf( "%s: vsnprintf error formatting output for descriptor %d (%s)",
+                  __func__, d ? d->descriptor : -1,
+                  ( d && d->host ) ? d->host : "unknown" );
+   }
+   else if( ret >= ( int )sizeof( buf ) )
+   {
+      log_printf( "%s: truncated output for descriptor %d (%s). Needed %d bytes for buffer of %d.",
+                  __func__, d ? d->descriptor : -1,
+                  ( d && d->host ) ? d->host : "unknown", ret, ( int )sizeof( buf ) );
+   }
 
    write_to_buffer( d, buf, strlen( buf ) );
 }
@@ -1852,12 +1867,26 @@ bool write_to_descriptor( DESCRIPTOR_DATA * d, const char *txt, int length )
 void descriptor_printf( DESCRIPTOR_DATA * d, const char *fmt, ... )
 {
    char buf[MAX_STRING_LENGTH * 2];
-
    va_list args;
+   int ret;
 
    va_start( args, fmt );
-    vsprintf( buf, fmt, args );
+   ret = vsnprintf( buf, sizeof( buf ), fmt, args );
    va_end( args );
+
+   if( ret < 0 )
+   {
+      buf[0] = '\0';
+      log_printf( "%s: vsnprintf error formatting output for descriptor %d (%s)",
+                  __func__, d ? d->descriptor : -1,
+                  ( d && d->host ) ? d->host : "unknown" );
+   }
+   else if( ret >= ( int )sizeof( buf ) )
+   {
+      log_printf( "%s: truncated output for descriptor %d (%s). Needed %d bytes for buffer of %d.",
+                  __func__, d ? d->descriptor : -1,
+                  ( d && d->host ) ? d->host : "unknown", ret, ( int )sizeof( buf ) );
+   }
 
    write_to_descriptor( d, buf, strlen( buf ) );
 }
