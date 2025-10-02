@@ -2850,6 +2850,7 @@ OBJ_DATA *create_object( OBJ_INDEX_DATA * pObjIndex, int level )
       case ITEM_ODOR:
       case ITEM_CHANCE:
       case ITEM_PIECE:
+      case ITEM_MATERIA:
          break;
       case ITEM_COOK:
       case ITEM_FOOD:
