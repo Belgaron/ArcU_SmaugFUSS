@@ -1,5 +1,5 @@
 #PLAYER
-Version      5
+Version      8
 Name         Dragus~
 Sex          1
 Class        5
@@ -8,22 +8,21 @@ Age          0 23 9 605
 Languages    -1 1
 Level        65
 Powerup      0
-Played       280994
+Played       370335
 Room         209
-HpManaMove   149 150 5000 5000 110 110
+HpManaMove   150 150 5000 5000 110 110
 Mana       5000 5000
-Focus      14 3
+Focus      0 3
 Gold         22990
 Exp          157
 BasePowerLevel   157
 LogonPowerLevel  157
 Height          24
 Weight          42
-Act          1644189304
+Act          570447480
 AffectedBy   524288
 Position     112
 Style     2
-Practice     3
 SavingThrows 0 0 0 0 0
 Alignment    -1000
 Favor        0
@@ -58,20 +57,22 @@ IllegalPK    0
 Timezone     0
 AttrPerm     10 14 16 16 11 16 12
 AttrMod      0 0 0 0 0 0 0
-Condition    0 100 100 75
+Condition    0 75 75 75
+SkillTotal   9765
+SkillMeter   0 0
 Site         127.0.0.1
-Spell        100 'acid breath'
-Spell        100 'acidmist'
-Spell        100 'acidshot'
-Skill        5 'aegis'
-Skill        100 'aggressive style'
-Skill        100 'aid'
-Spell        100 'alertness'
-Skill        44 'ancient ascension'
-Spell        100 'antimagic shell'
-Spell        95 'fireball'
-Skill        100 'punch'
-Weapon       25 'unarmed'
+Spell        1000 1000 'acid breath'
+Spell        1000 1000 'acidmist'
+Spell        1000 1000 'acidshot'
+Skill        50 1000 'aegis'
+Skill        1000 1000 'aggressive style'
+Skill        1000 1000 'aid'
+Spell        1000 1000 'alertness'
+Skill        440 1000 'ancient ascension'
+Spell        1000 1000 'antimagic shell'
+Spell        950 1000 'fireball'
+Skill        1000 1000 'punch'
+Weapon       250 1000 'unarmed'
 Killed       298 50
 Killed       21061 1
 Killed       21067 1
@@ -99,6 +100,913 @@ Killed       1527 4
 Killed       1530 1
 MaxColors    116
 Colors       0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 7 7 6 14 14 11 10 15 11 9 1 12 5 13 7 10 10 11 9 9 12 1 9 15 15 2 3 10 14 11 11 10 15 3 12 9 8 7 15 15 8 15 9 1 2 9 12 10 2 10 15 7 13 15 11 12 12 10 14 14 14 10 10 10 13 2 14 14 10 10 2 6 1 9 2 15 7 11 15 10 10 10 10 10 
+End
+
+#OBJECT
+Version      8
+Vnum         55610
+ExtraFlags   524352
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55611
+ExtraFlags   524356
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55612
+ExtraFlags   524352
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55613
+ExtraFlags   524352
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55614
+ExtraFlags   524352
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55615
+ExtraFlags   524352
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55616
+ExtraFlags   524352
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55617
+ExtraFlags   524353
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55618
+ExtraFlags   524352
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55619
+ExtraFlags   524353
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55720
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55721
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55722
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55723
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55724
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55725
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55726
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55727
+ExtraFlags   262144
+Level        65
+Values       100 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55728
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55729
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55730
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55731
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55732
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55733
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55734
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55735
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55736
+ExtraFlags   262144
+Level        65
+Values       400 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55737
+ExtraFlags   262144
+Level        65
+Values       500 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55738
+ExtraFlags   524288
+Level        65
+Values       300 1 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55739
+ExtraFlags   524288
+Level        65
+Values       150 1 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55740
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55741
+Level        65
+Values       50 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55742
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55743
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55744
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55745
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55746
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55747
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55748
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55749
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55750
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55751
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55752
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55753
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55754
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55755
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55756
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55757
+ExtraFlags   4
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55758
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55759
+ExtraFlags   262144
+Level        65
+Values       10 10 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55760
+ExtraFlags   262144
+Level        65
+Values       10 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55761
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55762
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55763
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55764
+ExtraFlags   262144
+Level        65
+Values       5 5 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55765
+ExtraFlags   262144
+Level        65
+Values       5 5 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55766
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55767
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55780
+ExtraFlags   262144
+Level        65
+Values       75 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55781
+ExtraFlags   262144
+Level        65
+Values       200 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55782
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55783
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55784
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55800
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55801
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55802
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55803
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55804
+ExtraFlags   65
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55805
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55806
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55807
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55808
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55809
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55820
+ExtraFlags   262144
+Level        65
+Values       50 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55821
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55822
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55823
+ExtraFlags   524288
+Level        65
+Values       30 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55824
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55825
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55826
+Level        65
+Values       30 0 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55827
+ExtraFlags   786432
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55828
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55900
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55901
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55902
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55903
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55904
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55905
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55906
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55907
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55908
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55909
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55910
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55911
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55913
+ExtraFlags   262144
+Level        65
+Values       3 3 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55914
+ExtraFlags   262144
+Level        65
+Values       4 4 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55915
+ExtraFlags   262212
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55916
+ExtraFlags   262209
+Level        65
+Values       3 3 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55917
+ExtraFlags   262208
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55918
+ExtraFlags   67371008
+Level        65
+Values       2 2 0 1 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55919
+ExtraFlags   262144
+Level        65
+Values       4 4 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55920
+ExtraFlags   262212
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55707
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55708
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55709
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55710
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55711
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55712
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55636
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55637
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55638
+ExtraFlags   262208
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55850
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55851
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55852
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55853
+ExtraFlags   262212
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55854
+ExtraFlags   262208
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55855
+ExtraFlags   262209
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55856
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55860
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55861
+ExtraFlags   524288
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55862
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55863
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55864
+ExtraFlags   262144
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55865
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55866
+Level        65
+End
+
+#OBJECT
+Version      8
+Vnum         55001
+Values       99 1 2 3 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55002
+Values       99 1 3 3 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55003
+Level        1
+Values       99 2 4 3 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55010
+Level        1
+Values       10 10 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55011
+Level        1
+Values       8 8 0 0 0 0
+End
+
+#OBJECT
+Version      8
+Vnum         55012
+Level        1
+End
+
+#OBJECT
+Version      8
+Vnum         55013
+Level        1
+Values       30 30 0 0 0 0
 End
 
 #END

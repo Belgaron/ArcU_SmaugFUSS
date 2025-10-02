@@ -1,0 +1,381 @@
+Wed Oct  1 13:04:18 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Wed Oct  1 13:04:18 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Wed Oct  1 13:04:18 2025 :: Initializing libdl support...
+Wed Oct  1 13:04:18 2025 :: Loading commands...
+Wed Oct  1 13:04:18 2025 :: [*****] BUG: skill_function: Error locating do_defense in symbol table. No such process
+Wed Oct  1 13:04:18 2025 :: [*****] BUG: fread_command: Function do_defense not found for defense
+Wed Oct  1 13:04:18 2025 :: [*****] BUG: skill_function: Error locating do_murde in symbol table. No such process
+Wed Oct  1 13:04:18 2025 :: [*****] BUG: fread_command: Function do_murde not found for murde
+Wed Oct  1 13:04:18 2025 :: Loading spec_funs...
+Wed Oct  1 13:04:18 2025 :: Loading sysdata configuration...
+Wed Oct  1 13:04:19 2025 :: Loading socials
+Wed Oct  1 13:04:19 2025 :: Loading skill table
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_number: bad format. (g)
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_number: bad format. (g)
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_number: bad format. (g)
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Wed Oct  1 13:04:19 2025 :: Sorting skill table...
+Wed Oct  1 13:04:19 2025 :: Creating skill table sorted by type...
+Wed Oct  1 13:04:19 2025 :: Remapping slots to sns
+Wed Oct  1 13:04:19 2025 :: WARNING: Racial transformation skill 'ascended form' not found
+Wed Oct  1 13:04:19 2025 :: Initialized racial transformation: shikai
+Wed Oct  1 13:04:19 2025 :: WARNING: Racial transformation skill 'hollow rage' not found
+Wed Oct  1 13:04:19 2025 :: WARNING: Racial transformation skill 'primal form' not found
+Wed Oct  1 13:04:19 2025 :: WARNING: Racial transformation skill 'blood awakening' not found
+Wed Oct  1 13:04:19 2025 :: WARNING: Racial transformation skill 'true form' not found
+Wed Oct  1 13:04:19 2025 :: Racial transformation system initialized
+Wed Oct  1 13:04:19 2025 :: Loading classes
+Wed Oct  1 13:04:19 2025 :: Loading races
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Wed Oct  1 13:04:19 2025 :: Loading news data
+Wed Oct  1 13:04:19 2025 :: Loading liquids
+Wed Oct  1 13:04:19 2025 :: Loading mixtures
+Wed Oct  1 13:04:19 2025 :: Loading herb table
+Wed Oct  1 13:04:19 2025 :: Loading tongues
+Wed Oct  1 13:04:19 2025 :: Making wizlist
+Wed Oct  1 13:04:19 2025 :: Loading MSSP Data...
+Wed Oct  1 13:04:19 2025 :: Initializing random number generator
+Wed Oct  1 13:04:19 2025 :: Setting time and weather.
+Wed Oct  1 13:04:19 2025 :: Loading holiday chart...
+Wed Oct  1 13:04:19 2025 :: Loading DNS cache...
+Wed Oct  1 13:04:19 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Wed Oct  1 13:04:19 2025 :: Reading in area files...
+(help.are)
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Wed Oct  1 13:04:19 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Wed Oct  1 13:04:19 2025 :: [*****] FILE: housing.are LINE: 23
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Wed Oct  1 13:04:19 2025 :: [*****] FILE: housing.are LINE: 36
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Wed Oct  1 13:04:19 2025 :: [*****] FILE: housing.are LINE: 49
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Wed Oct  1 13:04:19 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Wed Oct  1 13:04:19 2025 :: Fixing exits
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Wed Oct  1 13:04:19 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Wed Oct  1 13:04:19 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Wed Oct  1 13:04:19 2025 :: Initializing economy
+Wed Oct  1 13:04:19 2025 :: Resetting areas
+Wed Oct  1 13:04:19 2025 :: Loading buildlist
+Wed Oct  1 13:04:19 2025 :: ../gods/Dragus
+Wed Oct  1 13:04:19 2025 :: [*****] BUG: load_buildlist: Dragus.are: no #AREA found.
+Wed Oct  1 13:04:19 2025 :: Loading boards
+Wed Oct  1 13:04:19 2025 :: ../boards/immortal.brd
+Wed Oct  1 13:04:19 2025 :: ../boards/highgod.brd
+Wed Oct  1 13:04:19 2025 :: Loading vault list
+Wed Oct  1 13:04:19 2025 :: $
+Wed Oct  1 13:04:19 2025 ::  Done vaults 
+Wed Oct  1 13:04:19 2025 :: Loading clans
+Wed Oct  1 13:04:19 2025 :: Loading clans...
+Wed Oct  1 13:04:19 2025 :: vampire.gui
+Wed Oct  1 13:04:19 2025 :: Storeroom not found
+Wed Oct  1 13:04:19 2025 :: druid.gui
+Wed Oct  1 13:04:19 2025 :: Storeroom not found
+Wed Oct  1 13:04:19 2025 :: warrior.gui
+Wed Oct  1 13:04:19 2025 :: Storeroom not found
+Wed Oct  1 13:04:19 2025 :: augurer.gui
+Wed Oct  1 13:04:19 2025 :: Storeroom not found
+Wed Oct  1 13:04:19 2025 :: thief.gui
+Wed Oct  1 13:04:19 2025 :: Storeroom not found
+Wed Oct  1 13:04:19 2025 :: cleric.gui
+Wed Oct  1 13:04:19 2025 :: Storeroom not found
+Wed Oct  1 13:04:19 2025 :: mage.gui
+Wed Oct  1 13:04:19 2025 :: Storeroom not found
+Wed Oct  1 13:04:19 2025 :: ranger.gui
+Wed Oct  1 13:04:19 2025 :: Storeroom not found
+Wed Oct  1 13:04:19 2025 :: $
+Wed Oct  1 13:04:19 2025 ::  Done clans 
+Wed Oct  1 13:04:19 2025 :: Loading councils
+Wed Oct  1 13:04:19 2025 :: Loading councils...
+Wed Oct  1 13:04:19 2025 :: $
+Wed Oct  1 13:04:19 2025 ::  Done councils 
+Wed Oct  1 13:04:19 2025 :: Loading deities
+Wed Oct  1 13:04:19 2025 :: Loading deities...
+Wed Oct  1 13:04:19 2025 :: $
+Wed Oct  1 13:04:19 2025 ::  Done deities 
+Wed Oct  1 13:04:19 2025 :: Loading watches
+Wed Oct  1 13:04:19 2025 :: Loading bans
+Wed Oct  1 13:04:19 2025 :: Done.
+Wed Oct  1 13:04:19 2025 :: Loading reserved names
+Wed Oct  1 13:04:19 2025 :: Loading corpses
+Wed Oct  1 13:04:19 2025 :: Loading Immortal Hosts
+Wed Oct  1 13:04:19 2025 :: Done.
+Wed Oct  1 13:04:19 2025 :: Loading Projects
+Wed Oct  1 13:04:19 2025 :: Loading Morphs
+Wed Oct  1 13:04:19 2025 :: Done.
+Wed Oct  1 13:04:19 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Wed Oct  1 13:04:19 2025 :: Loading login messages
+Wed Oct  1 13:04:19 2025 :: Initializing socket
+Wed Oct  1 13:04:19 2025 :: (Name Not Set) ready on port 9001.
+Wed Oct  1 13:08:56 2025 :: Preloading player data for: Dragus (2K)
+Wed Oct  1 13:08:56 2025 :: [*****] BUG: fread_char: no match: 5000
+Wed Oct  1 13:08:56 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Wed Oct  1 13:08:56 2025 :: [*****] BUG: fread_char: no match: 3
+Wed Oct  1 13:08:56 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Wed Oct  1 13:08:56 2025 :: Creating area entry for Dragus
+Wed Oct  1 13:08:58 2025 :: Loading player data for: Dragus (2K)
+Wed Oct  1 13:08:58 2025 :: [*****] BUG: fread_char: no match: 5000
+Wed Oct  1 13:08:58 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Wed Oct  1 13:08:58 2025 :: [*****] BUG: fread_char: no match: 3
+Wed Oct  1 13:08:58 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Wed Oct  1 13:08:58 2025 :: Updating area entry for Dragus
+Wed Oct  1 13:08:58 2025 :: Dragus (127.0.0.1) has connected.
+Wed Oct  1 13:09:06 2025 :: Log Dragus: loadarea
+Dragus.are    : Rooms: 55000 - 59999 Objs: 55000 - 59999 Mobs: 55000 - 59999
+Wed Oct  1 13:15:42 2025 :: Log Dragus: ocr
+Wed Oct  1 13:16:05 2025 :: Log Dragus: ocr 55600 iron ore
+Wed Oct  1 13:16:25 2025 :: Log Dragus: ocr 55601 umbral ore
+Wed Oct  1 13:16:50 2025 :: Log Dragus: ocr 55602 bloodiron ore
+Wed Oct  1 13:17:17 2025 :: Log Dragus: ocr 55603 copper ore
+Wed Oct  1 13:17:25 2025 :: Log Dragus: ocr 55604 silver ore
+Wed Oct  1 13:17:33 2025 :: Log Dragus: ocr 55605 gold ore
+Wed Oct  1 13:17:44 2025 :: Log Dragus: ocr 55606 platinum ore
+Wed Oct  1 13:17:58 2025 :: Log Dragus: ocr 55607 mithral ore
+Wed Oct  1 13:18:15 2025 :: Log Dragus: ocr 55608 adamantine ore
+Wed Oct  1 13:18:33 2025 :: Log Dragus: ocr 55609 valorian ore
+Wed Oct  1 13:25:39 2025 :: Log Dragus: ocr 55620 pine log
+Wed Oct  1 13:25:48 2025 :: Log Dragus: ocr 55621 oak log
+Wed Oct  1 13:26:03 2025 :: Log Dragus: ocr 55622 shadowpine log
+Wed Oct  1 13:27:05 2025 :: Log Dragus: ocr 55622 ironbark log
+Wed Oct  1 13:27:12 2025 :: Log Dragus: ocr 55623 ironbark log
+Wed Oct  1 13:31:20 2025 :: Log Dragus: ocr 55624 crystaloak log
+Wed Oct  1 13:37:32 2025 :: Log Dragus: ocr 55625 fir log
+Wed Oct  1 13:37:44 2025 :: Log Dragus: ocr 55626 wood log
+Wed Oct  1 13:42:55 2025 :: Log Dragus: ocr 55630 cotton
+Wed Oct  1 13:43:01 2025 :: Log Dragus: ocr 55631 flax
+Wed Oct  1 13:43:11 2025 :: Log Dragus: ocr 55632 wool
+Wed Oct  1 13:46:03 2025 :: Log Dragus: ocr 55633 hemp
+Wed Oct  1 13:46:23 2025 :: Log Dragus: ocr 55634 bamboo
+Wed Oct  1 13:47:34 2025 :: Log Dragus: ocr 55635 silkpod
+Wed Oct  1 13:52:26 2025 :: Log Dragus: ocr 55640 white sand
+Wed Oct  1 13:52:41 2025 :: Log Dragus: ocr 55641 black sand
+Wed Oct  1 13:52:52 2025 :: Log Dragus: ocr 55642 red sand
+Wed Oct  1 13:53:02 2025 :: Log Dragus: ocr 55643 blue sand
+Wed Oct  1 13:53:27 2025 :: Log Dragus: ocr 55644 mana sand
+Wed Oct  1 13:53:47 2025 :: Log Dragus: ocr 55650 granite
+Wed Oct  1 13:54:19 2025 :: Log Dragus: ocr 55650 basalt
+Wed Oct  1 13:54:24 2025 :: Log Dragus: ocr 55651 basalt
+Wed Oct  1 13:54:42 2025 :: Log Dragus: ocr 55652 sandstone
+Wed Oct  1 13:55:02 2025 :: Log Dragus: ocr 55653 marble
+Wed Oct  1 13:55:10 2025 :: Log Dragus: ocr 55654 obsidian
+Wed Oct  1 13:55:22 2025 :: Log Dragus: ocr 55655 jade
+Wed Oct  1 13:55:48 2025 :: Log Dragus: ocr 55660 amethyst
+Wed Oct  1 13:56:27 2025 :: Log Dragus: ocr 55661 garnet
+Wed Oct  1 13:56:38 2025 :: Log Dragus: ocr 55662 onyx
+Wed Oct  1 13:56:53 2025 :: Log Dragus: ocr 55663 moonstone
+Wed Oct  1 13:57:01 2025 :: Log Dragus: ocr 55664 sunstone
+Wed Oct  1 13:57:17 2025 :: Log Dragus: ocr 55665 turquoise
+Wed Oct  1 13:58:20 2025 :: Log Dragus: ocr 55666 diamond
+Wed Oct  1 13:58:27 2025 :: Log Dragus: ocr 55667 ruby
+Wed Oct  1 13:58:35 2025 :: Log Dragus: ocr 55668 sapphire
+Wed Oct  1 13:58:41 2025 :: Log Dragus: ocr 55669 emerald
+Wed Oct  1 13:59:00 2025 :: Log Dragus: ocr 55670 pearl
+Wed Oct  1 13:59:08 2025 :: Log Dragus: ocr 55671 amber
+Wed Oct  1 13:59:13 2025 :: Log Dragus: ocr 55672 coral
+Wed Oct  1 14:00:54 2025 :: Log Dragus: ocr 55673 black pearl
+Wed Oct  1 14:01:24 2025 :: Log Dragus: ocr 55680 blood moss
+Wed Oct  1 14:01:33 2025 :: Log Dragus: ocr 55680 garlic
+Wed Oct  1 14:01:36 2025 :: Log Dragus: ocr 55681 garlic
+Wed Oct  1 14:01:46 2025 :: Log Dragus: ocr 55682 mandrake root
+Wed Oct  1 14:01:56 2025 :: Log Dragus: ocr 55683 ginseng
+Wed Oct  1 14:02:09 2025 :: Log Dragus: ocr 55684 nightshade
+Wed Oct  1 14:02:22 2025 :: Log Dragus: ocr 55685 spider silk
+Wed Oct  1 14:03:00 2025 :: Log Dragus: ocr 55686 sulfurous ash
+Wed Oct  1 14:03:21 2025 :: Log Dragus: ocr 55687 grave dust
+Wed Oct  1 14:03:42 2025 :: Log Dragus: ocr 55688 demon blood
+Wed Oct  1 14:03:49 2025 :: Log Dragus: ocr 55689 bat wing
+Wed Oct  1 14:04:14 2025 :: Log Dragus: ocr 55690 newt eye
+Wed Oct  1 14:05:28 2025 :: Log Dragus: ocr 55691 unicorn horn
+Wed Oct  1 14:05:39 2025 :: Log Dragus: ocr 55692 unicorn hair
+Wed Oct  1 14:06:07 2025 :: Log Dragus: ocr 55692 pegasus feather
+Wed Oct  1 14:06:12 2025 :: Log Dragus: ocr 55693 pegasus feather
+Wed Oct  1 14:19:34 2025 :: Log Dragus: ocr 55700 hide pelt
+Wed Oct  1 14:21:42 2025 :: Log Dragus: oset 55700 name a %s hide
+Wed Oct  1 14:23:33 2025 :: Log Dragus: ocr 55701 a %s tooth
+Wed Oct  1 14:23:51 2025 :: Log Dragus: ocr 55702 a %s horn
+Wed Oct  1 14:25:19 2025 :: Log Dragus: ocr 55703 a %s eye
+Wed Oct  1 14:25:57 2025 :: Log Dragus: ocr 55704 a %s claw
+Wed Oct  1 14:26:44 2025 :: Log Dragus: ocr 55705 a %s scale
+Wed Oct  1 15:26:35 2025 :: Log Dragus: savearea
+Wed Oct  1 15:40:53 2025 :: Log Dragus: ocr 55260 steel shield
+Wed Oct  1 15:41:13 2025 :: Log Dragus: ocr 55261 umbrasteel shield
+Wed Oct  1 15:41:27 2025 :: Log Dragus: ocr 55262 wood shield
+Wed Oct  1 17:48:09 2025 :: Closing link to Dragus. (INRoom 223)
+Wed Oct  1 18:27:28 2025 :: Preloading player data for: Dragus (2K)
+Wed Oct  1 18:27:28 2025 :: [*****] BUG: fread_char: no match: 5000
+Wed Oct  1 18:27:28 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Wed Oct  1 18:27:28 2025 :: [*****] BUG: fread_char: no match: 3
+Wed Oct  1 18:27:28 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Wed Oct  1 18:27:28 2025 :: Updating area entry for Dragus
+Wed Oct  1 18:27:29 2025 :: Dragus (127.0.0.1) reconnected.
+Wed Oct  1 18:32:54 2025 :: Log Dragus: ocr 55517 lockpicks
+Wed Oct  1 18:33:13 2025 :: Log Dragus: ocr 55518 shovel
+Wed Oct  1 18:36:55 2025 :: Log Dragus: ocr 55518 materia tools
+Wed Oct  1 18:37:01 2025 :: Log Dragus: ocr 55519 materia tools
+Wed Oct  1 18:38:22 2025 :: Log Dragus: ocr 55520 forge
+Wed Oct  1 18:38:37 2025 :: Log Dragus: ocr 55521 anvil
+Wed Oct  1 18:38:48 2025 :: Log Dragus: ocr 55522 spinning wheel
+Wed Oct  1 18:38:56 2025 :: Log Dragus: ocr 55523 loom
+Wed Oct  1 18:39:25 2025 :: Log Dragus: ocr 55524 oven
+Wed Oct  1 18:39:33 2025 :: Log Dragus: ocr 55525 mill
+Wed Oct  1 18:40:27 2025 :: Log Dragus: ocr 55526 workbench
+Wed Oct  1 18:42:06 2025 :: Log Dragus: ocr 55527 arcforge
+Wed Oct  1 18:43:08 2025 :: Log Dragus: ocr 55528 tannery
+Wed Oct  1 18:43:43 2025 :: Log Dragus: ocr 55529 still
+Wed Oct  1 18:45:15 2025 :: Log Dragus: savearea
+Wed Oct  1 18:49:48 2025 :: Log Dragus: ocr 55720 bedroll
+Wed Oct  1 18:50:02 2025 :: Log Dragus: ocr 55721 tent
+Wed Oct  1 18:50:29 2025 :: Log Dragus: ocr 55722 flint and steel
+Wed Oct  1 18:50:43 2025 :: Log Dragus: ocr 55723 tinderbox
+Wed Oct  1 18:51:15 2025 :: Log Dragus: ocr 55724 firewood
+Wed Oct  1 18:51:27 2025 :: Log Dragus: ocr 55725 cooking pot
+Wed Oct  1 18:51:33 2025 :: Log Dragus: ocr 55726 kettle
+Wed Oct  1 18:51:57 2025 :: Log Dragus: ocr 55727 satchel
+Wed Oct  1 18:52:32 2025 :: Log Dragus: ocr 55728 50' rope
+Wed Oct  1 18:53:49 2025 :: Log Dragus: ocr 55729 ink
+Wed Oct  1 18:53:54 2025 :: Log Dragus: ocr 55729 quill
+Wed Oct  1 18:53:58 2025 :: Log Dragus: ocr 55730 quill
+Wed Oct  1 18:54:05 2025 :: Log Dragus: ocr 55731 pen
+Wed Oct  1 18:55:18 2025 :: Log Dragus: ocr 55732 bandages
+Wed Oct  1 18:55:33 2025 :: Log Dragus: ocr 55733 smelling salts
+Wed Oct  1 18:55:51 2025 :: Log Dragus: ocr 55734 whetstone
+Wed Oct  1 18:55:59 2025 :: Log Dragus: ocr 55735 oil can
+Wed Oct  1 18:56:56 2025 :: Log Dragus: ocr 55736 crate
+Wed Oct  1 18:57:02 2025 :: Log Dragus: ocr 55737 barrel
+Wed Oct  1 18:57:09 2025 :: Log Dragus: ocr 55738 strongbox
+Wed Oct  1 18:57:15 2025 :: Log Dragus: ocr 55739 lockbox
+Wed Oct  1 18:58:08 2025 :: Log Dragus: ocr 55740 broom
+Wed Oct  1 18:58:15 2025 :: Log Dragus: ocr 55741 bucket
+Wed Oct  1 18:58:22 2025 :: Log Dragus: ocr 55742 mop
+Wed Oct  1 18:58:36 2025 :: Log Dragus: ocr 55743 writing desk
+Wed Oct  1 18:58:44 2025 :: Log Dragus: ocr 55744 stool
+Wed Oct  1 18:58:50 2025 :: Log Dragus: ocr 55745 folding chair
+Wed Oct  1 18:59:09 2025 :: Log Dragus: ocr 55746 shelf
+Wed Oct  1 18:59:32 2025 :: Log Dragus: ocr 55747 shelves
+Wed Oct  1 18:59:55 2025 :: Log Dragus: ocr 55748 whistle
+Wed Oct  1 19:00:22 2025 :: Log Dragus: ocr 55749 tiny mirror
+Wed Oct  1 19:00:27 2025 :: Log Dragus: ocr 55749 small mirror
+Wed Oct  1 19:00:35 2025 :: Log Dragus: ocr 55750 small mirror
+Wed Oct  1 19:00:46 2025 :: Log Dragus: ocr 55751 large mirror
+Wed Oct  1 19:00:53 2025 :: Log Dragus: ocr 55752 bell
+Wed Oct  1 19:01:30 2025 :: Log Dragus: ocr 55753 fishing net
+Wed Oct  1 19:01:37 2025 :: Log Dragus: ocr 55754 bug net
+Wed Oct  1 19:01:51 2025 :: Log Dragus: ocr 55755 skinning knife
+Wed Oct  1 19:02:15 2025 :: Log Dragus: ocr 55756 reading glasses
+Wed Oct  1 19:02:22 2025 :: Log Dragus: ocr 55757 sunglasses
+Wed Oct  1 19:02:34 2025 :: Log Dragus: ocr 55758 goggles
+Wed Oct  1 19:03:08 2025 :: Log Dragus: ocr 55759 rations
+Wed Oct  1 19:03:26 2025 :: Log Dragus: ocr 55760 spice pouch
+Wed Oct  1 19:03:36 2025 :: Log Dragus: ocr 55761 sugar
+Wed Oct  1 19:03:44 2025 :: Log Dragus: ocr 55762 flour
+Wed Oct  1 19:03:49 2025 :: Log Dragus: ocr 55763 salt
+Wed Oct  1 19:03:58 2025 :: Log Dragus: ocr 55764 jerky
+Wed Oct  1 19:04:05 2025 :: Log Dragus: ocr 55765 dried fruit
+Wed Oct  1 19:04:15 2025 :: Log Dragus: ocr 55766 tobacco
+Wed Oct  1 19:04:24 2025 :: Log Dragus: ocr 55767 yeast
+Wed Oct  1 19:05:25 2025 :: Log Dragus: ocr 55780 feed bag
+Wed Oct  1 19:05:31 2025 :: Log Dragus: ocr 55781 saddlebag
+Wed Oct  1 19:05:40 2025 :: Log Dragus: ocr 55782 bit and bridle
+Wed Oct  1 19:05:48 2025 :: Log Dragus: ocr 55783 reins
+Wed Oct  1 19:06:10 2025 :: Log Dragus: ocr 55784 saddle
+Wed Oct  1 19:07:13 2025 :: Log Dragus: ocr 55800 lamp oil
+Wed Oct  1 19:07:21 2025 :: Log Dragus: ocr 55801 charcoal
+Wed Oct  1 19:07:52 2025 :: Log Dragus: ocr 55802 alcohol
+Wed Oct  1 19:08:22 2025 :: Log Dragus: ocr 55803 beeswax
+Wed Oct  1 19:08:57 2025 :: Log Dragus: ocr 55804 mana cell
+Wed Oct  1 19:10:02 2025 :: Log Dragus: ocr 55805 dice set
+Wed Oct  1 19:10:15 2025 :: Log Dragus: ocr 55806 deck of cards
+Wed Oct  1 19:10:26 2025 :: Log Dragus: ocr 55807 dominoes
+Wed Oct  1 19:11:27 2025 :: Log Dragus: ocr 55808 chess set
+Wed Oct  1 19:11:46 2025 :: Log Dragus: ocr 55809 marbles
+Wed Oct  1 19:13:38 2025 :: Log Dragus: ocr 55820 quiver
+Wed Oct  1 19:13:43 2025 :: Log Dragus: ocr 55821 arrow
+Wed Oct  1 19:14:09 2025 :: Log Dragus: ocr 55822 bullet
+Wed Oct  1 19:14:23 2025 :: Log Dragus: ocr 55823 ammo case
+Wed Oct  1 19:14:42 2025 :: Log Dragus: ocr 55824 shotgun shell
+Wed Oct  1 19:14:57 2025 :: Log Dragus: ocr 55825 rifle cartridge
+Wed Oct  1 19:15:19 2025 :: Log Dragus: ocr 55826 bolt case
+Wed Oct  1 19:15:25 2025 :: Log Dragus: ocr 55827 bolt
+Wed Oct  1 21:22:14 2025 :: Closing link to Dragus. (INRoom 223)
+Thu Oct  2 00:50:59 2025 :: Preloading player data for: Dragus (2K)
+Thu Oct  2 00:50:59 2025 :: [*****] BUG: fread_char: no match: 5000
+Thu Oct  2 00:50:59 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Thu Oct  2 00:50:59 2025 :: [*****] BUG: fread_char: no match: 3
+Thu Oct  2 00:50:59 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Thu Oct  2 00:50:59 2025 :: Updating area entry for Dragus
+Thu Oct  2 00:51:02 2025 :: Dragus (127.0.0.1) reconnected.
+Thu Oct  2 01:30:21 2025 :: Log Dragus: minvoke 298
+Thu Oct  2 01:30:38 2025 :: Log Dragus: restore dragus
+Thu Oct  2 01:33:35 2025 :: Log Dragus: shutdown mud now
+Thu Oct  2 01:33:35 2025 :: Normal termination of game.
+Thu Oct  2 01:33:35 2025 :: Cleaning up Memory.
+Len:   6 Lnks:    1 Str: Dragus
+Total strings in hash 6: 1
+Len:   9 Lnks:    2 Str: 127.0.0.1
+Total strings in hash 9: 1
+Project Data.
+Reserved Names.
+Ban Data.
+Morph Data.
+Commands.
+Deities.
+Clans.
+Councils.
+Socials.
+Watches.
+Helps.
+Languages.
+Boards.
+Whacking supermob.
+Objects.
+Characters.
+Descriptors.
+Liquid Table.
+Races.
+Classes.
+Teleport Data.
+Area Data Tables.
+Planes.
+Auction.
+MSSP Info.
+System data.
+Title table.
+Skills and Herbs.
+Mudprog act lists.
+Specfun lists.
+Globals.
+Checking string hash for leftovers.
+Cleanup complete, exiting.

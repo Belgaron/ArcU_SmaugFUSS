@@ -1,0 +1,430 @@
+Tue Sep 30 17:42:46 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Tue Sep 30 17:42:46 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Tue Sep 30 17:42:46 2025 :: Initializing libdl support...
+Tue Sep 30 17:42:46 2025 :: Loading commands...
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: skill_function: Error locating do_defense in symbol table. No such process
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_command: Function do_defense not found for defense
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: skill_function: Error locating do_murde in symbol table. No such process
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_command: Function do_murde not found for murde
+Tue Sep 30 17:42:46 2025 :: Loading spec_funs...
+Tue Sep 30 17:42:46 2025 :: Loading sysdata configuration...
+Tue Sep 30 17:42:46 2025 :: Loading socials
+Tue Sep 30 17:42:46 2025 :: Loading skill table
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_number: bad format. (g)
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_number: bad format. (g)
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_number: bad format. (g)
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Tue Sep 30 17:42:46 2025 :: Sorting skill table...
+Tue Sep 30 17:42:46 2025 :: Creating skill table sorted by type...
+Tue Sep 30 17:42:46 2025 :: Remapping slots to sns
+Tue Sep 30 17:42:46 2025 :: WARNING: Racial transformation skill 'ascended form' not found
+Tue Sep 30 17:42:46 2025 :: Initialized racial transformation: shikai
+Tue Sep 30 17:42:46 2025 :: WARNING: Racial transformation skill 'hollow rage' not found
+Tue Sep 30 17:42:46 2025 :: WARNING: Racial transformation skill 'primal form' not found
+Tue Sep 30 17:42:46 2025 :: WARNING: Racial transformation skill 'blood awakening' not found
+Tue Sep 30 17:42:46 2025 :: WARNING: Racial transformation skill 'true form' not found
+Tue Sep 30 17:42:46 2025 :: Racial transformation system initialized
+Tue Sep 30 17:42:46 2025 :: Loading classes
+Tue Sep 30 17:42:46 2025 :: Loading races
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Tue Sep 30 17:42:46 2025 :: Loading news data
+Tue Sep 30 17:42:46 2025 :: Loading liquids
+Tue Sep 30 17:42:46 2025 :: Loading mixtures
+Tue Sep 30 17:42:46 2025 :: Loading herb table
+Tue Sep 30 17:42:46 2025 :: Loading tongues
+Tue Sep 30 17:42:46 2025 :: Making wizlist
+Tue Sep 30 17:42:46 2025 :: Loading MSSP Data...
+Tue Sep 30 17:42:46 2025 :: Initializing random number generator
+Tue Sep 30 17:42:46 2025 :: Setting time and weather.
+Tue Sep 30 17:42:46 2025 :: Loading holiday chart...
+Tue Sep 30 17:42:46 2025 :: Loading DNS cache...
+Tue Sep 30 17:42:46 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Tue Sep 30 17:42:46 2025 :: Reading in area files...
+(help.are)
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Tue Sep 30 17:42:46 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Tue Sep 30 17:42:46 2025 :: [*****] FILE: housing.are LINE: 23
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Tue Sep 30 17:42:46 2025 :: [*****] FILE: housing.are LINE: 36
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Tue Sep 30 17:42:46 2025 :: [*****] FILE: housing.are LINE: 49
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Tue Sep 30 17:42:46 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Tue Sep 30 17:42:46 2025 :: Fixing exits
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Tue Sep 30 17:42:46 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Tue Sep 30 17:42:46 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Tue Sep 30 17:42:46 2025 :: Initializing economy
+Tue Sep 30 17:42:46 2025 :: Resetting areas
+Tue Sep 30 17:42:46 2025 :: Loading buildlist
+Tue Sep 30 17:42:46 2025 :: ../gods/Dragus
+Tue Sep 30 17:42:46 2025 :: [*****] BUG: load_buildlist: Dragus.are: no #AREA found.
+Tue Sep 30 17:42:46 2025 :: Loading boards
+Tue Sep 30 17:42:46 2025 :: ../boards/immortal.brd
+Tue Sep 30 17:42:46 2025 :: ../boards/highgod.brd
+Tue Sep 30 17:42:46 2025 :: Loading vault list
+Tue Sep 30 17:42:46 2025 :: $
+Tue Sep 30 17:42:46 2025 ::  Done vaults 
+Tue Sep 30 17:42:46 2025 :: Loading clans
+Tue Sep 30 17:42:46 2025 :: Loading clans...
+Tue Sep 30 17:42:46 2025 :: vampire.gui
+Tue Sep 30 17:42:46 2025 :: Storeroom not found
+Tue Sep 30 17:42:46 2025 :: druid.gui
+Tue Sep 30 17:42:46 2025 :: Storeroom not found
+Tue Sep 30 17:42:46 2025 :: warrior.gui
+Tue Sep 30 17:42:46 2025 :: Storeroom not found
+Tue Sep 30 17:42:46 2025 :: augurer.gui
+Tue Sep 30 17:42:46 2025 :: Storeroom not found
+Tue Sep 30 17:42:46 2025 :: thief.gui
+Tue Sep 30 17:42:46 2025 :: Storeroom not found
+Tue Sep 30 17:42:46 2025 :: cleric.gui
+Tue Sep 30 17:42:46 2025 :: Storeroom not found
+Tue Sep 30 17:42:46 2025 :: mage.gui
+Tue Sep 30 17:42:46 2025 :: Storeroom not found
+Tue Sep 30 17:42:46 2025 :: ranger.gui
+Tue Sep 30 17:42:46 2025 :: Storeroom not found
+Tue Sep 30 17:42:46 2025 :: $
+Tue Sep 30 17:42:46 2025 ::  Done clans 
+Tue Sep 30 17:42:46 2025 :: Loading councils
+Tue Sep 30 17:42:46 2025 :: Loading councils...
+Tue Sep 30 17:42:46 2025 :: $
+Tue Sep 30 17:42:46 2025 ::  Done councils 
+Tue Sep 30 17:42:46 2025 :: Loading deities
+Tue Sep 30 17:42:46 2025 :: Loading deities...
+Tue Sep 30 17:42:46 2025 :: $
+Tue Sep 30 17:42:46 2025 ::  Done deities 
+Tue Sep 30 17:42:46 2025 :: Loading watches
+Tue Sep 30 17:42:46 2025 :: Loading bans
+Tue Sep 30 17:42:46 2025 :: Done.
+Tue Sep 30 17:42:46 2025 :: Loading reserved names
+Tue Sep 30 17:42:46 2025 :: Loading corpses
+Tue Sep 30 17:42:46 2025 :: Loading Immortal Hosts
+Tue Sep 30 17:42:46 2025 :: Done.
+Tue Sep 30 17:42:46 2025 :: Loading Projects
+Tue Sep 30 17:42:46 2025 :: Loading Morphs
+Tue Sep 30 17:42:46 2025 :: Done.
+Tue Sep 30 17:42:46 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Tue Sep 30 17:42:46 2025 :: Loading login messages
+Tue Sep 30 17:42:46 2025 :: Initializing socket
+Tue Sep 30 17:42:46 2025 :: (Name Not Set) ready on port 9001.
+Tue Sep 30 17:42:51 2025 :: Preloading player data for: Dragus (2K)
+Tue Sep 30 17:42:51 2025 :: [*****] BUG: fread_char: no match: 5000
+Tue Sep 30 17:42:51 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Tue Sep 30 17:42:51 2025 :: [*****] BUG: fread_char: no match: 3
+Tue Sep 30 17:42:51 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Tue Sep 30 17:42:51 2025 :: Creating area entry for Dragus
+Tue Sep 30 17:42:52 2025 :: Loading player data for: Dragus (2K)
+Tue Sep 30 17:42:52 2025 :: [*****] BUG: fread_char: no match: 5000
+Tue Sep 30 17:42:52 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Tue Sep 30 17:42:52 2025 :: [*****] BUG: fread_char: no match: 3
+Tue Sep 30 17:42:52 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Tue Sep 30 17:42:52 2025 :: Updating area entry for Dragus
+Tue Sep 30 17:42:52 2025 :: Dragus (127.0.0.1) has connected.
+Tue Sep 30 17:45:30 2025 :: Log Dragus: loadarea
+Dragus.are    : Rooms: 55000 - 59999 Objs: 55000 - 59999 Mobs: 55000 - 59999
+Tue Sep 30 18:20:24 2025 :: Log Dragus: ocr 55100 steel dagger
+Tue Sep 30 18:21:03 2025 :: Log Dragus: ocr 55101 steel short sword
+Tue Sep 30 18:21:14 2025 :: Log Dragus: ocr 55102 steel long sword
+Tue Sep 30 18:21:25 2025 :: Log Dragus: ocr 55103 steel bastard sword
+Tue Sep 30 18:21:50 2025 :: Log Dragus: ocr 55104 steel 2-handed sword
+Tue Sep 30 18:22:16 2025 :: Log Dragus: ocr 55105 steel kopesh
+Tue Sep 30 18:23:18 2025 :: Log Dragus: ocr 55106 steel scimitar
+Tue Sep 30 18:23:45 2025 :: Log Dragus: ocr 55107 steel chain 
+Tue Sep 30 18:25:54 2025 :: Log Dragus: ocr 55108 steel chain-hook
+Tue Sep 30 18:26:03 2025 :: Log Dragus: ocr 55109 steel chain-dagger
+Tue Sep 30 18:27:42 2025 :: Log Dragus: ocr 55110 steel sickle
+Tue Sep 30 18:28:08 2025 :: Log Dragus: ocr 55111 steel sythe
+Tue Sep 30 18:30:55 2025 :: Log Dragus: ocr 55111 steel sythein
+Tue Sep 30 18:33:22 2025 :: Log Dragus: ocr 55112 steel wakizashi
+Tue Sep 30 18:33:32 2025 :: Log Dragus: ocr 55113 steel katana
+Tue Sep 30 18:33:52 2025 :: Log Dragus: ocr 55114 steel kukri
+Tue Sep 30 18:34:16 2025 :: Log Dragus: ocr 55115 steel warhammer
+Tue Sep 30 18:35:18 2025 :: Log Dragus: ocr 55116 steel spear
+Tue Sep 30 18:35:40 2025 :: Log Dragus: ocr 55117 steel sai
+Tue Sep 30 18:36:17 2025 :: Log Dragus: ocr 55118 steel morningstar
+Tue Sep 30 18:36:48 2025 :: Log Dragus: ocr 55119 steel tonfa
+Tue Sep 30 18:37:41 2025 :: Log Dragus: ocr 55120 steel broadsword
+Tue Sep 30 18:38:07 2025 :: Log Dragus: ocr 55121 steel mace
+Tue Sep 30 18:38:38 2025 :: Log Dragus: ocr 55122 steel glaive
+Tue Sep 30 18:39:03 2025 :: Log Dragus: ocr 55123 steel nodachi
+Tue Sep 30 18:39:41 2025 :: Log Dragus: ocr 55124 steel quarterstaff
+Tue Sep 30 18:40:04 2025 :: Log Dragus: ocr 55125 steel Nunchaku
+Tue Sep 30 18:40:29 2025 :: Log Dragus: ocr 55126 steel javelin
+Tue Sep 30 18:40:44 2025 :: Log Dragus: ocr 55127 steel throwing axe
+Tue Sep 30 18:40:56 2025 :: Log Dragus: ocr 55128 steel chakram
+Tue Sep 30 18:41:11 2025 :: Log Dragus: ocr 55129 steel bolas
+Tue Sep 30 18:42:50 2025 :: Log Dragus: ocr 55130 steel composite bow 
+Tue Sep 30 18:43:13 2025 :: Log Dragus: ocr 55131 steel revolver
+Tue Sep 30 18:44:18 2025 :: Log Dragus: ocr 55132 steel 9mm pistol
+Tue Sep 30 18:45:04 2025 :: Log Dragus: ocr 55133 steel 45. handgun
+Tue Sep 30 18:46:03 2025 :: Log Dragus: ocr 55134 steel lever-action rifle
+Tue Sep 30 18:46:43 2025 :: Log Dragus: ocr 55135 steel break shotgun
+Tue Sep 30 18:46:53 2025 :: Log Dragus: ocr 55136 steel pump shotgun
+Tue Sep 30 18:47:36 2025 :: Log Dragus: ocr 55136 steel break rifle
+Tue Sep 30 18:47:41 2025 :: Log Dragus: ocr 55137 steel break rifle
+Tue Sep 30 18:50:14 2025 :: Log Dragus: ocr 55138 steel knuckles
+Tue Sep 30 18:51:32 2025 :: Log Dragus: savearea
+Tue Sep 30 18:52:08 2025 :: Log Dragus: ocr 55139 training wraps
+Tue Sep 30 18:55:21 2025 :: Log Dragus: ocr 55140 cloth wraps
+Tue Sep 30 18:57:22 2025 :: Log Dragus: ocr 55141 canvas wraps
+Tue Sep 30 18:57:33 2025 :: Log Dragus: ocr 55142 linen wraps
+Tue Sep 30 18:57:46 2025 :: Log Dragus: ocr 55143 silk wraps
+Tue Sep 30 18:58:09 2025 :: Log Dragus: ocr 55144 satin wraps
+Tue Sep 30 19:01:11 2025 :: Log Dragus: ocr 55145 mithral-weave wraps
+Tue Sep 30 19:01:58 2025 :: Log Dragus: ocr 55146 void-stitched wraps
+Tue Sep 30 19:02:45 2025 :: Log Dragus: ocr 55147 mana-weave wraps
+Tue Sep 30 19:05:27 2025 :: Log Dragus: ocr 55148 steel waraxe
+Tue Sep 30 19:07:10 2025 :: Log Dragus: ocr 55149 steel battleaxe
+Tue Sep 30 19:07:30 2025 :: Log Dragus: ocr 55150 steel pick-axe
+Tue Sep 30 19:08:19 2025 :: Log Dragus: ocr 55151 steel greataxe
+Tue Sep 30 19:09:07 2025 :: Log Dragus: ocr 55152 steel greathammer
+Tue Sep 30 19:10:11 2025 :: Log Dragus: ocr 55153 steel throwing hammer
+Tue Sep 30 19:11:54 2025 :: Log Dragus: ocr 55154 steel lucerne hammer
+Tue Sep 30 19:13:42 2025 :: Log Dragus: ocr 55155 steel flail
+Tue Sep 30 19:17:40 2025 :: Log Dragus: ocr 55156 steel great mace
+Tue Sep 30 19:18:13 2025 :: Log Dragus: ocr 55156 steel dire flail
+Tue Sep 30 19:18:21 2025 :: Log Dragus: ocr 55157 steel dire flail
+Tue Sep 30 19:21:01 2025 :: Log Dragus: ocr 55158 steel throwing knife
+Tue Sep 30 19:21:25 2025 :: Log Dragus: ocr 55159 steel kunai
+Tue Sep 30 19:24:47 2025 :: Log Dragus: ocr 55160 steel gunblade
+Tue Sep 30 22:08:07 2025 :: Log Dragus: ocr 55161 umbrasteel dagger
+Tue Sep 30 22:08:27 2025 :: Log Dragus: ocr 55162 umbrasteel short sword
+Tue Sep 30 22:09:29 2025 :: Log Dragus: ocr 55163 umbrasteel longsword
+Tue Sep 30 22:10:00 2025 :: Log Dragus: ocr 55164 umbrasteel bastard sword
+Tue Sep 30 22:10:14 2025 :: Log Dragus: ocr 55165 umbrasteel greatsword
+Tue Sep 30 22:10:31 2025 :: Log Dragus: ocr 55166 umbrasteel kopesh
+Tue Sep 30 22:11:07 2025 :: Log Dragus: ocr 55167 umbrasteel scimitar
+Tue Sep 30 22:11:17 2025 :: Log Dragus: ocr 55168 umbrasteel chain
+Tue Sep 30 22:11:28 2025 :: Log Dragus: ocr 55169 umbrasteel chain-hook
+Tue Sep 30 22:11:40 2025 :: Log Dragus: ocr 55170 umbrasteel chain-dagger
+Tue Sep 30 22:12:59 2025 :: Log Dragus: ocr 55171 umbrasteel chain-weight
+Tue Sep 30 22:13:23 2025 :: Log Dragus: ocr 55172 umbrasteel sickle
+Tue Sep 30 22:13:36 2025 :: Log Dragus: ocr 55173 umbrasteel sythe
+Tue Sep 30 22:13:52 2025 :: Log Dragus: ocr 55174 umbrasteel wakizashi
+Tue Sep 30 22:14:04 2025 :: Log Dragus: ocr 55175 umbrasteel katana
+Tue Sep 30 22:14:16 2025 :: Log Dragus: ocr 55176 umbrasteel kukri
+Tue Sep 30 22:14:27 2025 :: Log Dragus: ocr 55177 umbrasteel warhammer
+Tue Sep 30 22:14:40 2025 :: Log Dragus: ocr 55178 umbrasteel spear
+Tue Sep 30 22:14:53 2025 :: Log Dragus: ocr 55179 umbrasteel sai
+Tue Sep 30 22:15:07 2025 :: Log Dragus: ocr 55180 umbrasteel morningstar
+Tue Sep 30 22:15:17 2025 :: Log Dragus: ocr 55181 umbrasteel tonfa
+Tue Sep 30 22:15:29 2025 :: Log Dragus: ocr 55182 umbrasteel broadsword
+Tue Sep 30 22:15:38 2025 :: Log Dragus: ocr 55183 umbrasteel mace
+Tue Sep 30 22:15:48 2025 :: Log Dragus: ocr 55184 umbrasteel glaive
+Tue Sep 30 22:16:01 2025 :: Log Dragus: ocr 55185 umbrasteel nodachi
+Tue Sep 30 22:16:13 2025 :: Log Dragus: ocr 55186 umbrasteel quarterstaff
+Tue Sep 30 22:16:27 2025 :: Log Dragus: ocr 55187 umbrasteel nunchaku
+Tue Sep 30 22:16:39 2025 :: Log Dragus: ocr 55188 umbrasteel javelin
+Tue Sep 30 22:16:53 2025 :: Log Dragus: ocr 55189 umbrasteel throwing axe
+Tue Sep 30 22:17:11 2025 :: Log Dragus: ocr 55190 umbrasteel chakram
+Tue Sep 30 22:17:23 2025 :: Log Dragus: ocr 55191 umbrasteel bolas
+Tue Sep 30 22:17:44 2025 :: Log Dragus: ocr 55192 umbrasteel composite bow
+Tue Sep 30 22:18:18 2025 :: Log Dragus: ocr 55193 umbrasteel revolver
+Tue Sep 30 22:18:42 2025 :: Log Dragus: ocr 55194 umbrasteel 9mm handgun
+Tue Sep 30 22:19:00 2025 :: Log Dragus: ocr 55195 umbrasteel 45. handgun
+Tue Sep 30 22:19:13 2025 :: Log Dragus: ocr 55196 umbrasteel 45. lever-action rifle
+Tue Sep 30 22:19:59 2025 :: Log Dragus: ocr 55197 umbrasteel break shotgun
+Tue Sep 30 22:20:16 2025 :: Log Dragus: ocr 55198 umbrasteel pump shotgun
+Tue Sep 30 22:20:41 2025 :: Log Dragus: ocr 55199 umbrasteel break rifle
+Tue Sep 30 22:20:58 2025 :: Log Dragus: ocr 55200 umbrasteel knuckles
+Tue Sep 30 22:21:27 2025 :: Log Dragus: ocr 55201 umbrasteel waraxe
+Tue Sep 30 22:21:39 2025 :: Log Dragus: ocr 55202 umbrasteel battleaxe
+Tue Sep 30 22:22:13 2025 :: Log Dragus: ocr 55203 umbrasteel pickaxe
+Tue Sep 30 22:22:36 2025 :: Log Dragus: ocr 55204 umbrasteel greataxe
+Tue Sep 30 22:22:56 2025 :: Log Dragus: ocr 55205 umbrasteel greathammer
+Tue Sep 30 22:23:10 2025 :: Log Dragus: ocr 55206 umbrasteel throwing hammer
+Tue Sep 30 22:23:22 2025 :: Log Dragus: ocr 55207 umbrasteel lucerne hammer
+Tue Sep 30 22:23:31 2025 :: Log Dragus: ocr 55208 umbrasteel flail
+Tue Sep 30 22:23:50 2025 :: Log Dragus: ocr 55209 umbrasteel great mace
+Tue Sep 30 22:24:02 2025 :: Log Dragus: ocr 55210 umbrasteel dire flail
+Tue Sep 30 22:24:13 2025 :: Log Dragus: ocr 55211 umbrasteel throwing knife
+Tue Sep 30 22:24:22 2025 :: Log Dragus: ocr 55212 umbrasteel kunai
+Tue Sep 30 22:24:39 2025 :: Log Dragus: ocr 55213 umbrasteel gunblade
+Tue Sep 30 22:26:41 2025 :: Log Dragus: savearea
+Tue Sep 30 22:37:27 2025 :: Log Dragus: ocr 55220 steel brigandine coat 
+Tue Sep 30 22:38:28 2025 :: Log Dragus: ocr 55221 steel riot vest
+Tue Sep 30 22:39:46 2025 :: Log Dragus: ocr 55222 steel scale mail
+Tue Sep 30 22:39:53 2025 :: Log Dragus: ocr 55223 steel scale skirt
+Tue Sep 30 22:40:35 2025 :: Log Dragus: oset 55222 name steel scale shirt
+Tue Sep 30 22:42:11 2025 :: Log Dragus: ocr 55224 steel chain shirt
+Tue Sep 30 22:42:30 2025 :: Log Dragus: ocr 55225 steel chain leggings
+Tue Sep 30 22:43:44 2025 :: Log Dragus: ocr 55225 steel chain bracers
+Tue Sep 30 22:43:51 2025 :: Log Dragus: ocr 55226 steel chain bracers
+Tue Sep 30 22:44:14 2025 :: Log Dragus: oset 55226 name steel bracers
+Tue Sep 30 22:45:31 2025 :: Log Dragus: oset 55227 name steel boots
+Tue Sep 30 22:45:37 2025 :: Log Dragus: ocr 55227 name steel boots
+Tue Sep 30 22:45:45 2025 :: Log Dragus: oset 55227 name steel boots
+Tue Sep 30 22:47:26 2025 :: Log Dragus: ocr 55228 name steel greaves
+Tue Sep 30 22:47:33 2025 :: Log Dragus: oset 55228 name steel greaves
+Tue Sep 30 22:49:01 2025 :: Log Dragus: ocr 55229 steel spaulders
+Tue Sep 30 22:50:34 2025 :: Log Dragus: ocr 55230 steel half-plate 
+Tue Sep 30 22:50:59 2025 :: Log Dragus: ocr 55231 steel platemail
+Tue Sep 30 22:54:20 2025 :: Log Dragus: ocr 55232 steel pauldrons
+Tue Sep 30 22:55:12 2025 :: Log Dragus: ocr 55233 steel breastplate
+Tue Sep 30 22:56:06 2025 :: Log Dragus: ocr 55234 steel gauntlets
+Tue Sep 30 22:57:27 2025 :: Log Dragus: ocr 55235 umbrasteel brigandine coat
+Tue Sep 30 22:57:39 2025 :: Log Dragus: ocr 55236 umbrasteel riot vest
+Tue Sep 30 22:57:51 2025 :: Log Dragus: ocr 55237 umbrasteel scale shirt
+Tue Sep 30 22:58:05 2025 :: Log Dragus: ocr 55238 umbrasteel scale skirt
+Tue Sep 30 22:58:30 2025 :: Log Dragus: ocr 55239 umbrasteel chain shirt
+Tue Sep 30 22:58:56 2025 :: Log Dragus: ocr 55240 umbrasteel chain leggings
+Tue Sep 30 22:59:28 2025 :: Log Dragus: ocr 55241 umbrasteel bracers
+Tue Sep 30 22:59:43 2025 :: Log Dragus: ocr 55242 umbrasteel boots
+Tue Sep 30 22:59:56 2025 :: Log Dragus: ocr 55243 umbrasteel greaves
+Tue Sep 30 23:00:41 2025 :: Log Dragus: ocr 55244 umbrasteel spaulders
+Tue Sep 30 23:01:11 2025 :: Log Dragus: ocr 55245 umbrasteel half-plate
+Tue Sep 30 23:01:27 2025 :: Log Dragus: ocr 55246 umbrasteel platemail
+Tue Sep 30 23:01:56 2025 :: Log Dragus: ocr 55247 umbrasteel pauldrons
+Tue Sep 30 23:02:15 2025 :: Log Dragus: ocr 55248 umbrasteel breastplate
+Tue Sep 30 23:04:18 2025 :: Log Dragus: ocr 55249 umbrasteel riot helm
+Tue Sep 30 23:04:31 2025 :: Log Dragus: ocr 55250 steel riot helm
+Tue Sep 30 23:04:47 2025 :: Log Dragus: ocr 55251 steel helm
+Tue Sep 30 23:06:01 2025 :: Log Dragus: ocr 55253 steel coif
+Tue Sep 30 23:10:24 2025 :: Log Dragus: ocr 55254 umbrasteel helm
+Tue Sep 30 23:10:31 2025 :: Log Dragus: ocr 55255 umbrasteel coif
+Tue Sep 30 23:39:24 2025 :: Log Dragus: ocr 55300 backpack
+Tue Sep 30 23:39:50 2025 :: Log Dragus: ocr 55301 belt pouch
+Tue Sep 30 23:40:16 2025 :: Log Dragus: ocr 55302 duffle bag
+Tue Sep 30 23:42:00 2025 :: Log Dragus: ocr 55303 wooden chest
+Tue Sep 30 23:42:11 2025 :: Log Dragus: ocr 55304 steel chest
+Tue Sep 30 23:42:56 2025 :: Log Dragus: ocr 55305 silver chest
+Tue Sep 30 23:43:04 2025 :: Log Dragus: ocr 55306 golden chest
+Tue Sep 30 23:43:26 2025 :: Log Dragus: ocr 55307 keyring
+Tue Sep 30 23:45:48 2025 :: Log Dragus: ocr 55309 backpack of holding
+Tue Sep 30 23:46:21 2025 :: Log Dragus: ocr 55308 duffle bag of holding
+Tue Sep 30 23:50:16 2025 :: Log Dragus: ocr 55310 torch
+Tue Sep 30 23:50:31 2025 :: Log Dragus: ocr 55311 lantern
+Tue Sep 30 23:50:59 2025 :: Log Dragus: ocr 55312 light orb
+Tue Sep 30 23:52:04 2025 :: Log Dragus: ocr 55313 glowstone
+Tue Sep 30 23:53:00 2025 :: Log Dragus: ocr 55314 mtech orb
+Tue Sep 30 23:53:31 2025 :: Log Dragus: ocr 55315 mtech torch
+Tue Sep 30 23:58:09 2025 :: Log Dragus: ocr 55400 canteen
+Tue Sep 30 23:58:22 2025 :: Log Dragus: ocr 55401 waterskin
+Tue Sep 30 23:58:33 2025 :: Log Dragus: ocr 55402 teapot
+Tue Sep 30 23:59:10 2025 :: Log Dragus: ocr 55403 water bottle
+Wed Oct  1 00:00:11 2025 :: Log Dragus: ocr 55404 camel pack
+Wed Oct  1 00:00:59 2025 :: Log Dragus: ocr 55405 potion bottle
+Wed Oct  1 00:01:24 2025 :: Log Dragus: ocr 55406 glass beaker
+Wed Oct  1 00:01:38 2025 :: Log Dragus: ocr 55407 water glass
+Wed Oct  1 00:01:46 2025 :: Log Dragus: ocr 55408 wine glass
+Wed Oct  1 00:02:09 2025 :: Log Dragus: ocr 55409 shot glass
+Wed Oct  1 00:02:18 2025 :: Log Dragus: ocr 55410 martini glass
+Wed Oct  1 00:03:11 2025 :: Log Dragus: ocr 55411  rocks glass
+Wed Oct  1 00:03:24 2025 :: Log Dragus: ocr 55412  pint glass
+Wed Oct  1 00:03:58 2025 :: Log Dragus: ocr 55413 margarita glass
+Wed Oct  1 00:04:48 2025 :: Log Dragus: ocr 55414 champagne glass
+Wed Oct  1 00:05:25 2025 :: Log Dragus: ocr 55415 cocktail glass
+Wed Oct  1 00:07:41 2025 :: Log Dragus: ocr 55420 dinner plate
+Wed Oct  1 00:07:57 2025 :: Log Dragus: ocr 55421 salad plate
+Wed Oct  1 00:08:55 2025 :: Log Dragus: ocr 55422 charger plate
+Wed Oct  1 00:09:13 2025 :: Log Dragus: ocr 55423 china plate
+Wed Oct  1 00:09:41 2025 :: Log Dragus: ocr 55424 soup bowl
+Wed Oct  1 00:10:02 2025 :: Log Dragus: ocr 55425 cereal bowl
+Wed Oct  1 00:10:31 2025 :: Log Dragus: ocr 55426 noodle bowl
+Wed Oct  1 00:10:51 2025 :: Log Dragus: ocr 55427 mixing bowl
+Wed Oct  1 00:11:57 2025 :: Log Dragus: ocr 55430 coffee cup
+Wed Oct  1 00:12:04 2025 :: Log Dragus: ocr 55431 coffee mug
+Wed Oct  1 00:12:16 2025 :: Log Dragus: ocr 55432 teacup
+Wed Oct  1 00:13:14 2025 :: Log Dragus: ocr 55428 serving bowl
+Wed Oct  1 00:14:19 2025 :: Log Dragus: ocr 55429 platter
+Wed Oct  1 00:14:57 2025 :: Log Dragus: ocr 55433 butter dish
+Wed Oct  1 00:15:39 2025 :: Log Dragus: ocr 55440 pitcher
+Wed Oct  1 00:15:45 2025 :: Log Dragus: ocr 55441 jug
+Wed Oct  1 00:15:55 2025 :: Log Dragus: ocr 55442 carafe
+Wed Oct  1 00:16:27 2025 :: Log Dragus: ocr 55443 salt shaker
+Wed Oct  1 00:16:35 2025 :: Log Dragus: ocr 55444 pepper shaker
+Wed Oct  1 00:16:46 2025 :: Log Dragus: ocr 55445 napkin ring
+Wed Oct  1 00:16:55 2025 :: Log Dragus: ocr 55446 candle holder
+Wed Oct  1 00:17:04 2025 :: Log Dragus: ocr 55447 coaster
+Wed Oct  1 00:17:33 2025 :: Log Dragus: ocr 55448 tin plate
+Wed Oct  1 00:17:38 2025 :: Log Dragus: ocr 55449 tin cupe
+Wed Oct  1 00:29:01 2025 :: Log Dragus: ocr 55500 smith's hammer
+Wed Oct  1 00:29:07 2025 :: Log Dragus: ocr 55501 tongs
+Wed Oct  1 00:29:28 2025 :: Log Dragus: ocr 55502 sewing kit
+Wed Oct  1 00:29:42 2025 :: Log Dragus: ocr 55503 scissors
+Wed Oct  1 00:31:54 2025 :: Log Dragus: ocr 55504 handsaw
+Wed Oct  1 00:32:52 2025 :: Log Dragus: ocr 55505 smoothing plane
+Wed Oct  1 00:34:24 2025 :: Log Dragus: ocr 55506 carpentry tools
+Wed Oct  1 00:34:40 2025 :: Log Dragus: ocr 55507 fletcher's tools
+Wed Oct  1 00:34:50 2025 :: Log Dragus: ocr 55507 tinker's tools
+Wed Oct  1 00:34:55 2025 :: Log Dragus: ocr 55508 tinker's tools
+Wed Oct  1 00:35:10 2025 :: Log Dragus: ocr 55509 mortar and pestle
+Wed Oct  1 00:35:25 2025 :: Log Dragus: ocr 55510 scribe's pen
+Wed Oct  1 00:35:35 2025 :: Log Dragus: ocr 55511 rolling pin
+Wed Oct  1 00:35:41 2025 :: Log Dragus: ocr 55512 skillet
+Wed Oct  1 00:36:07 2025 :: Log Dragus: ocr 55513 mallet and chisel
+Wed Oct  1 00:36:23 2025 :: Log Dragus: ocr 55514 blowpipe
+Wed Oct  1 00:37:11 2025 :: Log Dragus: ocr 55515 potters kiln
+Wed Oct  1 00:46:13 2025 :: Log Dragus: ocr 55516 screwdriver
+Wed Oct  1 00:46:38 2025 :: Log Dragus: savearea
+Wed Oct  1 00:46:45 2025 :: Log Dragus: shutdown mud now
+Wed Oct  1 00:46:45 2025 :: Normal termination of game.
+Wed Oct  1 00:46:45 2025 :: Cleaning up Memory.
+Len:   6 Lnks:    1 Str: Dragus
+Total strings in hash 6: 1
+Project Data.
+Reserved Names.
+Ban Data.
+Morph Data.
+Commands.
+Deities.
+Clans.
+Councils.
+Socials.
+Watches.
+Helps.
+Languages.
+Boards.
+Whacking supermob.
+Objects.
+Characters.
+Descriptors.
+Liquid Table.
+Races.
+Classes.
+Teleport Data.
+Area Data Tables.
+Planes.
+Auction.
+MSSP Info.
+System data.
+Title table.
+Skills and Herbs.
+Mudprog act lists.
+Specfun lists.
+Globals.
+Checking string hash for leftovers.
+Cleanup complete, exiting.
