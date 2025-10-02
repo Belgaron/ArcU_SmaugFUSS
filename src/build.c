@@ -105,7 +105,7 @@ const char *const area_flags[] = {
 };
 
 const char *const o_types[] = {
-   "none", "light", "scroll", "wand", "staff", "weapon", "_fireweapon", "_missile",
+   "none", "light", "scroll", "wand", "staff", "weapon", "materia", "_missile",
    "treasure", "armor", "potion", "_worn", "furniture", "trash", "_oldtrap",
    "container", "_note", "drinkcon", "key", "food", "money", "pen", "boat",
    "corpse", "corpse_pc", "fountain", "pill", "blood", "bloodstain",

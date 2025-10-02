@@ -26,6 +26,42 @@
 void write_corpses( CHAR_DATA * ch, const char *name, OBJ_DATA * objrem );
 void save_house_by_vnum( int vnum );
 
+static void shatter_materia( OBJ_DATA *obj, CHAR_DATA *source, const char *message )
+{
+   CHAR_DATA *actor = NULL;
+
+   if( !obj )
+      return;
+
+   if( !message || message[0] == '\0' )
+      message = "$p fractures into motes of light before fading away.";
+
+   if( obj->carried_by )
+   {
+      actor = obj->carried_by;
+      act( AT_MAGIC, message, actor, obj, NULL, TO_CHAR );
+      act( AT_MAGIC, message, actor, obj, NULL, TO_ROOM );
+   }
+   else
+   {
+      actor = source;
+
+      if( !actor && obj->in_room )
+         actor = obj->in_room->first_person;
+
+      if( actor )
+      {
+         act( AT_MAGIC, message, actor, obj, NULL, TO_CHAR );
+         act( AT_MAGIC, message, actor, obj, NULL, TO_ROOM );
+      }
+   }
+
+   if( obj->serial == cur_obj )
+      global_objcode = rOBJ_SCRAPPED;
+
+   extract_obj( obj );
+}
+
 /*
  * how resistant an object is to damage				-Thoric
  */
@@ -1311,12 +1347,14 @@ void do_give( CHAR_DATA* ch, const char* argument )
 obj_ret damage_obj( OBJ_DATA * obj )
 {
    CHAR_DATA *ch;
+   CHAR_DATA *holder;
    obj_ret objcode;
 
    if( IS_OBJ_STAT( obj, ITEM_PERMANENT ) )
       return rNONE;
 
    ch = obj->carried_by;
+   holder = ch;
    objcode = rNONE;
 
    separate_obj( obj );
@@ -1343,6 +1381,11 @@ obj_ret damage_obj( OBJ_DATA * obj )
          make_scraps( obj );
          objcode = rOBJ_SCRAPPED;
          break;
+      case ITEM_MATERIA:
+         shatter_materia( obj, holder, "$p fractures, releasing its latent energy." );
+         objcode = rOBJ_SCRAPPED;
+         break;
+
       case ITEM_CONTAINER:
       case ITEM_KEYRING:
       case ITEM_QUIVER:
@@ -2688,6 +2731,10 @@ void do_auction( CHAR_DATA* ch, const char* argument )
             case ITEM_ARMOR:
                ch_printf( ch, "Armor class is %d.\r\n", obj->value[0] );
                break;
+
+            case ITEM_MATERIA:
+               ch_printf( ch, "This materia hums with latent energy (grade %d).\r\n", obj->value[0] );
+               break;
          }
 
          for( paf = obj->pIndexData->first_affect; paf; paf = paf->next )
@@ -2940,6 +2987,7 @@ void do_auction( CHAR_DATA* ch, const char* argument )
          case ITEM_HERB:
          case ITEM_WEAPON:
          case ITEM_MISSILE_WEAPON:
+         case ITEM_MATERIA:
          case ITEM_ARMOR:
          case ITEM_STAFF:
          case ITEM_WAND:
@@ -3089,6 +3137,11 @@ void obj_fall( OBJ_DATA * obj, bool through )
                else
                   obj->value[0] -= dam;
                break;
+            case ITEM_MATERIA:
+               shatter_materia( obj, obj->in_room ? obj->in_room->first_person : NULL,
+                                "$p fractures, releasing its latent energy." );
+               break;
+
             default:
                if( ( dam * 15 ) > get_obj_resistance( obj ) )
                {

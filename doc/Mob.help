@@ -421,7 +421,7 @@ Example: shopset 1000 buy1 8         [Mob will buy Treasures]
 3  - wand                23 - corpse             43 - match
 4  - staff               24 - corpse_pc          44 - trap
 5  - weapon              25 - fountain           45 - map
-6  - _fireweapon         26 - pill               46 - portal
+6  - materia            26 - pill               46 - portal
 7  - _missile            27 - blood              47 - paper
 8  - treasure            28 - bloodstain         48 - tinder
 9  - armor               29 - scraps             49 - lockpick

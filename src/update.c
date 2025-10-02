@@ -1233,6 +1233,11 @@ void obj_update( void )
             AT_TEMP = AT_PLAIN;
             break;
 
+         case ITEM_MATERIA:
+            message = "$p fractures, releasing its latent energy before fading away.";
+            AT_TEMP = AT_MAGIC;
+            break;
+
          case ITEM_CONTAINER:
             message = "$p falls apart, tattered from age.";
             AT_TEMP = AT_OBJECT;
