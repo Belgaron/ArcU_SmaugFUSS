@@ -2141,7 +2141,6 @@ void wear_obj( CHAR_DATA * ch, OBJ_DATA * obj, bool fReplace, short wear_bit )
              || obj->item_type == ITEM_SCROLL
              || obj->item_type == ITEM_DRINK_CON
              || obj->item_type == ITEM_BLOOD
-             || obj->item_type == ITEM_PIPE
              || obj->item_type == ITEM_HERB || obj->item_type == ITEM_KEY || !oprog_use_trigger( ch, obj, NULL, NULL ) )
          {
             act( AT_ACTION, "$n holds $p in $s hands.", ch, obj, NULL, TO_ROOM );
@@ -2975,7 +2974,7 @@ void do_auction( CHAR_DATA* ch, const char* argument )
          case ITEM_PEN:
          case ITEM_BOAT:
          case ITEM_PILL:
-         case ITEM_PIPE:
+         case ITEM_RELIC:
          case ITEM_HERB_CON:
          case ITEM_INCENSE:
          case ITEM_FIRE:

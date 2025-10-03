@@ -109,7 +109,7 @@ const char *const o_types[] = {
    "treasure", "armor", "potion", "_worn", "furniture", "trash", "_oldtrap",
    "container", "_note", "drinkcon", "key", "food", "money", "pen", "boat",
    "corpse", "corpse_pc", "fountain", "pill", "blood", "bloodstain",
-   "scraps", "pipe", "herbcon", "herb", "incense", "fire", "book", "switch",
+   "scraps", "relic", "herbcon", "herb", "incense", "fire", "book", "switch",
    "lever", "pullchain", "button", "dial", "rune", "runepouch", "match", "trap",
    "map", "portal", "paper", "tinder", "lockpick", "spike", "disease", "oil",
    "fuel", "puddle", "journal", "missileweapon", "projectile", "quiver", "shovel",

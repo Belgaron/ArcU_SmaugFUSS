@@ -1119,7 +1119,7 @@ void obj_update( void )
          {
             if( !IS_NPC( tch )   /* && ( tch->level < LEVEL_IMMORTAL ) */
                 && ( ( obj == get_eq_char( tch, WEAR_LIGHT ) )
-                     || ( IS_SET( obj->value[3], PIPE_LIT ) ) ) && ( obj->value[2] > 0 ) )
+                     || ( IS_SET( obj->value[3], LIGHT_LIT ) ) ) && ( obj->value[2] > 0 ) )
                if( --obj->value[2] == 0 && tch->in_room )
                {
                   tch->in_room->light -= obj->count;
@@ -1134,7 +1134,7 @@ void obj_update( void )
                }
          }
          else if( obj->in_room )
-            if( IS_SET( obj->value[3], PIPE_LIT ) && ( obj->value[2] > 0 ) )
+            if( IS_SET( obj->value[3], LIGHT_LIT ) && ( obj->value[2] > 0 ) )
                if( --obj->value[2] == 0 )
                {
                   obj->in_room->light -= obj->count;
@@ -1150,34 +1150,6 @@ void obj_update( void )
                   extract_obj( obj );
                   continue;
                }
-      }
-
-      if( obj->item_type == ITEM_PIPE )
-      {
-         if( IS_SET( obj->value[3], PIPE_LIT ) )
-         {
-            if( --obj->value[1] <= 0 )
-            {
-               obj->value[1] = 0;
-               REMOVE_BIT( obj->value[3], PIPE_LIT );
-            }
-            else if( IS_SET( obj->value[3], PIPE_HOT ) )
-               REMOVE_BIT( obj->value[3], PIPE_HOT );
-            else
-            {
-               if( IS_SET( obj->value[3], PIPE_GOINGOUT ) )
-               {
-                  REMOVE_BIT( obj->value[3], PIPE_LIT );
-                  REMOVE_BIT( obj->value[3], PIPE_GOINGOUT );
-               }
-               else
-                  SET_BIT( obj->value[3], PIPE_GOINGOUT );
-            }
-            if( !IS_SET( obj->value[3], PIPE_LIT ) )
-               SET_BIT( obj->value[3], PIPE_FULLOFASH );
-         }
-         else
-            REMOVE_BIT( obj->value[3], PIPE_HOT );
       }
 
       /*

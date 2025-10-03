@@ -177,7 +177,7 @@ editting commands are also in place.
 A lot of new items have been added, along with special code handling which
 allows for many interesting twists and features to areas.
 
-Some of these are: traps, levers, switches, pullchains, pipes and portals.
+Some of these are: traps, levers, switches, pullchains, relics and portals.
 
 
 

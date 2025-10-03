@@ -1951,7 +1951,7 @@ void char_from_room( CHAR_DATA * ch )
 
    if( ( obj = get_eq_char( ch, WEAR_LIGHT ) ) != NULL
        && obj->item_type == ITEM_LIGHT
-       && ( obj->value[2] != 0 || IS_SET( obj->value[3], PIPE_LIT ) ) && ch->in_room->light > 0 )
+       && ( obj->value[2] != 0 || IS_SET( obj->value[3], LIGHT_LIT ) ) && ch->in_room->light > 0 )
       --ch->in_room->light;
 
    /*
@@ -2025,7 +2025,7 @@ void char_to_room( CHAR_DATA * ch, ROOM_INDEX_DATA * pRoomIndex )
          pRoomIndex->area->max_players = pRoomIndex->area->nplayer;
 
    if( ( obj = get_eq_char( ch, WEAR_LIGHT ) ) != NULL
-       && obj->item_type == ITEM_LIGHT && ( obj->value[2] != 0 || IS_SET( obj->value[3], PIPE_LIT ) ) )
+       && obj->item_type == ITEM_LIGHT && ( obj->value[2] != 0 || IS_SET( obj->value[3], LIGHT_LIT ) ) )
       ++pRoomIndex->light;
 
    /*
@@ -2364,7 +2364,7 @@ void equip_char( CHAR_DATA * ch, OBJ_DATA * obj, int iWear )
       affect_modify( ch, paf, TRUE );
 
    if( loading_char != ch
-       && obj->item_type == ITEM_LIGHT && ( obj->value[2] != 0 || IS_SET( obj->value[3], PIPE_LIT ) ) && ch->in_room )
+       && obj->item_type == ITEM_LIGHT && ( obj->value[2] != 0 || IS_SET( obj->value[3], LIGHT_LIT ) ) && ch->in_room )
       ++ch->in_room->light;
 }
 
@@ -2410,7 +2410,7 @@ void unequip_char( CHAR_DATA * ch, OBJ_DATA * obj )
       return;
 
    if( obj->item_type == ITEM_LIGHT
-       && ( obj->value[2] != 0 || IS_SET( obj->value[3], PIPE_LIT ) ) && ch->in_room && ch->in_room->light > 0 )
+       && ( obj->value[2] != 0 || IS_SET( obj->value[3], LIGHT_LIT ) ) && ch->in_room && ch->in_room->light > 0 )
       --ch->in_room->light;
 }
 

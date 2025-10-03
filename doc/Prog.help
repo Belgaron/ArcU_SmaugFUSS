@@ -101,7 +101,6 @@ trigger the use_prog, here is a list:
 * Blood/fountains/drink containers - when you drink
 * Lights/armour/weapons            - when you wear/wield/hold
 * Potions                          - when you quaff
-* Pipes                            - when you smoke
  
 When the use_prog is executed you will not see the standard 'use message'
 (ie You quaff a violet potion). What you will will be any mpechoes placed
