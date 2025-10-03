@@ -343,79 +343,6 @@ class FishingEquipment
    }
 };
 
-class BaitManager
-{
- public:
-   struct BaitUsage
-   {
-      OBJ_DATA *obj;
-      int bonus;
-   };
-
-   static std::optional<BaitUsage> selectBestBait( CHAR_DATA *ch )
-   {
-      if( !ch )
-         return std::nullopt;
-
-      OBJ_DATA *best = nullptr;
-      int best_bonus = -999;
-      int best_charges = -1;
-
-      for( auto obj = ch->first_carrying; obj; obj = obj->next_content )
-      {
-         if( obj->item_type != ITEM_GATHERING_BAIT )
-            continue;
-
-         int potency = std::clamp( obj->value[0], -30, 30 );
-         int charges = ( obj->value[1] <= 0 ) ? 1000000 : obj->value[1];
-
-         if( !best || potency > best_bonus || ( potency == best_bonus && charges > best_charges ) )
-         {
-            best = obj;
-            best_bonus = potency;
-            best_charges = charges;
-         }
-      }
-
-      if( !best )
-         return std::nullopt;
-
-      return BaitUsage{ best, best_bonus };
-   }
-
-   static void announceBaitUse( CHAR_DATA *ch, OBJ_DATA *bait )
-   {
-      if( !ch || !bait )
-         return;
-
-      act( AT_ACTION, "You bait your hook with $p before casting.", ch, bait, nullptr, TO_CHAR );
-      act( AT_ACTION, "$n baits $s hook with $p before casting.", ch, bait, nullptr, TO_ROOM );
-   }
-
-   static void consumeBaitUse( CHAR_DATA *ch, OBJ_DATA *bait )
-   {
-      if( !ch || !bait )
-         return;
-
-      if( bait->item_type != ITEM_GATHERING_BAIT )
-         return;
-
-      separate_obj( bait );
-
-      if( bait->value[1] > 0 )
-      {
-         bait->value[1]--;
-
-         if( bait->value[1] <= 0 )
-         {
-            act( AT_ACTION, "$p is used up.", ch, bait, nullptr, TO_CHAR );
-            act( AT_ACTION, "$n's $p is used up.", ch, bait, nullptr, TO_ROOM );
-            extract_obj( bait );
-         }
-      }
-   }
-};
-
 class EnvironmentChecker
 {
  public:
@@ -999,27 +926,6 @@ extern "C" void do_fish( CHAR_DATA *ch, const char *argument )
 
    int fishing_skill = learned_percent( ch, fishingSn );
 
-   OBJ_DATA *bait_obj = nullptr;
-   int bait_bonus = 0;
-
-   if( auto bait_usage = BaitManager::selectBestBait( ch ) )
-   {
-      bait_obj = bait_usage->obj;
-      bait_bonus = bait_usage->bonus;
-
-      if( bait_obj )
-         BaitManager::announceBaitUse( ch, bait_obj );
-   }
-
-   auto consumeBait = [&]()
-   {
-      if( bait_obj )
-      {
-         BaitManager::consumeBaitUse( ch, bait_obj );
-         bait_obj = nullptr;
-      }
-   };
-
    act( AT_ACTION, "You cast your line into the water and wait patiently.", ch, nullptr, nullptr, TO_CHAR );
    act( AT_ACTION, "$n casts $s fishing line into the water.", ch, nullptr, nullptr, TO_ROOM );
 
@@ -1027,7 +933,6 @@ extern "C" void do_fish( CHAR_DATA *ch, const char *argument )
    if( !caught_fish )
    {
       send_to_char( "BUG: No fish selected. Please report this.\r\n", ch );
-      consumeBait();
       return;
    }
 
@@ -1035,7 +940,6 @@ extern "C" void do_fish( CHAR_DATA *ch, const char *argument )
    if( profile && profile->minimum_skill > 0 && fishing_skill < profile->minimum_skill )
    {
       send_to_char( "You lack the experience to reel that catch in and it slips away.\r\n", ch );
-      consumeBait();
       learn_from_failure( ch, fishingSn );
       return;
    }
@@ -1043,9 +947,6 @@ extern "C" void do_fish( CHAR_DATA *ch, const char *argument )
    int difficulty_rating = EnvironmentChecker::getFishingDifficultyRating( ch, ch->in_room );
    if( profile )
       difficulty_rating = std::clamp( difficulty_rating + profile->difficulty_modifier, 0, 100 );
-
-   if( bait_bonus != 0 )
-      difficulty_rating = std::clamp( difficulty_rating - bait_bonus, 0, 100 );
 
    int roll = number_percent();
    int modifier = difficulty_rating - 50;
@@ -1060,7 +961,6 @@ extern "C" void do_fish( CHAR_DATA *ch, const char *argument )
            ch, nullptr, nullptr, TO_CHAR );
       act( AT_ACTION, "$n reels in $s fishing line, looking disappointed.",
            ch, nullptr, nullptr, TO_ROOM );
-      consumeBait();
       learn_from_failure( ch, fishingSn );
       return;
    }
@@ -1069,7 +969,6 @@ extern "C" void do_fish( CHAR_DATA *ch, const char *argument )
    if( !fish_obj )
    {
       send_to_char( "BUG: Could not create fish object. Please report this.\r\n", ch );
-      consumeBait();
       return;
    }
 
@@ -1077,8 +976,6 @@ extern "C" void do_fish( CHAR_DATA *ch, const char *argument )
 
    ch_printf( ch, "You feel a tug on your line! You reel in %s!\r\n", fish_obj->short_descr );
    act( AT_ACTION, "$n reels in $s line with a catch!", ch, nullptr, nullptr, TO_ROOM );
-
-   consumeBait();
    learn_from_success( ch, fishingSn );
 }
 

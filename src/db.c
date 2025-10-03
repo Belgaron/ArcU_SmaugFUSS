@@ -2841,7 +2841,7 @@ OBJ_DATA *create_object( OBJ_INDEX_DATA * pObjIndex, int level )
       case ITEM_TREASURE:
       case ITEM_RESOURCE:
       case ITEM_GATHERING_TOOL:
-      case ITEM_GATHERING_BAIT:
+      case ITEM_WORKSTATION:
       case ITEM_FURNITURE:
       case ITEM_TRASH:
       case ITEM_CONTAINER:

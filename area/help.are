@@ -14156,7 +14156,7 @@ See MAKESHOP, SHOPSET and SHOPS.
 
 51 SHOPVALUES~
 Syntax: shopset <mobile vnum> buy# <value>
- 
+
 1  - light               21 - pen                41 - rune
 2  - scroll              22 - boat               42 - runepouch
 3  - wand                23 - corpse             43 - match
@@ -14170,13 +14170,22 @@ Syntax: shopset <mobile vnum> buy# <value>
 11 - resource            31 - herbcon            51 - disease
 12 - furniture           32 - herb               52 - oil
 13 - trash               33 - incense            53 - fuel
-14 - gatheringbait       34 - fire               54 - shortbow
+14 - workstation        34 - fire               54 - shortbow
 15 - container           35 - book               55 - longbow
 16 - _note               36 - switch             56 - crossbow
 17 - drinkcon            37 - lever              57 - projectile
 18 - key                 38 - pullchain          58 - quiver
 19 - food                39 - button             59 - shovel
 20 - money               40 - dial               60 - salve
+~
+
+51 WORKSTATION~
+Workstations represent stationary crafting fixtures such as looms, anvils,
+and spinning wheels.  Builders can assign this item type to objects that
+should act as the anchor for crafting recipes or professions.  Use
+"workstation" as the type keyword when creating the object with OSET or
+in area files.  Workstations are typically non-portable furniture pieces
+that characters interact with while performing crafting commands.
 ~
 
 1 SHOULDER~
