@@ -1,0 +1,5142 @@
+#FUSSAREA
+#AREADATA
+Version      1
+Name         arcforge~
+Author       Dragus~
+WeatherX     0
+WeatherY     0
+Ranges       0 0 0 0
+Economy      0 31250000
+ResetFreq    15
+#ENDAREADATA
+
+#MOBILE
+Vnum       55000
+Keywords   first mob~
+Short      a newly created first mob~
+Long       Some god abandoned a newly created first mob here.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Neuter~
+Actflags   npc~
+Stats1     0 1 0 0 0 0
+Stats2     0 0 0
+Stats3     0 0 0
+Stats4     0 0 1 0 0
+Attribs    13 13 13 13 13 13 13
+Saves      0 0 0 0 0
+#ENDMOBILE
+
+#MOBILE
+Vnum       59999
+Keywords   last mob~
+Short      a newly created last mob~
+Long       Some god abandoned a newly created last mob here.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Neuter~
+Actflags   npc~
+Stats1     0 1 0 0 0 0
+Stats2     0 0 0
+Stats3     0 0 0
+Stats4     0 0 1 0 0
+Attribs    13 13 13 13 13 13 13
+Saves      0 0 0 0 0
+#ENDMOBILE
+
+#OBJECT
+Vnum     55000
+Keywords first obj~
+Type     trash~
+Short    a newly created first obj~
+Long     Some god dropped a newly created first obj here.~
+Values   0 0 0 0 0 0
+Stats    1 0 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55001
+Keywords fishing pole rod~
+Type     weapon~
+Short    a simple fishing pole~
+Long     A simple fishing pole has been left here.~
+WFlags   wield~
+Values   99 1 2 3 0 0
+Stats    5 50 10 1 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55002
+Keywords fishing pole rod quality bamboo~
+Type     weapon~
+Short    a quality bamboo fishing pole~
+Long     A quality bamboo fishing pole has been carefully placed here.~
+WFlags   wield~
+Values   99 1 3 3 0 0
+Stats    4 200 25 10 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55003
+Keywords fishing pole rod master enchanted~
+Type     weapon~
+Short    a master's enchanted fishing pole~
+Long     A master's enchanted fishing pole radiates with a soft glow.~
+WFlags   wield~
+Values   0 0 0 0 0 0
+Stats    3 1000 100 0 0
+Affect       -1 -1 2 31 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55010
+Keywords bass fish large~
+Type     food~
+Short    a large bass~
+Long     A large bass flops about on the ground.~
+Values   10 10 0 0 0 0
+Stats    5 10 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55011
+Keywords trout fish speckled~
+Type     food~
+Short    a speckled trout~
+Long     A speckled trout lies here.~
+Values   8 8 0 0 0 0
+Stats    3 8 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55012
+Keywords boot old leather waterlogged~
+Type     trash~
+Short    an old leather boot~
+Long     Someone's old waterlogged boot lies here, smelling terrible.~
+Values   0 0 0 0 0 0
+Stats    2 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55013
+Keywords grouper fish massive~
+Type     food~
+Short    a massive grouper~
+Long     A massive grouper lies here, its size impressive even out of water.~
+Values   30 30 0 0 0 0
+Stats    20 50 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55100
+Keywords steel dagger~
+Type     weapon~
+Short    a steel dagger~
+Long     A steel dagger has been dropped here.~
+WFlags   take wield~
+Values   12 1 4 11 0 0
+Stats    2 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55101
+Keywords steel short sword~
+Type     weapon~
+Short    a steel short sword~
+Long     A steel short sword lies here.~
+WFlags   take wield~
+Values   12 1 6 3 0 0
+Stats    3 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55102
+Keywords steel long sword~
+Type     weapon~
+Short    a steel long sword~
+Long     A steel long sword has been left here.~
+WFlags   take wield~
+Values   12 2 8 3 0 0
+Stats    4 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55103
+Keywords steel bastard sword~
+Type     weapon~
+Short    a steel bastard sword~
+Long     A steel bastard sword rests here.~
+WFlags   take wield~
+Values   12 2 10 3 0 0
+Stats    5 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55104
+Keywords steel 2-handed sword~
+Type     weapon~
+Short    a steel 2-handed sword~
+Long     A massive steel 2-handed sword lies here.~
+WFlags   take wield~
+Values   12 3 12 3 0 0
+Stats    8 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55105
+Keywords steel kopesh~
+Type     weapon~
+Short    a steel kopesh~
+Long     A steel kopesh rests here.~
+WFlags   take wield~
+Values   12 2 9 3 0 0
+Stats    4 120 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55106
+Keywords steel scimitar~
+Type     weapon~
+Short    a steel scimitar~
+Long     A curved steel scimitar lies here.~
+WFlags   take wield~
+Values   12 2 9 3 0 0
+Stats    4 130 13 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55107
+Keywords steel chain ~
+Type     weapon~
+Short    a steel chain~
+Long     A steel chain coils on the ground.~
+WFlags   take wield~
+Values   12 1 7 4 0 0
+Stats    3 90 9 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55108
+Keywords steel chain-hook~
+Type     weapon~
+Short    a steel chain-hook~
+Long     A steel chain-hook lies coiled here.~
+WFlags   take wield~
+Values   12 2 8 4 0 0
+Stats    4 110 11 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55109
+Keywords steel chain-dagger~
+Type     weapon~
+Short    a steel chain-dagger~
+Long     A steel chain-dagger rests here.~
+WFlags   take wield~
+Values   12 2 7 11 0 0
+Stats    3 105 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55110
+Keywords steel sickle~
+Type     weapon~
+Short    a steel sickle~
+Long     A steel sickle has been dropped here.~
+WFlags   take wield~
+Values   12 1 6 3 0 0
+Stats    2 70 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55111
+Keywords steel sythe~
+Type     weapon~
+Short    a steel sythe~
+Long     A steel sythe leans against something invisible.~
+WFlags   take wield~
+Values   12 2 10 3 0 0
+Stats    5 125 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55112
+Keywords steel wakizashi~
+Type     weapon~
+Short    a steel wakizashi~
+Long     A steel wakizashi rests here.~
+WFlags   take wield~
+Values   12 1 7 3 0 0
+Stats    3 85 8 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55113
+Keywords steel katana~
+Type     weapon~
+Short    a steel katana~
+Long     A steel katana rests here, gleaming.~
+WFlags   take wield~
+Values   12 2 10 3 0 0
+Stats    4 140 14 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55114
+Keywords steel kukri~
+Type     weapon~
+Short    a steel kukri~
+Long     A steel kukri lies here.~
+WFlags   take wield~
+Values   12 2 8 3 0 0
+Stats    3 95 9 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55115
+Keywords steel warhammer~
+Type     weapon~
+Short    a steel warhammer~
+Long     A steel warhammer has been dropped here.~
+WFlags   take wield~
+Values   12 2 11 7 0 0
+Stats    6 160 16 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55116
+Keywords steel spear~
+Type     weapon~
+Short    a steel spear~
+Long     A steel spear stands upright in the ground.~
+WFlags   take wield~
+Values   12 2 9 11 0 0
+Stats    4 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55117
+Keywords steel sai~
+Type     weapon~
+Short    a steel sai~
+Long     A steel sai lies here.~
+WFlags   take wield~
+Values   12 1 7 11 0 0
+Stats    2 90 9 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55118
+Keywords steel morningstar~
+Type     weapon~
+Short    a steel morningstar~
+Long     A steel morningstar rests here.~
+WFlags   take wield~
+Values   12 2 10 7 0 0
+Stats    5 130 13 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55119
+Keywords steel tonfa~
+Type     weapon~
+Short    a steel tonfa~
+Long     A steel tonfa lies on the ground.~
+WFlags   take wield~
+Values   12 2 8 7 0 0
+Stats    3 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55120
+Keywords steel broadsword~
+Type     weapon~
+Short    a steel broadsword~
+Long     A steel broadsword has been left here.~
+WFlags   take wield~
+Values   12 2 9 3 0 0
+Stats    5 120 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55121
+Keywords steel mace~
+Type     weapon~
+Short    a steel mace~
+Long     A steel mace lies here.~
+WFlags   take wield~
+Values   12 2 9 7 0 0
+Stats    4 110 11 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55122
+Keywords steel glaive~
+Type     weapon~
+Short    a steel glaive~
+Long     A steel glaive rests here.~
+WFlags   take wield~
+Values   12 2 10 3 0 0
+Stats    6 145 14 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55123
+Keywords steel nodachi~
+Type     weapon~
+Short    a steel nodachi~
+Long     A steel nodachi lies here.~
+WFlags   take wield~
+Values   12 3 11 3 0 0
+Stats    7 180 18 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55124
+Keywords steel quarterstaff~
+Type     weapon~
+Short    a steel quarterstaff~
+Long     A steel quarterstaff leans against something.~
+WFlags   take wield~
+Values   12 2 8 7 0 0
+Stats    5 105 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55125
+Keywords steel Nunchaku~
+Type     weapon~
+Short    steel Nunchaku~
+Long     Steel Nunchaku lie here.~
+WFlags   take wield~
+Values   12 1 7 7 0 0
+Stats    3 95 9 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55126
+Keywords steel javelin~
+Type     weapon~
+Short    a steel javelin~
+Long     A steel javelin has been thrust into the ground.~
+WFlags   take wield~
+Values   12 1 6 11 0 0
+Stats    3 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55127
+Keywords steel throwing axe~
+Type     weapon~
+Short    a steel throwing axe~
+Long     A steel throwing axe lies here.~
+WFlags   take wield~
+Values   12 2 7 3 0 0
+Stats    4 85 8 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55128
+Keywords steel chakram~
+Type     weapon~
+Short    a steel chakram~
+Long     A steel chakram lies on the ground.~
+WFlags   take wield~
+Values   12 2 8 3 0 0
+Stats    3 110 11 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55129
+Keywords steel bolas~
+Type     weapon~
+Short    steel bolas~
+Long     Steel bolas rest here in a coil.~
+WFlags   take wield~
+Values   12 1 7 4 0 0
+Stats    2 90 9 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55130
+Keywords steel composite bow ~
+Type     weapon~
+Short    a steel composite bow~
+Long     A steel composite bow lies here.~
+WFlags   take wield~
+Values   12 2 9 11 0 0
+Stats    5 135 13 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55131
+Keywords steel revolver~
+Type     weapon~
+Short    a steel revolver~
+Long     A steel revolver has been dropped here.~
+WFlags   take wield~
+Values   12 3 10 11 0 0
+Stats    3 250 25 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55132
+Keywords steel 9mm pistol~
+Type     weapon~
+Short    a steel 9mm pistol~
+Long     A steel 9mm pistol lies here.~
+WFlags   take wield~
+Values   12 2 9 11 0 0
+Stats    2 220 22 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55133
+Keywords steel 45. handgun~
+Type     weapon~
+Short    a steel 45. handgun~
+Long     A steel 45. handgun lies here.~
+WFlags   take wield~
+Values   12 3 11 11 0 0
+Stats    3 280 28 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55134
+Keywords steel lever-action rifle~
+Type     weapon~
+Short    a steel lever-action rifle~
+Long     A steel lever-action rifle leans here.~
+WFlags   take wield~
+Values   12 3 12 11 0 0
+Stats    7 320 32 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55135
+Keywords steel break shotgun~
+Type     weapon~
+Short    a steel break shotgun~
+Long     A steel break shotgun has been left here.~
+WFlags   take wield~
+Values   12 3 10 11 0 0
+Stats    6 260 26 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55136
+Keywords steel pump shotgun~
+Type     weapon~
+Short    a steel pump shotgun~
+Long     A steel pump shotgun rests here.~
+WFlags   take wield~
+Values   12 3 11 11 0 0
+Stats    6 290 29 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55137
+Keywords steel break rifle~
+Type     weapon~
+Short    a steel break rifle~
+Long     A steel break rifle lies here.~
+WFlags   take wield~
+Values   12 3 11 11 0 0
+Stats    7 270 27 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55138
+Keywords steel knuckles~
+Type     weapon~
+Short    steel knuckles~
+Long     Steel knuckles lie here.~
+WFlags   take hands~
+Values   12 1 5 0 0 0
+Stats    1 60 6 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55139
+Keywords training wraps~
+Type     weapon~
+Short    training wraps~
+Long     Training wraps lie here.~
+WFlags   take hands~
+Values   12 1 3 0 0 0
+Stats    1 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55140
+Keywords cloth wraps~
+Type     weapon~
+Short    cloth wraps~
+Long     Cloth wraps lie here.~
+WFlags   take hands~
+Values   12 1 4 0 0 0
+Stats    1 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55141
+Keywords canvas wraps~
+Type     weapon~
+Short    canvas wraps~
+Long     Canvas wraps rest here.~
+WFlags   take hands~
+Values   12 2 6 0 0 0
+Stats    1 80 8 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55142
+Keywords linen wraps~
+Type     weapon~
+Short    linen wraps~
+Long     Linen wraps lie here.~
+WFlags   take hands~
+Values   12 2 7 0 0 0
+Stats    1 120 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55143
+Keywords silk wraps~
+Type     weapon~
+Short    silk wraps~
+Long     Silk wraps lie here, shimmering softly.~
+WFlags   take hands~
+Values   12 2 9 0 0 0
+Stats    1 180 18 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55144
+Keywords satin wraps~
+Type     weapon~
+Short    satin wraps~
+Long     Satin wraps rest here, gleaming.~
+WFlags   take hands~
+Values   12 3 10 0 0 0
+Stats    1 260 26 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55145
+Keywords mithral-weave wraps~
+Type     weapon~
+Short    mithral-weave wraps~
+Long     Mithral-weave wraps rest here, glowing faintly.~
+Flags    magic~
+WFlags   take hands~
+Values   0 0 0 0 0 0
+Stats    1 400 40 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55146
+Keywords void-stitched wraps~
+Type     weapon~
+Short    void-stitched wraps~
+Long     Void-stitched wraps lie here, darkness clinging to them.~
+Flags    magic~
+WFlags   take hands~
+Values   0 0 0 0 0 0
+Stats    1 800 80 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55147
+Keywords mana-weave wraps~
+Type     weapon~
+Short    mana-weave wraps~
+Long     Mana-weave wraps rest here, crackling with energy.~
+Flags    magic~
+WFlags   take hands~
+Values   0 0 0 0 0 0
+Stats    1 600 60 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55148
+Keywords steel waraxe~
+Type     weapon~
+Short    a steel waraxe~
+Long     A steel waraxe has been dropped here.~
+WFlags   take wield~
+Values   12 2 9 3 0 0
+Stats    5 125 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55149
+Keywords steel battleaxe~
+Type     weapon~
+Short    a steel battleaxe~
+Long     A steel battleaxe lies here.~
+WFlags   take wield~
+Values   12 2 11 3 0 0
+Stats    7 170 17 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55150
+Keywords steel pick-axe~
+Type     weapon~
+Short    a steel pick-axe~
+Long     A steel pick-axe rests here.~
+WFlags   take wield~
+Values   12 2 8 11 0 0
+Stats    6 110 11 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55151
+Keywords steel greataxe~
+Type     weapon~
+Short    a steel greataxe~
+Long     A massive steel greataxe lies here.~
+WFlags   take wield~
+Values   12 3 13 3 0 0
+Stats    9 210 21 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55152
+Keywords steel greathammer~
+Type     weapon~
+Short    a steel greathammer~
+Long     A steel greathammer rests on the ground.~
+WFlags   take wield~
+Values   12 3 13 7 0 0
+Stats    10 220 22 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55153
+Keywords steel throwing hammer~
+Type     weapon~
+Short    a steel throwing hammer~
+Long     A steel throwing hammer lies here.~
+WFlags   take wield~
+Values   12 2 8 7 0 0
+Stats    4 105 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55154
+Keywords steel lucerne hammer~
+Type     weapon~
+Short    a steel lucerne hammer~
+Long     A steel lucerne hammer rests here.~
+WFlags   take wield~
+Values   12 3 12 7 0 0
+Stats    8 190 19 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55155
+Keywords steel flail~
+Type     weapon~
+Short    a steel flail~
+Long     A steel flail lies coiled here.~
+WFlags   take wield~
+Values   12 2 10 7 0 0
+Stats    6 145 14 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55156
+Keywords steel great mace~
+Type     weapon~
+Short    a steel great mace~
+Long     A steel great mace rests here.~
+WFlags   take wield~
+Values   12 3 12 7 0 0
+Stats    8 195 19 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55157
+Keywords steel dire flail~
+Type     weapon~
+Short    a steel dire flail~
+Long     A steel dire flail lies here.~
+WFlags   take wield~
+Values   12 3 13 7 0 0
+Stats    9 215 21 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55158
+Keywords steel throwing knife~
+Type     weapon~
+Short    a steel throwing knife~
+Long     A steel throwing knife lies here.~
+WFlags   take wield~
+Values   12 1 5 11 0 0
+Stats    1 65 6 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55159
+Keywords steel kunai~
+Type     weapon~
+Short    a steel kunai~
+Long     A steel kunai lies here.~
+WFlags   take wield~
+Values   12 1 6 11 0 0
+Stats    1 80 8 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55160
+Keywords steel gunblade~
+Type     weapon~
+Short    a steel gunblade~
+Long     A steel gunblade lies here.~
+WFlags   take wield~
+Values   12 3 13 3 0 0
+Stats    6 350 35 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55161
+Keywords umbrasteel dagger~
+Type     weapon~
+Short    an umbrasteel dagger~
+Long     An umbrasteel dagger lies here, dark metal gleaming.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    2 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55162
+Keywords umbrasteel short sword~
+Type     weapon~
+Short    an umbrasteel short sword~
+Long     An umbrasteel short sword rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 750 75 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55163
+Keywords umbrasteel longsword~
+Type     weapon~
+Short    an umbrasteel longsword~
+Long     An umbrasteel longsword lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55164
+Keywords umbrasteel bastard sword~
+Type     weapon~
+Short    an umbrasteel bastard sword~
+Long     An umbrasteel bastard sword rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    5 1500 150 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55165
+Keywords umbrasteel greatsword~
+Type     weapon~
+Short    an umbrasteel greatsword~
+Long     An umbrasteel greatsword lies here, massive and deadly.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    8 2000 200 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55166
+Keywords umbrasteel kopesh~
+Type     weapon~
+Short    an umbrasteel kopesh~
+Long     An umbrasteel kopesh rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1200 120 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55167
+Keywords umbrasteel scimitar~
+Type     weapon~
+Short    an umbrasteel scimitar~
+Long     An umbrasteel scimitar lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1300 130 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55168
+Keywords umbrasteel chain~
+Type     weapon~
+Short    an umbrasteel chain~
+Long     An umbrasteel chain coils on the ground.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 900 90 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55169
+Keywords umbrasteel chain-hook~
+Type     weapon~
+Short    an umbrasteel chain-hook~
+Long     An umbrasteel chain-hook lies coiled here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1100 110 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55170
+Keywords umbrasteel chain-dagger~
+Type     weapon~
+Short    an umbrasteel chain-dagger~
+Long     An umbrasteel chain-dagger rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 1050 105 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55171
+Keywords umbrasteel chain-weight~
+Type     weapon~
+Short    an umbrasteel chain-weight~
+Long     An umbrasteel chain-weight lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1150 115 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55172
+Keywords umbrasteel sickle~
+Type     weapon~
+Short    an umbrasteel sickle~
+Long     An umbrasteel sickle lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    2 700 70 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55173
+Keywords umbrasteel sythe~
+Type     weapon~
+Short    an umbrasteel sythe~
+Long     An umbrasteel sythe leans here, shadows clinging to it.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    5 1250 125 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55174
+Keywords umbrasteel wakizashi~
+Type     weapon~
+Short    an umbrasteel wakizashi~
+Long     An umbrasteel wakizashi rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 850 85 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55175
+Keywords umbrasteel katana~
+Type     weapon~
+Short    an umbrasteel katana~
+Long     An umbrasteel katana rests here, gleaming darkly.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1400 140 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55176
+Keywords umbrasteel kukri~
+Type     weapon~
+Short    an umbrasteel kukri~
+Long     An umbrasteel kukri lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 950 95 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55177
+Keywords umbrasteel warhammer~
+Type     weapon~
+Short    an umbrasteel warhammer~
+Long     An umbrasteel warhammer lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    6 1600 160 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55178
+Keywords umbrasteel spear~
+Type     weapon~
+Short    an umbrasteel spear~
+Long     An umbrasteel spear stands here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55179
+Keywords umbrasteel sai~
+Type     weapon~
+Short    an umbrasteel sai~
+Long     An umbrasteel sai lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    2 900 90 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55180
+Keywords umbrasteel morningstar~
+Type     weapon~
+Short    an umbrasteel morningstar~
+Long     An umbrasteel morningstar rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    5 1300 130 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55181
+Keywords umbrasteel tonfa~
+Type     weapon~
+Short    an umbrasteel tonfa~
+Long     An umbrasteel tonfa lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55182
+Keywords umbrasteel broadsword~
+Type     weapon~
+Short    an umbrasteel broadsword~
+Long     An umbrasteel broadsword lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    5 1200 120 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55183
+Keywords umbrasteel mace~
+Type     weapon~
+Short    an umbrasteel mace~
+Long     An umbrasteel mace lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1100 110 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55184
+Keywords umbrasteel glaive~
+Type     weapon~
+Short    an umbrasteel glaive~
+Long     An umbrasteel glaive rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    6 1450 145 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55185
+Keywords umbrasteel nodachi~
+Type     weapon~
+Short    an umbrasteel nodachi~
+Long     An umbrasteel nodachi lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    7 1800 180 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55186
+Keywords umbrasteel quarterstaff~
+Type     weapon~
+Short    an umbrasteel quarterstaff~
+Long     An umbrasteel quarterstaff leans here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    5 1050 105 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55187
+Keywords umbrasteel nunchaku~
+Type     weapon~
+Short    umbrasteel nunchaku~
+Long     Umbrasteel nunchaku lie here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 950 95 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55188
+Keywords umbrasteel javelin~
+Type     weapon~
+Short    an umbrasteel javelin~
+Long     An umbrasteel javelin is thrust into the ground.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 750 75 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55189
+Keywords umbrasteel throwing axe~
+Type     weapon~
+Short    an umbrasteel throwing axe~
+Long     An umbrasteel throwing axe lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 850 85 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55190
+Keywords umbrasteel chakram~
+Type     weapon~
+Short    an umbrasteel chakram~
+Long     An umbrasteel chakram lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 1100 110 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55191
+Keywords umbrasteel bolas~
+Type     weapon~
+Short    umbrasteel bolas~
+Long     Umbrasteel bolas rest here in a coil.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    2 900 90 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55192
+Keywords umbrasteel composite bow~
+Type     weapon~
+Short    an umbrasteel composite bow~
+Long     An umbrasteel composite bow lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    5 1350 135 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55193
+Keywords umbrasteel revolver~
+Type     weapon~
+Short    an umbrasteel revolver~
+Long     An umbrasteel revolver lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 2500 250 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55194
+Keywords umbrasteel 9mm handgun~
+Type     weapon~
+Short    an umbrasteel 9mm handgun~
+Long     An umbrasteel 9mm handgun lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    2 2200 220 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55195
+Keywords umbrasteel 45. handgun~
+Type     weapon~
+Short    an umbrasteel 45. handgun~
+Long     An umbrasteel 45. handgun lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    3 2800 280 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55196
+Keywords umbrasteel 45. lever-action rifle~
+Type     weapon~
+Short    an umbrasteel 45. lever-action rifle~
+Long     An umbrasteel 45. lever-action rifle leans here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    7 3200 320 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55197
+Keywords umbrasteel break shotgun~
+Type     weapon~
+Short    an umbrasteel break shotgun~
+Long     An umbrasteel break shotgun lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    6 2600 260 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55198
+Keywords umbrasteel pump shotgun~
+Type     weapon~
+Short    an umbrasteel pump shotgun~
+Long     An umbrasteel pump shotgun rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    6 2900 290 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55199
+Keywords umbrasteel break rifle~
+Type     weapon~
+Short    an umbrasteel break rifle~
+Long     An umbrasteel break rifle lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    7 2700 270 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55200
+Keywords umbrasteel knuckles~
+Type     weapon~
+Short    umbrasteel knuckles~
+Long     Umbrasteel knuckles lie here.~
+Flags    magic~
+WFlags   take hands~
+Values   0 0 0 0 0 0
+Stats    1 600 60 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55201
+Keywords umbrasteel waraxe~
+Type     weapon~
+Short    an umbrasteel waraxe~
+Long     An umbrasteel waraxe lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    5 1250 125 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55202
+Keywords umbrasteel battleaxe~
+Type     weapon~
+Short    an umbrasteel battleaxe~
+Long     An umbrasteel battleaxe lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    7 1700 170 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55203
+Keywords umbrasteel pickaxe~
+Type     weapon~
+Short    an umbrasteel pickaxe~
+Long     An umbrasteel pickaxe rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    6 1100 110 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55204
+Keywords umbrasteel greataxe~
+Type     weapon~
+Short    an umbrasteel greataxe~
+Long     An umbrasteel greataxe lies here, massive and dark.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    9 2100 210 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55205
+Keywords umbrasteel greathammer~
+Type     weapon~
+Short    an umbrasteel greathammer~
+Long     An umbrasteel greathammer rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    10 2200 220 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55206
+Keywords umbrasteel throwing hammer~
+Type     weapon~
+Short    an umbrasteel throwing hammer~
+Long     An umbrasteel throwing hammer lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    4 1050 105 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55207
+Keywords umbrasteel lucerne hammer~
+Type     weapon~
+Short    an umbrasteel lucerne hammer~
+Long     An umbrasteel lucerne hammer rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    8 1900 190 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55208
+Keywords umbrasteel flail~
+Type     weapon~
+Short    an umbrasteel flail~
+Long     An umbrasteel flail lies coiled here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    6 1450 145 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55209
+Keywords umbrasteel great mace~
+Type     weapon~
+Short    an umbrasteel great mace~
+Long     An umbrasteel great mace rests here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    8 1950 195 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55210
+Keywords umbrasteel dire flail~
+Type     weapon~
+Short    an umbrasteel dire flail~
+Long     An umbrasteel dire flail lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    9 2150 215 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55211
+Keywords umbrasteel throwing knife~
+Type     weapon~
+Short    an umbrasteel throwing knife~
+Long     An umbrasteel throwing knife lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    1 650 65 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55212
+Keywords umbrasteel kunai~
+Type     weapon~
+Short    an umbrasteel kunai~
+Long     An umbrasteel kunai lies here.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    1 800 80 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55213
+Keywords umbrasteel gunblade~
+Type     weapon~
+Short    an umbrasteel gunblade~
+Long     An umbrasteel gunblade lies here, dark and deadly.~
+Flags    magic~
+WFlags   take wield~
+Values   0 0 0 0 0 0
+Stats    6 3500 350 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55220
+Keywords steel brigandine coat ~
+Type     trash~
+Short    a steel brigandine coat~
+Long     A steel brigandine coat lies here.~
+WFlags   take body~
+Values   5 5 0 100 0 0
+Stats    15 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55221
+Keywords steel riot vest~
+Type     armor~
+Short    a steel riot vest~
+Long     A steel riot vest lies here.~
+WFlags   take body~
+Values   3 3 0 100 0 0
+Stats    10 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55222
+Keywords steel scale shirt~
+Type     armor~
+Short    a steel scale shirt~
+Long     A steel scale mail shirt lies here.~
+WFlags   take body~
+Values   6 6 0 100 0 0
+Stats    12 175 17 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55223
+Keywords steel scale skirt~
+Type     armor~
+Short    a steel scale skirt~
+Long     A steel scale skirt lies here.~
+WFlags   take legs~
+Values   5 5 0 100 0 0
+Stats    8 125 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55224
+Keywords steel chain shirt~
+Type     armor~
+Short    a steel chain shirt~
+Long     A steel chain shirt lies here.~
+WFlags   take body~
+Values   7 7 0 100 0 0
+Stats    13 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55225
+Keywords steel chain leggings~
+Type     armor~
+Short    steel chain leggings~
+Long     Steel chain leggings lie here.~
+WFlags   take legs~
+Values   6 6 0 100 0 0
+Stats    10 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55226
+Keywords steel bracers~
+Type     armor~
+Short    steel bracers~
+Long     Steel chain bracers lie here.~
+WFlags   take arms~
+Values   5 5 0 100 0 0
+Stats    4 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55227
+Keywords steel boots~
+Type     armor~
+Short    steel boots~
+Long     Steel boots lie here.~
+WFlags   take feet~
+Values   4 4 0 100 0 0
+Stats    6 90 9 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55228
+Keywords steel greaves~
+Type     armor~
+Short    steel greaves~
+Long     Steel greaves lie here.~
+WFlags   take legs~
+Values   6 6 0 100 0 0
+Stats    8 125 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55229
+Keywords steel spaulders~
+Type     armor~
+Short    steel spaulders~
+Long     Steel spaulders lie here.~
+WFlags   take arms~
+Values   6 6 0 100 0 0
+Stats    7 130 13 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55230
+Keywords steel half-plate ~
+Type     armor~
+Short    steel half-plate~
+Long     Steel half-plate armor lies here.~
+WFlags   take body~
+Values   8 8 0 100 0 0
+Stats    18 250 25 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55231
+Keywords steel platemail~
+Type     armor~
+Short    steel platemail~
+Long     Steel platemail lies here, gleaming.~
+WFlags   take body~
+Values   10 10 0 100 0 0
+Stats    25 350 35 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55232
+Keywords steel pauldrons~
+Type     armor~
+Short    steel pauldrons~
+Long     Steel pauldrons lie here.~
+WFlags   take arms~
+Values   7 7 0 100 0 0
+Stats    8 160 16 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55233
+Keywords steel breastplate~
+Type     armor~
+Short    a steel breastplate~
+Long     A steel breastplate lies here.~
+WFlags   take body~
+Values   9 9 0 100 0 0
+Stats    20 300 30 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55234
+Keywords steel gauntlets~
+Type     armor~
+Short    steel gauntlets~
+Long     Steel gauntlets lie here.~
+WFlags   take hands~
+Values   6 6 0 100 0 0
+Stats    5 120 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55235
+Keywords umbrasteel brigandine coat~
+Type     armor~
+Short    an umbrasteel brigandine coat~
+Long     An umbrasteel brigandine coat lies here.~
+Flags    magic~
+WFlags   take body~
+Values   0 0 0 0 0 0
+Stats    15 1500 150 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55236
+Keywords umbrasteel riot vest~
+Type     armor~
+Short    an umbrasteel riot vest~
+Long     An umbrasteel riot vest lies here.~
+Flags    magic~
+WFlags   take body~
+Values   0 0 0 0 0 0
+Stats    10 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55237
+Keywords umbrasteel scale shirt~
+Type     armor~
+Short    an umbrasteel scale shirt~
+Long     An umbrasteel scale shirt lies here.~
+Flags    magic~
+WFlags   take body~
+Values   0 0 0 0 0 0
+Stats    12 1750 175 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55238
+Keywords umbrasteel scale skirt~
+Type     armor~
+Short    an umbrasteel scale skirt~
+Long     An umbrasteel scale skirt lies here.~
+Flags    magic~
+WFlags   take legs~
+Values   0 0 0 0 0 0
+Stats    8 1250 125 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55239
+Keywords umbrasteel chain shirt~
+Type     armor~
+Short    an umbrasteel chain shirt~
+Long     An umbrasteel chain shirt lies here.~
+Flags    magic~
+WFlags   take body~
+Values   0 0 0 0 0 0
+Stats    13 2000 200 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55240
+Keywords umbrasteel chain leggings~
+Type     armor~
+Short    umbrasteel chain leggings~
+Long     Umbrasteel chain leggings lie here.~
+Flags    magic~
+WFlags   take legs~
+Values   0 0 0 0 0 0
+Stats    10 1500 150 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55241
+Keywords umbrasteel bracers~
+Type     armor~
+Short    umbrasteel bracers~
+Long     Umbrasteel bracers lie here.~
+Flags    magic~
+WFlags   take arms~
+Values   0 0 0 0 0 0
+Stats    4 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55242
+Keywords umbrasteel boots~
+Type     armor~
+Short    umbrasteel boots~
+Long     Umbrasteel boots lie here.~
+Flags    magic~
+WFlags   take feet~
+Values   0 0 0 0 0 0
+Stats    6 900 90 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55243
+Keywords umbrasteel greaves~
+Type     armor~
+Short    umbrasteel greaves~
+Long     Umbrasteel greaves lie here.~
+Flags    magic~
+WFlags   take legs~
+Values   0 0 0 0 0 0
+Stats    8 1250 125 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55244
+Keywords umbrasteel spaulders~
+Type     armor~
+Short    umbrasteel spaulders~
+Long     Umbrasteel spaulders lie here.~
+Flags    magic~
+WFlags   take arms~
+Values   0 0 0 0 0 0
+Stats    7 1300 130 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55245
+Keywords umbrasteel half-plate~
+Type     armor~
+Short    umbrasteel half-plate~
+Long     Umbrasteel half-plate armor lies here.~
+Flags    magic~
+WFlags   take body~
+Values   0 0 0 0 0 0
+Stats    18 2500 250 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55246
+Keywords umbrasteel platemail~
+Type     armor~
+Short    umbrasteel platemail~
+Long     Umbrasteel platemail lies here, radiating dark power.~
+Flags    magic~
+WFlags   take body~
+Values   0 0 0 0 0 0
+Stats    25 3500 350 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55247
+Keywords umbrasteel pauldrons~
+Type     armor~
+Short    umbrasteel pauldrons~
+Long     Umbrasteel pauldrons lie here.~
+Flags    magic~
+WFlags   take arms~
+Values   0 0 0 0 0 0
+Stats    8 1600 160 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55248
+Keywords umbrasteel breastplate~
+Type     armor~
+Short    an umbrasteel breastplate~
+Long     An umbrasteel breastplate lies here.~
+Flags    magic~
+WFlags   take body~
+Values   0 0 0 0 0 0
+Stats    20 3000 300 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55249
+Keywords umbrasteel riot helm~
+Type     armor~
+Short    an umbrasteel riot helm~
+Long     An umbrasteel riot helm lies here.~
+Flags    magic~
+WFlags   take head~
+Values   0 0 0 0 0 0
+Stats    5 900 90 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55250
+Keywords steel riot helm~
+Type     armor~
+Short    a steel riot helm~
+Long     A steel riot helm lies here.~
+WFlags   take head~
+Values   3 3 0 100 0 0
+Stats    5 90 9 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55251
+Keywords steel helm~
+Type     armor~
+Short    a steel helm~
+Long     A steel helm lies here.~
+WFlags   take head~
+Values   5 5 0 100 0 0
+Stats    6 120 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55253
+Keywords steel coif~
+Type     armor~
+Short    a steel coif~
+Long     A steel coif lies here.~
+WFlags   take head~
+Values   4 4 0 100 0 0
+Stats    4 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55254
+Keywords umbrasteel helm~
+Type     armor~
+Short    an umbrasteel helm~
+Long     An umbrasteel helm lies here.~
+Flags    magic~
+WFlags   take head~
+Values   0 0 0 0 0 0
+Stats    6 1200 120 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55255
+Keywords umbrasteel coif~
+Type     armor~
+Short    an umbrasteel coif~
+Long     An umbrasteel coif lies here.~
+WFlags   take head~
+Values   0 0 0 0 0 0
+Stats    4 1200 120 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55260
+Keywords steel shield~
+Type     armor~
+Short    a steel shield~
+Long     A steel shield lies here.~
+Flags    metal~
+WFlags   take shield~
+Values   0 0 0 0 0 0
+Stats    15 800 80 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55261
+Keywords umbrasteel shield~
+Type     armor~
+Short    an umbrasteel shield~
+Long     An umbrasteel shield lies here.~
+Flags    metal~
+WFlags   take shield~
+Values   0 0 0 0 0 0
+Stats    12 1500 150 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55262
+Keywords wood shield~
+Type     armor~
+Short    a wood shield~
+Long     A wood shield lies here.~
+Flags    metal~
+WFlags   take shield~
+Values   0 0 0 0 0 0
+Stats    10 400 40 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55300
+Keywords backpack~
+Type     container~
+Short    a backpack~
+Long     A backpack lies here.~
+WFlags   take back~
+Values   0 0 0 0 0 0
+Stats    5 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55301
+Keywords belt pouch~
+Type     container~
+Short    a belt pouch~
+Long     A belt pouch lies here.~
+WFlags   take waist~
+Values   0 0 0 0 0 0
+Stats    2 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55302
+Keywords duffle bag~
+Type     container~
+Short    a duffle bag~
+Long     A duffle bag lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    8 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55303
+Keywords wooden chest~
+Type     container~
+Short    a wooden chest~
+Long     A wooden chest sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    40 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55304
+Keywords steel chest~
+Type     container~
+Short    a steel chest~
+Long     A steel chest sits here.~
+Flags    metal~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    60 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55305
+Keywords silver chest~
+Type     container~
+Short    a silver chest~
+Long     A silver chest sits here.~
+Flags    metal~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    55 2000 200 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55306
+Keywords golden chest~
+Type     container~
+Short    a golden chest~
+Long     A golden chest sits here.~
+Flags    metal~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    65 5000 500 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55307
+Keywords keyring~
+Type     keyring~
+Short    a keyring~
+Long     A keyring lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55308
+Keywords duffle bag of holding~
+Type     container~
+Short    a duffle bag of holding~
+Long     A magical duffle bag lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    5 5000 500 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55309
+Keywords backpack of holding~
+Type     container~
+Short    a backpack of holding~
+Long     A magical backpack lies here.~
+WFlags   take back~
+Values   0 0 0 0 0 0
+Stats    3 5000 500 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55310
+Keywords torch~
+Type     light~
+Short    a torch~
+Long     A torch lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55311
+Keywords lantern~
+Type     light~
+Short    a lantern~
+Long     A lantern sits here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    4 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55312
+Keywords light orb~
+Type     light~
+Short    a light orb~
+Long     A glowing orb floats here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55313
+Keywords glowstone~
+Type     light~
+Short    a glowstone~
+Long     A glowing stone lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 300 30 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55314
+Keywords mtech orb~
+Type     light~
+Short    an mtech orb~
+Long     A magitech orb floats here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55315
+Keywords mtech torch~
+Type     light~
+Short    an mtech torch~
+Long     A magitech torch lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 800 80 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55400
+Keywords canteen~
+Type     drinkcon~
+Short    a canteen~
+Long     A canteen lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55401
+Keywords waterskin~
+Type     drinkcon~
+Short    a waterskin~
+Long     A waterskin lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55402
+Keywords teapot~
+Type     drinkcon~
+Short    a teapot~
+Long     A teapot sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55403
+Keywords water bottle~
+Type     drinkcon~
+Short    a water bottle~
+Long     A water bottle lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55404
+Keywords camel pack~
+Type     drinkcon~
+Short    a camel pack~
+Long     A camel pack lies here.~
+Flags    magic~
+WFlags   take back~
+Values   0 0 0 0 0 0
+Stats    5 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55405
+Keywords potion bottle~
+Type     drinkcon~
+Short    a potion bottle~
+Long     A potion bottle lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55406
+Keywords glass beaker~
+Type     drinkcon~
+Short    a glass beaker~
+Long     A glass beaker sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55407
+Keywords water glass~
+Type     drinkcon~
+Short    a water glass~
+Long     A water glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55408
+Keywords wine glass~
+Type     drinkcon~
+Short    a wine glass~
+Long     A wine glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55409
+Keywords shot glass~
+Type     drinkcon~
+Short    a shot glass~
+Long     A shot glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 3 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55410
+Keywords martini glass~
+Type     drinkcon~
+Short    a martini glass~
+Long     A martini glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55411
+Keywords rocks glass~
+Type     drinkcon~
+Short    a rocks glass~
+Long     A rocks glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 6 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55412
+Keywords pint glass~
+Type     drinkcon~
+Short    a pint glass~
+Long     A pint glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55413
+Keywords margarita glass~
+Type     drinkcon~
+Short    a margarita glass~
+Long     A margarita glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55414
+Keywords champagne glass~
+Type     drinkcon~
+Short    a champagne glass~
+Long     A champagne glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55415
+Keywords cocktail glass~
+Type     drinkcon~
+Short    a cocktail glass~
+Long     A cocktail glass sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 7 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55420
+Keywords dinner plate~
+Type     container~
+Short    a dinner plate~
+Long     A dinner plate lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55421
+Keywords salad plate~
+Type     container~
+Short    a salad plate~
+Long     A salad plate lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55422
+Keywords charger plate~
+Type     container~
+Short    a charger plate~
+Long     A charger plate lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55423
+Keywords china plate~
+Type     container~
+Short    a china plate~
+Long     A fine china plate lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55424
+Keywords soup bowl~
+Type     container~
+Short    a soup bowl~
+Long     A soup bowl sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55425
+Keywords cereal bowl~
+Type     container~
+Short    a cereal bowl~
+Long     A cereal bowl sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55426
+Keywords noodle bowl~
+Type     container~
+Short    a noodle bowl~
+Long     A noodle bowl sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55427
+Keywords mixing bowl~
+Type     container~
+Short    a mixing bowl~
+Long     A mixing bowl sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55428
+Keywords serving bowl~
+Type     container~
+Short    a serving bowl~
+Long     A serving bowl sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    4 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55429
+Keywords platter~
+Type     container~
+Short    a platter~
+Long     A platter lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    5 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55430
+Keywords coffee cup~
+Type     drinkcon~
+Short    a coffee cup~
+Long     A coffee cup sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55431
+Keywords coffee mug~
+Type     drinkcon~
+Short    a coffee mug~
+Long     A coffee mug sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55432
+Keywords teacup~
+Type     drinkcon~
+Short    a teacup~
+Long     A teacup sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55433
+Keywords butter dish~
+Type     container~
+Short    a butter dish~
+Long     A butter dish sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55440
+Keywords pitcher~
+Type     drinkcon~
+Short    a pitcher~
+Long     A pitcher sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55441
+Keywords jug~
+Type     drinkcon~
+Short    a jug~
+Long     A jug sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    4 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55442
+Keywords carafe~
+Type     drinkcon~
+Short    a carafe~
+Long     A carafe sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55443
+Keywords salt shaker~
+Type     container~
+Short    a salt shaker~
+Long     A salt shaker sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 3 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55444
+Keywords pepper shaker~
+Type     container~
+Short    a pepper shaker~
+Long     A pepper shaker sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 3 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55445
+Keywords napkin ring~
+Type     treasure~
+Short    a napkin ring~
+Long     A napkin ring sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55446
+Keywords candle holder~
+Type     furniture~
+Short    a candle holder~
+Long     A candle holder sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55447
+Keywords coaster~
+Type     treasure~
+Short    a coaster~
+Long     A coaster lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 2 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55448
+Keywords tin plate~
+Type     container~
+Short    a tin plate~
+Long     A tin plate lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55449
+Keywords tin cupe~
+Type     drinkcon~
+Short    a tin cup~
+Long     A tin cup sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 4 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55500
+Keywords smith's hammer~
+Type     treasure~
+Short    a smith's hammer~
+Long     A smith's hammer lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    5 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55501
+Keywords tongs~
+Type     treasure~
+Short    a pair of tongs~
+Long     A pair of tongs lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55502
+Keywords sewing kit~
+Type     treasure~
+Short    a sewing kit~
+Long     A sewing kit lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55503
+Keywords scissors~
+Type     treasure~
+Short    a pair of scissors~
+Long     A pair of scissors lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55504
+Keywords handsaw~
+Type     treasure~
+Short    a handsaw~
+Long     A handsaw lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55505
+Keywords smoothing plane~
+Type     treasure~
+Short    a smoothing plane~
+Long     A smoothing plane lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 35 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55506
+Keywords carpentry tools~
+Type     treasure~
+Short    carpentry tools~
+Long     A set of carpentry tools lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    10 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55507
+Keywords fletcher's tools~
+Type     treasure~
+Short    fletcher's tools~
+Long     A set of fletcher's tools lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    5 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55508
+Keywords tinker's tools~
+Type     treasure~
+Short    tinker's tools~
+Long     A set of tinker's tools lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    8 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55509
+Keywords mortar and pestle~
+Type     treasure~
+Short    a mortar and pestle~
+Long     A mortar and pestle sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55510
+Keywords scribe's pen~
+Type     pen~
+Short    a scribe's pen~
+Long     A scribe's pen lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55511
+Keywords rolling pin~
+Type     treasure~
+Short    a rolling pin~
+Long     A rolling pin lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55512
+Keywords skillet~
+Type     treasure~
+Short    a skillet~
+Long     A skillet lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    4 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55513
+Keywords mallet and chisel~
+Type     treasure~
+Short    a mallet and chisel~
+Long     A mallet and chisel lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    4 45 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55514
+Keywords blowpipe~
+Type     treasure~
+Short    a blowpipe~
+Long     A blowpipe lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55515
+Keywords potters kiln~
+Type     treasure~
+Short    a potter's kiln~
+Long     A potter's kiln sits here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 60 6 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55516
+Keywords screwdriver~
+Type     treasure~
+Short    a screwdriver~
+Long     A screwdriver lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55517
+Keywords lockpicks~
+Type     lockpick~
+Short    a set of lockpicks~
+Long     A set of lockpicks lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55518
+Keywords shovel~
+Type     shovel~
+Short    a shovel~
+Long     A shovel lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    8 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55519
+Keywords materia tools~
+Type     treasure~
+Short    materia tools~
+Long     A set of materia tools lies here.~
+Flags    magic~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    6 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55520
+Keywords forge~
+Type     furniture~
+Short    a forge~
+Long     A forge stands here, radiating heat.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    500 2000 200 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55521
+Keywords anvil~
+Type     furniture~
+Short    an anvil~
+Long     An anvil sits here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    300 1500 150 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55522
+Keywords spinning wheel~
+Type     furniture~
+Short    a spinning wheel~
+Long     A spinning wheel stands here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    50 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55523
+Keywords loom~
+Type     furniture~
+Short    a loom~
+Long     A loom stands here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    100 800 80 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55524
+Keywords oven~
+Type     furniture~
+Short    an oven~
+Long     An oven sits here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    200 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55525
+Keywords mill~
+Type     furniture~
+Short    a mill~
+Long     A mill stands here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    400 1500 150 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55526
+Keywords workbench~
+Type     furniture~
+Short    a workbench~
+Long     A sturdy workbench stands here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    150 600 60 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55527
+Keywords arcforge~
+Type     furniture~
+Short    an arcforge~
+Long     An arcane forge pulses with magical energy.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    600 5000 500 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55528
+Keywords tannery~
+Type     furniture~
+Short    a tannery~
+Long     A tannery stands here, smelling of leather.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    250 1200 120 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55529
+Keywords still~
+Type     furniture~
+Short    a still~
+Long     An alchemical still stands here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    80 800 80 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55600
+Keywords iron ore~
+Type     treasure~
+Short    iron ore~
+Long     A chunk of iron ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55601
+Keywords umbral ore~
+Type     treasure~
+Short    umbral ore~
+Long     A chunk of dark umbral ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55602
+Keywords bloodiron ore~
+Type     treasure~
+Short    bloodiron ore~
+Long     A chunk of crimson bloodiron ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55603
+Keywords copper ore~
+Type     treasure~
+Short    copper ore~
+Long     A chunk of copper ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55604
+Keywords silver ore~
+Type     treasure~
+Short    silver ore~
+Long     A chunk of silver ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55605
+Keywords gold ore~
+Type     treasure~
+Short    gold ore~
+Long     A chunk of gold ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55606
+Keywords platinum ore~
+Type     treasure~
+Short    platinum ore~
+Long     A chunk of platinum ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 400 40 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55607
+Keywords mithral ore~
+Type     treasure~
+Short    mithral ore~
+Long     A chunk of shimmering mithral ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55608
+Keywords adamantine ore~
+Type     treasure~
+Short    adamantine ore~
+Long     A chunk of gleaming adamantine ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    7 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55609
+Keywords valorian ore~
+Type     treasure~
+Short    valorian ore~
+Long     A chunk of radiant valorian ore lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 2000 200 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55610
+Keywords iron ingot~
+Type     treasure~
+Short    an iron ingot~
+Long     An iron ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55611
+Keywords umbral ingot~
+Type     treasure~
+Short    an umbral ingot~
+Long     A dark umbral ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55612
+Keywords bloodiron ingot~
+Type     treasure~
+Short    a bloodiron ingot~
+Long     A crimson bloodiron ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55613
+Keywords copper ingot~
+Type     treasure~
+Short    a copper ingot~
+Long     A copper ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55614
+Keywords silver ingot~
+Type     treasure~
+Short    a silver ingot~
+Long     A silver ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55615
+Keywords gold ingot~
+Type     treasure~
+Short    a gold ingot~
+Long     A gold ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 400 40 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55616
+Keywords platinum ingot~
+Type     treasure~
+Short    a platinum ingot~
+Long     A platinum ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 800 80 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55617
+Keywords mithral ingot~
+Type     treasure~
+Short    a mithral ingot~
+Long     A shimmering mithral ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55618
+Keywords adamantine ingot~
+Type     treasure~
+Short    an adamantine ingot~
+Long     A gleaming adamantine ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    4 2000 200 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55619
+Keywords valorian ingot~
+Type     treasure~
+Short    a valorian ingot~
+Long     A radiant valorian ingot lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 4000 400 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55620
+Keywords pine log~
+Type     treasure~
+Short    a pine log~
+Long     A pine log lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    10 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55621
+Keywords oak log~
+Type     treasure~
+Short    an oak log~
+Long     An oak log lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    15 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55622
+Keywords shadowpine log~
+Type     treasure~
+Short    a shadowpine log~
+Long     A dark shadowpine log lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    12 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55623
+Keywords ironbark log~
+Type     treasure~
+Short    an ironbark log~
+Long     An ironbark log lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    20 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55624
+Keywords crystaloak log~
+Type     treasure~
+Short    a crystaloak log~
+Long     A shimmering crystaloak log lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    18 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55625
+Keywords fir log~
+Type     treasure~
+Short    a fir log~
+Long     A fir log lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    10 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55626
+Keywords wood log~
+Type     treasure~
+Short    a wood log~
+Long     A generic wood log lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    12 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55630
+Keywords cotton~
+Type     treasure~
+Short    cotton~
+Long     A bundle of cotton lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55631
+Keywords flax~
+Type     treasure~
+Short    flax~
+Long     A bundle of flax lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55632
+Keywords wool~
+Type     treasure~
+Short    wool~
+Long     A bundle of wool lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55633
+Keywords hemp~
+Type     treasure~
+Short    hemp~
+Long     A bundle of hemp lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 6 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55634
+Keywords bamboo~
+Type     treasure~
+Short    bamboo~
+Long     A bamboo stalk lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    4 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55635
+Keywords silkpod~
+Type     treasure~
+Short    a silkpod~
+Long     A silkpod lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55636
+Keywords %s thread~
+Type     treasure~
+Short    thread~
+Long     A spool of thread lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55637
+Keywords %s yarn~
+Type     treasure~
+Short    yarn~
+Long     A ball of yarn lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55638
+Keywords %s bolt~
+Type     treasure~
+Short    a bolt of cloth~
+Long     A bolt of cloth lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55640
+Keywords white sand~
+Type     treasure~
+Short    white sand~
+Long     A pile of white sand lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55641
+Keywords black sand~
+Type     treasure~
+Short    black sand~
+Long     A pile of black sand lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55642
+Keywords red sand~
+Type     treasure~
+Short    red sand~
+Long     A pile of red sand lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55643
+Keywords blue sand~
+Type     treasure~
+Short    blue sand~
+Long     A pile of blue sand lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55644
+Keywords mana sand~
+Type     treasure~
+Short    mana sand~
+Long     A pile of glowing mana sand lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55650
+Keywords granite~
+Type     treasure~
+Short    granite~
+Long     A chunk of granite lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    10 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55651
+Keywords basalt~
+Type     treasure~
+Short    basalt~
+Long     A chunk of basalt lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    12 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55652
+Keywords sandstone~
+Type     treasure~
+Short    sandstone~
+Long     A chunk of sandstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    8 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55653
+Keywords marble~
+Type     treasure~
+Short    marble~
+Long     A chunk of marble lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    10 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55654
+Keywords obsidian~
+Type     treasure~
+Short    obsidian~
+Long     A chunk of black obsidian lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    9 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55655
+Keywords jade~
+Type     treasure~
+Short    jade~
+Long     A piece of jade lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    4 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55660
+Keywords amethyst~
+Type     treasure~
+Short    an amethyst~
+Long     An amethyst gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55661
+Keywords garnet~
+Type     treasure~
+Short    a garnet~
+Long     A garnet gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 80 8 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55662
+Keywords onyx~
+Type     treasure~
+Short    an onyx~
+Long     An onyx gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 90 9 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55663
+Keywords moonstone~
+Type     treasure~
+Short    a moonstone~
+Long     A moonstone gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 120 12 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55664
+Keywords sunstone~
+Type     treasure~
+Short    a sunstone~
+Long     A sunstone gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55665
+Keywords turquoise~
+Type     treasure~
+Short    a turquoise~
+Long     A turquoise gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 70 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55666
+Keywords diamond~
+Type     treasure~
+Short    a diamond~
+Long     A diamond gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55667
+Keywords ruby~
+Type     treasure~
+Short    a ruby~
+Long     A ruby gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55668
+Keywords sapphire~
+Type     treasure~
+Short    a sapphire~
+Long     A sapphire gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55669
+Keywords emerald~
+Type     treasure~
+Short    an emerald~
+Long     An emerald gemstone lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55670
+Keywords pearl~
+Type     treasure~
+Short    a pearl~
+Long     A pearl lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55671
+Keywords amber~
+Type     treasure~
+Short    a piece of amber~
+Long     A piece of amber lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55672
+Keywords coral~
+Type     treasure~
+Short    a piece of coral~
+Long     A piece of coral lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55673
+Keywords black pearl~
+Type     treasure~
+Short    a black pearl~
+Long     A black pearl lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55680
+Keywords blood moss~
+Type     treasure~
+Short    blood moss~
+Long     A clump of blood moss lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55681
+Keywords garlic~
+Type     treasure~
+Short    garlic~
+Long     A bulb of garlic lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55682
+Keywords mandrake root~
+Type     treasure~
+Short    a mandrake root~
+Long     A mandrake root lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55683
+Keywords ginseng~
+Type     treasure~
+Short    ginseng~
+Long     A piece of ginseng lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55684
+Keywords nightshade~
+Type     treasure~
+Short    nightshade~
+Long     A sprig of nightshade lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55685
+Keywords spider silk~
+Type     treasure~
+Short    spider silk~
+Long     A strand of spider silk lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 35 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55686
+Keywords sulfurous ash~
+Type     treasure~
+Short    sulfurous ash~
+Long     A pile of sulfurous ash lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55687
+Keywords grave dust~
+Type     treasure~
+Short    grave dust~
+Long     A pile of grave dust lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 60 6 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55688
+Keywords demon blood~
+Type     treasure~
+Short    demon blood~
+Long     A vial of demon blood lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55689
+Keywords bat wing~
+Type     treasure~
+Short    a bat wing~
+Long     A bat wing lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55690
+Keywords newt eye~
+Type     treasure~
+Short    a newt eye~
+Long     A newt eye lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55691
+Keywords unicorn horn~
+Type     treasure~
+Short    a unicorn horn~
+Long     A unicorn horn lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 1000 100 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55692
+Keywords unicorn hair~
+Type     treasure~
+Short    unicorn hair~
+Long     A strand of unicorn hair lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55693
+Keywords pegasus feather~
+Type     treasure~
+Short    a pegasus feather~
+Long     A pegasus feather lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 300 30 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55700
+Keywords a %s hide~
+Type     treasure~
+Short    a hide~
+Long     A hide pelt lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55701
+Keywords a %s tooth~
+Type     treasure~
+Short    a tooth~
+Long     A tooth lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55702
+Keywords a %s horn~
+Type     treasure~
+Short    a horn~
+Long     A horn lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55703
+Keywords a %s eye~
+Type     treasure~
+Short    an eye~
+Long     An eye lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55704
+Keywords a %s claw~
+Type     treasure~
+Short    a claw~
+Long     A claw lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55705
+Keywords a %s scale~
+Type     treasure~
+Short    a scale~
+Long     A scale lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55706
+Keywords %s blood~
+Type     treasure~
+Short    blood~
+Long     A vial of blood lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55707
+Keywords % bone~
+Type     treasure~
+Short    a bone~
+Long     A bone lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55708
+Keywords % sinew~
+Type     treasure~
+Short    sinew~
+Long     A piece of sinew lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55709
+Keywords % antler~
+Type     treasure~
+Short    an antler~
+Long     An antler lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55710
+Keywords % wool~
+Type     treasure~
+Short    wool~
+Long     A bundle of wool lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55711
+Keywords % feather~
+Type     treasure~
+Short    a feather~
+Long     A feather lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55712
+Keywords % shell~
+Type     treasure~
+Short    a shell~
+Long     A shell lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55720
+Keywords bedroll~
+Type     treasure~
+Short    a bedroll~
+Long     A bedroll lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    8 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55721
+Keywords tent~
+Type     treasure~
+Short    a tent~
+Long     A tent lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    20 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55722
+Keywords flint and steel~
+Type     treasure~
+Short    flint and steel~
+Long     A flint and steel lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55723
+Keywords tinderbox~
+Type     treasure~
+Short    a tinderbox~
+Long     A tinderbox lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55724
+Keywords firewood~
+Type     treasure~
+Short    firewood~
+Long     A bundle of firewood lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    10 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55725
+Keywords cooking pot~
+Type     treasure~
+Short    a cooking pot~
+Long     A cooking pot sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55726
+Keywords kettle~
+Type     treasure~
+Short    a kettle~
+Long     A kettle sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    4 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55727
+Keywords satchel~
+Type     container~
+Short    a satchel~
+Long     A satchel lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55728
+Keywords rope~
+Type     treasure~
+Short    a coil of rope~
+Long     A coil of rope lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    10 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55729
+Keywords ink~
+Type     treasure~
+Short    a bottle of ink~
+Long     A bottle of ink sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55730
+Keywords quill~
+Type     pen~
+Short    a quill~
+Long     A quill lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55731
+Keywords pen~
+Type     pen~
+Short    a pen~
+Long     A pen lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55732
+Keywords bandages~
+Type     treasure~
+Short    bandages~
+Long     A bundle of bandages lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55733
+Keywords smelling salts~
+Type     treasure~
+Short    smelling salts~
+Long     A vial of smelling salts lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55734
+Keywords whetstone~
+Type     treasure~
+Short    a whetstone~
+Long     A whetstone lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55735
+Keywords oil can~
+Type     treasure~
+Short    an oil can~
+Long     An oil can sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55736
+Keywords crate~
+Type     container~
+Short    a crate~
+Long     A wooden crate sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    25 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55737
+Keywords barrel~
+Type     container~
+Short    a barrel~
+Long     A barrel sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    30 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55738
+Keywords strongbox~
+Type     container~
+Short    a strongbox~
+Long     A strongbox sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    40 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55739
+Keywords lockbox~
+Type     container~
+Short    a lockbox~
+Long     A lockbox sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    20 250 25 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55740
+Keywords broom~
+Type     treasure~
+Short    a broom~
+Long     A broom leans here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55741
+Keywords bucket~
+Type     container~
+Short    a bucket~
+Long     A bucket sits here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55742
+Keywords mop~
+Type     treasure~
+Short    a mop~
+Long     A mop leans here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    4 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55743
+Keywords writing desk~
+Type     furniture~
+Short    a writing desk~
+Long     A writing desk stands here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    50 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55744
+Keywords stool~
+Type     furniture~
+Short    a stool~
+Long     A stool sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    10 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55745
+Keywords folding chair~
+Type     furniture~
+Short    a folding chair~
+Long     A folding chair sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    15 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55746
+Keywords shelf~
+Type     furniture~
+Short    a shelf~
+Long     A shelf leans here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    20 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55747
+Keywords shelves~
+Type     furniture~
+Short    shelves~
+Long     A set of shelves stands here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    40 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55748
+Keywords whistle~
+Type     treasure~
+Short    a whistle~
+Long     A whistle lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55749
+Keywords tiny mirror~
+Type     treasure~
+Short    a tiny mirror~
+Long     A tiny mirror lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55750
+Keywords small mirror~
+Type     treasure~
+Short    a small mirror~
+Long     A small mirror lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55751
+Keywords large mirror~
+Type     furniture~
+Short    a large mirror~
+Long     A large mirror stands here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    20 200 20 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55752
+Keywords bell~
+Type     treasure~
+Short    a bell~
+Long     A bell lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55753
+Keywords fishing net~
+Type     treasure~
+Short    a fishing net~
+Long     A fishing net lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55754
+Keywords bug net~
+Type     treasure~
+Short    a bug net~
+Long     A bug net lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55755
+Keywords skinning knife~
+Type     treasure~
+Short    a skinning knife~
+Long     A skinning knife lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55756
+Keywords reading glasses~
+Type     treasure~
+Short    reading glasses~
+Long     A pair of reading glasses lies here.~
+WFlags   take eyes~
+Values   0 0 0 0 0 0
+Stats    1 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55757
+Keywords sunglasses~
+Type     treasure~
+Short    sunglasses~
+Long     A pair of sunglasses lies here.~
+WFlags   take eyes~
+Values   0 0 0 0 0 0
+Stats    1 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55758
+Keywords goggles~
+Type     treasure~
+Short    goggles~
+Long     A pair of goggles lies here.~
+WFlags   take eyes~
+Values   0 0 0 0 0 0
+Stats    1 60 6 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55759
+Keywords rations~
+Type     food~
+Short    rations~
+Long     A pack of rations lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55760
+Keywords spice pouch~
+Type     container~
+Short    a spice pouch~
+Long     A spice pouch lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55761
+Keywords sugar~
+Type     treasure~
+Short    sugar~
+Long     A bag of sugar lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55762
+Keywords flour~
+Type     treasure~
+Short    flour~
+Long     A sack of flour lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55763
+Keywords salt~
+Type     treasure~
+Short    salt~
+Long     A bag of salt lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55764
+Keywords jerky~
+Type     food~
+Short    jerky~
+Long     A strip of jerky lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55765
+Keywords dried fruit~
+Type     food~
+Short    dried fruit~
+Long     A bundle of dried fruit lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55766
+Keywords tobacco~
+Type     treasure~
+Short    tobacco~
+Long     A pouch of tobacco lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55767
+Keywords yeast~
+Type     treasure~
+Short    yeast~
+Long     A packet of yeast lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55780
+Keywords feed bag~
+Type     container~
+Short    a feed bag~
+Long     A feed bag lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    3 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55781
+Keywords saddlebag~
+Type     container~
+Short    a saddlebag~
+Long     A saddlebag lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    8 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55782
+Keywords bit and bridle~
+Type     treasure~
+Short    a bit and bridle~
+Long     A bit and bridle lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55783
+Keywords reins~
+Type     treasure~
+Short    reins~
+Long     A set of reins lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55784
+Keywords saddle~
+Type     treasure~
+Short    a saddle~
+Long     A saddle lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    20 150 15 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55800
+Keywords lamp oil~
+Type     fuel~
+Short    lamp oil~
+Long     A bottle of lamp oil sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55801
+Keywords charcoal~
+Type     fuel~
+Short    charcoal~
+Long     A bag of charcoal lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55802
+Keywords alcohol~
+Type     treasure~
+Short    alcohol~
+Long     A bottle of alcohol sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 25 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55803
+Keywords beeswax~
+Type     treasure~
+Short    beeswax~
+Long     A block of beeswax lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55804
+Keywords mana cell~
+Type     treasure~
+Short    a mana cell~
+Long     A glowing mana cell lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 500 50 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55805
+Keywords dice set~
+Type     treasure~
+Short    a dice set~
+Long     A dice set lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55806
+Keywords deck of cards~
+Type     treasure~
+Short    a deck of cards~
+Long     A deck of cards lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55807
+Keywords dominoes~
+Type     treasure~
+Short    dominoes~
+Long     A set of dominoes lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 20 2 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55808
+Keywords chess set~
+Type     treasure~
+Short    a chess set~
+Long     A chess set sits here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55809
+Keywords marbles~
+Type     treasure~
+Short    marbles~
+Long     A bag of marbles lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55820
+Keywords quiver~
+Type     quiver~
+Short    a quiver~
+Long     A quiver lies here.~
+WFlags   take back~
+Values   0 0 0 0 0 0
+Stats    3 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55821
+Keywords arrow~
+Type     projectile~
+Short    an arrow~
+Long     An arrow lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55822
+Keywords bullet~
+Type     projectile~
+Short    a bullet~
+Long     A bullet lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55823
+Keywords ammo case~
+Type     container~
+Short    an ammo case~
+Long     An ammo case lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55824
+Keywords shotgun shell~
+Type     projectile~
+Short    a shotgun shell~
+Long     A shotgun shell lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55825
+Keywords rifle cartridge~
+Type     projectile~
+Short    a rifle cartridge~
+Long     A rifle cartridge lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55826
+Keywords bolt case~
+Type     container~
+Short    a bolt case~
+Long     A bolt case lies here.~
+WFlags   take hold~
+Values   0 0 0 0 0 0
+Stats    2 35 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55827
+Keywords bolt~
+Type     projectile~
+Short    a bolt~
+Long     A crossbow bolt lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55828
+Keywords stone~
+Type     projectile~
+Short    a stone~
+Long     A smooth stone lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55850
+Keywords wood board~
+Type     treasure~
+Short    a wood board~
+Long     A wood board lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55851
+Keywords pine board~
+Type     treasure~
+Short    a pine board~
+Long     A pine board lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    4 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55852
+Keywords oak board~
+Type     treasure~
+Short    an oak board~
+Long     An oak board lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    6 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55853
+Keywords shadowpine board~
+Type     treasure~
+Short    a shadowpine board~
+Long     A dark shadowpine board lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55854
+Keywords ironbark board~
+Type     treasure~
+Short    an ironbark board~
+Long     An ironbark board lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    8 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55855
+Keywords crystaloak board~
+Type     treasure~
+Short    a crystaloak board~
+Long     A shimmering crystaloak board lies here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    7 300 30 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55856
+Keywords fir board~
+Type     treasure~
+Short    a fir board~
+Long     A fir board lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    4 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55860
+Keywords gear~
+Type     treasure~
+Short    a gear~
+Long     A metal gear lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55861
+Keywords spring~
+Type     treasure~
+Short    a spring~
+Long     A metal spring lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55862
+Keywords repair kit~
+Type     treasure~
+Short    a repair kit~
+Long     A repair kit lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 75 7 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55863
+Keywords trap kit~
+Type     treasure~
+Short    a trap kit~
+Long     A trap kit lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    4 100 10 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55864
+Keywords leather strap~
+Type     treasure~
+Short    a leather strap~
+Long     A leather strap lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 8 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55865
+Keywords fishing kit~
+Type     treasure~
+Short    a fishing kit~
+Long     A fishing kit lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55866
+Keywords bounty notice~
+Type     trash~
+Short    a bounty notice~
+Long     A bounty notice lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 0 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55900
+Keywords small rock~
+Type     treasure~
+Short    a small rock~
+Long     A small rock lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55901
+Keywords rock~
+Type     treasure~
+Short    a rock~
+Long     A rock lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    5 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55902
+Keywords large rock~
+Type     treasure~
+Short    a large rock~
+Long     A large rock lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    15 2 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55903
+Keywords boulder~
+Type     treasure~
+Short    a boulder~
+Long     A boulder lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    100 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55904
+Keywords pebble~
+Type     treasure~
+Short    a pebble~
+Long     A pebble lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55905
+Keywords twig~
+Type     treasure~
+Short    a twig~
+Long     A twig lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55906
+Keywords branch~
+Type     treasure~
+Short    a branch~
+Long     A branch lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    3 2 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55907
+Keywords stick~
+Type     treasure~
+Short    a stick~
+Long     A stick lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    2 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55908
+Keywords tree trunk~
+Type     treasure~
+Short    a tree trunk~
+Long     A tree trunk lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    200 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55909
+Keywords leaf~
+Type     treasure~
+Short    a leaf~
+Long     A leaf lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 1 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55910
+Keywords bark~
+Type     treasure~
+Short    bark~
+Long     A piece of bark lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 2 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55911
+Keywords pitch~
+Type     treasure~
+Short    pitch~
+Long     A glob of pitch lies here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55913
+Keywords mushroom~
+Type     food~
+Short    a mushroom~
+Long     A mushroom grows here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 5 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55914
+Keywords redcap mushroom~
+Type     food~
+Short    a redcap mushroom~
+Long     A redcap mushroom grows here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 15 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55915
+Keywords gravecap mushroom~
+Type     treasure~
+Short    a gravecap mushroom~
+Long     A gravecap mushroom grows here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 50 5 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55916
+Keywords glowcap mushroom~
+Type     food~
+Short    a glowcap mushroom~
+Long     A glowing mushroom grows here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 30 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55917
+Keywords bloodcap mushroom~
+Type     treasure~
+Short    a bloodcap mushroom~
+Long     A bloodcap mushroom grows here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 40 4 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55918
+Keywords poison mushroom ~
+Type     food~
+Short    a poison mushroom~
+Long     A poison mushroom grows here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 10 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55919
+Keywords whitecap mushroom~
+Type     food~
+Short    a whitecap mushroom~
+Long     A whitecap mushroom grows here.~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 12 1 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     55920
+Keywords blackcap mushroom~
+Type     treasure~
+Short    a blackcap mushroom~
+Long     A blackcap mushroom grows here.~
+Flags    magic~
+WFlags   take~
+Values   0 0 0 0 0 0
+Stats    1 35 3 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     59999
+Keywords last obj~
+Type     trash~
+Short    a newly created last obj~
+Long     Some god dropped a newly created last obj here.~
+Values   0 0 0 0 0 0
+Stats    1 0 0 0 0
+#ENDOBJECT
+
+#ROOM
+Vnum     55000
+Name     Floating in a void~
+Sector   city~
+Flags    nomob~
+#ENDROOM
+
+#ROOM
+Vnum     59999
+Name     Floating in a void~
+Sector   city~
+Flags    nomob~
+#ENDROOM
+
+#ENDAREA

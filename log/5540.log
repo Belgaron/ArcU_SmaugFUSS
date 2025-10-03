@@ -1,0 +1,158 @@
+Fri Oct  3 11:41:39 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Fri Oct  3 11:41:39 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Fri Oct  3 11:41:39 2025 :: Initializing libdl support...
+Fri Oct  3 11:41:39 2025 :: Loading commands...
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: skill_function: Error locating do_defense in symbol table. No such process
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_command: Function do_defense not found for defense
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: skill_function: Error locating do_murde in symbol table. No such process
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_command: Function do_murde not found for murde
+Fri Oct  3 11:41:39 2025 :: Loading spec_funs...
+Fri Oct  3 11:41:39 2025 :: Loading sysdata configuration...
+Fri Oct  3 11:41:39 2025 :: Loading socials
+Fri Oct  3 11:41:39 2025 :: Loading skill table
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_number: bad format. (g)
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_number: bad format. (g)
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_number: bad format. (g)
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Fri Oct  3 11:41:39 2025 :: Sorting skill table...
+Fri Oct  3 11:41:39 2025 :: Creating skill table sorted by type...
+Fri Oct  3 11:41:39 2025 :: Remapping slots to sns
+Fri Oct  3 11:41:39 2025 :: WARNING: Racial transformation skill 'ascended form' not found
+Fri Oct  3 11:41:39 2025 :: Initialized racial transformation: shikai
+Fri Oct  3 11:41:39 2025 :: WARNING: Racial transformation skill 'hollow rage' not found
+Fri Oct  3 11:41:39 2025 :: WARNING: Racial transformation skill 'primal form' not found
+Fri Oct  3 11:41:39 2025 :: WARNING: Racial transformation skill 'blood awakening' not found
+Fri Oct  3 11:41:39 2025 :: WARNING: Racial transformation skill 'true form' not found
+Fri Oct  3 11:41:39 2025 :: Racial transformation system initialized
+Fri Oct  3 11:41:39 2025 :: Loading classes
+Fri Oct  3 11:41:39 2025 :: Loading races
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Fri Oct  3 11:41:39 2025 :: Loading news data
+Fri Oct  3 11:41:39 2025 :: Loading liquids
+Fri Oct  3 11:41:39 2025 :: Loading mixtures
+Fri Oct  3 11:41:39 2025 :: Loading herb table
+Fri Oct  3 11:41:39 2025 :: Loading tongues
+Fri Oct  3 11:41:39 2025 :: Making wizlist
+Fri Oct  3 11:41:39 2025 :: Loading MSSP Data...
+Fri Oct  3 11:41:39 2025 :: Initializing random number generator
+Fri Oct  3 11:41:39 2025 :: Setting time and weather.
+Fri Oct  3 11:41:39 2025 :: Loading holiday chart...
+Fri Oct  3 11:41:39 2025 :: Loading DNS cache...
+Fri Oct  3 11:41:39 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Fri Oct  3 11:41:39 2025 :: Reading in area files...
+(help.are)
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Fri Oct  3 11:41:39 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Fri Oct  3 11:41:39 2025 :: [*****] FILE: housing.are LINE: 23
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Fri Oct  3 11:41:39 2025 :: [*****] FILE: housing.are LINE: 36
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Fri Oct  3 11:41:39 2025 :: [*****] FILE: housing.are LINE: 49
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Fri Oct  3 11:41:39 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Dragus.are    : Rooms: 55000 - 59999 Objs: 55000 - 59999 Mobs: 55000 - 59999
+Fri Oct  3 11:41:39 2025 :: Fixing exits
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Fri Oct  3 11:41:39 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Fri Oct  3 11:41:39 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Fri Oct  3 11:41:39 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Fri Oct  3 11:41:39 2025 :: Initializing economy
+Fri Oct  3 11:41:39 2025 :: Resetting areas
+Fri Oct  3 11:41:39 2025 :: Loading buildlist
+Fri Oct  3 11:41:39 2025 :: ../gods/Dragus
+Fri Oct  3 11:41:39 2025 :: Loading boards
+Fri Oct  3 11:41:39 2025 :: ../boards/immortal.brd
+Fri Oct  3 11:41:39 2025 :: ../boards/highgod.brd
+Fri Oct  3 11:41:39 2025 :: Loading vault list
+Fri Oct  3 11:41:39 2025 :: $
+Fri Oct  3 11:41:39 2025 ::  Done vaults 
+Fri Oct  3 11:41:39 2025 :: Loading clans
+Fri Oct  3 11:41:39 2025 :: Loading clans...
+Fri Oct  3 11:41:39 2025 :: vampire.gui
+Fri Oct  3 11:41:39 2025 :: Storeroom not found
+Fri Oct  3 11:41:39 2025 :: druid.gui
+Fri Oct  3 11:41:39 2025 :: Storeroom not found
+Fri Oct  3 11:41:39 2025 :: warrior.gui
+Fri Oct  3 11:41:39 2025 :: Storeroom not found
+Fri Oct  3 11:41:39 2025 :: augurer.gui
+Fri Oct  3 11:41:39 2025 :: Storeroom not found
+Fri Oct  3 11:41:39 2025 :: thief.gui
+Fri Oct  3 11:41:39 2025 :: Storeroom not found
+Fri Oct  3 11:41:39 2025 :: cleric.gui
+Fri Oct  3 11:41:39 2025 :: Storeroom not found
+Fri Oct  3 11:41:39 2025 :: mage.gui
+Fri Oct  3 11:41:39 2025 :: Storeroom not found
+Fri Oct  3 11:41:39 2025 :: ranger.gui
+Fri Oct  3 11:41:39 2025 :: Storeroom not found
+Fri Oct  3 11:41:39 2025 :: $
+Fri Oct  3 11:41:39 2025 ::  Done clans 
+Fri Oct  3 11:41:39 2025 :: Loading councils
+Fri Oct  3 11:41:39 2025 :: Loading councils...
+Fri Oct  3 11:41:39 2025 :: $
+Fri Oct  3 11:41:39 2025 ::  Done councils 
+Fri Oct  3 11:41:39 2025 :: Loading deities
+Fri Oct  3 11:41:39 2025 :: Loading deities...
+Fri Oct  3 11:41:39 2025 :: $
+Fri Oct  3 11:41:39 2025 ::  Done deities 
+Fri Oct  3 11:41:39 2025 :: Loading watches
+Fri Oct  3 11:41:39 2025 :: Loading bans
+Fri Oct  3 11:41:39 2025 :: Done.
+Fri Oct  3 11:41:39 2025 :: Loading reserved names
+Fri Oct  3 11:41:39 2025 :: Loading corpses
+Fri Oct  3 11:41:39 2025 :: Loading Immortal Hosts
+Fri Oct  3 11:41:39 2025 :: Done.
+Fri Oct  3 11:41:39 2025 :: Loading Projects
+Fri Oct  3 11:41:39 2025 :: Loading Morphs
+Fri Oct  3 11:41:39 2025 :: Done.
+Fri Oct  3 11:41:39 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Fri Oct  3 11:41:39 2025 :: Loading login messages
+Fri Oct  3 11:41:39 2025 :: Initializing socket
+Fri Oct  3 11:41:39 2025 :: (Name Not Set) ready on port 9001.
+Fri Oct  3 11:41:43 2025 :: Preloading player data for: Dragus (2K)
+Fri Oct  3 11:41:43 2025 :: [*****] BUG: fread_char: no match: 5000
+Fri Oct  3 11:41:43 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Fri Oct  3 11:41:43 2025 :: [*****] BUG: fread_char: no match: 3
+Fri Oct  3 11:41:43 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Fri Oct  3 11:41:45 2025 :: Loading player data for: Dragus (2K)
+Fri Oct  3 11:41:45 2025 :: [*****] BUG: fread_char: no match: 5000
+Fri Oct  3 11:41:45 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Fri Oct  3 11:41:45 2025 :: [*****] BUG: fread_char: no match: 3
+Fri Oct  3 11:41:45 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Fri Oct  3 11:41:45 2025 :: Dragus (127.0.0.1) has connected.
+Fri Oct  3 11:42:44 2025 :: Log Dragus: aassign dragus.are
+Fri Oct  3 11:43:58 2025 :: Log Dragus: oinvoke 55106
+Fri Oct  3 11:59:23 2025 :: Log Dragus: aset
+Fri Oct  3 12:00:17 2025 :: Log Dragus: aset dragus.are filename arcforge.are
+Fri Oct  3 12:00:44 2025 :: Log Dragus: foldarea arcforge.are
