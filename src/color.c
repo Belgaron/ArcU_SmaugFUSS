@@ -138,6 +138,134 @@ const char *const valid_color[] = {
    "dgrey", "red", "green", "yellow", "blue", "pink", "lblue", "white", "\0"
 };
 
+typedef struct energy_color_option ENERGY_COLOR_OPTION;
+
+struct energy_color_option
+{
+   const char *name;
+   const char *token;
+   const char *ansi;
+   const char *description;
+};
+
+static const ENERGY_COLOR_OPTION energy_color_table[] = {
+   { "white",  "&W", ANSI_WHITE,  "a brilliant, pure radiance" },
+   { "gold",   "&Y", ANSI_YELLOW, "a warm, sunlit shimmer" },
+   { "red",    "&R", ANSI_RED,    "a fierce, crimson blaze" },
+   { "blue",   "&B", ANSI_BLUE,   "a calm, electric surge" },
+   { "green",  "&G", ANSI_GREEN,  "a vibrant emerald glow" },
+   { "purple", "&p", ANSI_PURPLE, "a mystic amethyst aura" },
+   { "cyan",   "&c", ANSI_CYAN,   "a sharp, arctic flare" },
+   { "orange", "&O", ANSI_ORANGE, "a blazing amber corona" }
+};
+
+static const ENERGY_COLOR_OPTION *default_energy_color_option( void )
+{
+   return &energy_color_table[0];
+}
+
+static const ENERGY_COLOR_OPTION *find_energy_color_option( const char *name )
+{
+   const ENERGY_COLOR_OPTION *match = NULL;
+   bool ambiguous = false;
+
+   if( !name || name[0] == '\0' )
+      return NULL;
+
+   for( size_t i = 0; i < ( sizeof( energy_color_table ) / sizeof( energy_color_table[0] ) ); ++i )
+   {
+      const ENERGY_COLOR_OPTION *option = &energy_color_table[i];
+
+      if( !str_cmp( name, option->name ) )
+         return option;
+
+      if( !str_prefix( name, option->name ) )
+      {
+         if( match )
+         {
+            ambiguous = true;
+            break;
+         }
+         match = option;
+      }
+   }
+
+   if( ambiguous )
+      return NULL;
+
+   return match;
+}
+
+static const ENERGY_COLOR_OPTION *energy_color_from_char( const CHAR_DATA *ch )
+{
+   const ENERGY_COLOR_OPTION *option = NULL;
+
+   if( ch && !IS_NPC( ch ) && ch->pcdata && ch->pcdata->energy_color && ch->pcdata->energy_color[0] != '\0' )
+      option = find_energy_color_option( ch->pcdata->energy_color );
+
+   if( !option )
+      option = default_energy_color_option();
+
+   return option;
+}
+
+bool set_energy_color( CHAR_DATA *ch, const char *name )
+{
+   const ENERGY_COLOR_OPTION *option;
+
+   if( !ch || IS_NPC( ch ) || !ch->pcdata )
+      return FALSE;
+
+   option = find_energy_color_option( name );
+   if( !option )
+      return FALSE;
+
+   if( ch->pcdata->energy_color )
+      STRFREE( ch->pcdata->energy_color );
+   ch->pcdata->energy_color = STRALLOC( option->name );
+   return TRUE;
+}
+
+const char *get_energy_color_name( const CHAR_DATA *ch )
+{
+   return energy_color_from_char( ch )->name;
+}
+
+const char *get_energy_color_token( const CHAR_DATA *ch )
+{
+   return energy_color_from_char( ch )->token;
+}
+
+void show_energy_color_choices( DESCRIPTOR_DATA *d )
+{
+   if( !d )
+      return;
+
+   write_to_buffer( d, "\r\nChoose your energy color.\r\n", 0 );
+   write_to_buffer( d, "Available options:\r\n", 0 );
+
+   for( size_t i = 0; i < ( sizeof( energy_color_table ) / sizeof( energy_color_table[0] ) ); ++i )
+   {
+      const ENERGY_COLOR_OPTION *option = &energy_color_table[i];
+      char buf[128];
+
+      snprintf( buf, sizeof( buf ), "  %-10s - %s%s&d\r\n",
+                option->name, option->token, option->description );
+      send_to_desc_color( buf, d );
+   }
+
+   if( d->character && !IS_NPC( d->character ) )
+   {
+      char buf[128];
+      const ENERGY_COLOR_OPTION *current = energy_color_from_char( d->character );
+      snprintf( buf, sizeof( buf ), "\r\nCurrent selection: %s%s&d\r\n",
+                current->token, current->name );
+      send_to_desc_color( buf, d );
+   }
+
+   write_to_buffer( d, "Type the color name to attune your aura: ", 0 );
+}
+
 void show_colorthemes( CHAR_DATA * ch )
 {
    DIR *dp;

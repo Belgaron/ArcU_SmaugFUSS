@@ -492,6 +492,8 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp )
       fprintf( fp, "Prompt       %s~\n", ch->pcdata->prompt );
    if( ch->pcdata->fprompt && *ch->pcdata->fprompt )
       fprintf( fp, "FPrompt	     %s~\n", ch->pcdata->fprompt );
+   if( ch->pcdata->energy_color && ch->pcdata->energy_color[0] != '\0' )
+      fprintf( fp, "EnergyColor  %s~\n", ch->pcdata->energy_color );
    if( ch->pcdata->pagerlen != 24 )
       fprintf( fp, "Pagerlen     %d\n", ch->pcdata->pagerlen );
 
@@ -859,6 +861,7 @@ bool load_char_obj( DESCRIPTOR_DATA * d, char *name, bool preload, bool copyover
    ch->desc = d;
    ch->pcdata->filename = STRALLOC( name );
    ch->name = NULL;
+   set_energy_color( ch, "white" );
    if( d->host )
       ch->pcdata->recent_site = STRALLOC( d->host );
    ch->act = multimeb( PLR_BLANK, PLR_COMBINE, PLR_PROMPT, -1 );
@@ -1927,6 +1930,14 @@ void fread_char( CHAR_DATA * ch, FILE * fp, bool preload, bool copyover )
                break;
 
          case 'E':
+            if( !strcmp( word, "EnergyColor" ) )
+            {
+               if( ch->pcdata->energy_color )
+                  STRFREE( ch->pcdata->energy_color );
+               ch->pcdata->energy_color = fread_string( fp );
+               fMatch = TRUE;
+               break;
+            }
             if( !strcmp( word, "End" ) )
             {
                if( !ch->short_descr )
