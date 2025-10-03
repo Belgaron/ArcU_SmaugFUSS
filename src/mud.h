@@ -1815,7 +1815,7 @@ typedef enum
    ITEM_TREASURE, ITEM_ARMOR, ITEM_POTION,
    ITEM_RESOURCE,      /* Raw materials and harvested resources        */
    ITEM_FURNITURE, ITEM_TRASH,
-   ITEM_GATHERING_BAIT, /* Fishing bait, gathering lures, consumables  */
+   ITEM_WORKSTATION, /* Crafting workstations (looms, anvils, wheels) */
    ITEM_CONTAINER,
    ITEM_NOTE, ITEM_DRINK_CON, ITEM_KEY, ITEM_FOOD, ITEM_MONEY, ITEM_PEN,
    ITEM_BOAT, ITEM_CORPSE_NPC, ITEM_CORPSE_PC, ITEM_FOUNTAIN, ITEM_PILL,
