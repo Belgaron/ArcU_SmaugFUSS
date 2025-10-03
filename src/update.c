@@ -146,11 +146,11 @@ void gain_pl( CHAR_DATA *ch, long long gain, bool show_message )
          gain = (gain * sysdata.peaceful_exp_mod) / 100;
       
       /* DBSC-style power level scaling - apply LAST */
-		if( current_pl > 100000000000LL )    /* 1 trillion+ PL */
+      if( current_pl > 1000000000000LL )   /* 1 trillion+ PL */
          gain = gain * 15 / 100;           /* 85% reduction */
-		if( current_pl > 100000000000LL )    /* 100 billion+ PL */
+      else if( current_pl > 100000000000LL ) /* 100 billion+ PL */
          gain = gain / 4;                  /* 75% reduction */
-      if( current_pl > 1000000000LL )      /* 1 billion+ PL */
+      else if( current_pl > 1000000000LL ) /* 1 billion+ PL */
          gain = gain / 3;                  /* 66% reduction */
       else if( current_pl > 100000000LL )  /* 100 million+ PL */
          gain = gain * 2 / 3;              /* 33% reduction */
