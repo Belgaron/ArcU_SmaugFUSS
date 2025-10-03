@@ -3236,6 +3236,10 @@ void do_oset( CHAR_DATA* ch, const char* argument )
       send_to_char( "  slevel spell maxcharges charges\r\n", ch );
       send_to_char( "For containers:          For levers and switches:\r\n", ch );
       send_to_char( "  cflags key capacity      tflags\r\n", ch );
+      send_to_char( "For materia:             For gathering tools:\r\n", ch );
+      send_to_char( "  grade                    category tier/quality\r\n", ch );
+      send_to_char( "For resources:\r\n", ch );
+      send_to_char( "  rarity minskill difficulty\r\n", ch );
       return;
    }
 
@@ -3983,6 +3987,66 @@ void do_oset( CHAR_DATA* ch, const char* argument )
          if( !str_cmp( arg2, "cflags" ) )
             tmp = 1;
          if( !str_cmp( arg2, "key" ) )
+            tmp = 2;
+         break;
+
+      case ITEM_MATERIA:
+         if( !str_cmp( arg2, "grade" ) )
+         {
+            tmp = 0;
+            value = UMAX( 0, value );
+         }
+         break;
+
+      case ITEM_GATHERING_TOOL:
+         if( !str_cmp( arg2, "category" ) || !str_cmp( arg2, "toolcategory" ) || !str_cmp( arg2, "tooltype" ) )
+         {
+            tmp = 0;
+            if( is_number( arg3 ) )
+               value = URANGE( 0, value, 2 );
+            else if( !str_cmp( arg3, "none" ) )
+               value = 0;
+            else if( !str_cmp( arg3, "fishing" ) )
+               value = 1;
+            else if( !str_cmp( arg3, "mining" ) )
+               value = 2;
+            else
+            {
+               send_to_char( "Valid categories are: none, fishing, mining.\r\n", ch );
+               return;
+            }
+         }
+         if( !str_cmp( arg2, "tier" ) || !str_cmp( arg2, "quality" ) )
+         {
+            tmp = 1;
+            if( is_number( arg3 ) )
+               value = URANGE( 0, value, 2 );
+            else if( !str_cmp( arg3, "basic" ) )
+               value = 0;
+            else if( !str_cmp( arg3, "quality" ) )
+               value = 1;
+            else if( !str_cmp( arg3, "master" ) )
+               value = 2;
+            else
+            {
+               send_to_char( "Valid tiers are: basic, quality, master.\r\n", ch );
+               return;
+            }
+         }
+         break;
+
+      case ITEM_RESOURCE:
+         if( !str_cmp( arg2, "rarity" ) )
+         {
+            tmp = 0;
+            value = UMAX( 0, value );
+         }
+         if( !str_cmp( arg2, "minskill" ) || !str_cmp( arg2, "minimumskill" ) )
+         {
+            tmp = 1;
+            value = UMAX( 0, value );
+         }
+         if( !str_cmp( arg2, "difficulty" ) || !str_cmp( arg2, "basedifficulty" ) )
             tmp = 2;
          break;
 
