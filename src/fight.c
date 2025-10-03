@@ -230,6 +230,7 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt );
 int obj_hitroll( OBJ_DATA * obj );
 void show_condition( CHAR_DATA * ch, CHAR_DATA * victim );
 static long long calculate_combat_pl_gain( CHAR_DATA *ch, CHAR_DATA *victim, int original_dam );
+static double combat_ratio_multiplier( double ratio );
 
 bool loot_coins_from_corpse( CHAR_DATA * ch, OBJ_DATA * corpse )
 {
@@ -2258,37 +2259,60 @@ short ris_damage( CHAR_DATA * ch, short dam, int ris )
 /*
  * Inflict damage from a hit. This is one damn big function.
  */
+static double combat_ratio_multiplier( double ratio )
+{
+   if( ratio >= 4.0 )
+      return 2.0 * ( 4.0 / ratio );   /* Gains taper back down above 4x */
+   if( ratio >= 2.0 )
+      return 1.5 + 0.25 * ( ratio - 2.0 );
+   if( ratio >= 1.0 )
+      return 1.0 + 0.5 * ( ratio - 1.0 );
+   if( ratio >= 0.75 )
+      return 0.85;
+   if( ratio >= 0.5 )
+      return 0.6;
+   return 0.35;
+}
+
 static long long calculate_combat_pl_gain( CHAR_DATA *ch, CHAR_DATA *victim, int original_dam )
 {
-   long long pl_gained = 0;
-
    if( original_dam <= 0 || !ch || !victim )
       return 0;
 
-   if( ch == victim || IS_NPC( ch ) || !IS_NPC( victim ) )
+   if( ch == victim || IS_NPC( ch ) )
       return 0;
 
+   bool victim_is_player = !IS_NPC( victim );
    long long ch_pl = get_power_level( ch );
    long long victim_pl = get_power_level( victim );
 
-   /* Only gain PL if the opponent isn't too weak */
-   if( victim_pl < ( ch_pl / 10 ) )
+   if( ch_pl <= 0 || victim_pl <= 0 )
       return 0;
 
-   double ratio = ch_pl > 0 ? (double)victim_pl / (double)ch_pl : 0.0;
+   /* Mobs must be at least 20% of the attacker's PL to award gains */
+   if( !victim_is_player && victim_pl < ( ch_pl / 5 ) )
+      return 0;
 
-   /* Base PL gain calculation */
-   if( ratio >= 1.0 )        /* Equal or stronger opponent */
-      pl_gained = original_dam / 8;
-   else if( ratio >= 0.5 )   /* Half as strong */
-      pl_gained = original_dam / 15;
-   else if( ratio >= 0.2 )   /* 1/5 as strong */
-      pl_gained = original_dam / 40;
-   else if( ratio >= 0.1 )   /* 1/10 as strong */
-      pl_gained = original_dam / 80;
+   /* PvP can award on slightly weaker targets, but still prevent farming */
+   if( victim_is_player && victim_pl < ( ch_pl / 10 ) )
+      return 0;
+
+   double ratio = (double)victim_pl / (double)ch_pl;
+   double ratio_mult = combat_ratio_multiplier( ratio );
+
+   double damage_fraction = 0.0;
+   if( victim->max_hit > 0 )
+      damage_fraction = (double)original_dam / (double)victim->max_hit;
+   damage_fraction = URANGE( 0.005, damage_fraction, 1.0 );
+
+   double base_rate = victim_is_player ? 0.0025 : 0.0020;
+   double engagement_bonus = victim_is_player ? 1.5 : 1.0;
+
+   double raw_gain = (double)ch_pl * base_rate * damage_fraction * ratio_mult * engagement_bonus;
+   long long pl_gained = (long long)( raw_gain + 0.5 );
 
    if( pl_gained <= 0 )
-      return 0;
+      pl_gained = 1;
 
    /* Apply attacker's PL scaling to gain (higher PL = smaller gains) */
    if( ch_pl > 1000000000LL )      /* 1 billion+ PL */
