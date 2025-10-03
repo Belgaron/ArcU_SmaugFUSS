@@ -3403,14 +3403,6 @@ Log         0
 End
 
 #COMMAND
-Name        smoke~
-Code        do_smoke
-Position    106
-Level       1
-Log         0
-End
-
-#COMMAND
 Name        snoop~
 Code        do_snoop
 Position    100
@@ -3672,14 +3664,6 @@ End
 #COMMAND
 Name        take~
 Code        do_get
-Position    106
-Level       0
-Log         0
-End
-
-#COMMAND
-Name        tamp~
-Code        do_tamp
 Position    106
 Level       0
 Log         0

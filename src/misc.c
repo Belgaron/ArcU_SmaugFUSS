@@ -858,116 +858,14 @@ void do_rap( CHAR_DATA* ch, const char* argument )
    }
 }
 
-/* pipe commands (light, tamp, smoke) by Thoric */
-void do_tamp( CHAR_DATA* ch, const char* argument )
-{
-   OBJ_DATA *opipe;
-   char arg[MAX_INPUT_LENGTH];
-
-   one_argument( argument, arg );
-   if( arg[0] == '\0' )
-   {
-      send_to_char( "Tamp what?\r\n", ch );
-      return;
-   }
-
-   if( ms_find_obj( ch ) )
-      return;
-
-   if( ( opipe = get_obj_carry( ch, arg ) ) == NULL )
-   {
-      send_to_char( "You aren't carrying that.\r\n", ch );
-      return;
-   }
-   if( opipe->item_type != ITEM_PIPE )
-   {
-      send_to_char( "You can't tamp that.\r\n", ch );
-      return;
-   }
-   if( !IS_SET( opipe->value[3], PIPE_TAMPED ) )
-   {
-      act( AT_ACTION, "You gently tamp $p.", ch, opipe, NULL, TO_CHAR );
-      act( AT_ACTION, "$n gently tamps $p.", ch, opipe, NULL, TO_ROOM );
-      SET_BIT( opipe->value[3], PIPE_TAMPED );
-      return;
-   }
-   send_to_char( "It doesn't need tamping.\r\n", ch );
-}
-
-void do_smoke( CHAR_DATA* ch, const char* argument )
-{
-   OBJ_DATA *opipe;
-   char arg[MAX_INPUT_LENGTH];
-
-   one_argument( argument, arg );
-   if( arg[0] == '\0' )
-   {
-      send_to_char( "Smoke what?\r\n", ch );
-      return;
-   }
-
-   if( ms_find_obj( ch ) )
-      return;
-
-   if( ( opipe = get_obj_carry( ch, arg ) ) == NULL )
-   {
-      send_to_char( "You aren't carrying that.\r\n", ch );
-      return;
-   }
-
-   if( opipe->item_type != ITEM_PIPE )
-   {
-      act( AT_ACTION, "You try to smoke $p... but it doesn't seem to work.", ch, opipe, NULL, TO_CHAR );
-      act( AT_ACTION, "$n tries to smoke $p... (I wonder what $e's been putting in $s pipe?)", ch, opipe, NULL, TO_ROOM );
-      return;
-   }
-
-   if( !IS_SET( opipe->value[3], PIPE_LIT ) )
-   {
-      act( AT_ACTION, "You try to smoke $p, but it's not lit.", ch, opipe, NULL, TO_CHAR );
-      act( AT_ACTION, "$n tries to smoke $p, but it's not lit.", ch, opipe, NULL, TO_ROOM );
-      return;
-   }
-
-   if( opipe->value[1] > 0 )
-   {
-      if( !oprog_use_trigger( ch, opipe, NULL, NULL ) )
-      {
-         act( AT_ACTION, "You draw thoughtfully from $p.", ch, opipe, NULL, TO_CHAR );
-         act( AT_ACTION, "$n draws thoughtfully from $p.", ch, opipe, NULL, TO_ROOM );
-      }
-
-      if( IS_VALID_HERB( opipe->value[2] ) && opipe->value[2] < top_herb )
-      {
-         int sn = opipe->value[2] + TYPE_HERB;
-         SKILLTYPE *skill = get_skilltype( sn );
-
-         WAIT_STATE( ch, skill->beats );
-         if( skill->spell_fun )
-            obj_cast_spell( sn, UMIN( skill->min_power_level, ch->level ), ch, ch, NULL );
-         if( obj_extracted( opipe ) )
-            return;
-      }
-      else
-         bug( "%s: bad herb type %d", __func__, opipe->value[2] );
-
-      SET_BIT( opipe->value[3], PIPE_HOT );
-      if( --opipe->value[1] < 1 )
-      {
-         REMOVE_BIT( opipe->value[3], PIPE_LIT );
-         SET_BIT( opipe->value[3], PIPE_DIRTY );
-         SET_BIT( opipe->value[3], PIPE_FULLOFASH );
-      }
-   }
-}
-
 OBJ_DATA *find_tinder( CHAR_DATA *ch )
 {
    OBJ_DATA *tinder;
 
    for( tinder = ch->last_carrying; tinder; tinder = tinder->prev_content )
-      if( ( tinder->item_type == ITEM_TINDER ) && can_see_obj( ch, tinder ) )
+      if( tinder->item_type == ITEM_TINDER && can_see_obj( ch, tinder ) )
          return tinder;
+
    return NULL;
 }
 
@@ -996,24 +894,20 @@ void do_extinguish( CHAR_DATA *ch, const char *argument )
 
    separate_obj( obj );
 
-   if( obj->item_type != ITEM_LIGHT || ( obj->value[1] < 1 ) )
+   if( obj->item_type != ITEM_LIGHT || obj->value[1] < 1 )
    {
       send_to_char( "You can't extinguish that.\r\n", ch );
       return;
    }
 
-   if( IS_SET( obj->value[3], PIPE_LIT ) )
+   if( IS_SET( obj->value[3], LIGHT_LIT ) )
    {
       act( AT_ACTION, "You extinguish $p.", ch, obj, NULL, TO_CHAR );
       act( AT_ACTION, "$n extinguishes $p.", ch, obj, NULL, TO_ROOM );
-      REMOVE_BIT( obj->value[3], PIPE_LIT );
-      return;
+      REMOVE_BIT( obj->value[3], LIGHT_LIT );
    }
    else
-   {
       send_to_char( "It's not lit.\r\n", ch );
-      return;
-   }
 }
 
 void do_light( CHAR_DATA *ch, const char *argument )
@@ -1048,46 +942,26 @@ void do_light( CHAR_DATA *ch, const char *argument )
 
    separate_obj( obj );
 
-   switch( obj->item_type )
+   if( obj->item_type != ITEM_LIGHT )
    {
-      default:
-         send_to_char( "You can't light that.\r\n", ch );
-         return;
-
-      case ITEM_PIPE:
-         if( !IS_SET( obj->value[3], PIPE_LIT ) )
-         {
-            if( obj->value[1] < 1 )
-            {
-               act( AT_ACTION, "You try to light $p, but it's empty.", ch, obj, NULL, TO_CHAR );
-               act( AT_ACTION, "$n tries to light $p, but it's empty.", ch, obj, NULL, TO_ROOM );
-               return;
-            }
-            act( AT_ACTION, "You carefully light $p.", ch, obj, NULL, TO_CHAR );
-            act( AT_ACTION, "$n carefully lights $p.", ch, obj, NULL, TO_ROOM );
-            SET_BIT( obj->value[3], PIPE_LIT );
-            return;
-         }
-         send_to_char( "It's already lit.\r\n", ch );
-         break;
-
-      case ITEM_LIGHT:
-         if( obj->value[1] > 0 )
-         {
-            if( !IS_SET( obj->value[3], PIPE_LIT ) )
-            {
-               act( AT_ACTION, "You carefully light $p.", ch, obj, NULL, TO_CHAR );
-               act( AT_ACTION, "$n carefully lights $p.", ch, obj, NULL, TO_ROOM );
-               SET_BIT( obj->value[3], PIPE_LIT );
-            }
-            else
-               send_to_char( "It's already lit.\r\n", ch );
-            return;
-         }
-         else
-            send_to_char( "You can't light that.\r\n", ch );
-         break;
+      send_to_char( "You can't light that.\r\n", ch );
+      return;
    }
+
+   if( obj->value[1] <= 0 )
+   {
+      send_to_char( "You can't light that.\r\n", ch );
+      return;
+   }
+
+   if( !IS_SET( obj->value[3], LIGHT_LIT ) )
+   {
+      act( AT_ACTION, "You carefully light $p.", ch, obj, NULL, TO_CHAR );
+      act( AT_ACTION, "$n carefully lights $p.", ch, obj, NULL, TO_ROOM );
+      SET_BIT( obj->value[3], LIGHT_LIT );
+   }
+   else
+      send_to_char( "It's already lit.\r\n", ch );
 }
 
 /*
@@ -1320,7 +1194,7 @@ void actiondesc( CHAR_DATA * ch, OBJ_DATA * obj )
          return;
       }
 
-      case ITEM_PIPE:
+      case ITEM_RELIC:
          return;
 
       case ITEM_ARMOR:

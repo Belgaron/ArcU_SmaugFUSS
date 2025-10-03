@@ -2871,7 +2871,6 @@ OBJ_DATA *create_object( OBJ_INDEX_DATA * pObjIndex, int level )
       case ITEM_BLOOD:
       case ITEM_BLOODSTAIN:
       case ITEM_SCRAPS:
-      case ITEM_PIPE:
       case ITEM_HERB_CON:
       case ITEM_HERB:
       case ITEM_INCENSE:

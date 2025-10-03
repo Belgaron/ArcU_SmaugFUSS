@@ -1616,10 +1616,6 @@ void do_fill( CHAR_DATA* ch, const char* argument )
          src_item1 = ITEM_HERB;
          src_item2 = ITEM_HERB_CON;
          break;
-      case ITEM_PIPE:
-         src_item1 = ITEM_HERB;
-         src_item2 = ITEM_HERB_CON;
-         break;
       case ITEM_CONTAINER:
          src_item1 = ITEM_CONTAINER;
          src_item2 = ITEM_CORPSE_NPC;
@@ -1650,37 +1646,12 @@ void do_fill( CHAR_DATA* ch, const char* argument )
       }
    }
 
-   if( dest_item == ITEM_PIPE && IS_SET( obj->value[3], PIPE_FULLOFASH ) )
-   {
-      send_to_char( "It's full of ashes, and needs to be emptied first.\r\n", ch );
-      return;
-   }
-
    if( arg2[0] != '\0' )
    {
       if( dest_item == ITEM_CONTAINER && ( !str_cmp( arg2, "all" ) || !str_prefix( "all.", arg2 ) ) )
       {
          all = TRUE;
          source = NULL;
-      }
-      /*
-       * This used to let you fill a pipe from an object on the ground.  Seems
-       * to me you should be holding whatever you want to fill a pipe with.
-       * It's nitpicking, but I needed to change it to get a mobprog to work
-       * right.  Check out Lord Fitzgibbon if you're curious.  -Narn 
-       */
-      else if( dest_item == ITEM_PIPE )
-      {
-         if( ( source = get_obj_carry( ch, arg2 ) ) == NULL )
-         {
-            send_to_char( "You don't have that item.\r\n", ch );
-            return;
-         }
-         if( source->item_type != src_item1 && source->item_type != src_item2 && source->item_type != src_item3 )
-         {
-            act( AT_PLAIN, "You cannot fill $p with $P!", ch, obj, source, TO_CHAR );
-            return;
-         }
       }
       else
       {
@@ -1693,12 +1664,6 @@ void do_fill( CHAR_DATA* ch, const char* argument )
    }
    else
       source = NULL;
-
-   if( !source && dest_item == ITEM_PIPE )
-   {
-      send_to_char( "Fill it with what?\r\n", ch );
-      return;
-   }
 
    if( !source )
    {
@@ -1757,7 +1722,7 @@ void do_fill( CHAR_DATA* ch, const char* argument )
                send_to_char( "There are no herbs here!\r\n", ch );
                return;
             case ITEM_HERB:
-               send_to_char( "You cannot find any smoking herbs.\r\n", ch );
+               send_to_char( "You cannot find any herbs.\r\n", ch );
                return;
          }
       }
@@ -2065,14 +2030,6 @@ void do_empty( CHAR_DATA* ch, const char* argument )
       default:
          act( AT_ACTION, "You shake $p in an attempt to empty it...", ch, obj, NULL, TO_CHAR );
          act( AT_ACTION, "$n begins to shake $p in an attempt to empty it...", ch, obj, NULL, TO_ROOM );
-         return;
-
-      case ITEM_PIPE:
-         act( AT_ACTION, "You gently tap $p and empty it out.", ch, obj, NULL, TO_CHAR );
-         act( AT_ACTION, "$n gently taps $p and empties it out.", ch, obj, NULL, TO_ROOM );
-         REMOVE_BIT( obj->value[3], PIPE_FULLOFASH );
-         REMOVE_BIT( obj->value[3], PIPE_LIT );
-         obj->value[1] = 0;
          return;
 
       case ITEM_DRINK_CON:

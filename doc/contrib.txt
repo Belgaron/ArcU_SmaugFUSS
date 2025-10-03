@@ -66,7 +66,7 @@ wizlist builder, the original player authorization system, levers, switches,
 pullchains, buttons, expanding the mud to 65 levels, (50 mortal, 15
 immortal), the new experience system, the complex mobiles, resistances
 immunities and susceptibilities, hunting, mobiles hating and fearing,
-mounts, pipes, the extended container commands, object grouping, the
+mounts, the extended container commands, object grouping, the
 extended/advanced exits, delayed room teleports, tunnels, lots of new exit
 flags, heaps of new affect types, kill tracking (individual for each
 player), new mud economy code, the SMAUGSPELL system, the skill table

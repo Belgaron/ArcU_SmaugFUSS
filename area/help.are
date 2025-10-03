@@ -4459,15 +4459,11 @@ be done and a varying amount of blood will be drawn.
 0 FILL~
 Syntax:  fill <drincon>
 Syntax:  fill <container>
-Syntax:  fill <pipe> <herb>
- 
-FILL can be used with drink containers, regular containers or pipes.
+FILL can be used with drink containers or regular containers.
  - to fill a drink container, go to a fountain and 'fill <drinkcon>'
  - to fill a container such as a backpack with items from the ground,
    type 'fill <container>'
- - to fill a pipe you must have both the pipe and the herb in your
-   inventory, then type 'fill <pipe> <herb>'
- 
+
 ~
 
 0 FISHING~
@@ -4906,7 +4902,7 @@ very well.)
 
 Gnomes are a short, stocky race, similar to their dwarven cousins.
 Most often prefer an evening at home with a magical tome, a loaf of
-pipeweed bread and a cup of ale over venturing out to battle.
+spiced bread and a cup of ale over venturing out to battle.
 
 Gnomes gain experience on a scale of normal rate * 1.2
 ~
@@ -8097,7 +8093,7 @@ lever     |leverflags |vnum/sn     |vnum       |vnum/value |         |
 light     |           |            |hours left |           |         |
 money     |# of coins |coin type   |           |           |         |
 pill      |spell level|sn 1        |sn 2       |sn 3       |food val |
-pipe      |capacity   |# of draws  |herb (sn)  |flags **   |         |
+relic     |(unused)   |            |           |           |         |
 potion    |spell level|sn 1        |sn 2       |sn 3       |         |
 projectile|           |            |           |           |         |
 salve     |spell level|charges     |max charges|delay      |sn       |sn
@@ -8111,7 +8107,9 @@ weapon    |condition  |num dice    |size dice  |weapontype |         |
 missiles  |condition  |            |dam bonus  |weapontype |range    |
 quiver    |capacity   |flags       |key vnum   |condition  |         |
 
-** pipe flags : see help pipeflag
+Relic items provide a flexible slot for quest rewards or lore props and
+currently have no hard-coded behavior; all value fields are unused.
+
 See OBJECTTYPES, WEAPONTYPES, SLOOKUP, LIQUIDTYPES, LEVERFLAGS, OSET,
 ARMORCLASS, WEAPONCONDITION and MISSILES.
 ~
@@ -8807,10 +8805,10 @@ See OSET and ITEMVALUES.  * = not yet implemented.
 ~
 
 1 LIGHT~
-Syntax:  light <pipe>
- 
-This lights the herb in your pipe.  Once lit, the herb will continue to
-burn until it burns itself out, is smoked out, or you tamp your pipe.
+Syntax:  light <light source>
+
+Ignites a carried or nearby light source, such as a torch or lantern. Once lit,
+the item will provide illumination until its fuel is spent or you extinguish it.
 ~
 
 1 LIMBO~
@@ -11904,20 +11902,6 @@ This skill enables you to pick open locked doors.
 
 ~
 
-51 PIPEFLAG~
-The following flags may be used with the item type pipe in the v3 item
-value:
-PIPE_TAMPEDPipe has been tamped (not really used yet)
-PIPE_LITPipe is lit (required for smoking)
-PIPE_HOTPipe is hot
-PIPE_DIRTYPipe is dirty (not really used yet)
-PIPE_FILTHYPipe is REALLY dirty (not used at all yet)
-PIPE_GOINGOUTPipe is about to go out
-PIPE_BURNTNot used yet.
-PIPE_FULLOFASHPipe is full of ashes, and needs to be emptied.
- 
-~
-
 1 PIT ETCH PITTING ETCHING~
 Pitting and etching occurs when acid hits your armor, due to spells or
 breath. It permanently reduces the armor class of the item and reduces
@@ -14171,7 +14155,7 @@ Syntax: shopset <mobile vnum> buy# <value>
 7  - _missile            27 - blood              47 - paper
 8  - treasure            28 - bloodstain         48 - tinder
 9  - armor               29 - scraps             49 - lockpick
-10 - potion              30 - pipe               50 - spike
+10 - potion              30 - relic              50 - spike
 11 - _worn               31 - herbcon            51 - disease
 12 - furniture           32 - herb               52 - oil
 13 - trash               33 - incense            53 - fuel
@@ -14453,11 +14437,6 @@ affects   see AFFECTTYPES, the effect the spell has, if any
 value     an extra field reserved for things like the vnum used in spells
           that create objects, or summon monsters to the caster's aid.
  
-~
-
-1 SMOKE~
-You may 'smoke' a pipe after first filling it with a smokable herb or
-tobacco.
 ~
 
 51 SOBER~
@@ -14992,13 +14971,6 @@ Syntax:  tail
 Tail is a skill which can only be used once a fight has started, and
 can only be used against your primary opponent.  If it successfully
 lands, it inflicts damage on your opponent.
-~
-
-1 TAMP~
-Syntax:  tamp <pipe>
- 
-This empties your pipe so that you may fill it with fresh herbs.
- 
 ~
 
 55 TARGETTYPES~
@@ -15672,7 +15644,6 @@ trigger the use_prog, here is a list:
 * Blood/fountains/drink containers - when you drink
 * Lights/armour/weapons - when you wear/wield/hold
 * Potions - when you quaff
-* Pipes - when you smoke
  
 When the use_prog is executed you will not see the standard 'use message'
 (ie You quaff a violet potion). What you will will be any mpechoes placed
@@ -15950,7 +15921,7 @@ Value3 | Type     | Weapons     | Skill
   12   | suction  |             |pugilism
   13   | bolt     | crossbow    |missile weapons
   14   | arrow    | bow         |missile weapons
-  15   | dart     | pipe        |missile weapons
+  15   | dart     | blowgun     |missile weapons
   16   | stone    | sling       |missile weapons
   17   | pea      | peashooter  |missile weapons
  
