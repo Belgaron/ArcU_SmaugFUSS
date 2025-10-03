@@ -1,0 +1,1020 @@
+Thu Oct  2 21:01:51 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Thu Oct  2 21:01:51 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Thu Oct  2 21:01:51 2025 :: Initializing libdl support...
+Thu Oct  2 21:01:51 2025 :: Loading commands...
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: skill_function: Error locating do_defense in symbol table. No such process
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_command: Function do_defense not found for defense
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: skill_function: Error locating do_murde in symbol table. No such process
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_command: Function do_murde not found for murde
+Thu Oct  2 21:01:51 2025 :: Loading spec_funs...
+Thu Oct  2 21:01:51 2025 :: Loading sysdata configuration...
+Thu Oct  2 21:01:51 2025 :: Loading socials
+Thu Oct  2 21:01:51 2025 :: Loading skill table
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_number: bad format. (g)
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_number: bad format. (g)
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_number: bad format. (g)
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Thu Oct  2 21:01:51 2025 :: Sorting skill table...
+Thu Oct  2 21:01:51 2025 :: Creating skill table sorted by type...
+Thu Oct  2 21:01:51 2025 :: Remapping slots to sns
+Thu Oct  2 21:01:51 2025 :: WARNING: Racial transformation skill 'ascended form' not found
+Thu Oct  2 21:01:51 2025 :: Initialized racial transformation: shikai
+Thu Oct  2 21:01:51 2025 :: WARNING: Racial transformation skill 'hollow rage' not found
+Thu Oct  2 21:01:51 2025 :: WARNING: Racial transformation skill 'primal form' not found
+Thu Oct  2 21:01:51 2025 :: WARNING: Racial transformation skill 'blood awakening' not found
+Thu Oct  2 21:01:51 2025 :: WARNING: Racial transformation skill 'true form' not found
+Thu Oct  2 21:01:51 2025 :: Racial transformation system initialized
+Thu Oct  2 21:01:51 2025 :: Loading classes
+Thu Oct  2 21:01:51 2025 :: Loading races
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Thu Oct  2 21:01:51 2025 :: Loading news data
+Thu Oct  2 21:01:51 2025 :: Loading liquids
+Thu Oct  2 21:01:51 2025 :: Loading mixtures
+Thu Oct  2 21:01:51 2025 :: Loading herb table
+Thu Oct  2 21:01:51 2025 :: Loading tongues
+Thu Oct  2 21:01:51 2025 :: Making wizlist
+Thu Oct  2 21:01:51 2025 :: Loading MSSP Data...
+Thu Oct  2 21:01:51 2025 :: Initializing random number generator
+Thu Oct  2 21:01:51 2025 :: Setting time and weather.
+Thu Oct  2 21:01:51 2025 :: Loading holiday chart...
+Thu Oct  2 21:01:51 2025 :: Loading DNS cache...
+Thu Oct  2 21:01:51 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Thu Oct  2 21:01:51 2025 :: Reading in area files...
+(help.are)
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Thu Oct  2 21:01:51 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Thu Oct  2 21:01:51 2025 :: [*****] FILE: housing.are LINE: 23
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Thu Oct  2 21:01:51 2025 :: [*****] FILE: housing.are LINE: 36
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Thu Oct  2 21:01:51 2025 :: [*****] FILE: housing.are LINE: 49
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Thu Oct  2 21:01:51 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 299   Objs:   200 - 299   Mobs:   200 - 299
+Thu Oct  2 21:01:51 2025 :: Fixing exits
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Thu Oct  2 21:01:51 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Thu Oct  2 21:01:51 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Thu Oct  2 21:01:51 2025 :: Initializing economy
+Thu Oct  2 21:01:51 2025 :: Resetting areas
+Thu Oct  2 21:01:51 2025 :: Loading buildlist
+Thu Oct  2 21:01:51 2025 :: ../gods/Dragus
+Thu Oct  2 21:01:51 2025 :: [*****] BUG: load_buildlist: Dragus.are: no #AREA found.
+Thu Oct  2 21:01:51 2025 :: Loading boards
+Thu Oct  2 21:01:51 2025 :: ../boards/immortal.brd
+Thu Oct  2 21:01:51 2025 :: ../boards/highgod.brd
+Thu Oct  2 21:01:51 2025 :: Loading vault list
+Thu Oct  2 21:01:51 2025 :: $
+Thu Oct  2 21:01:51 2025 ::  Done vaults 
+Thu Oct  2 21:01:51 2025 :: Loading clans
+Thu Oct  2 21:01:51 2025 :: Loading clans...
+Thu Oct  2 21:01:51 2025 :: vampire.gui
+Thu Oct  2 21:01:51 2025 :: Storeroom not found
+Thu Oct  2 21:01:51 2025 :: druid.gui
+Thu Oct  2 21:01:51 2025 :: Storeroom not found
+Thu Oct  2 21:01:51 2025 :: warrior.gui
+Thu Oct  2 21:01:51 2025 :: Storeroom not found
+Thu Oct  2 21:01:51 2025 :: augurer.gui
+Thu Oct  2 21:01:51 2025 :: Storeroom not found
+Thu Oct  2 21:01:51 2025 :: thief.gui
+Thu Oct  2 21:01:51 2025 :: Storeroom not found
+Thu Oct  2 21:01:51 2025 :: cleric.gui
+Thu Oct  2 21:01:51 2025 :: Storeroom not found
+Thu Oct  2 21:01:51 2025 :: mage.gui
+Thu Oct  2 21:01:51 2025 :: Storeroom not found
+Thu Oct  2 21:01:51 2025 :: ranger.gui
+Thu Oct  2 21:01:51 2025 :: Storeroom not found
+Thu Oct  2 21:01:51 2025 :: $
+Thu Oct  2 21:01:51 2025 ::  Done clans 
+Thu Oct  2 21:01:51 2025 :: Loading councils
+Thu Oct  2 21:01:51 2025 :: Loading councils...
+Thu Oct  2 21:01:51 2025 :: $
+Thu Oct  2 21:01:51 2025 ::  Done councils 
+Thu Oct  2 21:01:51 2025 :: Loading deities
+Thu Oct  2 21:01:51 2025 :: Loading deities...
+Thu Oct  2 21:01:51 2025 :: $
+Thu Oct  2 21:01:51 2025 ::  Done deities 
+Thu Oct  2 21:01:51 2025 :: Loading watches
+Thu Oct  2 21:01:51 2025 :: Loading bans
+Thu Oct  2 21:01:51 2025 :: Done.
+Thu Oct  2 21:01:51 2025 :: Loading reserved names
+Thu Oct  2 21:01:51 2025 :: Loading corpses
+Thu Oct  2 21:01:51 2025 :: Loading Immortal Hosts
+Thu Oct  2 21:01:51 2025 :: Done.
+Thu Oct  2 21:01:51 2025 :: Loading Projects
+Thu Oct  2 21:01:51 2025 :: Loading Morphs
+Thu Oct  2 21:01:51 2025 :: Done.
+Thu Oct  2 21:01:51 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Thu Oct  2 21:01:51 2025 :: Loading login messages
+Thu Oct  2 21:01:51 2025 :: Initializing socket
+Thu Oct  2 21:01:51 2025 :: (Name Not Set) ready on port 9001.
+Thu Oct  2 21:03:48 2025 :: Preloading player data for: Dragus (12K)
+Thu Oct  2 21:03:48 2025 :: [*****] BUG: fread_char: no match: 5000
+Thu Oct  2 21:03:48 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Thu Oct  2 21:03:48 2025 :: [*****] BUG: fread_char: no match: 3
+Thu Oct  2 21:03:48 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Thu Oct  2 21:03:48 2025 :: Creating area entry for Dragus
+Thu Oct  2 21:03:49 2025 :: Loading player data for: Dragus (12K)
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_char: no match: 5000
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_char: no match: 3
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 110
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 117
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 124
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 131
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 138
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 145
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 152
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 159
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 166
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 173
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 180
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 187
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 194
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 200
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 207
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 214
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 221
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 229
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 236
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 242
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 249
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 255
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 262
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 268
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 274
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 281
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 289
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 297
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 305
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 313
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 320
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 327
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 334
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 341
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 348
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 354
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 361
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 368
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 374
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 380
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 386
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 392
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 399
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 406
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 413
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 420
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 426
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 433
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 439
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 447
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 455
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 462
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 469
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 475
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 483
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 491
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 498
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 505
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 513
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 521
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 528
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 535
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 542
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 548
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 555
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 561
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 568
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 575
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 581
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 587
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 593
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 599
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 605
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 613
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 620
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 627
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 635
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 642
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 649
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 656
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 663
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 669
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 675
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 681
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 687
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 693
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 699
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 706
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 713
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 720
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 727
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 734
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 741
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 748
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 756
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 764
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 771
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 779
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 786
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 794
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 802
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 809
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 816
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 823
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 830
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 837
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 844
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 851
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 857
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 863
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 870
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 877
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 884
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 891
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 898
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 905
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 912
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 919
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 926
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 933
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 939
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 945
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 952
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 958
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 964
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 970
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 976
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 983
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 990
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 997
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 1003
+Thu Oct  2 21:03:49 2025 :: [*****] BUG: fread_obj: incomplete object.
+Thu Oct  2 21:03:49 2025 :: [*****] FILE: ../player/d/Dragus LINE: 1010
+Thu Oct  2 21:03:49 2025 :: Updating area entry for Dragus
+Thu Oct  2 21:03:49 2025 :: Dragus (127.0.0.1) has connected.
+Thu Oct  2 21:03:59 2025 :: Log Dragus: loadarea
+Dragus.are    : Rooms: 55000 - 59999 Objs: 55000 - 59999 Mobs: 55000 - 59999
+Thu Oct  2 21:13:45 2025 :: Log Dragus: oset 55520 type workstation
+Thu Oct  2 21:13:45 2025 :: Log Dragus: oset 55521 type workstation
+Thu Oct  2 21:13:45 2025 :: Log Dragus: oset 55522 type workstation
+Thu Oct  2 21:13:46 2025 :: Log Dragus: oset 55523 type workstation
+Thu Oct  2 21:13:46 2025 :: Log Dragus: oset 55524 type workstation
+Thu Oct  2 21:13:46 2025 :: Log Dragus: oset 55525 type workstation
+Thu Oct  2 21:13:47 2025 :: Log Dragus: oset 55526 type workstation
+Thu Oct  2 21:13:47 2025 :: Log Dragus: oset 55527 type workstation
+Thu Oct  2 21:13:47 2025 :: Log Dragus: oset 55528 type workstation
+Thu Oct  2 21:13:47 2025 :: Log Dragus: oset 55529 type workstation
+Thu Oct  2 21:16:58 2025 :: Log Dragus: oinvoke 55520
+Thu Oct  2 21:16:58 2025 :: Log Dragus: oset 55520 type workstation
+Thu Oct  2 21:16:58 2025 :: Log Dragus: oinvoke 55521
+Thu Oct  2 21:16:59 2025 :: Log Dragus: oset 55521 type workstation
+Thu Oct  2 21:16:59 2025 :: Log Dragus: oinvoke 55522
+Thu Oct  2 21:16:59 2025 :: Log Dragus: oset 55522 type workstation
+Thu Oct  2 21:16:59 2025 :: Log Dragus: oinvoke 55523
+Thu Oct  2 21:17:00 2025 :: Log Dragus: oset 55523 type workstation
+Thu Oct  2 21:17:00 2025 :: Log Dragus: oinvoke 55524
+Thu Oct  2 21:17:00 2025 :: Log Dragus: oset 55524 type workstation
+Thu Oct  2 21:17:01 2025 :: Log Dragus: oinvoke 55525
+Thu Oct  2 21:17:01 2025 :: Log Dragus: oset 55525 type workstation
+Thu Oct  2 21:17:01 2025 :: Log Dragus: oinvoke 55526
+Thu Oct  2 21:17:01 2025 :: Log Dragus: oset 55526 type workstation
+Thu Oct  2 21:17:02 2025 :: Log Dragus: oinvoke 55527
+Thu Oct  2 21:17:02 2025 :: Log Dragus: oset 55527 type workstation
+Thu Oct  2 21:17:02 2025 :: Log Dragus: oinvoke 55528
+Thu Oct  2 21:17:02 2025 :: Log Dragus: oset 55528 type workstation
+Thu Oct  2 21:17:03 2025 :: Log Dragus: oinvoke 55529
+Thu Oct  2 21:17:03 2025 :: Log Dragus: oset 55529 type workstation
+Thu Oct  2 21:17:52 2025 :: Log Dragus: oinvoke 55600
+Thu Oct  2 21:17:52 2025 :: Log Dragus: oset 55600 type resource
+Thu Oct  2 21:17:52 2025 :: Log Dragus: oinvoke 55601
+Thu Oct  2 21:17:53 2025 :: Log Dragus: oset 55601 type resource
+Thu Oct  2 21:17:53 2025 :: Log Dragus: oinvoke 55602
+Thu Oct  2 21:17:53 2025 :: Log Dragus: oset 55602 type resource
+Thu Oct  2 21:17:54 2025 :: Log Dragus: oinvoke 55603
+Thu Oct  2 21:17:54 2025 :: Log Dragus: oset 55603 type resource
+Thu Oct  2 21:17:54 2025 :: Log Dragus: oinvoke 55604
+Thu Oct  2 21:17:54 2025 :: Log Dragus: oset 55604 type resource
+Thu Oct  2 21:17:55 2025 :: Log Dragus: oinvoke 55605
+Thu Oct  2 21:17:55 2025 :: Log Dragus: oset 55605 type resource
+Thu Oct  2 21:17:55 2025 :: Log Dragus: oinvoke 55606
+Thu Oct  2 21:17:55 2025 :: Log Dragus: oset 55606 type resource
+Thu Oct  2 21:17:56 2025 :: Log Dragus: oinvoke 55607
+Thu Oct  2 21:17:56 2025 :: Log Dragus: oset 55607 type resource
+Thu Oct  2 21:17:56 2025 :: Log Dragus: oinvoke 55608
+Thu Oct  2 21:17:56 2025 :: Log Dragus: oset 55608 type resource
+Thu Oct  2 21:17:57 2025 :: Log Dragus: oinvoke 55609
+Thu Oct  2 21:17:57 2025 :: Log Dragus: oset 55609 type resource
+Thu Oct  2 21:17:57 2025 :: Log Dragus: oinvoke 55610
+Thu Oct  2 21:17:57 2025 :: Log Dragus: oset 55610 type resource
+Thu Oct  2 21:17:58 2025 :: Log Dragus: oinvoke 55611
+Thu Oct  2 21:17:58 2025 :: Log Dragus: oset 55611 type resource
+Thu Oct  2 21:17:58 2025 :: Log Dragus: oinvoke 55612
+Thu Oct  2 21:17:58 2025 :: Log Dragus: oset 55612 type resource
+Thu Oct  2 21:17:59 2025 :: Log Dragus: oinvoke 55613
+Thu Oct  2 21:17:59 2025 :: Log Dragus: oset 55613 type resource
+Thu Oct  2 21:17:59 2025 :: Log Dragus: oinvoke 55614
+Thu Oct  2 21:18:00 2025 :: Log Dragus: oset 55614 type resource
+Thu Oct  2 21:18:00 2025 :: Log Dragus: oinvoke 55615
+Thu Oct  2 21:18:00 2025 :: Log Dragus: oset 55615 type resource
+Thu Oct  2 21:18:00 2025 :: Log Dragus: oinvoke 55616
+Thu Oct  2 21:18:01 2025 :: Log Dragus: oset 55616 type resource
+Thu Oct  2 21:18:01 2025 :: Log Dragus: oinvoke 55617
+Thu Oct  2 21:18:01 2025 :: Log Dragus: oset 55617 type resource
+Thu Oct  2 21:18:01 2025 :: Log Dragus: oinvoke 55618
+Thu Oct  2 21:18:02 2025 :: Log Dragus: oset 55618 type resource
+Thu Oct  2 21:18:02 2025 :: Log Dragus: oinvoke 55619
+Thu Oct  2 21:18:02 2025 :: Log Dragus: oset 55619 type resource
+Thu Oct  2 21:18:17 2025 :: Log Dragus: oinvoke 55620
+Thu Oct  2 21:18:17 2025 :: Log Dragus: oset 55620 type resource
+Thu Oct  2 21:18:18 2025 :: Log Dragus: oinvoke 55621
+Thu Oct  2 21:18:18 2025 :: Log Dragus: oset 55621 type resource
+Thu Oct  2 21:18:18 2025 :: Log Dragus: oinvoke 55622
+Thu Oct  2 21:18:18 2025 :: Log Dragus: oset 55622 type resource
+Thu Oct  2 21:18:19 2025 :: Log Dragus: oinvoke 55623
+Thu Oct  2 21:18:19 2025 :: Log Dragus: oset 55623 type resource
+Thu Oct  2 21:18:19 2025 :: Log Dragus: oinvoke 55624
+Thu Oct  2 21:18:20 2025 :: Log Dragus: oset 55624 type resource
+Thu Oct  2 21:18:20 2025 :: Log Dragus: oinvoke 55625
+Thu Oct  2 21:18:20 2025 :: Log Dragus: oset 55625 type resource
+Thu Oct  2 21:18:20 2025 :: Log Dragus: oinvoke 55626
+Thu Oct  2 21:18:21 2025 :: Log Dragus: oset 55626 type resource
+Thu Oct  2 21:18:46 2025 :: Log Dragus: oinvoke 55630
+Thu Oct  2 21:18:46 2025 :: Log Dragus: oset 55630 type resource
+Thu Oct  2 21:18:46 2025 :: Log Dragus: oinvoke 55631
+Thu Oct  2 21:18:46 2025 :: Log Dragus: oset 55631 type resource
+Thu Oct  2 21:18:47 2025 :: Log Dragus: oinvoke 55632
+Thu Oct  2 21:18:47 2025 :: Log Dragus: oset 55632 type resource
+Thu Oct  2 21:18:47 2025 :: Log Dragus: oinvoke 55633
+Thu Oct  2 21:18:47 2025 :: Log Dragus: oset 55633 type resource
+Thu Oct  2 21:18:48 2025 :: Log Dragus: oinvoke 55634
+Thu Oct  2 21:18:48 2025 :: Log Dragus: oset 55634 type resource
+Thu Oct  2 21:18:48 2025 :: Log Dragus: oinvoke 55635
+Thu Oct  2 21:18:48 2025 :: Log Dragus: oset 55635 type resource
+Thu Oct  2 21:18:49 2025 :: Log Dragus: oinvoke 55636
+Thu Oct  2 21:18:49 2025 :: Log Dragus: oset 55636 type resource
+Thu Oct  2 21:18:49 2025 :: Log Dragus: oinvoke 55637
+Thu Oct  2 21:18:49 2025 :: Log Dragus: oset 55637 type resource
+Thu Oct  2 21:18:50 2025 :: Log Dragus: oinvoke 55638
+Thu Oct  2 21:18:50 2025 :: Log Dragus: oset 55638 type resource
+Thu Oct  2 21:19:13 2025 :: Log Dragus: oinvoke 55640
+Thu Oct  2 21:19:14 2025 :: Log Dragus: oset 55640 type resource
+Thu Oct  2 21:19:14 2025 :: Log Dragus: oinvoke 55641
+Thu Oct  2 21:19:14 2025 :: Log Dragus: oset 55641 type resource
+Thu Oct  2 21:19:14 2025 :: Log Dragus: oinvoke 55642
+Thu Oct  2 21:19:15 2025 :: Log Dragus: oset 55642 type resource
+Thu Oct  2 21:19:15 2025 :: Log Dragus: oinvoke 55643
+Thu Oct  2 21:19:15 2025 :: Log Dragus: oset 55643 type resource
+Thu Oct  2 21:19:16 2025 :: Log Dragus: oinvoke 55644
+Thu Oct  2 21:19:16 2025 :: Log Dragus: oset 55644 type resource
+Thu Oct  2 21:19:24 2025 :: Log Dragus: oinvoke 55650
+Thu Oct  2 21:19:24 2025 :: Log Dragus: oset 55650 type resource
+Thu Oct  2 21:19:24 2025 :: Log Dragus: oinvoke 55651
+Thu Oct  2 21:19:25 2025 :: Log Dragus: oset 55651 type resource
+Thu Oct  2 21:19:25 2025 :: Log Dragus: oinvoke 55652
+Thu Oct  2 21:19:25 2025 :: Log Dragus: oset 55652 type resource
+Thu Oct  2 21:19:26 2025 :: Log Dragus: oinvoke 55653
+Thu Oct  2 21:19:26 2025 :: Log Dragus: oset 55653 type resource
+Thu Oct  2 21:19:26 2025 :: Log Dragus: oinvoke 55654
+Thu Oct  2 21:19:26 2025 :: Log Dragus: oset 55654 type resource
+Thu Oct  2 21:19:27 2025 :: Log Dragus: oinvoke 55655
+Thu Oct  2 21:19:27 2025 :: Log Dragus: oset 55655 type resource
+Thu Oct  2 21:19:36 2025 :: Log Dragus: oinvoke 55660
+Thu Oct  2 21:19:36 2025 :: Log Dragus: oset 55660 type resource
+Thu Oct  2 21:19:37 2025 :: Log Dragus: oinvoke 55661
+Thu Oct  2 21:19:37 2025 :: Log Dragus: oset 55661 type resource
+Thu Oct  2 21:19:37 2025 :: Log Dragus: oinvoke 55662
+Thu Oct  2 21:19:37 2025 :: Log Dragus: oset 55662 type resource
+Thu Oct  2 21:19:38 2025 :: Log Dragus: oinvoke 55663
+Thu Oct  2 21:19:38 2025 :: Log Dragus: oset 55663 type resource
+Thu Oct  2 21:19:38 2025 :: Log Dragus: oinvoke 55664
+Thu Oct  2 21:19:38 2025 :: Log Dragus: oset 55664 type resource
+Thu Oct  2 21:19:39 2025 :: Log Dragus: oinvoke 55665
+Thu Oct  2 21:19:39 2025 :: Log Dragus: oset 55665 type resource
+Thu Oct  2 21:19:39 2025 :: Log Dragus: oinvoke 55666
+Thu Oct  2 21:19:39 2025 :: Log Dragus: oset 55666 type resource
+Thu Oct  2 21:19:40 2025 :: Log Dragus: oinvoke 55667
+Thu Oct  2 21:19:40 2025 :: Log Dragus: oset 55667 type resource
+Thu Oct  2 21:19:40 2025 :: Log Dragus: oinvoke 55668
+Thu Oct  2 21:19:40 2025 :: Log Dragus: oset 55668 type resource
+Thu Oct  2 21:19:41 2025 :: Log Dragus: oinvoke 55669
+Thu Oct  2 21:19:41 2025 :: Log Dragus: oset 55669 type resource
+Thu Oct  2 21:19:41 2025 :: Log Dragus: oinvoke 55670
+Thu Oct  2 21:19:42 2025 :: Log Dragus: oset 55670 type resource
+Thu Oct  2 21:19:42 2025 :: Log Dragus: oinvoke 55671
+Thu Oct  2 21:19:42 2025 :: Log Dragus: oset 55671 type resource
+Thu Oct  2 21:19:42 2025 :: Log Dragus: oinvoke 55672
+Thu Oct  2 21:19:43 2025 :: Log Dragus: oset 55672 type resource
+Thu Oct  2 21:19:43 2025 :: Log Dragus: oinvoke 55673
+Thu Oct  2 21:19:43 2025 :: Log Dragus: oset 55673 type resource
+Thu Oct  2 21:19:55 2025 :: Log Dragus: oinvoke 55680
+Thu Oct  2 21:19:55 2025 :: Log Dragus: oset 55680 type resource
+Thu Oct  2 21:19:56 2025 :: Log Dragus: oinvoke 55681
+Thu Oct  2 21:19:56 2025 :: Log Dragus: oset 55681 type resource
+Thu Oct  2 21:19:56 2025 :: Log Dragus: oinvoke 55682
+Thu Oct  2 21:19:56 2025 :: Log Dragus: oset 55682 type resource
+Thu Oct  2 21:19:57 2025 :: Log Dragus: oinvoke 55683
+Thu Oct  2 21:19:57 2025 :: Log Dragus: oset 55683 type resource
+Thu Oct  2 21:19:57 2025 :: Log Dragus: oinvoke 55684
+Thu Oct  2 21:19:58 2025 :: Log Dragus: oset 55684 type resource
+Thu Oct  2 21:19:58 2025 :: Log Dragus: oinvoke 55685
+Thu Oct  2 21:19:58 2025 :: Log Dragus: oset 55685 type resource
+Thu Oct  2 21:19:58 2025 :: Log Dragus: oinvoke 55686
+Thu Oct  2 21:19:59 2025 :: Log Dragus: oset 55686 type resource
+Thu Oct  2 21:19:59 2025 :: Log Dragus: oinvoke 55687
+Thu Oct  2 21:19:59 2025 :: Log Dragus: oset 55687 type resource
+Thu Oct  2 21:19:59 2025 :: Log Dragus: oinvoke 55688
+Thu Oct  2 21:20:00 2025 :: Log Dragus: oset 55688 type resource
+Thu Oct  2 21:20:00 2025 :: Log Dragus: oinvoke 55689
+Thu Oct  2 21:20:00 2025 :: Log Dragus: oset 55689 type resource
+Thu Oct  2 21:20:00 2025 :: Log Dragus: oinvoke 55690
+Thu Oct  2 21:20:01 2025 :: Log Dragus: oset 55690 type resource
+Thu Oct  2 21:20:01 2025 :: Log Dragus: oinvoke 55691
+Thu Oct  2 21:20:01 2025 :: Log Dragus: oset 55691 type resource
+Thu Oct  2 21:20:01 2025 :: Log Dragus: oinvoke 55692
+Thu Oct  2 21:20:02 2025 :: Log Dragus: oset 55692 type resource
+Thu Oct  2 21:20:02 2025 :: Log Dragus: oinvoke 55693
+Thu Oct  2 21:20:02 2025 :: Log Dragus: oset 55693 type resource
+Thu Oct  2 21:20:13 2025 :: Log Dragus: oinvoke 55700
+Thu Oct  2 21:20:14 2025 :: Log Dragus: oset 55700 type resource
+Thu Oct  2 21:20:14 2025 :: Log Dragus: oinvoke 55701
+Thu Oct  2 21:20:14 2025 :: Log Dragus: oset 55701 type resource
+Thu Oct  2 21:20:14 2025 :: Log Dragus: oinvoke 55702
+Thu Oct  2 21:20:15 2025 :: Log Dragus: oset 55702 type resource
+Thu Oct  2 21:20:15 2025 :: Log Dragus: oinvoke 55703
+Thu Oct  2 21:20:15 2025 :: Log Dragus: oset 55703 type resource
+Thu Oct  2 21:20:15 2025 :: Log Dragus: oinvoke 55704
+Thu Oct  2 21:20:16 2025 :: Log Dragus: oset 55704 type resource
+Thu Oct  2 21:20:16 2025 :: Log Dragus: oinvoke 55705
+Thu Oct  2 21:20:16 2025 :: Log Dragus: oset 55705 type resource
+Thu Oct  2 21:20:16 2025 :: Log Dragus: oinvoke 55706
+Thu Oct  2 21:20:17 2025 :: Log Dragus: oset 55706 type resource
+Thu Oct  2 21:20:17 2025 :: Log Dragus: oinvoke 55707
+Thu Oct  2 21:20:17 2025 :: Log Dragus: oset 55707 type resource
+Thu Oct  2 21:20:17 2025 :: Log Dragus: oinvoke 55708
+Thu Oct  2 21:20:18 2025 :: Log Dragus: oset 55708 type resource
+Thu Oct  2 21:20:18 2025 :: Log Dragus: oinvoke 55709
+Thu Oct  2 21:20:18 2025 :: Log Dragus: oset 55709 type resource
+Thu Oct  2 21:20:19 2025 :: Log Dragus: oinvoke 55710
+Thu Oct  2 21:20:19 2025 :: Log Dragus: oset 55710 type resource
+Thu Oct  2 21:20:19 2025 :: Log Dragus: oinvoke 55711
+Thu Oct  2 21:20:19 2025 :: Log Dragus: oset 55711 type resource
+Thu Oct  2 21:20:20 2025 :: Log Dragus: oinvoke 55712
+Thu Oct  2 21:20:20 2025 :: Log Dragus: oset 55712 type resource
+Thu Oct  2 21:32:06 2025 :: Log Dragus: oinvoke 55600
+Thu Oct  2 21:32:06 2025 :: Log Dragus: oset 55600 value0 <rarity>
+Thu Oct  2 21:32:06 2025 :: Log Dragus: oset 55600 value1 10
+Thu Oct  2 21:32:07 2025 :: Log Dragus: oset 55600 value2 1
+Thu Oct  2 21:32:07 2025 :: Log Dragus: oinvoke 55601
+Thu Oct  2 21:32:07 2025 :: Log Dragus: oset 55601 value0 <rarity>
+Thu Oct  2 21:32:08 2025 :: Log Dragus: oset 55601 value1 50
+Thu Oct  2 21:32:08 2025 :: Log Dragus: oset 55601 value2 5
+Thu Oct  2 21:32:08 2025 :: Log Dragus: oinvoke 55602
+Thu Oct  2 21:32:08 2025 :: Log Dragus: oset 55602 value0 <rarity>
+Thu Oct  2 21:32:09 2025 :: Log Dragus: oset 55602 value1 75
+Thu Oct  2 21:32:09 2025 :: Log Dragus: oset 55602 value2 7
+Thu Oct  2 21:32:09 2025 :: Log Dragus: oinvoke 55603
+Thu Oct  2 21:32:09 2025 :: Log Dragus: oset 55603 value0 <rarity>
+Thu Oct  2 21:32:10 2025 :: Log Dragus: oset 55603 value1 8
+Thu Oct  2 21:32:10 2025 :: Log Dragus: oset 55603 value2 0
+Thu Oct  2 21:32:10 2025 :: Log Dragus: oinvoke 55604
+Thu Oct  2 21:32:10 2025 :: Log Dragus: oset 55604 value0 <rarity>
+Thu Oct  2 21:32:11 2025 :: Log Dragus: oset 55604 value1 100
+Thu Oct  2 21:32:11 2025 :: Log Dragus: oset 55604 value2 10
+Thu Oct  2 21:32:20 2025 :: Log Dragus: oinvoke 55605
+Thu Oct  2 21:32:21 2025 :: Log Dragus: oset 55605 value0 <rarity>
+Thu Oct  2 21:32:21 2025 :: Log Dragus: oset 55605 value1 200
+Thu Oct  2 21:32:21 2025 :: Log Dragus: oset 55605 value2 20
+Thu Oct  2 21:32:21 2025 :: Log Dragus: oinvoke 55606
+Thu Oct  2 21:32:22 2025 :: Log Dragus: oset 55606 value0 <rarity>
+Thu Oct  2 21:32:22 2025 :: Log Dragus: oset 55606 value1 400
+Thu Oct  2 21:32:22 2025 :: Log Dragus: oset 55606 value2 40
+Thu Oct  2 21:32:23 2025 :: Log Dragus: oinvoke 55607
+Thu Oct  2 21:32:23 2025 :: Log Dragus: oset 55607 value0 <rarity>
+Thu Oct  2 21:32:23 2025 :: Log Dragus: oset 55607 value1 500
+Thu Oct  2 21:32:23 2025 :: Log Dragus: oset 55607 value2 50
+Thu Oct  2 21:32:24 2025 :: Log Dragus: oinvoke 55608
+Thu Oct  2 21:32:24 2025 :: Log Dragus: oset 55608 value0 <rarity>
+Thu Oct  2 21:32:24 2025 :: Log Dragus: oset 55608 value1 1000
+Thu Oct  2 21:32:24 2025 :: Log Dragus: oset 55608 value2 100
+Thu Oct  2 21:32:25 2025 :: Log Dragus: oinvoke 55609
+Thu Oct  2 21:32:25 2025 :: Log Dragus: oset 55609 value0 <rarity>
+Thu Oct  2 21:32:25 2025 :: Log Dragus: oset 55609 value1 2000
+Thu Oct  2 21:32:25 2025 :: Log Dragus: oset 55609 value2 200
+Thu Oct  2 21:32:26 2025 :: Log Dragus: oinvoke 55610
+Thu Oct  2 21:32:26 2025 :: Log Dragus: oset 55610 value0 <rarity>
+Thu Oct  2 21:32:26 2025 :: Log Dragus: oset 55610 value1 25
+Thu Oct  2 21:32:26 2025 :: Log Dragus: oset 55610 value2 2
+Thu Oct  2 21:32:31 2025 :: Log Dragus: oinvoke 55611
+Thu Oct  2 21:32:31 2025 :: Log Dragus: oset 55611 value0 <rarity>
+Thu Oct  2 21:32:32 2025 :: Log Dragus: oset 55611 value1 100
+Thu Oct  2 21:32:32 2025 :: Log Dragus: oset 55611 value2 10
+Thu Oct  2 21:32:32 2025 :: Log Dragus: oinvoke 55612
+Thu Oct  2 21:32:32 2025 :: Log Dragus: oset 55612 value0 <rarity>
+Thu Oct  2 21:32:33 2025 :: Log Dragus: oset 55612 value1 150
+Thu Oct  2 21:32:33 2025 :: Log Dragus: oset 55612 value2 15
+Thu Oct  2 21:32:33 2025 :: Log Dragus: oinvoke 55613
+Thu Oct  2 21:32:34 2025 :: Log Dragus: oset 55613 value0 <rarity>
+Thu Oct  2 21:32:34 2025 :: Log Dragus: oset 55613 value1 20
+Thu Oct  2 21:32:34 2025 :: Log Dragus: oset 55613 value2 2
+Thu Oct  2 21:32:34 2025 :: Log Dragus: oinvoke 55614
+Thu Oct  2 21:32:35 2025 :: Log Dragus: oset 55614 value0 <rarity>
+Thu Oct  2 21:32:35 2025 :: Log Dragus: oset 55614 value1 200
+Thu Oct  2 21:32:35 2025 :: Log Dragus: oset 55614 value2 20
+Thu Oct  2 21:32:35 2025 :: Log Dragus: oinvoke 55615
+Thu Oct  2 21:32:36 2025 :: Log Dragus: oset 55615 value0 <rarity>
+Thu Oct  2 21:32:36 2025 :: Log Dragus: oset 55615 value1 400
+Thu Oct  2 21:32:36 2025 :: Log Dragus: oset 55615 value2 40
+Thu Oct  2 21:32:36 2025 :: Log Dragus: oinvoke 55616
+Thu Oct  2 21:32:37 2025 :: Log Dragus: oset 55616 value0 <rarity>
+Thu Oct  2 21:32:37 2025 :: Log Dragus: oset 55616 value1 800
+Thu Oct  2 21:32:37 2025 :: Log Dragus: oset 55616 value2 80
+Thu Oct  2 21:32:46 2025 :: Log Dragus: oinvoke 55617
+Thu Oct  2 21:32:46 2025 :: Log Dragus: oset 55617 value0 <rarity>
+Thu Oct  2 21:32:47 2025 :: Log Dragus: oset 55617 value1 1000
+Thu Oct  2 21:32:47 2025 :: Log Dragus: oset 55617 value2 100
+Thu Oct  2 21:32:47 2025 :: Log Dragus: oinvoke 55618
+Thu Oct  2 21:32:47 2025 :: Log Dragus: oset 55618 value0 <rarity>
+Thu Oct  2 21:32:48 2025 :: Log Dragus: oset 55618 value1 2000
+Thu Oct  2 21:32:48 2025 :: Log Dragus: oset 55618 value2 200
+Thu Oct  2 21:32:48 2025 :: Log Dragus: oinvoke 55619
+Thu Oct  2 21:32:48 2025 :: Log Dragus: oset 55619 value0 <rarity>
+Thu Oct  2 21:32:49 2025 :: Log Dragus: oset 55619 value1 4000
+Thu Oct  2 21:32:49 2025 :: Log Dragus: oset 55619 value2 400
+Thu Oct  2 21:32:56 2025 :: Log Dragus: oinvoke 55620
+Thu Oct  2 21:32:56 2025 :: Log Dragus: oset 55620 value0 <rarity>
+Thu Oct  2 21:32:56 2025 :: Log Dragus: oset 55620 value1 5
+Thu Oct  2 21:32:56 2025 :: Log Dragus: oset 55620 value2 0
+Thu Oct  2 21:32:57 2025 :: Log Dragus: oinvoke 55621
+Thu Oct  2 21:32:57 2025 :: Log Dragus: oset 55621 value0 <rarity>
+Thu Oct  2 21:32:57 2025 :: Log Dragus: oset 55621 value1 10
+Thu Oct  2 21:32:57 2025 :: Log Dragus: oset 55621 value2 1
+Thu Oct  2 21:32:58 2025 :: Log Dragus: oinvoke 55622
+Thu Oct  2 21:32:58 2025 :: Log Dragus: oset 55622 value0 <rarity>
+Thu Oct  2 21:32:58 2025 :: Log Dragus: oset 55622 value1 50
+Thu Oct  2 21:32:58 2025 :: Log Dragus: oset 55622 value2 5
+Thu Oct  2 21:32:59 2025 :: Log Dragus: oinvoke 55623
+Thu Oct  2 21:32:59 2025 :: Log Dragus: oset 55623 value0 <rarity>
+Thu Oct  2 21:32:59 2025 :: Log Dragus: oset 55623 value1 75
+Thu Oct  2 21:33:00 2025 :: Log Dragus: oset 55623 value2 7
+Thu Oct  2 21:33:00 2025 :: Log Dragus: oinvoke 55624
+Thu Oct  2 21:33:00 2025 :: Log Dragus: oset 55624 value0 <rarity>
+Thu Oct  2 21:33:00 2025 :: Log Dragus: oset 55624 value1 200
+Thu Oct  2 21:33:01 2025 :: Log Dragus: oset 55624 value2 20
+Thu Oct  2 21:33:05 2025 :: Log Dragus: oinvoke 55625
+Thu Oct  2 21:33:05 2025 :: Log Dragus: oset 55625 value0 <rarity>
+Thu Oct  2 21:33:05 2025 :: Log Dragus: oset 55625 value1 8
+Thu Oct  2 21:33:06 2025 :: Log Dragus: oset 55625 value2 0
+Thu Oct  2 21:33:06 2025 :: Log Dragus: oinvoke 55626
+Thu Oct  2 21:33:06 2025 :: Log Dragus: oset 55626 value0 <rarity>
+Thu Oct  2 21:33:06 2025 :: Log Dragus: oset 55626 value1 5
+Thu Oct  2 21:33:07 2025 :: Log Dragus: oset 55626 value2 0
+Thu Oct  2 21:33:14 2025 :: Log Dragus: oinvoke 55630
+Thu Oct  2 21:33:14 2025 :: Log Dragus: oset 55630 value0 <rarity>
+Thu Oct  2 21:33:15 2025 :: Log Dragus: oset 55630 value1 5
+Thu Oct  2 21:33:15 2025 :: Log Dragus: oset 55630 value2 0
+Thu Oct  2 21:33:15 2025 :: Log Dragus: oinvoke 55631
+Thu Oct  2 21:33:16 2025 :: Log Dragus: oset 55631 value0 <rarity>
+Thu Oct  2 21:33:16 2025 :: Log Dragus: oset 55631 value1 8
+Thu Oct  2 21:33:16 2025 :: Log Dragus: oset 55631 value2 0
+Thu Oct  2 21:33:16 2025 :: Log Dragus: oinvoke 55632
+Thu Oct  2 21:33:17 2025 :: Log Dragus: oset 55632 value0 <rarity>
+Thu Oct  2 21:33:17 2025 :: Log Dragus: oset 55632 value1 10
+Thu Oct  2 21:33:17 2025 :: Log Dragus: oset 55632 value2 1
+Thu Oct  2 21:33:17 2025 :: Log Dragus: oinvoke 55633
+Thu Oct  2 21:33:18 2025 :: Log Dragus: oset 55633 value0 <rarity>
+Thu Oct  2 21:33:18 2025 :: Log Dragus: oset 55633 value1 6
+Thu Oct  2 21:33:18 2025 :: Log Dragus: oset 55633 value2 0
+Thu Oct  2 21:33:18 2025 :: Log Dragus: oinvoke 55634
+Thu Oct  2 21:33:19 2025 :: Log Dragus: oset 55634 value0 <rarity>
+Thu Oct  2 21:33:19 2025 :: Log Dragus: oset 55634 value1 15
+Thu Oct  2 21:33:19 2025 :: Log Dragus: oset 55634 value2 1
+Thu Oct  2 21:33:23 2025 :: Log Dragus: oinvoke 55635
+Thu Oct  2 21:33:23 2025 :: Log Dragus: oset 55635 value0 <rarity>
+Thu Oct  2 21:33:23 2025 :: Log Dragus: oset 55635 value1 50
+Thu Oct  2 21:33:23 2025 :: Log Dragus: oset 55635 value2 5
+Thu Oct  2 21:33:24 2025 :: Log Dragus: oinvoke 55636
+Thu Oct  2 21:33:24 2025 :: Log Dragus: oset 55636 value0 <rarity>
+Thu Oct  2 21:33:24 2025 :: Log Dragus: oset 55636 value1 10
+Thu Oct  2 21:33:24 2025 :: Log Dragus: oset 55636 value2 1
+Thu Oct  2 21:33:25 2025 :: Log Dragus: oinvoke 55637
+Thu Oct  2 21:33:25 2025 :: Log Dragus: oset 55637 value0 <rarity>
+Thu Oct  2 21:33:25 2025 :: Log Dragus: oset 55637 value1 12
+Thu Oct  2 21:33:25 2025 :: Log Dragus: oset 55637 value2 1
+Thu Oct  2 21:33:26 2025 :: Log Dragus: oinvoke 55638
+Thu Oct  2 21:33:26 2025 :: Log Dragus: oset 55638 value0 <rarity>
+Thu Oct  2 21:33:26 2025 :: Log Dragus: oset 55638 value1 50
+Thu Oct  2 21:33:27 2025 :: Log Dragus: oset 55638 value2 5
+Thu Oct  2 21:33:32 2025 :: Log Dragus: oinvoke 55640
+Thu Oct  2 21:33:32 2025 :: Log Dragus: oset 55640 value0 <rarity>
+Thu Oct  2 21:33:32 2025 :: Log Dragus: oset 55640 value1 5
+Thu Oct  2 21:33:32 2025 :: Log Dragus: oset 55640 value2 0
+Thu Oct  2 21:33:33 2025 :: Log Dragus: oinvoke 55641
+Thu Oct  2 21:33:33 2025 :: Log Dragus: oset 55641 value0 <rarity>
+Thu Oct  2 21:33:33 2025 :: Log Dragus: oset 55641 value1 10
+Thu Oct  2 21:33:33 2025 :: Log Dragus: oset 55641 value2 1
+Thu Oct  2 21:33:34 2025 :: Log Dragus: oinvoke 55642
+Thu Oct  2 21:33:34 2025 :: Log Dragus: oset 55642 value0 <rarity>
+Thu Oct  2 21:33:34 2025 :: Log Dragus: oset 55642 value1 8
+Thu Oct  2 21:33:34 2025 :: Log Dragus: oset 55642 value2 0
+Thu Oct  2 21:33:35 2025 :: Log Dragus: oinvoke 55643
+Thu Oct  2 21:33:35 2025 :: Log Dragus: oset 55643 value0 <rarity>
+Thu Oct  2 21:33:35 2025 :: Log Dragus: oset 55643 value1 12
+Thu Oct  2 21:33:35 2025 :: Log Dragus: oset 55643 value2 1
+Thu Oct  2 21:33:36 2025 :: Log Dragus: oinvoke 55644
+Thu Oct  2 21:33:36 2025 :: Log Dragus: oset 55644 value0 <rarity>
+Thu Oct  2 21:33:36 2025 :: Log Dragus: oset 55644 value1 100
+Thu Oct  2 21:33:37 2025 :: Log Dragus: oset 55644 value2 10
+Thu Oct  2 21:33:43 2025 :: Log Dragus: oinvoke 55650
+Thu Oct  2 21:33:43 2025 :: Log Dragus: oset 55650 value0 <rarity>
+Thu Oct  2 21:33:43 2025 :: Log Dragus: oset 55650 value1 15
+Thu Oct  2 21:33:43 2025 :: Log Dragus: oset 55650 value2 1
+Thu Oct  2 21:33:44 2025 :: Log Dragus: oinvoke 55651
+Thu Oct  2 21:33:44 2025 :: Log Dragus: oset 55651 value0 <rarity>
+Thu Oct  2 21:33:44 2025 :: Log Dragus: oset 55651 value1 20
+Thu Oct  2 21:33:44 2025 :: Log Dragus: oset 55651 value2 2
+Thu Oct  2 21:33:45 2025 :: Log Dragus: oinvoke 55652
+Thu Oct  2 21:33:45 2025 :: Log Dragus: oset 55652 value0 <rarity>
+Thu Oct  2 21:33:45 2025 :: Log Dragus: oset 55652 value1 10
+Thu Oct  2 21:33:45 2025 :: Log Dragus: oset 55652 value2 1
+Thu Oct  2 21:33:46 2025 :: Log Dragus: oinvoke 55653
+Thu Oct  2 21:33:46 2025 :: Log Dragus: oset 55653 value0 <rarity>
+Thu Oct  2 21:33:46 2025 :: Log Dragus: oset 55653 value1 50
+Thu Oct  2 21:33:47 2025 :: Log Dragus: oset 55653 value2 5
+Thu Oct  2 21:33:47 2025 :: Log Dragus: oinvoke 55654
+Thu Oct  2 21:33:47 2025 :: Log Dragus: oset 55654 value0 <rarity>
+Thu Oct  2 21:33:47 2025 :: Log Dragus: oset 55654 value1 75
+Thu Oct  2 21:33:48 2025 :: Log Dragus: oset 55654 value2 7
+Thu Oct  2 21:33:48 2025 :: Log Dragus: oinvoke 55655
+Thu Oct  2 21:33:48 2025 :: Log Dragus: oset 55655 value0 <rarity>
+Thu Oct  2 21:33:48 2025 :: Log Dragus: oset 55655 value1 100
+Thu Oct  2 21:33:49 2025 :: Log Dragus: oset 55655 value2 10
+Thu Oct  2 21:33:54 2025 :: Log Dragus: oinvoke 55660
+Thu Oct  2 21:33:54 2025 :: Log Dragus: oset 55660 value0 <rarity>
+Thu Oct  2 21:33:54 2025 :: Log Dragus: oset 55660 value1 100
+Thu Oct  2 21:33:54 2025 :: Log Dragus: oset 55660 value2 10
+Thu Oct  2 21:33:55 2025 :: Log Dragus: oinvoke 55661
+Thu Oct  2 21:33:55 2025 :: Log Dragus: oset 55661 value0 <rarity>
+Thu Oct  2 21:33:55 2025 :: Log Dragus: oset 55661 value1 80
+Thu Oct  2 21:33:55 2025 :: Log Dragus: oset 55661 value2 8
+Thu Oct  2 21:33:56 2025 :: Log Dragus: oinvoke 55662
+Thu Oct  2 21:33:56 2025 :: Log Dragus: oset 55662 value0 <rarity>
+Thu Oct  2 21:33:56 2025 :: Log Dragus: oset 55662 value1 90
+Thu Oct  2 21:33:57 2025 :: Log Dragus: oset 55662 value2 9
+Thu Oct  2 21:33:57 2025 :: Log Dragus: oinvoke 55663
+Thu Oct  2 21:33:57 2025 :: Log Dragus: oset 55663 value0 <rarity>
+Thu Oct  2 21:33:57 2025 :: Log Dragus: oset 55663 value1 120
+Thu Oct  2 21:33:58 2025 :: Log Dragus: oset 55663 value2 12
+Thu Oct  2 21:33:58 2025 :: Log Dragus: oinvoke 55664
+Thu Oct  2 21:33:58 2025 :: Log Dragus: oset 55664 value0 <rarity>
+Thu Oct  2 21:33:58 2025 :: Log Dragus: oset 55664 value1 150
+Thu Oct  2 21:33:59 2025 :: Log Dragus: oset 55664 value2 15
+Thu Oct  2 21:34:01 2025 :: Log Dragus: oinvoke 55665
+Thu Oct  2 21:34:01 2025 :: Log Dragus: oset 55665 value0 <rarity>
+Thu Oct  2 21:34:01 2025 :: Log Dragus: oset 55665 value1 70
+Thu Oct  2 21:34:02 2025 :: Log Dragus: oset 55665 value2 7
+Thu Oct  2 21:34:02 2025 :: Log Dragus: oinvoke 55666
+Thu Oct  2 21:34:02 2025 :: Log Dragus: oset 55666 value0 <rarity>
+Thu Oct  2 21:34:02 2025 :: Log Dragus: oset 55666 value1 1000
+Thu Oct  2 21:34:03 2025 :: Log Dragus: oset 55666 value2 100
+Thu Oct  2 21:34:03 2025 :: Log Dragus: oinvoke 55667
+Thu Oct  2 21:34:03 2025 :: Log Dragus: oset 55667 value0 <rarity>
+Thu Oct  2 21:34:03 2025 :: Log Dragus: oset 55667 value1 500
+Thu Oct  2 21:34:04 2025 :: Log Dragus: oset 55667 value2 50
+Thu Oct  2 21:34:04 2025 :: Log Dragus: oinvoke 55668
+Thu Oct  2 21:34:04 2025 :: Log Dragus: oset 55668 value0 <rarity>
+Thu Oct  2 21:34:04 2025 :: Log Dragus: oset 55668 value1 500
+Thu Oct  2 21:34:05 2025 :: Log Dragus: oset 55668 value2 50
+Thu Oct  2 21:34:05 2025 :: Log Dragus: oinvoke 55669
+Thu Oct  2 21:34:05 2025 :: Log Dragus: oset 55669 value0 <rarity>
+Thu Oct  2 21:34:05 2025 :: Log Dragus: oset 55669 value1 500
+Thu Oct  2 21:34:06 2025 :: Log Dragus: oset 55669 value2 50
+Thu Oct  2 21:34:06 2025 :: Log Dragus: oinvoke 55670
+Thu Oct  2 21:34:06 2025 :: Log Dragus: oset 55670 value0 <rarity>
+Thu Oct  2 21:34:07 2025 :: Log Dragus: oset 55670 value1 200
+Thu Oct  2 21:34:07 2025 :: Log Dragus: oset 55670 value2 20
+Thu Oct  2 21:34:10 2025 :: Log Dragus: oinvoke 55671
+Thu Oct  2 21:34:10 2025 :: Log Dragus: oset 55671 value0 <rarity>
+Thu Oct  2 21:34:11 2025 :: Log Dragus: oset 55671 value1 150
+Thu Oct  2 21:34:11 2025 :: Log Dragus: oset 55671 value2 15
+Thu Oct  2 21:34:11 2025 :: Log Dragus: oinvoke 55672
+Thu Oct  2 21:34:12 2025 :: Log Dragus: oset 55672 value0 <rarity>
+Thu Oct  2 21:34:12 2025 :: Log Dragus: oset 55672 value1 100
+Thu Oct  2 21:34:12 2025 :: Log Dragus: oset 55672 value2 10
+Thu Oct  2 21:34:12 2025 :: Log Dragus: oinvoke 55673
+Thu Oct  2 21:34:13 2025 :: Log Dragus: oset 55673 value0 <rarity>
+Thu Oct  2 21:34:13 2025 :: Log Dragus: oset 55673 value1 500
+Thu Oct  2 21:34:13 2025 :: Log Dragus: oset 55673 value2 50
+Thu Oct  2 21:34:29 2025 :: Log Dragus: oinvoke 55680
+Thu Oct  2 21:34:30 2025 :: Log Dragus: oset 55680 value0 <rarity>
+Thu Oct  2 21:34:30 2025 :: Log Dragus: oset 55680 value1 30
+Thu Oct  2 21:34:30 2025 :: Log Dragus: oset 55680 value2 3
+Thu Oct  2 21:34:30 2025 :: Log Dragus: oinvoke 55681
+Thu Oct  2 21:34:31 2025 :: Log Dragus: oset 55681 value0 <rarity>
+Thu Oct  2 21:34:31 2025 :: Log Dragus: oset 55681 value1 10
+Thu Oct  2 21:34:31 2025 :: Log Dragus: oset 55681 value2 1
+Thu Oct  2 21:34:31 2025 :: Log Dragus: oinvoke 55682
+Thu Oct  2 21:34:32 2025 :: Log Dragus: oset 55682 value0 <rarity>
+Thu Oct  2 21:34:32 2025 :: Log Dragus: oset 55682 value1 50
+Thu Oct  2 21:34:32 2025 :: Log Dragus: oset 55682 value2 5
+Thu Oct  2 21:34:33 2025 :: Log Dragus: oinvoke 55683
+Thu Oct  2 21:34:33 2025 :: Log Dragus: oset 55683 value0 <rarity>
+Thu Oct  2 21:34:33 2025 :: Log Dragus: oset 55683 value1 25
+Thu Oct  2 21:34:33 2025 :: Log Dragus: oset 55683 value2 2
+Thu Oct  2 21:34:34 2025 :: Log Dragus: oinvoke 55684
+Thu Oct  2 21:34:34 2025 :: Log Dragus: oset 55684 value0 <rarity>
+Thu Oct  2 21:34:34 2025 :: Log Dragus: oset 55684 value1 40
+Thu Oct  2 21:34:34 2025 :: Log Dragus: oset 55684 value2 4
+Thu Oct  2 21:34:35 2025 :: Log Dragus: oinvoke 55685
+Thu Oct  2 21:34:35 2025 :: Log Dragus: oset 55685 value0 <rarity>
+Thu Oct  2 21:34:35 2025 :: Log Dragus: oset 55685 value1 35
+Thu Oct  2 21:34:35 2025 :: Log Dragus: oset 55685 value2 3
+Thu Oct  2 21:34:40 2025 :: Log Dragus: oinvoke 55686
+Thu Oct  2 21:34:40 2025 :: Log Dragus: oset 55686 value0 <rarity>
+Thu Oct  2 21:34:40 2025 :: Log Dragus: oset 55686 value1 20
+Thu Oct  2 21:34:41 2025 :: Log Dragus: oset 55686 value2 2
+Thu Oct  2 21:34:41 2025 :: Log Dragus: oinvoke 55687
+Thu Oct  2 21:34:41 2025 :: Log Dragus: oset 55687 value0 <rarity>
+Thu Oct  2 21:34:41 2025 :: Log Dragus: oset 55687 value1 60
+Thu Oct  2 21:34:42 2025 :: Log Dragus: oset 55687 value2 6
+Thu Oct  2 21:34:42 2025 :: Log Dragus: oinvoke 55688
+Thu Oct  2 21:34:42 2025 :: Log Dragus: oset 55688 value0 <rarity>
+Thu Oct  2 21:34:43 2025 :: Log Dragus: oset 55688 value1 200
+Thu Oct  2 21:34:43 2025 :: Log Dragus: oset 55688 value2 20
+Thu Oct  2 21:34:43 2025 :: Log Dragus: oinvoke 55689
+Thu Oct  2 21:34:43 2025 :: Log Dragus: oset 55689 value0 <rarity>
+Thu Oct  2 21:34:44 2025 :: Log Dragus: oset 55689 value1 15
+Thu Oct  2 21:34:44 2025 :: Log Dragus: oset 55689 value2 1
+Thu Oct  2 21:34:44 2025 :: Log Dragus: oinvoke 55690
+Thu Oct  2 21:34:44 2025 :: Log Dragus: oset 55690 value0 <rarity>
+Thu Oct  2 21:34:45 2025 :: Log Dragus: oset 55690 value1 25
+Thu Oct  2 21:34:45 2025 :: Log Dragus: oset 55690 value2 2
+Thu Oct  2 21:34:45 2025 :: Log Dragus: oinvoke 55691
+Thu Oct  2 21:34:45 2025 :: Log Dragus: oset 55691 value0 <rarity>
+Thu Oct  2 21:34:46 2025 :: Log Dragus: oset 55691 value1 1000
+Thu Oct  2 21:34:46 2025 :: Log Dragus: oset 55691 value2 100
+Thu Oct  2 21:34:48 2025 :: Log Dragus: oinvoke 55692
+Thu Oct  2 21:34:49 2025 :: Log Dragus: oset 55692 value0 <rarity>
+Thu Oct  2 21:34:49 2025 :: Log Dragus: oset 55692 value1 500
+Thu Oct  2 21:34:49 2025 :: Log Dragus: oset 55692 value2 50
+Thu Oct  2 21:34:49 2025 :: Log Dragus: oinvoke 55693
+Thu Oct  2 21:34:50 2025 :: Log Dragus: oset 55693 value0 <rarity>
+Thu Oct  2 21:34:50 2025 :: Log Dragus: oset 55693 value1 300
+Thu Oct  2 21:34:50 2025 :: Log Dragus: oset 55693 value2 30
+Thu Oct  2 21:35:09 2025 :: Log Dragus: oinvoke 55700
+Thu Oct  2 21:35:09 2025 :: Log Dragus: oset 55700 value0 <rarity>
+Thu Oct  2 21:35:09 2025 :: Log Dragus: oset 55700 value1 20
+Thu Oct  2 21:35:09 2025 :: Log Dragus: oset 55700 value2 2
+Thu Oct  2 21:35:10 2025 :: Log Dragus: oinvoke 55701
+Thu Oct  2 21:35:10 2025 :: Log Dragus: oset 55701 value0 <rarity>
+Thu Oct  2 21:35:10 2025 :: Log Dragus: oset 55701 value1 10
+Thu Oct  2 21:35:10 2025 :: Log Dragus: oset 55701 value2 1
+Thu Oct  2 21:35:11 2025 :: Log Dragus: oinvoke 55702
+Thu Oct  2 21:35:11 2025 :: Log Dragus: oset 55702 value0 <rarity>
+Thu Oct  2 21:35:11 2025 :: Log Dragus: oset 55702 value1 25
+Thu Oct  2 21:35:11 2025 :: Log Dragus: oset 55702 value2 2
+Thu Oct  2 21:35:12 2025 :: Log Dragus: oinvoke 55703
+Thu Oct  2 21:35:12 2025 :: Log Dragus: oset 55703 value0 <rarity>
+Thu Oct  2 21:35:12 2025 :: Log Dragus: oset 55703 value1 15
+Thu Oct  2 21:35:12 2025 :: Log Dragus: oset 55703 value2 1
+Thu Oct  2 21:35:13 2025 :: Log Dragus: oinvoke 55704
+Thu Oct  2 21:35:13 2025 :: Log Dragus: oset 55704 value0 <rarity>
+Thu Oct  2 21:35:13 2025 :: Log Dragus: oset 55704 value1 12
+Thu Oct  2 21:35:14 2025 :: Log Dragus: oset 55704 value2 1
+Thu Oct  2 21:35:14 2025 :: Log Dragus: oinvoke 55705
+Thu Oct  2 21:35:14 2025 :: Log Dragus: oset 55705 value0 <rarity>
+Thu Oct  2 21:35:14 2025 :: Log Dragus: oset 55705 value1 15
+Thu Oct  2 21:35:15 2025 :: Log Dragus: oset 55705 value2 1
+Thu Oct  2 21:35:19 2025 :: Log Dragus: oinvoke 55706
+Thu Oct  2 21:35:19 2025 :: Log Dragus: oset 55706 value0 <rarity>
+Thu Oct  2 21:35:19 2025 :: Log Dragus: oset 55706 value1 20
+Thu Oct  2 21:35:20 2025 :: Log Dragus: oset 55706 value2 2
+Thu Oct  2 21:35:20 2025 :: Log Dragus: oinvoke 55707
+Thu Oct  2 21:35:20 2025 :: Log Dragus: oset 55707 value0 <rarity>
+Thu Oct  2 21:35:20 2025 :: Log Dragus: oset 55707 value1 8
+Thu Oct  2 21:35:21 2025 :: Log Dragus: oset 55707 value2 0
+Thu Oct  2 21:35:21 2025 :: Log Dragus: oinvoke 55708
+Thu Oct  2 21:35:21 2025 :: Log Dragus: oset 55708 value0 <rarity>
+Thu Oct  2 21:35:21 2025 :: Log Dragus: oset 55708 value1 10
+Thu Oct  2 21:35:22 2025 :: Log Dragus: oset 55708 value2 1
+Thu Oct  2 21:35:22 2025 :: Log Dragus: oinvoke 55709
+Thu Oct  2 21:35:22 2025 :: Log Dragus: oset 55709 value0 <rarity>
+Thu Oct  2 21:35:22 2025 :: Log Dragus: oset 55709 value1 30
+Thu Oct  2 21:35:23 2025 :: Log Dragus: oset 55709 value2 3
+Thu Oct  2 21:35:23 2025 :: Log Dragus: oinvoke 55710
+Thu Oct  2 21:35:23 2025 :: Log Dragus: oset 55710 value0 <rarity>
+Thu Oct  2 21:35:24 2025 :: Log Dragus: oset 55710 value1 10
+Thu Oct  2 21:35:24 2025 :: Log Dragus: oset 55710 value2 1
+Thu Oct  2 21:35:24 2025 :: Log Dragus: oinvoke 55711
+Thu Oct  2 21:35:24 2025 :: Log Dragus: oset 55711 value0 <rarity>
+Thu Oct  2 21:35:25 2025 :: Log Dragus: oset 55711 value1 5
+Thu Oct  2 21:35:25 2025 :: Log Dragus: oset 55711 value2 0
+Thu Oct  2 21:35:31 2025 :: Log Dragus: oinvoke 55712
+Thu Oct  2 21:35:31 2025 :: Log Dragus: oset 55712 value0 <rarity>
+Thu Oct  2 21:35:32 2025 :: Log Dragus: oset 55712 value1 8
+Thu Oct  2 21:35:32 2025 :: Log Dragus: oset 55712 value2 0
+Thu Oct  2 21:35:36 2025 :: Log Dragus: savearea
+Thu Oct  2 21:36:57 2025 :: Log Dragus: savearea
+Thu Oct  2 21:37:20 2025 :: Log Dragus: savearea
+Thu Oct  2 21:37:34 2025 :: Log Dragus: shutdown mud now
+Thu Oct  2 21:37:34 2025 :: Normal termination of game.
+Thu Oct  2 21:37:34 2025 :: Cleaning up Memory.
+Len:   6 Lnks:    1 Str: Dragus
+Total strings in hash 6: 1
+Project Data.
+Reserved Names.
+Ban Data.
+Morph Data.
+Commands.
+Deities.
+Clans.
+Councils.
+Socials.
+Watches.
+Helps.
+Languages.
+Boards.
+Whacking supermob.
+Objects.
+Characters.
+Descriptors.
+Liquid Table.
+Races.
+Classes.
+Teleport Data.
+Area Data Tables.
+Planes.
+Auction.
+MSSP Info.
+System data.
+Title table.
+Skills and Herbs.
+Mudprog act lists.
+Specfun lists.
+Globals.
+Checking string hash for leftovers.
+Cleanup complete, exiting.
