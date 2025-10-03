@@ -3158,6 +3158,8 @@ void free_char( CHAR_DATA * ch )
       STRFREE( ch->pcdata->authed_by );
       STRFREE( ch->pcdata->prompt );
       STRFREE( ch->pcdata->fprompt );
+      if( ch->pcdata->energy_color )
+         STRFREE( ch->pcdata->energy_color );
       if( ch->pcdata->helled_by )
          STRFREE( ch->pcdata->helled_by );
       if( ch->pcdata->subprompt )

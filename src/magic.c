@@ -5597,6 +5597,14 @@ ch_ret spell_attack( int sn, int level, CHAR_DATA * ch, void *vo )
    int dam;
    ch_ret retcode = rNONE;
 
+   if( skill && skill->name && !str_cmp( skill->name, "energy blast" ) )
+   {
+      act( AT_MAGIC, "{A}Ki crackles{x} around your palms as you gather a blazing sphere!", ch, NULL, victim, TO_CHAR );
+      act( AT_MAGIC, "$n's hands ignite with {A}energy{x} as $e draws power together!", ch, NULL, victim, TO_NOTVICT );
+      if( victim && victim != ch )
+         act( AT_MAGIC, "$n hurls a searing bolt of {A}energy{x} straight at you!", ch, NULL, victim, TO_VICT );
+   }
+
    if( saved && SPELL_SAVE( skill ) == SE_NEGATE )
    {
       failed_casting( skill, ch, victim, NULL );

@@ -838,7 +838,7 @@ typedef enum
    CON_GET_OLD_PASSWORD, CON_CONFIRM_NEW_NAME,
    CON_GET_NEW_PASSWORD, CON_CONFIRM_NEW_PASSWORD,
    CON_GET_NEW_SEX, CON_GET_NEW_CLASS, CON_READ_MOTD,
-   CON_GET_NEW_RACE, CON_GET_EMULATION,
+   CON_GET_NEW_RACE, CON_GET_ENERGY_COLOR, CON_GET_EMULATION,
    CON_GET_WANT_RIPANSI, CON_TITLE, CON_PRESS_ENTER,
    CON_WAIT_1, CON_WAIT_2, CON_WAIT_3,
    CON_ACCEPTED, CON_GET_PKILL, CON_READ_IMOTD,
@@ -2606,6 +2606,7 @@ struct pc_data
    const char *prompt;  							/* User config prompts */
    const char *fprompt; 							/* Fight prompts */
    const char *subprompt;  						/* Substate prompt */
+   const char *energy_color;  				/* Preferred energy aura color */
    short pagerlen;   								/* For pager (NOT menus) */
    IGNORE_DATA *first_ignored;   				/* keep track of who to ignore */
    IGNORE_DATA *last_ignored;
@@ -4834,6 +4835,12 @@ void send_to_char_color( const char *txt, CHAR_DATA * ch );
 void send_to_desc_color( const char *txt, DESCRIPTOR_DATA * d );
 void send_to_pager( const char *txt, CHAR_DATA * ch );
 void send_to_pager_color( const char *txt, CHAR_DATA * ch );
+void set_char_color( short AType, CHAR_DATA * ch );
+void set_pager_color( short AType, CHAR_DATA * ch );
+void show_energy_color_choices( DESCRIPTOR_DATA *d );
+bool set_energy_color( CHAR_DATA *ch, const char *name );
+const char *get_energy_color_name( const CHAR_DATA *ch );
+const char *get_energy_color_token( const CHAR_DATA *ch );
 void ch_printf( CHAR_DATA * ch, const char *fmt, ... ) __attribute__ ( ( format( printf, 2, 3 ) ) );
 void ch_printf_color( CHAR_DATA * ch, const char *fmt, ... ) __attribute__ ( ( format( printf, 2, 3 ) ) );
 void pager_printf( CHAR_DATA * ch, const char *fmt, ... ) __attribute__ ( ( format( printf, 2, 3 ) ) );

@@ -2421,6 +2421,59 @@ void nanny_get_new_race( DESCRIPTOR_DATA * d, const char *argument )
       return;
    }
 
+   show_energy_color_choices( d );
+   d->connected = CON_GET_ENERGY_COLOR;
+}
+
+void nanny_get_energy_color( DESCRIPTOR_DATA * d, const char *argument )
+{
+   CHAR_DATA *ch = d->character;
+   char arg[MAX_INPUT_LENGTH];
+
+   if( !ch )
+   {
+      write_to_buffer( d, "\r\nAn error occurred while selecting your aura.\r\n", 0 );
+      show_energy_color_choices( d );
+      return;
+   }
+
+   argument = one_argument( argument, arg );
+
+   if( arg[0] == '\0' || !str_cmp( arg, "list" ) )
+   {
+      write_to_buffer( d, "\r\nPlease choose one of the available energy colors.\r\n", 0 );
+      show_energy_color_choices( d );
+      return;
+   }
+
+   if( !str_cmp( arg, "help" ) )
+   {
+      write_to_buffer( d, "Type the name of the color you want your aura to display.\r\n", 0 );
+      show_energy_color_choices( d );
+      return;
+   }
+
+   if( !set_energy_color( ch, arg ) )
+   {
+      write_to_buffer( d, "\r\nThat isn't a recognized energy color.\r\n", 0 );
+      show_energy_color_choices( d );
+      return;
+   }
+
+   {
+      char name_buf[32];
+      char buf[MAX_STRING_LENGTH];
+      const char *token = get_energy_color_token( ch );
+      const char *name = get_energy_color_name( ch );
+
+      strlcpy( name_buf, name, sizeof( name_buf ) );
+      if( name_buf[0] )
+         name_buf[0] = UPPER( name_buf[0] );
+
+      snprintf( buf, sizeof( buf ), "\r\nYour aura hums with %s%s&d light.\r\n", token, name_buf );
+      send_to_desc_color( buf, d );
+   }
+
    write_to_buffer( d, "\r\nWould you like RIP, ANSI or no graphic/color support, (R/A/N)? ", 0 );
    d->connected = CON_GET_WANT_RIPANSI;
 }
@@ -2767,6 +2820,10 @@ void nanny( DESCRIPTOR_DATA * d, char *argument )
          nanny_get_new_race( d, argument );
          break;
 
+      case CON_GET_ENERGY_COLOR:
+         nanny_get_energy_color( d, argument );
+         break;
+
       case CON_GET_WANT_RIPANSI:
          nanny_get_want_ripansi( d, argument );
          break;
@@ -3057,6 +3114,46 @@ char *act_string( const char *format, CHAR_DATA * to, CHAR_DATA * ch, const void
          should_upper = true;
       else if( should_upper == true && !isspace( *str ) && *str != '$' )
          should_upper = false;
+
+      if( *str == '{' )
+      {
+         ++str;
+         if( *str == '\0' )
+            break;
+
+         switch ( *str )
+         {
+            case '{':
+               *point++ = '{';
+               break;
+
+            case 'x':
+            case 'X':
+            {
+               const char *rep = "&d";
+               while( rep && *rep )
+                  *point++ = *rep++;
+               break;
+            }
+
+            case 'A':
+            case 'a':
+            {
+               const char *rep = get_energy_color_token( ch );
+               while( rep && *rep )
+                  *point++ = *rep++;
+               break;
+            }
+
+            default:
+               *point++ = '{';
+               *point++ = *str;
+               break;
+         }
+
+         ++str;
+         continue;
+      }
 
       if( *str != '$' )
       {
