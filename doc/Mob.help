@@ -422,14 +422,14 @@ Example: shopset 1000 buy1 8         [Mob will buy Treasures]
 4  - staff               24 - corpse_pc          44 - trap
 5  - weapon              25 - fountain           45 - map
 6  - materia            26 - pill               46 - portal
-7  - _missile            27 - blood              47 - paper
+7  - gatheringtool      27 - blood              47 - paper
 8  - treasure            28 - bloodstain         48 - tinder
 9  - armor               29 - scraps             49 - lockpick
 10 - potion              30 - relic              50 - spike
-11 - _worn               31 - herbcon            51 - disease
+11 - resource            31 - herbcon            51 - disease
 12 - furniture           32 - herb               52 - oil
 13 - trash               33 - incense            53 - fuel
-14 - _oldtrap            34 - fire               54 - shortbow
+14 - gatheringbait       34 - fire               54 - shortbow
 15 - container           35 - book               55 - longbow
 16 - _note               36 - switch             56 - crossbow
 17 - drinkcon            37 - lever              57 - projectile
