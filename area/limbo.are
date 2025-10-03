@@ -1719,10 +1719,10 @@ Stats    5000 5000 500 0 0
 #OBJECT
 Vnum     76
 Keywords fishing pole rod~
-Type     furniture~
+Type     gatheringtool~
 Short    a fishing pole~
 Long     A fishing pole is here, a couple minutes on the lake would be nice.~
-Values   0 0 0 0 0 0
+Values   1 0 0 0 0 0
 Stats    5000 5000 500 0 0
 #ENDOBJECT
 

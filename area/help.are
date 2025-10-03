@@ -4478,6 +4478,12 @@ that can be eaten, sold, or used in quests.  Spells or abilities that
 highlight nearby water, such as Sense Water, help you identify good
 locations to cast from.
 
+Fishing poles should be created with the GATHERINGTOOL item type.  Set
+Value0 to 1 to mark the tool as a fishing rod and Value1 to 0, 1, or 2
+for basic, quality, or masterwork bonuses.  Optional bait items use the
+GATHERINGBAIT type; Value0 defines their difficulty bonus and Value1 the
+number of casts before the bait is consumed.
+
 See also:  COOKING, SURVIVAL, WATERBREATHING
 ~
 
@@ -9184,6 +9190,11 @@ Each attempt may uncover raw materials that can be smelted by smiths or
 sold to crafters for profit.  Higher skill and better tools improve your
 odds of finding rare veins, while light sources help reveal hidden
 deposits.
+
+Mining picks are also GATHERINGTOOL objects.  Set Value0 to 2 for a pick
+and Value1 to 0, 1, or 2 based on the quality tier.  Harvested ore is
+created with the RESOURCE item type so shops and scripts can distinguish
+raw materials from treasure drops.
 
 See also:  FORGE, SMELT, TRADE
 ~
@@ -14152,14 +14163,14 @@ Syntax: shopset <mobile vnum> buy# <value>
 4  - staff               24 - corpse_pc          44 - trap
 5  - weapon              25 - fountain           45 - map
 6  - materia            26 - pill               46 - portal
-7  - _missile            27 - blood              47 - paper
+7  - gatheringtool      27 - blood              47 - paper
 8  - treasure            28 - bloodstain         48 - tinder
 9  - armor               29 - scraps             49 - lockpick
 10 - potion              30 - relic              50 - spike
-11 - _worn               31 - herbcon            51 - disease
+11 - resource            31 - herbcon            51 - disease
 12 - furniture           32 - herb               52 - oil
 13 - trash               33 - incense            53 - fuel
-14 - _oldtrap            34 - fire               54 - shortbow
+14 - gatheringbait       34 - fire               54 - shortbow
 15 - container           35 - book               55 - longbow
 16 - _note               36 - switch             56 - crossbow
 17 - drinkcon            37 - lever              57 - projectile
