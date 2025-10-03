@@ -229,6 +229,7 @@ int align_compute( CHAR_DATA * gch, CHAR_DATA * victim );
 ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt );
 int obj_hitroll( OBJ_DATA * obj );
 void show_condition( CHAR_DATA * ch, CHAR_DATA * victim );
+static long long calculate_combat_pl_gain( CHAR_DATA *ch, CHAR_DATA *victim, int original_dam );
 
 bool loot_coins_from_corpse( CHAR_DATA * ch, OBJ_DATA * corpse )
 {
@@ -1868,7 +1869,7 @@ ch_ret one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt )
          return retcode;
    }
 
-   long long pl_gain = 0;
+   long long pl_gain = calculate_combat_pl_gain( ch, victim, dam );
    enhanced_dam_message_ex( ch, victim, dam, ( unsigned int ) dt, wield, pl_gain, band, avo );
 
    if( dam > 0 )
@@ -2257,6 +2258,49 @@ short ris_damage( CHAR_DATA * ch, short dam, int ris )
 /*
  * Inflict damage from a hit. This is one damn big function.
  */
+static long long calculate_combat_pl_gain( CHAR_DATA *ch, CHAR_DATA *victim, int original_dam )
+{
+   long long pl_gained = 0;
+
+   if( original_dam <= 0 || !ch || !victim )
+      return 0;
+
+   if( ch == victim || IS_NPC( ch ) || !IS_NPC( victim ) )
+      return 0;
+
+   long long ch_pl = get_power_level( ch );
+   long long victim_pl = get_power_level( victim );
+
+   /* Only gain PL if the opponent isn't too weak */
+   if( victim_pl < ( ch_pl / 10 ) )
+      return 0;
+
+   double ratio = ch_pl > 0 ? (double)victim_pl / (double)ch_pl : 0.0;
+
+   /* Base PL gain calculation */
+   if( ratio >= 1.0 )        /* Equal or stronger opponent */
+      pl_gained = original_dam / 8;
+   else if( ratio >= 0.5 )   /* Half as strong */
+      pl_gained = original_dam / 15;
+   else if( ratio >= 0.2 )   /* 1/5 as strong */
+      pl_gained = original_dam / 40;
+   else if( ratio >= 0.1 )   /* 1/10 as strong */
+      pl_gained = original_dam / 80;
+
+   if( pl_gained <= 0 )
+      return 0;
+
+   /* Apply attacker's PL scaling to gain (higher PL = smaller gains) */
+   if( ch_pl > 1000000000LL )      /* 1 billion+ PL */
+      pl_gained = pl_gained / 3;
+   else if( ch_pl > 100000000LL )  /* 100 million+ PL */
+      pl_gained = pl_gained * 2 / 3;
+   else if( ch_pl > 10000000LL )   /* 10 million+ PL */
+      pl_gained = pl_gained * 85 / 100;
+
+   return pl_gained;
+}
+
 ch_ret damage_ex( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt, bool suppress_message )
 {
    char log_buf[MAX_STRING_LENGTH];
@@ -2289,35 +2333,7 @@ ch_ret damage_ex( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt, bool supp
    npcvict = IS_NPC( victim );
 
    /* Calculate PL gain BEFORE RIS processing */
-   if( original_dam > 0 && ch != victim && !IS_NPC( ch ) && IS_NPC( victim ) )
-   {
-      long long ch_pl = get_power_level( ch );
-      long long victim_pl = get_power_level( victim );
-      
-      /* Only gain PL if the opponent isn't too weak */
-      if( victim_pl >= (ch_pl / 10) )  /* Victim must be at least 1/10th your PL */
-      {
-         double ratio = (double)victim_pl / (double)ch_pl;
-         
-         /* Base PL gain calculation */
-         if( ratio >= 1.0 )        /* Equal or stronger opponent */
-            pl_gained = original_dam / 8;
-         else if( ratio >= 0.5 )   /* Half as strong */
-            pl_gained = original_dam / 15;
-         else if( ratio >= 0.2 )   /* 1/5 as strong */
-            pl_gained = original_dam / 40;
-         else if( ratio >= 0.1 )   /* 1/10 as strong */
-            pl_gained = original_dam / 80;
-         
-         /* Apply attacker's PL scaling to gain (higher PL = smaller gains) */
-         if( ch_pl > 1000000000LL )      /* 1 billion+ PL */
-            pl_gained = pl_gained / 3;
-         else if( ch_pl > 100000000LL )  /* 100 million+ PL */
-            pl_gained = pl_gained * 2 / 3;
-         else if( ch_pl > 10000000LL )   /* 10 million+ PL */
-            pl_gained = pl_gained * 85 / 100;
-      }
-   }
+   pl_gained = calculate_combat_pl_gain( ch, victim, original_dam );
 
    /*
     * Check for areas where violence is not permitted
