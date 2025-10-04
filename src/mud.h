@@ -4203,6 +4203,8 @@ DECLARE_DO_FUN( do_poison_weapon );
 DECLARE_DO_FUN( do_pose );
 DECLARE_DO_FUN( do_pounce );
 DECLARE_DO_FUN( do_powerup );
+
+void show_powerup_aura_to_char( CHAR_DATA *victim, CHAR_DATA *ch );
 DECLARE_DO_FUN( do_powerdown );
 DECLARE_DO_FUN( do_practice );
 DECLARE_DO_FUN( do_project );
