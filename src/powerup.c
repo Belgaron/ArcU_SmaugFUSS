@@ -280,13 +280,13 @@ void do_powerup( CHAR_DATA *ch, const char *argument )
     
     if( target_tier > max_tier )
     {
-        ch_printf( ch, "You are already at maximum power tier (%d)!\r\n", max_tier );
+        send_to_char( "You have already reached the limit of your power.\r\n", ch );
         return;
     }
-    
+
     if( target_tier <= current_tier )
     {
-        ch_printf( ch, "You are already at tier %d.\r\n", current_tier );
+        send_to_char( "You are already channeling that much power.\r\n", ch );
         return;
     }
     
