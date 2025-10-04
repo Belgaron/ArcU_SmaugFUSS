@@ -354,9 +354,7 @@ void do_powerdown( CHAR_DATA *ch, const char *argument )
         
         /* Set new power tier */
         ch->powerup = new_tier;
-        
-        ch_printf( ch, "Power level reduced.\r\n" );
-        
+
         /* Apply to split forms if you have that system */
         /* apply_powerup_to_splits(ch, new_tier); */
     }
