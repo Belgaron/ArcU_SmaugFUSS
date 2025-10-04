@@ -1004,7 +1004,8 @@ void char_update( void )
       if( ch->position == POS_STUNNED )
          update_pos( ch );
 
-      if( !IS_NPC( ch ) )
+      /* Show ambient aura messages for players with powerups/transformations */
+      if( !IS_NPC( ch ) && ch->position >= POS_RESTING )
          ambient_aura_update( ch );
 
       /*
