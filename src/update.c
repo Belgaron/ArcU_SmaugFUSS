@@ -819,91 +819,91 @@ void ambient_aura_update( CHAR_DATA *ch )
          case 1:
             if( IS_ANDROID( ch ) )
             {
-               act( AT_WHITE, "Your mechanical systems hum softly with increased power.", ch, NULL, NULL, TO_CHAR );
-               act( AT_WHITE, "$n's mechanical systems hum with a faint vibration.", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Your mechanical systems hum softly with increased power.{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}$n's mechanical systems hum with a faint vibration.{x}", ch, NULL, NULL, TO_ROOM );
             }
             else
             {
-               act( AT_WHITE, "A faint aura flickers around you.", ch, NULL, NULL, TO_CHAR );
-               act( AT_WHITE, "A faint aura flickers around $n.", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}A faint aura flickers around you.{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}A faint aura flickers around $n.{x}", ch, NULL, NULL, TO_ROOM );
             }
             break;
 
          case 2:
             if( IS_ANDROID( ch ) )
             {
-               act( AT_YELLOW, "Energy pulses through your circuits rhythmically.", ch, NULL, NULL, TO_CHAR );
-               act( AT_YELLOW, "$n's frame glows with a yellow tinge.", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Energy pulses through your circuits rhythmically.{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}$n's frame glows with a steady vibration of light.{x}", ch, NULL, NULL, TO_ROOM );
             }
             else
             {
-               act( AT_YELLOW, "Your aura hums and tightens around you.", ch, NULL, NULL, TO_CHAR );
-               act( AT_YELLOW, "A low hum emanates from $n's aura.", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Your aura hums and tightens around you.{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}A low hum emanates from $n's aura.{x}", ch, NULL, NULL, TO_ROOM );
             }
             break;
 
          case 3:
             if( IS_ANDROID( ch ) )
             {
-               act( AT_ORANGE, "Small sparks dance across your metallic surface.", ch, NULL, NULL, TO_CHAR );
-               act( AT_ORANGE, "Small sparks dance across $n's metallic form.", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Small sparks dance across your metallic surface.{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}Small sparks dance across $n's metallic form.{x}", ch, NULL, NULL, TO_ROOM );
             }
             else
             {
-               act( AT_ORANGE, "Dust skitters away as your aura pulses.", ch, NULL, NULL, TO_CHAR );
-               act( AT_ORANGE, "The air prickles as $n's aura snaps and flares.", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Dust skitters away as your aura pulses.{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}The air prickles as $n's aura snaps and flares.{x}", ch, NULL, NULL, TO_ROOM );
             }
             break;
 
          case 4:
             if( IS_ANDROID( ch ) )
             {
-               act( AT_RED, "Electrical energy crackles along your frame!", ch, NULL, NULL, TO_CHAR );
-               act( AT_RED, "Electricity crackles across $n's body!", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Electrical energy crackles along your frame!{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}Electricity crackles across $n's body!{x}", ch, NULL, NULL, TO_ROOM );
             }
             else
             {
-               act( AT_RED, "Your aura flares, sending a pressure wave outward.", ch, NULL, NULL, TO_CHAR );
-               act( AT_RED, "$n's aura flares with visible force.", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Your aura flares, sending a pressure wave outward.{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}$n's aura flares with visible force.{x}", ch, NULL, NULL, TO_ROOM );
             }
             break;
 
          case 5:
             if( IS_ANDROID( ch ) )
             {
-               act( AT_BLUE, "Your entire body radiates intense power!", ch, NULL, NULL, TO_CHAR );
-               act( AT_BLUE, "$n's entire frame glows with intense power!", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Your entire body radiates intense power!{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}$n's entire frame glows with intense power!{x}", ch, NULL, NULL, TO_ROOM );
             }
             else
             {
-               act( AT_BLUE, "Your aura roars, throwing off bright arcs of energy!", ch, NULL, NULL, TO_CHAR );
-               act( AT_BLUE, "$n's aura roars and hurls bright arcs into the air!", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Your aura roars, throwing off bright arcs of energy!{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}$n's aura roars and hurls bright arcs into the air!{x}", ch, NULL, NULL, TO_ROOM );
             }
             break;
 
          case 6:
             if( IS_ANDROID( ch ) )
             {
-               act( AT_PURPLE, "Energy fields pulse and crackle around you!", ch, NULL, NULL, TO_CHAR );
-               act( AT_PURPLE, "Energy fields crackle violently around $n!", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Energy fields pulse and crackle around you!{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}Energy fields crackle violently around $n!{x}", ch, NULL, NULL, TO_ROOM );
             }
             else
             {
-               act( AT_PURPLE, "A tight halo of power surrounds you, pulsing rhythmically.", ch, NULL, NULL, TO_CHAR );
-               act( AT_PURPLE, "A tight halo pulses around $n with controlled fury.", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}A tight halo of power surrounds you, pulsing rhythmically.{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}A tight halo pulses around $n with controlled fury.{x}", ch, NULL, NULL, TO_ROOM );
             }
             break;
 
          case 7:
             if( IS_ANDROID( ch ) )
             {
-               act( AT_WHITE, "Your systems radiate maximum power in all directions!", ch, NULL, NULL, TO_CHAR );
-               act( AT_WHITE, "$n's form blazes with overwhelming energy!", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Your systems radiate maximum power in all directions!{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}$n's form blazes with overwhelming energy!{x}", ch, NULL, NULL, TO_ROOM );
             }
             else
             {
-               act( AT_WHITE, "Your aura burns with blinding intensity!", ch, NULL, NULL, TO_CHAR );
-               act( AT_WHITE, "$n's aura burns with nearly blinding light!", ch, NULL, NULL, TO_ROOM );
+               act( AT_PLAIN, "{A}Your aura burns with blinding intensity!{x}", ch, NULL, NULL, TO_CHAR );
+               act( AT_PLAIN, "{A}$n's aura burns with nearly blinding light!{x}", ch, NULL, NULL, TO_ROOM );
             }
             break;
       }
@@ -916,8 +916,8 @@ void ambient_aura_update( CHAR_DATA *ch )
       /* For now, just show a generic transformation aura */
       if( number_range( 1, 3 ) == 1 )
       {
-         act( AT_MAGIC, "Your transformed aura pulses with otherworldly energy.", ch, NULL, NULL, TO_CHAR );
-         act( AT_MAGIC, "$n's transformed aura shimmers and pulses.", ch, NULL, NULL, TO_ROOM );
+         act( AT_PLAIN, "{A}Your transformed aura pulses with otherworldly energy.{x}", ch, NULL, NULL, TO_CHAR );
+         act( AT_PLAIN, "{A}$n's transformed aura shimmers and pulses.{x}", ch, NULL, NULL, TO_ROOM );
       }
    }
 
