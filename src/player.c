@@ -181,18 +181,6 @@ void do_score( CHAR_DATA* ch, const char* argument )
    pager_printf( ch, "&cRace : &w%-10.10s&c                           Played: &z%ld hours\r\n&D",
                  capitalize( get_race( ch ) ), ( long int )GET_TIME_PLAYED( ch ) );
 
-   {
-      char aura_name[32];
-      const char *token = get_energy_color_token( ch );
-
-      strlcpy( aura_name, get_energy_color_name( ch ), sizeof( aura_name ) );
-      if( aura_name[0] )
-         aura_name[0] = UPPER( aura_name[0] );
-
-      pager_printf( ch, "&cAura : %s%-10.10s&d&c                           Powerup Tier: &w%-2d&c\r\n&D",
-                    token, aura_name, ch->powerup );
-   }
-
    pager_printf( ch, "&cYEARS: &w%-6d&c                               Log In: &z%s\r&D",
                  calculate_age( ch ), ctime( &( ch->logon ) ) );
 

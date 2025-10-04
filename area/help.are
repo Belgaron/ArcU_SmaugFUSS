@@ -12091,13 +12091,13 @@ See also:  revert
 65 POWERUP~
 Syntax: powerup
 Syntax: powerup max
-Raises your powerup tier by one, or to the maximum tier when "max" is specified. You must meet the power level requirements for the next tier. The command refuses to exceed your maximum tier or operate on NPCs.
+Channels more of your latent power, or surges straight to the strongest state you can sustain when "max" is specified. You must meet the power level requirements before increasing your output. The command refuses to exceed your maximum potential or operate on NPCs.
 See also: POWERDOWN
 ~
 
 65 POWERDOWN~
 Syntax: powerdown
-Reduces your current powerup tier by one. If you are morphed, powerdown instead cancels the morph and returns you to your base form. When the tier reaches zero you return to normal power. NPCs cannot use this command.
+Lowers your current power surge. If you are morphed, powerdown instead cancels the morph and returns you to your base form. Once the surge ends you return to normal power. NPCs cannot use this command.
 See also: POWERUP, MORPH, UNMORPH
 ~
 1 PRACTICE~
