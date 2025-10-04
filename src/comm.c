@@ -3117,6 +3117,8 @@ char *act_string( const char *format, CHAR_DATA * to, CHAR_DATA * ch, const void
 
       if( *str == '{' )
       {
+         bool recognized = true;
+
          ++str;
          if( *str == '\0' )
             break;
@@ -3148,10 +3150,13 @@ char *act_string( const char *format, CHAR_DATA * to, CHAR_DATA * ch, const void
             default:
                *point++ = '{';
                *point++ = *str;
+               recognized = false;
                break;
          }
 
          ++str;
+         if( recognized && *str == '}' )
+            ++str;
          continue;
       }
 
