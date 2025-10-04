@@ -243,6 +243,7 @@ void do_powerup( CHAR_DATA *ch, const char *argument )
 {
     char arg[MAX_INPUT_LENGTH];
     short current_tier, max_tier, target_tier;
+    bool using_max_command = FALSE;
         
     if( IS_NPC(ch) )
     {
@@ -269,6 +270,7 @@ void do_powerup( CHAR_DATA *ch, const char *argument )
     else if( !str_cmp( arg, "max" ) )
     {
         target_tier = max_tier;  /* "powerup max" = go to max tier */
+        using_max_command = TRUE;
     }
     else
     {
@@ -288,8 +290,14 @@ void do_powerup( CHAR_DATA *ch, const char *argument )
         return;
     }
     
+    if( using_max_command && target_tier == max_tier )
+    {
+        act( AT_WHITE, "&WYou unleash every ounce of power, catapulting straight to your ultimate form!&D", ch, NULL, NULL, TO_CHAR );
+        act( AT_WHITE, "&W$n erupts in a blinding surge, rocketing straight to $s maximum power!&D", ch, NULL, NULL, TO_ROOM );
+    }
+
     apply_powerup_effects(ch, target_tier);
-    
+
 }
 
 void do_powerdown( CHAR_DATA *ch, const char *argument )
