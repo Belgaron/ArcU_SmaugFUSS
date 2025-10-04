@@ -236,6 +236,30 @@ const char *get_energy_color_token( const CHAR_DATA *ch )
    return energy_color_from_char( ch )->token;
 }
 
+void send_energy_color_choices_to_char( CHAR_DATA *ch )
+{
+   if( !ch )
+      return;
+
+   send_to_char_color( "\r\nAvailable aura colors:\r\n", ch );
+
+   for( size_t i = 0; i < ( sizeof( energy_color_table ) / sizeof( energy_color_table[0] ) ); ++i )
+   {
+      const ENERGY_COLOR_OPTION *option = &energy_color_table[i];
+
+      ch_printf_color( ch, "  %-10s - %s%s&D\r\n",
+                       option->name, option->token, option->description );
+   }
+
+   if( !IS_NPC( ch ) )
+   {
+      const ENERGY_COLOR_OPTION *current = energy_color_from_char( ch );
+
+      ch_printf_color( ch, "\r\nCurrent aura: %s%s&D\r\n",
+                       current->token, current->name );
+   }
+}
+
 void show_energy_color_choices( DESCRIPTOR_DATA *d )
 {
    if( !d )

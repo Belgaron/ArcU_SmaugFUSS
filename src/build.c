@@ -17,6 +17,8 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <limits.h>
 #include <unistd.h>
 #include "mud.h"
 #include "sha256.h"
@@ -1216,13 +1218,13 @@ void do_mset( CHAR_DATA* ch, const char* argument )
       send_to_char( "  str int wis dex con spr lck sex class\r\n", ch );
       send_to_char( "  gold hp mana move align race\r\n", ch );
       send_to_char( "  hitroll damroll armor affected level\r\n", ch );
-      send_to_char( "  thirst drunk full blood flags\r\n", ch );
+      send_to_char( "  thirst drunk full blood flags pl\r\n", ch );
       send_to_char( "  pos defpos part (see BODYPARTS)\r\n", ch );
       send_to_char( "  sav1 sav2 sav4 sav4 sav5 (see SAVINGTHROWS)\r\n", ch );
       send_to_char( "  resistant immune susceptible (see RIS)\r\n", ch );
       send_to_char( "  attack defense numattacks\r\n", ch );
       send_to_char( "  speaking speaks (see LANGUAGES)\r\n", ch );
-      send_to_char( "  name short long description title spec clan\r\n", ch );
+      send_to_char( "  name short long description title spec clan aura\r\n", ch );
       send_to_char( "  council quest qp qpa favor deity\r\n", ch );
       send_to_char( "\r\n", ch );
       send_to_char( "For editing index/prototype mobiles:\r\n", ch );
@@ -1627,6 +1629,50 @@ void do_mset( CHAR_DATA* ch, const char* argument )
       victim->gold = value;
       if( IS_NPC( victim ) && xIS_SET( victim->act, ACT_PROTOTYPE ) )
          victim->pIndexData->gold = value;
+      return;
+   }
+
+   if( !str_cmp( arg2, "pl" ) || !str_cmp( arg2, "powerlevel" ) )
+   {
+      long long pl_value;
+
+      if( !can_mmodify( ch, victim ) )
+         return;
+
+      if( arg3[0] == '\0' )
+      {
+         ch_printf( ch, "%s has a base power level of %s.\r\n",
+                    victim->name, num_punct_ll( victim->power_level.get_base() ) );
+         return;
+      }
+
+      if( !is_number( arg3 ) )
+      {
+         send_to_char( "Syntax: mset <victim> pl <value>\r\n", ch );
+         return;
+      }
+
+      pl_value = atoll( arg3 );
+
+      if( pl_value < 1 )
+      {
+         send_to_char( "Power level must be at least 1.\r\n", ch );
+         return;
+      }
+
+      set_base_power_level( victim, pl_value );
+
+      if( IS_NPC( victim ) && xIS_SET( victim->act, ACT_PROTOTYPE ) )
+      {
+         if( pl_value > INT_MAX )
+         {
+            send_to_char( "Prototype power level exceeds maximum storable value; clamping to INT_MAX.\r\n", ch );
+            victim->pIndexData->exp = INT_MAX;
+         }
+         else
+            victim->pIndexData->exp = (int)pl_value;
+      }
+
       return;
    }
 
@@ -2194,6 +2240,35 @@ void do_mset( CHAR_DATA* ch, const char* argument )
          STRFREE( victim->pIndexData->long_descr );
          victim->pIndexData->long_descr = QUICKLINK( victim->long_descr );
       }
+      return;
+   }
+
+   if( !str_cmp( arg2, "aura" ) || !str_cmp( arg2, "energycolor" ) )
+   {
+      if( !can_mmodify( ch, victim ) )
+         return;
+
+      if( IS_NPC( victim ) )
+      {
+         send_to_char( "Not on NPC's.\r\n", ch );
+         return;
+      }
+
+      if( arg3[0] == '\0' || !str_cmp( arg3, "?" ) )
+      {
+         ch_printf( ch, "%s's current aura color is %s.\r\n",
+                    victim->name, get_energy_color_name( victim ) );
+         send_energy_color_choices_to_char( ch );
+         return;
+      }
+
+      if( !set_energy_color( victim, arg3 ) )
+      {
+         ch_printf( ch, "Unknown aura color '%s'.\r\n", arg3 );
+         send_energy_color_choices_to_char( ch );
+         return;
+      }
+
       return;
    }
 

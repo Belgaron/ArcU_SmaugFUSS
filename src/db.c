@@ -2766,6 +2766,11 @@ CHAR_DATA *create_mobile( MOB_INDEX_DATA * pMobIndex )
    mob->speaks = pMobIndex->speaks;
    mob->speaking = pMobIndex->speaking;
 
+   if( pMobIndex->exp > 0 )
+      set_base_power_level( mob, pMobIndex->exp );
+   else
+      set_base_power_level( mob, 1 );
+
    /*
     * Perhaps add this to the index later --Shaddai
     */
