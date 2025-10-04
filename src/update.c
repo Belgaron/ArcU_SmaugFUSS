@@ -197,6 +197,45 @@ void gain_pl( CHAR_DATA *ch, long long gain, bool show_message )
 }
 
 /*
+ * Quest or training PL rewards scaled to current power level
+ */
+void complete_quest_reward( CHAR_DATA *ch, int quest_difficulty )
+{
+   long long pl_reward;
+   long long current_pl;
+
+   if( IS_NPC( ch ) )
+      return;
+
+   current_pl = get_power_level( ch );
+
+   switch( quest_difficulty )
+   {
+      case 1:   /* Easy quest */
+         pl_reward = current_pl / 100;   /* 1% of current PL */
+         break;
+      case 2:   /* Medium quest */
+         pl_reward = current_pl / 50;    /* 2% of current PL */
+         break;
+      case 3:   /* Hard quest */
+         pl_reward = current_pl / 25;    /* 4% of current PL */
+         break;
+      case 4:   /* Very hard quest */
+         pl_reward = current_pl / 10;    /* 10% of current PL */
+         break;
+      default:
+         pl_reward = current_pl / 100;
+         break;
+   }
+
+   if( pl_reward < 50 )
+      pl_reward = 50;
+
+   gain_pl( ch, pl_reward, true );
+   send_to_char( "You feel your power increase from your accomplishment!\r\n", ch );
+}
+
+/*
  * Regeneration stuff.
  */
 int hit_gain( CHAR_DATA * ch )
