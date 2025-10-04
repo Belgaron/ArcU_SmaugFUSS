@@ -38,6 +38,7 @@ void char_check( void );
 void drunk_randoms( CHAR_DATA * ch );
 void hallucinations( CHAR_DATA * ch );
 void subtract_times( struct timeval *etime, struct timeval *sttime );
+void ambient_aura_update( CHAR_DATA *ch );
 
 /* From interp.c */
 bool check_social( CHAR_DATA * ch, const char *command, const char *argument );
@@ -795,6 +796,146 @@ void char_calendar_update( void )
    trworld_dispose( &lc );
 }
 
+/****************************************************************************
+ * AMBIENT AURA UPDATE SYSTEM
+ * Shows periodic aura messages for power-ups and transformations
+ * Called from char_update() for players only
+ ****************************************************************************/
+void ambient_aura_update( CHAR_DATA *ch )
+{
+   static int aura_pulse = 0;
+
+   if( IS_NPC( ch ) )
+      return;
+
+   /* Only show aura messages every 5-7 update cycles (randomized) */
+   if( number_range( 1, 6 ) != 1 )
+      return;
+
+   /* Check for powerup tier auras (from powerup.c system) */
+   if( ch->powerup > 0 )
+   {
+      /* Show powerup aura based on tier */
+      switch( ch->powerup )
+      {
+         case 1:
+            if( IS_ANDROID( ch ) )
+            {
+               act( AT_WHITE, "Your mechanical systems hum softly with increased power.", ch, NULL, NULL, TO_CHAR );
+               act( AT_WHITE, "$n's mechanical systems hum with a faint vibration.", ch, NULL, NULL, TO_ROOM );
+            }
+            else
+            {
+               act( AT_WHITE, "A faint aura flickers around you.", ch, NULL, NULL, TO_CHAR );
+               act( AT_WHITE, "A faint aura flickers around $n.", ch, NULL, NULL, TO_ROOM );
+            }
+            break;
+
+         case 2:
+            if( IS_ANDROID( ch ) )
+            {
+               act( AT_YELLOW, "Energy pulses through your circuits rhythmically.", ch, NULL, NULL, TO_CHAR );
+               act( AT_YELLOW, "$n's frame glows with a yellow tinge.", ch, NULL, NULL, TO_ROOM );
+            }
+            else
+            {
+               act( AT_YELLOW, "Your aura hums and tightens around you.", ch, NULL, NULL, TO_CHAR );
+               act( AT_YELLOW, "A low hum emanates from $n's aura.", ch, NULL, NULL, TO_ROOM );
+            }
+            break;
+
+         case 3:
+            if( IS_ANDROID( ch ) )
+            {
+               act( AT_ORANGE, "Small sparks dance across your metallic surface.", ch, NULL, NULL, TO_CHAR );
+               act( AT_ORANGE, "Small sparks dance across $n's metallic form.", ch, NULL, NULL, TO_ROOM );
+            }
+            else
+            {
+               act( AT_ORANGE, "Dust skitters away as your aura pulses.", ch, NULL, NULL, TO_CHAR );
+               act( AT_ORANGE, "The air prickles as $n's aura snaps and flares.", ch, NULL, NULL, TO_ROOM );
+            }
+            break;
+
+         case 4:
+            if( IS_ANDROID( ch ) )
+            {
+               act( AT_RED, "Electrical energy crackles along your frame!", ch, NULL, NULL, TO_CHAR );
+               act( AT_RED, "Electricity crackles across $n's body!", ch, NULL, NULL, TO_ROOM );
+            }
+            else
+            {
+               act( AT_RED, "Your aura flares, sending a pressure wave outward.", ch, NULL, NULL, TO_CHAR );
+               act( AT_RED, "$n's aura flares with visible force.", ch, NULL, NULL, TO_ROOM );
+            }
+            break;
+
+         case 5:
+            if( IS_ANDROID( ch ) )
+            {
+               act( AT_BLUE, "Your entire body radiates intense power!", ch, NULL, NULL, TO_CHAR );
+               act( AT_BLUE, "$n's entire frame glows with intense power!", ch, NULL, NULL, TO_ROOM );
+            }
+            else
+            {
+               act( AT_BLUE, "Your aura roars, throwing off bright arcs of energy!", ch, NULL, NULL, TO_CHAR );
+               act( AT_BLUE, "$n's aura roars and hurls bright arcs into the air!", ch, NULL, NULL, TO_ROOM );
+            }
+            break;
+
+         case 6:
+            if( IS_ANDROID( ch ) )
+            {
+               act( AT_PURPLE, "Energy fields pulse and crackle around you!", ch, NULL, NULL, TO_CHAR );
+               act( AT_PURPLE, "Energy fields crackle violently around $n!", ch, NULL, NULL, TO_ROOM );
+            }
+            else
+            {
+               act( AT_PURPLE, "A tight halo of power surrounds you, pulsing rhythmically.", ch, NULL, NULL, TO_CHAR );
+               act( AT_PURPLE, "A tight halo pulses around $n with controlled fury.", ch, NULL, NULL, TO_ROOM );
+            }
+            break;
+
+         case 7:
+            if( IS_ANDROID( ch ) )
+            {
+               act( AT_WHITE, "Your systems radiate maximum power in all directions!", ch, NULL, NULL, TO_CHAR );
+               act( AT_WHITE, "$n's form blazes with overwhelming energy!", ch, NULL, NULL, TO_ROOM );
+            }
+            else
+            {
+               act( AT_WHITE, "Your aura burns with blinding intensity!", ch, NULL, NULL, TO_CHAR );
+               act( AT_WHITE, "$n's aura burns with nearly blinding light!", ch, NULL, NULL, TO_ROOM );
+            }
+            break;
+      }
+   }
+
+   /* Check for morph/transformation auras */
+   if( ch->morph && ch->morph->morph )
+   {
+      /* You can add specific transformation aura messages here based on morph type */
+      /* For now, just show a generic transformation aura */
+      if( number_range( 1, 3 ) == 1 )
+      {
+         act( AT_MAGIC, "Your transformed aura pulses with otherworldly energy.", ch, NULL, NULL, TO_CHAR );
+         act( AT_MAGIC, "$n's transformed aura shimmers and pulses.", ch, NULL, NULL, TO_ROOM );
+      }
+   }
+
+   /* Check for various affect-based auras */
+   /* You can add your own custom affects here based on your game */
+
+   /* Example: If you have a "focus" or "ki charge" affect */
+   /* Uncomment and modify based on your affect system
+   if( IS_AFFECTED(ch, AFF_FOCUS) )
+   {
+      act( AT_CYAN, "You feel your energy gathering, ready to strike.", ch, NULL, NULL, TO_CHAR );
+      act( AT_CYAN, "$n's eyes gleam with focused intent.", ch, NULL, NULL, TO_ROOM );
+   }
+   */
+}
+
 /*
  * Update all chars, including mobs.
  * This function is performance sensitive.
@@ -863,8 +1004,11 @@ void char_update( void )
       if( ch->position == POS_STUNNED )
          update_pos( ch );
 
+      if( !IS_NPC( ch ) )
+         ambient_aura_update( ch );
+
       /*
-       * Expire variables 
+       * Expire variables
        */
       if( ch->variables )
       {
