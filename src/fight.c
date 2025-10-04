@@ -3724,6 +3724,19 @@ OBJ_DATA *raw_kill( CHAR_DATA * ch, CHAR_DATA * victim )
       return corpse_to_return;
    }
 
+   /* Apply death penalty for players */
+   if( !IS_NPC( victim ) )
+   {
+      long long current_pl = get_power_level( victim );
+      long long death_penalty = current_pl / 20;   /* 5% loss */
+
+      if( death_penalty < 100 && current_pl > 1000 )
+         death_penalty = 100;
+
+      if( death_penalty > 0 )
+         gain_pl( victim, -death_penalty, true );
+   }
+
    set_char_color( AT_DIEMSG, victim );
    if( victim->pcdata->mdeaths + victim->pcdata->pdeaths < 3 )
       do_help( victim, "new_death" );

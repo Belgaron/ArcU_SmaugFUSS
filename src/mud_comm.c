@@ -3311,17 +3311,8 @@ ch_ret simple_damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt )
          log_string( log_buf );
          to_channel( log_buf, CHANNEL_DEATH, "Death", LEVEL_IMMORTAL );
 
-         /*
-          * Death penalty: Lose 10% of current power level
-          */
-         long long current_pl = get_power_level( victim );
-         if( current_pl > 100 )  /* Don't penalize very weak characters */
-         {
-            long long death_penalty = current_pl / 10;  /* Lose 10% of current PL */
-            gain_pl( victim, -death_penalty, true );    /* Show the loss message */
-         }
       }
-      
+
       set_cur_char( victim );
       raw_kill( ch, victim );
       victim = NULL;
