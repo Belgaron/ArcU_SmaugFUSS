@@ -892,6 +892,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch )
       else
          strlcat( buf, victim->long_descr, MAX_STRING_LENGTH );
       send_to_char( buf, ch );
+      show_powerup_aura_to_char( victim, ch );
       show_visible_affects_to_char( victim, ch );
       return;
    }
@@ -1031,6 +1032,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch )
    strlcat( buf, "\r\n", MAX_STRING_LENGTH );
    buf[0] = UPPER( buf[0] );
    send_to_char( buf, ch );
+   show_powerup_aura_to_char( victim, ch );
    show_visible_affects_to_char( victim, ch );
 }
 
@@ -1070,6 +1072,8 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch )
 
    show_race_line( ch, victim );
    show_condition( ch, victim );
+
+   show_powerup_aura_to_char( victim, ch );
 
    found = FALSE;
    for( iWear = 0; iWear < MAX_WEAR; iWear++ )

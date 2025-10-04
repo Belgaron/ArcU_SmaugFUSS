@@ -160,7 +160,7 @@ void apply_powerup_to_splits( CHAR_DATA *ch, short powerup_tier )
     /* This function should iterate through any split forms and apply
      * the same power up level to them. Implementation depends on how
      * your split system works. Example framework:
-     * 
+     *
      * CHAR_DATA *split;
      * for( split = first_split_of(ch); split; split = next_split_of(ch) )
      * {
@@ -170,13 +170,67 @@ void apply_powerup_to_splits( CHAR_DATA *ch, short powerup_tier )
      */
 }
 
+typedef struct powerup_aura_desc POWERUP_AURA_DESC;
+
+struct powerup_aura_desc
+{
+    const char *self;
+    const char *other;
+};
+
+static const POWERUP_AURA_DESC powerup_aura_table[] =
+{
+    { NULL, NULL },
+    { "A faint aura flickers around you.",
+      "%s is wrapped in a faint, shimmering aura." },
+    { "Your aura hums and tightens against your skin.",
+      "%s's aura hums and tightens in the air." },
+    { "Power crackles around you, stirring dust at your feet.",
+      "Power crackles around %s, stirring dust across the ground." },
+    { "A pressure wave ripples from you as your aura flares.",
+      "A pressure wave ripples from %s as the surrounding aura flares." },
+    { "Blazing arcs of energy roar outward from your aura.",
+      "Blazing arcs of energy roar outward from %s's aura." },
+    { "A tight halo of power snaps into place and kicks up a dust ring.",
+      "A tight halo of power snaps around %s, kicking a ring of dust outward." },
+    { "Light burns at your edges as shockwaves tear through the air.",
+      "Light burns at %s's edges while shockwaves tear through the air." }
+};
+
+void show_powerup_aura_to_char( CHAR_DATA *victim, CHAR_DATA *ch )
+{
+    char aura_buf[MAX_STRING_LENGTH];
+    short tier, max_tier_index;
+    const POWERUP_AURA_DESC *desc;
+
+    if( !victim || !ch )
+        return;
+
+    if( victim->powerup <= 0 )
+        return;
+
+    max_tier_index = (short)( sizeof( powerup_aura_table ) / sizeof( powerup_aura_table[0] ) ) - 1;
+    tier = URANGE( 1, victim->powerup, max_tier_index );
+    desc = &powerup_aura_table[tier];
+
+    if( !desc->self || !desc->other )
+        return;
+
+    if( ch == victim )
+        strlcpy( aura_buf, desc->self, sizeof( aura_buf ) );
+    else
+        snprintf( aura_buf, sizeof( aura_buf ), desc->other, PERS( victim, ch ) );
+
+    ch_printf_color( ch, "%s%s&D\r\n", get_energy_color_token( victim ), aura_buf );
+}
+
 /* Remove transformation stat bonuses (placeholder) */
 void transStatRemove( CHAR_DATA *ch )
 {
     /* This function should remove any stat bonuses applied by transformations
      * Implementation depends on your transformation system
      * Basic example: */
-    
+
     /* affect_strip(ch, gsn_powerup); - Remove powerup affects if you use affects */
     /* Remove any other transformation bonuses here */
 }
