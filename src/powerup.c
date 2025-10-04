@@ -342,11 +342,6 @@ void do_powerdown( CHAR_DATA *ch, const char *argument )
                 act( AT_CYAN, "$n's systems power down with a mechanical whir.", ch, NULL, NULL, TO_ROOM );
                 act( AT_CYAN, "Your systems power down to normal levels.", ch, NULL, NULL, TO_CHAR );
             }
-            else
-            {
-                act( AT_CYAN, "$n's systems reduce power output.", ch, NULL, NULL, TO_ROOM );
-                act( AT_CYAN, "Your systems reduce power to a lower level.", ch, NULL, NULL, TO_CHAR );
-            }
         }
         else  // Organic races
         {
@@ -355,17 +350,12 @@ void do_powerdown( CHAR_DATA *ch, const char *argument )
                 act( AT_CYAN, "$n's aura fades as $e returns to normal power levels.", ch, NULL, NULL, TO_ROOM );
                 act( AT_CYAN, "Your aura fades as you return to your base power level.", ch, NULL, NULL, TO_CHAR );
             }
-            else
-            {
-                act( AT_CYAN, "$n's aura dims as $e reduces $s power.", ch, NULL, NULL, TO_ROOM );
-                act( AT_CYAN, "Your aura dims as you reduce your power level.", ch, NULL, NULL, TO_CHAR );
-            }
         }
         
         /* Set new power tier */
         ch->powerup = new_tier;
         
-        ch_printf( ch, "Power level reduced to tier %d.\r\n", new_tier );
+        ch_printf( ch, "Power level reduced.\r\n" );
         
         /* Apply to split forms if you have that system */
         /* apply_powerup_to_splits(ch, new_tier); */
