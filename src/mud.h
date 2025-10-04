@@ -5348,6 +5348,7 @@ void auction_update( void );
 void remove_portal( OBJ_DATA * portal );
 void weather_update( void );
 void gain_pl( CHAR_DATA *ch, long long gain, bool show_message );
+void complete_quest_reward( CHAR_DATA *ch, int quest_difficulty );
 
 
 /* variables.c */
