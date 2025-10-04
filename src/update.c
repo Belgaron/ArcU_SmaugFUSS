@@ -803,8 +803,6 @@ void char_calendar_update( void )
  ****************************************************************************/
 void ambient_aura_update( CHAR_DATA *ch )
 {
-   static int aura_pulse = 0;
-
    if( IS_NPC( ch ) )
       return;
 

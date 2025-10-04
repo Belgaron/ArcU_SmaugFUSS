@@ -4835,8 +4835,6 @@ void send_to_char_color( const char *txt, CHAR_DATA * ch );
 void send_to_desc_color( const char *txt, DESCRIPTOR_DATA * d );
 void send_to_pager( const char *txt, CHAR_DATA * ch );
 void send_to_pager_color( const char *txt, CHAR_DATA * ch );
-void set_char_color( short AType, CHAR_DATA * ch );
-void set_pager_color( short AType, CHAR_DATA * ch );
 void show_energy_color_choices( DESCRIPTOR_DATA *d );
 bool set_energy_color( CHAR_DATA *ch, const char *name );
 const char *get_energy_color_name( const CHAR_DATA *ch );
