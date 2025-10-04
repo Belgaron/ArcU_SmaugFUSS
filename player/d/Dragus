@@ -45,9 +45,9 @@ Password     8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918~
 Title         the Attendant~
 Restore_time 1756773552
 WizInvis     65
-RoomRange    55000 59999
-ObjRange     55000 59999
-MobRange     55000 59999
+RoomRange    0 0
+ObjRange     0 0
+MobRange     0 0
 Flags        16809984
 PKills       0
 PDeaths      0
