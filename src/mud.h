@@ -4839,6 +4839,7 @@ void show_energy_color_choices( DESCRIPTOR_DATA *d );
 bool set_energy_color( CHAR_DATA *ch, const char *name );
 const char *get_energy_color_name( const CHAR_DATA *ch );
 const char *get_energy_color_token( const CHAR_DATA *ch );
+void send_energy_color_choices_to_char( CHAR_DATA *ch );
 void ch_printf( CHAR_DATA * ch, const char *fmt, ... ) __attribute__ ( ( format( printf, 2, 3 ) ) );
 void ch_printf_color( CHAR_DATA * ch, const char *fmt, ... ) __attribute__ ( ( format( printf, 2, 3 ) ) );
 void pager_printf( CHAR_DATA * ch, const char *fmt, ... ) __attribute__ ( ( format( printf, 2, 3 ) ) );
