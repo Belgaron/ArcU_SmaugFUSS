@@ -309,7 +309,7 @@ Saves      0 0 0 0 0
 #ENDMOBILE
 
 #MOBILE
-Vnum       299
+Vnum       999
 Keywords   placeholder mob~
 Short      a placeholder mob~
 Long       A placeholder mob is here, holding the place.
@@ -377,7 +377,7 @@ Stats    0 0 0 0 0
 #ENDOBJECT
 
 #OBJECT
-Vnum     299
+Vnum     999
 Keywords placeholder obj~
 Type     weapon~
 Short    a placeholder obj~
@@ -1297,7 +1297,7 @@ Flags    nomob prototype~
 #ENDROOM
 
 #ROOM
-Vnum     299
+Vnum     999
 Name     Placeholder Space~
 Sector   inside~
 Flags    nomob indoors~
