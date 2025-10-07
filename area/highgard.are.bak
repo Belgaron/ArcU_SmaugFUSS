@@ -309,7 +309,7 @@ Saves      0 0 0 0 0
 #ENDMOBILE
 
 #MOBILE
-Vnum       299
+Vnum       999
 Keywords   placeholder mob~
 Short      a placeholder mob~
 Long       A placeholder mob is here, holding the place.
@@ -377,7 +377,7 @@ Stats    0 0 0 0 0
 #ENDOBJECT
 
 #OBJECT
-Vnum     299
+Vnum     999
 Keywords placeholder obj~
 Type     weapon~
 Short    a placeholder obj~
@@ -592,7 +592,7 @@ ToRoom    207
 Vnum     209
 Name     Miller Road~
 Sector   city~
-Flags    nomob~
+Flags    nomob indoors~
 Desc     Miller Road threads between brick mills that thrum with warded
 gears and heat, amber stormglass casting honeyed light across drifting 
 flour and cobble. Warm yeast rides the air with steam and the bite of
@@ -1253,9 +1253,34 @@ ToRoom    206
 
 #ROOM
 Vnum     242
-Name     shop 3~
-Sector   city~
-Flags    nomob~
+Name     Highgard Mall Entrance~
+Sector   inside~
+Flags    indoors~
+Desc     A windbreak of glass and steel frames the entrance, bright as a showroom.
+Sliding doors whisper open and shut, sighing cool air across sun-warm tile.
+A ring of planters corrals a low fountain that ticks like rain on coins.
+Above, a skylight ribs the ceiling; banners spell HIGHGARD in clean, bold arcs.
+A backlit directory flickers beside a modest security kiosk. Coffee rides the
+air, chased by pretzel salt and citrus cleaner. Path lights dot the floor,
+guiding the way toward the first, glittering run of shops.
+~
+#EXIT
+Direction north~
+ToRoom    246
+Desc      First Concourse: A river of skylight and voices; flagship glass beckons past a gentle S-curve into the glittering run of shops.
+~
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    260
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    253
+#ENDEXIT
+
 #EXIT
 Direction west~
 ToRoom    223
@@ -1278,26 +1303,373 @@ ToRoom    220
 #ROOM
 Vnum     244
 Name     Nick's Bar~
-Sector   city~
-Flags    nomob~
-Desc     Doors need to be in the room description it seems. There is a door to the south. Behind the bar.
+Sector   inside~
+Desc     Doors need to be in the room description it seems. There is a door to the south
+ Behind the bar.
 ~
 #EXIT
 Direction north~
 ToRoom    209
 #ENDEXIT
 
+#EXIT
+Direction south~
+ToRoom    245
+Key       202
+Desc      The back office
+~
+Keywords  door~
+Flags     closed locked~
+#ENDEXIT
+
 #ENDROOM
 
 #ROOM
 Vnum     245
-Name     Floating in a void~
+Name     Nick's Office~
 Sector   city~
 Flags    nomob prototype~
+Desc     This office is messy on a scale you did not know possible. Papers strewn
+about the floor. Empty bottles lay about. Piles of paperwork that will
+never be finished rest upon the desk. On the west wall there is a safe.
+~
+#EXIT
+Direction north~
+ToRoom    244
+Desc      The bar
+~
+Keywords  door~
+Flags     isdoor closed~
+#ENDEXIT
+
 #ENDROOM
 
 #ROOM
-Vnum     299
+Vnum     246
+Name     First Concourse~
+Sector   inside~
+Flags    prototype~
+Desc     A long ribbon of skylight pours silver over terrazzo and reflection. Flagship
+windows blaze on either side, mannequins angled like watchful sentries.
+Planters break the flow with glossy ficus and low benches of warm wood.
+Charging posts blink a quiet constellation beside seating pods. The music is
+soft, a pulse that drifts from hidden ceiling nodes and fades at the bends.
+Floor inlays trace a compass rose at center; shoppers whirl around its points.
+Scent rides the air in layersvanilla from candles, leather from a boutique,
+and the clean bite of citrus polish. A wayfinding pylon glows with quick maps,
+while an upper mezzanine rail throws moving shadows across the tiles.
+~
+#EXIT
+Direction north~
+ToRoom    249
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    248
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    242
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    247
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     247
+Name     Manatech Express~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction east~
+ToRoom    246
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     248
+Name     Droids R' Us~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction west~
+ToRoom    246
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     249
+Name     Floating in a void~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction north~
+ToRoom    252
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    251
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    246
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    250
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     250
+Name     Scouter Shack~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction east~
+ToRoom    249
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     251
+Name     Shoe Locker~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction west~
+ToRoom    249
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     252
+Name     Valden Tomes~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction south~
+ToRoom    249
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     253
+Name     Second Concourse~
+Sector   inside~
+Flags    indoors~
+Desc     The ceiling lowers to a calmer run where light strips replace skylight glare.
+Mid-tier storefronts face each other across terrazzo scored with brass ticks.
+Pop-up kiosks cluster at the bend, their signs blinking soft invitation.
+Benches ring planters of snake plant and fern; a hush sits over the tiles.
+From the west, a measured ring of hammer on steel; from the south, the warm
+scent of oiled leather and new buckles.
+~
+#EXIT
+Direction north~
+ToRoom    242
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    254
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    256
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    255
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     254
+Name     Armor Shop~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction west~
+ToRoom    253
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     255
+Name     Weapon Shop~
+Sector   inside~
+Flags    indoors~
+Desc     Heat breathes from a brick-lined hearth, orange light licking steel and wall.
+An anvil anchors the room like a small altar; each hammer stroke rings true.
+Blade racks march along tempered glass, their shadows thin as quills.
+A water trough murmurs beside a whetstone wheel that purrs when spun.
+Overhead, a hooded vent swallows smoke and the sweet tang of hot metal.
+A counter of scarred oak divides craft from customer, brass bell centered.
+Sound-damp panels tame the forges voice to a steady, living heartbeat.
+~
+#EXIT
+Direction east~
+ToRoom    253
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     256
+Name     Floating in a void~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction north~
+ToRoom    253
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    257
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    259
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    258
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     257
+Name     Materia Shack~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction west~
+ToRoom    256
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     258
+Name     Clothing Store~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction east~
+ToRoom    256
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     259
+Name     Furniture Store~
+Sector   inside~
+Flags    indoors~
+Desc     There is an large department store here. Spaning the entire width of
+the mall and they seem to sell almost anything you could need for
+almost any occasion. 
+~
+#EXIT
+Direction north~
+ToRoom    256
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     260
+Name     Food Court~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction north~
+ToRoom    261
+#ENDEXIT
+
+#EXIT
+Direction east~
+ToRoom    262
+#ENDEXIT
+
+#EXIT
+Direction south~
+ToRoom    263
+#ENDEXIT
+
+#EXIT
+Direction west~
+ToRoom    242
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     261
+Name     Noodle Shop~
+Sector   inside~
+Flags    indoors~
+Desc     A shop that sells noodles!
+~
+#EXIT
+Direction south~
+ToRoom    260
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     262
+Name     Pizza Shop~
+Sector   inside~
+Flags    indoors~
+Desc     A food court pizza shop is here serving pizza by the slice.
+~
+#EXIT
+Direction west~
+ToRoom    260
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     263
+Name     Burgers and Bites~
+Sector   inside~
+Flags    indoors~
+#EXIT
+Direction north~
+ToRoom    260
+#ENDEXIT
+
+#ENDROOM
+
+#ROOM
+Vnum     999
 Name     Placeholder Space~
 Sector   inside~
 Flags    nomob indoors~
