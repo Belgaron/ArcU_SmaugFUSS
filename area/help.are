@@ -7846,7 +7846,8 @@ These mpcommands are restricted knowledge to port 4000 immortals.
 mpbodybag          mpbodybag 0.$n          Not currently in use.
 mpfillin           mpfillin <dir>          Closes off exits
 mplog              mplog <text>            Logs mob activity
-mposet/mpmset      mp$set <field> <value>  Osets and Msets objs mobs.
+mposet/mpmset      mp$set <field> <value>  Osets and Msets objs mobs. Use 
+									aura/energycolor to attune a player's aura color.
 mpnuisance         mpnuisance $n <val>...  Sets player to nuisance (in use?)
 mpscatter          mpscatter $n vnum vnum  Do not use.
 mpstrew            unknown                 unknown

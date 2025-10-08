@@ -8,11 +8,11 @@ Age          0 23 9 605
 Languages    -1 1
 Level        65
 Powerup      0
-Played       372568
-Room         209
-HpManaMove   144 150 5000 5000 85 110
+Played       562847
+Room         100
+HpManaMove   150 150 5000 5000 110 110
 Mana       5000 5000
-Focus      14 3
+Focus      0 3
 Gold         22990
 Exp          157
 BasePowerLevel   157
@@ -43,11 +43,12 @@ Susceptible  16
 Mentalstate  24
 Password     8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918~
 Title         the Attendant~
+EnergyColor  white~
 Restore_time 1756773552
 WizInvis     65
-RoomRange    0 0
-ObjRange     0 0
-MobRange     0 0
+RoomRange    100 199
+ObjRange     100 199
+MobRange     100 199
 Flags        16809984
 PKills       0
 PDeaths      0

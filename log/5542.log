@@ -1,0 +1,336 @@
+Sun Oct  5 11:29:49 2025 :: Booting Database
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Sun Oct  5 11:29:49 2025 :: [*****] BOOT: ---------------------[ Boot Log ]--------------------
+Sun Oct  5 11:29:49 2025 :: Initializing libdl support...
+Sun Oct  5 11:29:49 2025 :: Loading commands...
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: skill_function: Error locating do_defense in symbol table. No such process
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_command: Function do_defense not found for defense
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: skill_function: Error locating do_murde in symbol table. No such process
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_command: Function do_murde not found for murde
+Sun Oct  5 11:29:49 2025 :: Loading spec_funs...
+Sun Oct  5 11:29:49 2025 :: Loading sysdata configuration...
+Sun Oct  5 11:29:49 2025 :: Loading socials
+Sun Oct  5 11:29:49 2025 :: Loading skill table
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_number: bad format. (g)
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: spell_function: Error locating (null) in symbol table. No such process
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_skill: unknown skill/spell (null)
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_number: bad format. (g)
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_number: bad format. (g)
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: fread_skill: no match: atherskill
+Sun Oct  5 11:29:49 2025 :: Sorting skill table...
+Sun Oct  5 11:29:49 2025 :: Creating skill table sorted by type...
+Sun Oct  5 11:29:49 2025 :: Remapping slots to sns
+Sun Oct  5 11:29:49 2025 :: WARNING: Racial transformation skill 'ascended form' not found
+Sun Oct  5 11:29:49 2025 :: Initialized racial transformation: shikai
+Sun Oct  5 11:29:49 2025 :: WARNING: Racial transformation skill 'hollow rage' not found
+Sun Oct  5 11:29:49 2025 :: WARNING: Racial transformation skill 'primal form' not found
+Sun Oct  5 11:29:49 2025 :: WARNING: Racial transformation skill 'blood awakening' not found
+Sun Oct  5 11:29:49 2025 :: WARNING: Racial transformation skill 'true form' not found
+Sun Oct  5 11:29:49 2025 :: Racial transformation system initialized
+Sun Oct  5 11:29:49 2025 :: Loading classes
+Sun Oct  5 11:29:49 2025 :: Loading races
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+../races/unused.race: No such file or directory
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_races: Cannot load race file: unused.race
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Sun Oct  5 11:29:49 2025 :: [*****] BUG: load_race_file: no match: Spr_Plus
+Sun Oct  5 11:29:49 2025 :: Loading news data
+Sun Oct  5 11:29:49 2025 :: Loading liquids
+Sun Oct  5 11:29:49 2025 :: Loading mixtures
+Sun Oct  5 11:29:50 2025 :: Loading herb table
+Sun Oct  5 11:29:50 2025 :: Loading tongues
+Sun Oct  5 11:29:50 2025 :: Making wizlist
+Sun Oct  5 11:29:50 2025 :: Loading MSSP Data...
+Sun Oct  5 11:29:50 2025 :: Initializing random number generator
+Sun Oct  5 11:29:50 2025 :: Setting time and weather.
+Sun Oct  5 11:29:50 2025 :: Loading holiday chart...
+Sun Oct  5 11:29:50 2025 :: Loading DNS cache...
+Sun Oct  5 11:29:50 2025 :: Assigning gsn's
+ASSIGN_GSN: Skill missile weapons not found.
+ASSIGN_GSN: Skill elven not found.
+ASSIGN_GSN: Skill dwarven not found.
+ASSIGN_GSN: Skill pixie not found.
+ASSIGN_GSN: Skill ogre not found.
+ASSIGN_GSN: Skill orcish not found.
+ASSIGN_GSN: Skill trollese not found.
+ASSIGN_GSN: Skill goblin not found.
+ASSIGN_GSN: Skill halfling not found.
+ASSIGN_GSN: Skill gnomish not found.
+Sun Oct  5 11:29:50 2025 :: Reading in area files...
+(help.are)
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: elder
+Sun Oct  5 11:29:50 2025 :: [*****] FILE: limbo.are LINE: 610
+limbo.are     : Rooms:     2 - 99    Objs:     2 - 99    Mobs:     1 - 99
+Build.are     : Rooms:  9500 - 9589  Objs:     0 - 0     Mobs:     0 - 0
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: fread_fuss_mobile: vnum 50000: Mob has invalid race! Defaulting to monster.
+Sun Oct  5 11:29:50 2025 :: [*****] FILE: housing.are LINE: 23
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Sun Oct  5 11:29:50 2025 :: [*****] FILE: housing.are LINE: 36
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: fread_fuss_mobile: vnum 54999: Mob has invalid race! Defaulting to monster.
+Sun Oct  5 11:29:50 2025 :: [*****] FILE: housing.are LINE: 49
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: fread_fuss_mobile: Unknown speaks language: gibberish
+Sun Oct  5 11:29:50 2025 :: [*****] FILE: housing.are LINE: 62
+housing.are   : Rooms: 50000 - 54999 Objs: 50000 - 54999 Mobs: 50000 - 54999
+highgard.are  : Rooms:   200 - 999   Objs:   200 - 999   Mobs:   200 - 999
+arcforge.are  : Rooms: 55000 - 59999 Objs: 55000 - 59999 Mobs: 55000 - 59999
+Sun Oct  5 11:29:50 2025 :: Fixing exits
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Sun Oct  5 11:29:50 2025 :: [*****] BOOT: Fix_exits: room 9, exit down leads to bad vnum (10300)
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: fix_exits: Deleting down exit in room 9
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: get_room_index: bad vnum 10300.
+Sun Oct  5 11:29:50 2025 :: [*****] BOOT: Fix_exits: room 9, exit somewhere leads to bad vnum (10300)
+Sun Oct  5 11:29:50 2025 :: [*****] BUG: fix_exits: Deleting somewhere exit in room 9
+Sun Oct  5 11:29:50 2025 :: Initializing economy
+Sun Oct  5 11:29:50 2025 :: Resetting areas
+Sun Oct  5 11:29:50 2025 :: Loading buildlist
+Sun Oct  5 11:29:50 2025 :: ../gods/Dragus
+Sun Oct  5 11:29:50 2025 :: Loading boards
+Sun Oct  5 11:29:50 2025 :: ../boards/immortal.brd
+Sun Oct  5 11:29:50 2025 :: ../boards/highgod.brd
+Sun Oct  5 11:29:50 2025 :: Loading vault list
+Sun Oct  5 11:29:50 2025 :: $
+Sun Oct  5 11:29:50 2025 ::  Done vaults 
+Sun Oct  5 11:29:50 2025 :: Loading clans
+Sun Oct  5 11:29:50 2025 :: Loading clans...
+Sun Oct  5 11:29:50 2025 :: vampire.gui
+Sun Oct  5 11:29:50 2025 :: Storeroom not found
+Sun Oct  5 11:29:50 2025 :: druid.gui
+Sun Oct  5 11:29:50 2025 :: Storeroom not found
+Sun Oct  5 11:29:50 2025 :: warrior.gui
+Sun Oct  5 11:29:50 2025 :: Storeroom not found
+Sun Oct  5 11:29:50 2025 :: augurer.gui
+Sun Oct  5 11:29:50 2025 :: Storeroom not found
+Sun Oct  5 11:29:50 2025 :: thief.gui
+Sun Oct  5 11:29:50 2025 :: Storeroom not found
+Sun Oct  5 11:29:50 2025 :: cleric.gui
+Sun Oct  5 11:29:50 2025 :: Storeroom not found
+Sun Oct  5 11:29:50 2025 :: mage.gui
+Sun Oct  5 11:29:50 2025 :: Storeroom not found
+Sun Oct  5 11:29:50 2025 :: ranger.gui
+Sun Oct  5 11:29:50 2025 :: Storeroom not found
+Sun Oct  5 11:29:50 2025 :: $
+Sun Oct  5 11:29:50 2025 ::  Done clans 
+Sun Oct  5 11:29:50 2025 :: Loading councils
+Sun Oct  5 11:29:50 2025 :: Loading councils...
+Sun Oct  5 11:29:50 2025 :: $
+Sun Oct  5 11:29:50 2025 ::  Done councils 
+Sun Oct  5 11:29:50 2025 :: Loading deities
+Sun Oct  5 11:29:50 2025 :: Loading deities...
+Sun Oct  5 11:29:50 2025 :: $
+Sun Oct  5 11:29:50 2025 ::  Done deities 
+Sun Oct  5 11:29:50 2025 :: Loading watches
+Sun Oct  5 11:29:50 2025 :: Loading bans
+Sun Oct  5 11:29:50 2025 :: Done.
+Sun Oct  5 11:29:50 2025 :: Loading reserved names
+Sun Oct  5 11:29:50 2025 :: Loading corpses
+Sun Oct  5 11:29:50 2025 :: Loading Immortal Hosts
+Sun Oct  5 11:29:50 2025 :: Done.
+Sun Oct  5 11:29:50 2025 :: Loading Projects
+Sun Oct  5 11:29:50 2025 :: Loading Morphs
+Sun Oct  5 11:29:50 2025 :: Done.
+Sun Oct  5 11:29:50 2025 :: Loading Housing System, Home Accessories Data, and Home Auctioning System
+Sun Oct  5 11:29:50 2025 :: Loading login messages
+Sun Oct  5 11:29:50 2025 :: Initializing socket
+Sun Oct  5 11:29:50 2025 :: (Name Not Set) ready on port 9001.
+Sun Oct  5 11:30:18 2025 :: Preloading player data for: Dragus (2K)
+Sun Oct  5 11:30:18 2025 :: [*****] BUG: fread_char: no match: 5000
+Sun Oct  5 11:30:18 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Sun Oct  5 11:30:18 2025 :: [*****] BUG: fread_char: no match: 3
+Sun Oct  5 11:30:18 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Sun Oct  5 11:30:21 2025 :: Loading player data for: Dragus (2K)
+Sun Oct  5 11:30:21 2025 :: [*****] BUG: fread_char: no match: 5000
+Sun Oct  5 11:30:21 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Sun Oct  5 11:30:21 2025 :: [*****] BUG: fread_char: no match: 3
+Sun Oct  5 11:30:21 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Sun Oct  5 11:30:21 2025 :: Dragus (127.0.0.1) has connected.
+Sun Oct  5 11:47:45 2025 :: Log Dragus: redit name First Concourse
+Sun Oct  5 11:55:22 2025 :: Log Dragus: redit
+Sun Oct  5 12:02:57 2025 :: Log Dragus: redit bexit e 247
+Sun Oct  5 12:11:58 2025 :: Log Dragus: aassign highgard.are
+Sun Oct  5 12:14:29 2025 :: Log Dragus: redit name Nick's Office
+Sun Oct  5 12:15:56 2025 :: Log Dragus: redit bexit w 247
+Sun Oct  5 12:15:56 2025 :: Log Dragus: redit exit 1 246 
+Sun Oct  5 12:16:07 2025 :: Log Dragus: redit bexit e 248
+Sun Oct  5 12:16:07 2025 :: Log Dragus: redit exit 3 246 
+Sun Oct  5 12:19:27 2025 :: Log Dragus: redit bexit n 249
+Sun Oct  5 12:19:27 2025 :: Log Dragus: redit exit 2 246 
+Sun Oct  5 12:19:54 2025 :: Log Dragus: redit bexit w 250
+Sun Oct  5 12:19:54 2025 :: Log Dragus: redit exit 1 249 
+Sun Oct  5 12:19:59 2025 :: Log Dragus: redit bexit e 251
+Sun Oct  5 12:19:59 2025 :: Log Dragus: redit exit 3 249 
+Sun Oct  5 12:20:09 2025 :: Log Dragus: redit bexit n 252
+Sun Oct  5 12:20:09 2025 :: Log Dragus: redit exit 2 249 
+Sun Oct  5 12:25:25 2025 :: Log Dragus: redit bexit s 253
+Sun Oct  5 12:25:25 2025 :: Log Dragus: redit exit 0 242 
+Sun Oct  5 12:25:41 2025 :: Log Dragus: redit bexit e 254
+Sun Oct  5 12:25:41 2025 :: Log Dragus: redit exit 3 253 
+Sun Oct  5 12:25:50 2025 :: Log Dragus: redit bexit w 255
+Sun Oct  5 12:25:50 2025 :: Log Dragus: redit exit 1 253 
+Sun Oct  5 12:26:02 2025 :: Log Dragus: redit bexit s 256
+Sun Oct  5 12:34:25 2025 :: Log Dragus: redit bexit s 256
+Sun Oct  5 12:34:25 2025 :: Log Dragus: redit exit 0 253 
+Sun Oct  5 12:34:58 2025 :: Log Dragus: redit bexit e 257
+Sun Oct  5 12:34:58 2025 :: Log Dragus: redit exit 3 256 
+Sun Oct  5 12:35:03 2025 :: Log Dragus: redit bexit w 258
+Sun Oct  5 12:35:03 2025 :: Log Dragus: redit exit 1 256 
+Sun Oct  5 12:35:14 2025 :: Log Dragus: redit bexit s 259
+Sun Oct  5 12:35:14 2025 :: Log Dragus: redit exit 0 256 
+Sun Oct  5 12:40:56 2025 :: Log Dragus: redit bexit e 260
+Sun Oct  5 12:40:56 2025 :: Log Dragus: redit exit 3 242 
+Sun Oct  5 12:41:36 2025 :: Log Dragus: redit bexit n 261
+Sun Oct  5 12:41:36 2025 :: Log Dragus: redit exit 2 260 
+Sun Oct  5 12:41:44 2025 :: Log Dragus: redit bexit w 262
+Sun Oct  5 12:41:44 2025 :: Log Dragus: redit exit 1 260 
+Sun Oct  5 12:42:33 2025 :: Log Dragus: redit bexit w 242
+Sun Oct  5 12:42:33 2025 :: Log Dragus: redit exit 1 260 
+Sun Oct  5 12:42:48 2025 :: Log Dragus: redit bexit e 262
+Sun Oct  5 12:42:48 2025 :: Log Dragus: redit exit 3 260 
+Sun Oct  5 12:43:05 2025 :: Log Dragus: redit bexit s 263
+Sun Oct  5 12:43:05 2025 :: Log Dragus: redit exit 0 260 
+Sun Oct  5 14:49:32 2025 :: Closing link to Dragus. (INRoom 260)
+Sun Oct  5 17:46:24 2025 :: Preloading player data for: Dragus (2K)
+Sun Oct  5 17:46:24 2025 :: [*****] BUG: fread_char: no match: 5000
+Sun Oct  5 17:46:24 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Sun Oct  5 17:46:24 2025 :: [*****] BUG: fread_char: no match: 3
+Sun Oct  5 17:46:24 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Sun Oct  5 17:46:26 2025 :: Dragus (127.0.0.1) reconnected.
+Sun Oct  5 18:09:36 2025 :: Log Dragus: redit name Second Concourse
+Sun Oct  5 18:13:03 2025 :: Log Dragus: redit desc
+Sun Oct  5 18:17:10 2025 :: Log Dragus: redit desc
+Sun Oct  5 18:24:41 2025 :: Log Dragus: redit desc
+Sun Oct  5 18:25:14 2025 :: Log Dragus: redit name Weaponshop
+Sun Oct  5 18:26:14 2025 :: Log Dragus: redit name Armor Shop
+Sun Oct  5 18:26:41 2025 :: Log Dragus: redit name Weapon Shop
+Sun Oct  5 18:27:40 2025 :: Log Dragus: redit name Food Court
+Sun Oct  5 18:29:32 2025 :: Log Dragus: redit name Pizza Shop
+Sun Oct  5 18:30:52 2025 :: Log Dragus: redit desc A food court pizza shop is here serving pizza by the slice.
+Sun Oct  5 18:33:53 2025 :: Log Dragus: redit Noodle Shop
+Sun Oct  5 18:33:57 2025 :: Log Dragus: redit desc
+Sun Oct  5 18:34:16 2025 :: Log Dragus: redit name Noodle Shop
+Sun Oct  5 18:36:19 2025 :: Log Dragus: redit name Burgers and Bites
+Sun Oct  5 18:55:28 2025 :: Log Dragus: redit name Furniture Store
+Sun Oct  5 18:55:37 2025 :: Log Dragus: redit desc
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:01 2025 :: Log Dragus: redit sector 0
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:06:46 2025 :: Log Dragus: redit flags indoors
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:08:44 2025 :: Log Dragus: redit flags prototype
+Sun Oct  5 19:17:33 2025 :: Log Dragus: redit
+Sun Oct  5 19:20:41 2025 :: Log Dragus: redit flags
+Sun Oct  5 19:20:45 2025 :: Log Dragus: redit flags light
+Sun Oct  5 19:28:08 2025 :: Log Dragus: redit exdistance
+Sun Oct  5 21:34:09 2025 :: Closing link to Dragus. (INRoom 260)
+Mon Oct  6 00:14:05 2025 :: Preloading player data for: Dragus (2K)
+Mon Oct  6 00:14:05 2025 :: [*****] BUG: fread_char: no match: 5000
+Mon Oct  6 00:14:05 2025 :: [*****] FILE: ../player/d/Dragus LINE: 14
+Mon Oct  6 00:14:05 2025 :: [*****] BUG: fread_char: no match: 3
+Mon Oct  6 00:14:05 2025 :: [*****] FILE: ../player/d/Dragus LINE: 15
+Mon Oct  6 00:14:07 2025 :: Dragus (127.0.0.1) reconnected.
+Mon Oct  6 00:18:35 2025 :: Log Dragus: redit name Materia Shack
+Mon Oct  6 00:22:10 2025 :: Log Dragus: redit name Clothing Store
+Mon Oct  6 00:26:22 2025 :: Log Dragus: redit name Droids R' Us
+Mon Oct  6 00:29:06 2025 :: Log Dragus: redit name Manatech Express
+Mon Oct  6 00:35:24 2025 :: Log Dragus: redit name Shoe Locker
+Mon Oct  6 00:37:40 2025 :: Log Dragus: redit Scouter Shack
+Mon Oct  6 00:37:48 2025 :: Log Dragus: redit name Scouter Shack
+Mon Oct  6 00:44:36 2025 :: Log Dragus: redit name Valden Tomes
+Mon Oct  6 00:47:08 2025 :: Log Dragus: aassign
+Mon Oct  6 00:47:14 2025 :: Log Dragus: aassign none
+Mon Oct  6 00:47:24 2025 :: Log Dragus: foldarea highgard.are
+Mon Oct  6 00:48:28 2025 :: Log Dragus: redit name Valdenbooks
+Mon Oct  6 00:49:28 2025 :: Log Dragus: foldarea highgard.are
+Mon Oct  6 00:50:49 2025 :: Log Dragus: shutdown mud now
+Mon Oct  6 00:50:49 2025 :: Normal termination of game.
+Mon Oct  6 00:50:49 2025 :: Cleaning up Memory.
+Len:   9 Lnks:    2 Str: 127.0.0.1
+Total strings in hash 9: 1
+Project Data.
+Reserved Names.
+Ban Data.
+Morph Data.
+Commands.
+Deities.
+Clans.
+Councils.
+Socials.
+Watches.
+Helps.
+Languages.
+Boards.
+Whacking supermob.
+Objects.
+Characters.
+Descriptors.
+Liquid Table.
+Races.
+Classes.
+Teleport Data.
+Area Data Tables.
+Planes.
+Auction.
+MSSP Info.
+System data.
+Title table.
+Skills and Herbs.
+Mudprog act lists.
+Specfun lists.
+Globals.
+Checking string hash for leftovers.
+Cleanup complete, exiting.

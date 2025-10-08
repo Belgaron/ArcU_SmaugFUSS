@@ -1,0 +1,99 @@
+#FUSSAREA
+#AREADATA
+Version      1
+Name         {PROTO} Dragus's area in progress~
+Author       Dragus~
+WeatherX     0
+WeatherY     0
+Ranges       0 0 0 0
+Flags        prototype~
+#ENDAREADATA
+
+#MOBILE
+Vnum       100
+Keywords   first mob~
+Short      a newly created first mob~
+Long       Some god abandoned a newly created first mob here.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Neuter~
+Actflags   npc prototype~
+Stats1     0 1 0 0 0 0
+Stats2     0 0 0
+Stats3     0 0 0
+Stats4     0 0 1 0 0
+Attribs    13 13 13 13 13 13 13
+Saves      0 0 0 0 0
+#ENDMOBILE
+
+#MOBILE
+Vnum       199
+Keywords   last mob~
+Short      a newly created last mob~
+Long       Some god abandoned a newly created last mob here.
+~
+Race       Human~
+Class      Warrior~
+Position   standing~
+DefPos     standing~
+Gender     Neuter~
+Actflags   npc prototype~
+Stats1     0 1 0 0 0 0
+Stats2     0 0 0
+Stats3     0 0 0
+Stats4     0 0 1 0 0
+Attribs    13 13 13 13 13 13 13
+Saves      0 0 0 0 0
+#ENDMOBILE
+
+#OBJECT
+Vnum     100
+Keywords first obj~
+Type     trash~
+Short    a newly created first obj~
+Long     Some god dropped a newly created first obj here.~
+Flags    prototype~
+Values   0 0 0 0 0 0
+Stats    1 0 0 0 0
+#ENDOBJECT
+
+#OBJECT
+Vnum     199
+Keywords last obj~
+Type     trash~
+Short    a newly created last obj~
+Long     Some god dropped a newly created last obj here.~
+Flags    prototype~
+Values   0 0 0 0 0 0
+Stats    1 0 0 0 0
+#ENDOBJECT
+
+#ROOM
+Vnum     100
+Name     Distant Memories...~
+Sector   city~
+Flags    prototype~
+Desc     You stand on the corner of a now forgotten street. You were so small then. The
+world, soo big. The sidewalk, soo dirty. The kind of dirty that never really 
+washes clean. You see a pile of trash brushed up against a park fence. Kids
+playing behind the fence are laughing with a joy only innocence can afford.
+
+&wTo move around just type &Y"&Cnorth&Y"&w, &Y"&Csouth&Y"&w, &Y"&Ceast&Y"&w,
+etc. Diagonals like &Y"&Cnortheast&Y"&w also work. You can also abbreviate 
+such as &Y"&Cn&Y"&w and &Y"&Cse&Y"&w. Up and down are also options. Explore
+the area to get a feel for it. What you do here will have lasting effects on
+your character.
+~
+#ENDROOM
+
+#ROOM
+Vnum     199
+Name     Floating in a void~
+Sector   city~
+Flags    prototype~
+#ENDROOM
+
+#ENDAREA

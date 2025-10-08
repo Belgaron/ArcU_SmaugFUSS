@@ -84,7 +84,24 @@ void do_mpmset( CHAR_DATA* ch, const char* argument )
    if( atoi( arg3 ) < -1 && value == -1 )
       value = atoi( arg3 );
 
-   if( !str_cmp( arg2, "str" ) )
+   if( !str_cmp( arg2, "aura" ) || !str_cmp( arg2, "energycolor" ) )
+   {
+      if( IS_NPC( victim ) )
+      {
+         progbug( "MpMset: aura on NPC", ch );
+         return;
+      }
+
+      if( !set_energy_color( victim, arg3 ) )
+      {
+         progbug( "MpMset: invalid aura color", ch );
+         return;
+      }
+
+      return;
+   }
+
+	if( !str_cmp( arg2, "str" ) )
    {
       if( value < minattr || value > maxattr )
       {
