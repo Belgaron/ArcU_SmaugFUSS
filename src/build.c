@@ -809,6 +809,82 @@ void smush_tilde( char *str )
       strptr[len - 1] = last;
 }
 
+static bool copy_with_color_limit( char *dst, size_t dstlen, const char *src, int max_visible )
+{
+   size_t src_pos = 0;
+   size_t dst_pos = 0;
+   int visible = 0;
+   bool trimmed = FALSE;
+
+   if( !dst || dstlen == 0 )
+      return TRUE;
+
+   if( max_visible < 0 )
+      max_visible = 0;
+
+   while( src && src[src_pos] != '\0' )
+   {
+      if( dst_pos + 1 >= dstlen )
+      {
+         trimmed = TRUE;
+         break;
+      }
+
+      if( src[src_pos] == '&' || src[src_pos] == '^' || src[src_pos] == '}' )
+      {
+         char dummy[20];
+         int vislen = 0;
+         int consumed = colorcode( &src[src_pos], dummy, NULL, sizeof( dummy ), &vislen );
+
+         if( consumed <= 0 )
+         {
+            if( visible >= max_visible )
+            {
+               trimmed = TRUE;
+               break;
+            }
+            dst[dst_pos++] = src[src_pos++];
+            ++visible;
+            continue;
+         }
+
+         if( vislen > 0 && visible + vislen > max_visible )
+         {
+            trimmed = TRUE;
+            break;
+         }
+
+         if( dst_pos + consumed >= dstlen )
+         {
+            trimmed = TRUE;
+            break;
+         }
+
+         memcpy( &dst[dst_pos], &src[src_pos], consumed );
+         dst_pos += consumed;
+         src_pos += consumed;
+         visible += vislen;
+         continue;
+      }
+
+      if( visible >= max_visible )
+      {
+         trimmed = TRUE;
+         break;
+      }
+
+      dst[dst_pos++] = src[src_pos++];
+      ++visible;
+   }
+
+   dst[dst_pos] = '\0';
+
+   if( src && src[src_pos] != '\0' )
+      trimmed = TRUE;
+
+   return trimmed;
+}
+
 void start_editing( CHAR_DATA * ch, const char *data )
 {
    EDITOR_DATA *edit;
@@ -840,36 +916,111 @@ void start_editing( CHAR_DATA * ch, const char *data )
    if( !data )
       bug( "%s: data is NULL!\r\n", __func__ );
    else
-      for( ;; )
+   {
+      const char *ptr = data;
+      int vislen = 0;
+
+      while( *ptr )
       {
-         c = data[size++];
-         if( c == '\0' )
+         if( size > 4096 || lines >= 49 )
          {
-            edit->line[lines][lpos] = '\0';
+            if( lines < 49 )
+               edit->line[lines][lpos] = '\0';
             break;
          }
-         else if( c == '\r' );
-         else if( c == '\n' || lpos > 78 )
+
+         c = *ptr;
+
+         if( c == '\r' )
+         {
+            ++ptr;
+            ++size;
+            continue;
+         }
+
+         if( c == '\n' )
          {
             edit->line[lines][lpos] = '\0';
             ++lines;
             lpos = 0;
+            vislen = 0;
+            ++ptr;
+            ++size;
+            continue;
          }
-         else
-            edit->line[lines][lpos++] = c;
-         if( lines >= 49 || size > 4096 )
+
+         if( c == '&' || c == '^' || c == '}' )
+         {
+            char dummy[20];
+            int token_vis = 0;
+            int consumed = colorcode( ptr, dummy, NULL, sizeof( dummy ), &token_vis );
+
+            if( consumed > 0 )
+            {
+               if( token_vis > 0 && vislen + token_vis > 79 )
+               {
+                  edit->line[lines][lpos] = '\0';
+                  ++lines;
+                  lpos = 0;
+                  vislen = 0;
+                  continue;
+               }
+
+               if( lpos + consumed > 80 )
+               {
+                  edit->line[lines][lpos] = '\0';
+                  ++lines;
+                  lpos = 0;
+                  vislen = 0;
+                  continue;
+               }
+
+               memcpy( &edit->line[lines][lpos], ptr, consumed );
+               lpos += consumed;
+               ptr += consumed;
+               size += consumed;
+               vislen += token_vis;
+               continue;
+            }
+         }
+
+         if( vislen >= 79 )
          {
             edit->line[lines][lpos] = '\0';
-            break;
+            ++lines;
+            lpos = 0;
+            vislen = 0;
+            continue;
          }
+
+         if( lpos >= 80 )
+         {
+            edit->line[lines][lpos] = '\0';
+            ++lines;
+            lpos = 0;
+            vislen = 0;
+            continue;
+         }
+
+         edit->line[lines][lpos++] = c;
+         ++ptr;
+         ++size;
+         ++vislen;
       }
-   if( lpos > 0 && lpos < 78 && lines < 49 )
-   {
-      edit->line[lines][lpos] = '~';
-      edit->line[lines][lpos + 1] = '\0';
-      ++lines;
-      lpos = 0;
+
+      if( lpos > 0 && lines < 49 )
+         vislen = color_strlen( edit->line[lines] );
+
+      if( lpos > 0 && vislen < 79 && lines < 49 )
+      {
+         edit->line[lines][lpos] = '~';
+         edit->line[lines][lpos + 1] = '\0';
+         ++lines;
+         lpos = 0;
+      }
    }
+   if( lpos > 0 && lines < 49 )
+      edit->line[lines][lpos] = '\0';
    edit->numlines = lines;
    edit->size = size;
    edit->on_line = lines;
@@ -5848,7 +5999,7 @@ void edit_buffer( CHAR_DATA * ch, char *argument )
          char word2[MAX_INPUT_LENGTH];
          const char *sptr;
          char *wptr, *lwptr;
-         int count, wordln, word2ln, lineln;
+         int count, wordln, word2ln;
 
          sptr = one_argument( argument, word1 );
          sptr = one_argument( sptr, word1 );
@@ -5872,10 +6023,20 @@ void edit_buffer( CHAR_DATA * ch, char *argument )
             lwptr = edit->line[x];
             while( ( wptr = strstr( lwptr, word1 ) ) != NULL )
             {
+               size_t prefix_len = wptr - edit->line[x];
+               char prefix[MAX_INPUT_LENGTH];
+               int limit;
+
                ++count;
-               lineln = snprintf( buf, MAX_INPUT_LENGTH, "%s%s", word2, wptr + wordln );
-               if( lineln + wptr - edit->line[x] > 79 )
-                  buf[lineln] = '\0';
+               if( prefix_len >= sizeof( prefix ) )
+                  prefix_len = sizeof( prefix ) - 1;
+               snprintf( prefix, prefix_len + 1, "%.*s", (int)prefix_len, edit->line[x] );
+               limit = 79 - color_strlen( prefix );
+               if( limit < 0 )
+                  limit = 0;
+
+               snprintf( buf, MAX_INPUT_LENGTH, "%s%s", word2, wptr + wordln );
+               copy_with_color_limit( buf, sizeof( buf ), buf, limit );
                strlcpy( wptr, buf, MAX_STRING_LENGTH );
                lwptr = wptr + word2ln;
             }
@@ -6071,18 +6232,12 @@ void edit_buffer( CHAR_DATA * ch, char *argument )
       }
    }
 
-   if( edit->size + strlen( argument ) + 1 >= MAX_STRING_LENGTH - 1 )
+   if( edit->size + color_strlen( argument ) + 1 >= MAX_STRING_LENGTH - 1 )
       send_to_char( "You buffer is full.\r\n", ch );
    else
    {
-      if( strlen( argument ) > 79 )
-      {
-         strncpy( buf, argument, 79 );
-         buf[79] = '\0';
+      if( copy_with_color_limit( buf, sizeof( buf ), argument, 79 ) )
          send_to_char( "(Long line trimmed)\r\n> ", ch );
-      }
-      else
-         strlcpy( buf, argument, 80 );
       strlcpy( edit->line[edit->on_line++], buf, 81 );
       if( edit->on_line > edit->numlines )
          edit->numlines++;
